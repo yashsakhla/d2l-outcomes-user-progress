@@ -28,6 +28,8 @@ export class BigTrend extends mixinBehaviors(
                     --grid-thickness: 1px;
                     --label-font-size: 14px;
                     --label-margin-top: 4px;
+                    --not-assessed-color: #d3d9e3;
+                    --not-assessed-height: 4px;
                 }
 
                 .container {
@@ -46,7 +48,7 @@ export class BigTrend extends mixinBehaviors(
                 }
 
                 .scroll-container {
-                    height: calc(var(--container-height) + var(--footer-height));
+                    height: calc(var(--container-height) + var(--footer-height) + 16px);
                     left: 0px;
                     overflow-x: auto;
                     padding: 0px var(--block-spacing);
@@ -89,6 +91,15 @@ export class BigTrend extends mixinBehaviors(
                 .trend-block {
                     margin-bottom: var(--grid-thickness);
                 }
+
+                .not-assessed {
+                    height: var(--not-assessed-height);
+                }
+
+                .not-assessed .trend-block {
+                    background-color: var(--not-assessed-color);
+                    height: 100%;
+                }
     
                 .trend-group .trend-block:first-of-type {
                     border-top-left-radius: var(--border-radius);
@@ -121,6 +132,11 @@ export class BigTrend extends mixinBehaviors(
                     <div class="data">
                         <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]">
                             <div class$="[[getGroupClasses(item)]]">
+                                <template is="dom-if" if="[[!groupHasBlocks(item)]]">
+                                    <div class="not-assessed" style="padding-top: calc([[item.gridHeight]]px - var(--not-assessed-height));">
+                                        <div class="trend-block"></div>
+                                    </div>
+                                </template>
                                 <template is="dom-repeat" items="[[item.blocks]]" as="trendBlock">
                                     <div class="trend-block" style="height: [[trendBlock.height]]px; background-color: [[trendBlock.color]];"></div>
                                 </template>
@@ -217,13 +233,20 @@ export class BigTrend extends mixinBehaviors(
         return Math.max.apply(null, Object.keys(levels).map(levelId => levels[levelId].score));
     }
 
+    getGridHeight(levels) {
+        const maxLevel = this.getMaxLevelScore(levels);
+        return COMPONENT_HEIGHT / maxLevel - GRID_THICKNESS;
+    }
+
     getGridHorizontal(levels) {
         const maxLevel = this.getMaxLevelScore(levels);
+        const gridHeight = this.getGridHeight(levels);
+
         const gridData = Array.apply(null, { length: maxLevel + 1 }).map((v, i) => {
             return {
                 size: (i === maxLevel 
                     ? FOOTER_HEIGHT 
-                    : COMPONENT_HEIGHT / maxLevel - GRID_THICKNESS
+                    : gridHeight
                 )
             };
         });
@@ -237,6 +260,7 @@ export class BigTrend extends mixinBehaviors(
     getTrendItems(levels, trendGroups) {
         const trendItems = [];
         const maxLevel = this.getMaxLevelScore(levels);
+        const gridHeight = this.getGridHeight(levels);
         let lastGroupLabel = null;
         
         trendGroups.forEach(group => {
@@ -244,6 +268,7 @@ export class BigTrend extends mixinBehaviors(
             const groupLevels = group.levels;
             const groupLabel = this.getGroupLabel(group);
             const groupItem = {
+                gridHeight: gridHeight,
                 type: 'block'
             };
 
@@ -290,6 +315,10 @@ export class BigTrend extends mixinBehaviors(
         }
 
         return classes.join(' ');
+    }
+
+    groupHasBlocks(group) {
+        return group.blocks.length > 0;
     }
 
     getNotAssessedText() {
