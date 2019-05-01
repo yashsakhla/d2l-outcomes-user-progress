@@ -4,8 +4,8 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 
 import { strings } from './strings';
 
-const BLOCK_SPACING = 2;
-const COMPONENT_HEIGHT = 36;
+const BLOCK_SPACING = 2;        // Also defined in CSS
+const COMPONENT_HEIGHT = 36;    // Also defined in CSS
 
 export class MiniTrend extends mixinBehaviors(
     [],
