@@ -33,6 +33,7 @@ export class BigTrend extends mixinBehaviors(
                 }
 
                 .container {
+                    overflow: hidden;
                     position: relative;
                 }
     
@@ -48,10 +49,12 @@ export class BigTrend extends mixinBehaviors(
                 }
 
                 .scroll-container {
-                    height: calc(var(--container-height) + var(--footer-height) + 16px);
+                    height: calc(var(--container-height) + var(--footer-height));
                     left: 0px;
-                    overflow-x: auto;
+                    overflow-x: scroll;
+                    overflow-y: hidden;
                     padding: 0px var(--block-spacing);
+                    padding-bottom: 20px;
                     position: absolute;
                     top: 0px;
                     width: calc(100% - 2 * var(--block-spacing));
