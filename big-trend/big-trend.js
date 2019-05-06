@@ -1,6 +1,7 @@
 import '@polymer/polymer/polymer-legacy.js';
 import { PolymerElement, html } from '@polymer/polymer';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
+import 'd2l-localize-behavior/d2l-localize-behavior';
 
 const BLOCK_SPACING = 9;            // Also defined in CSS
 const COMPONENT_HEIGHT = 120;       // Also defined in CSS
@@ -8,7 +9,7 @@ const GRID_THICKNESS = 1;           // Also defined in CSS
 const FOOTER_HEIGHT = 22;           // Also defined in CSS
 
 export class BigTrend extends mixinBehaviors(
-    [],
+    [ D2L.PolymerBehaviors.LocalizeBehavior ],
     PolymerElement
 ) {
     static get is() { return 'big-trend' };
@@ -257,7 +258,10 @@ export class BigTrend extends mixinBehaviors(
     }
 
     getGroupLabel(group) {
-        return new Date(group.date * 1000).getMonth();
+        return this.formatDate(
+            new Date(group.date * 1000), {
+                format: 'MMM'
+            });
     }
 
     getTrendItems(levels, trendGroups) {
@@ -308,7 +312,6 @@ export class BigTrend extends mixinBehaviors(
     }
 
     getGroupClasses(group) {
-        console.log(group);
         const classes = [
             'trend-group'
         ];

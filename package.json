@@ -9,7 +9,8 @@
   "author": "D2L Corporation",
   "license": "Apache-2.0",
   "dependencies": {
-    "@polymer/polymer": "^3.2.0"
+    "@polymer/polymer": "^3.2.0",
+    "d2l-localize-behavior": "BrightspaceUI/localize-behavior#semver:^2"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.10"
