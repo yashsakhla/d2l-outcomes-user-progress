@@ -22,6 +22,7 @@ export class BigTrend extends mixinBehaviors(
         const template = html`
             <style>
                 :host {
+                    --block-focus-size-increase: 4px;
                     --block-max-width: 54px;
                     --block-min-width: 24px;
                     --block-spacing: 9px;
@@ -44,6 +45,7 @@ export class BigTrend extends mixinBehaviors(
     
                 #grid {
                     float: left;
+                    padding-top: var(--block-focus-size-increase);
                     position: relative;
                     width: 100%;
                 }
@@ -54,24 +56,25 @@ export class BigTrend extends mixinBehaviors(
                 }
 
                 #scroll-container {
-                    height: calc(var(--container-height) + var(--footer-height));
+                    height: calc(var(--container-height) + var(--block-focus-size-increase) + var(--footer-height));
                     left: 0px;
                     overflow-x: scroll;
                     overflow-y: hidden;
                     padding: 0px var(--block-spacing);
                     padding-bottom: 20px;
                     position: absolute;
+                    scroll-behavior: smooth;
                     top: 0px;
                     width: calc(100% - 2 * var(--block-spacing));
                 }
-    
+
                 .scroll-button {
                     align-items: center;
                     background: rgba(255, 255, 255, 0.5);
                     display: flex;
                     height: var(--container-height);
                     position: absolute;
-                    top: 0px;
+                    top: var(--block-focus-size-increase);
                     vertical-align: middle;
                     width: 50px;
                 }
@@ -94,18 +97,24 @@ export class BigTrend extends mixinBehaviors(
                 }
     
                 #data {
-                    height: var(--container-height);
+                    align-items: flex-end;
+                    display: flex;
+                    flex-direction: row;
+                    height: calc(var(--container-height) + var(--block-focus-size-increase));
                 }
     
                 .trend-group {
-                    display: table-cell;
+                    align-items: center;
+                    display: flex;
+                    flex-direction: column;
                     height: var(--container-height);
+                    justify-content: flex-end;
                     max-width: var(--block-max-width);
                     min-width: var(--block-min-width);
+                    overflow-y: visible;
                     padding: 0px var(--block-spacing);
                     position: relative;
-                    vertical-align: bottom;
-                    width: 100px;
+                    width: 100%;
                 }
 
                 .trend-group.section {
@@ -125,11 +134,15 @@ export class BigTrend extends mixinBehaviors(
                 }
     
                 .trend-block {
+                    flex-shrink: 0;
                     margin-bottom: var(--grid-thickness);
+                    transition: all 0.3s ease-out;
+                    width: 100%;
                 }
 
                 .not-assessed {
                     height: var(--not-assessed-height);
+                    width: 100%;
                 }
 
                 .not-assessed .trend-block {
@@ -144,6 +157,21 @@ export class BigTrend extends mixinBehaviors(
     
                 .trend-group .trend-block:last-of-type {
                     margin-bottom: 0px;
+                }
+
+                .trend-block:hover,
+                .not-assessed:hover {
+                    cursor: pointer;
+                }
+                
+                :not(.not-assessed) > .trend-block:hover {
+                    filter: brightness(120%);
+                    shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.1);
+                    width: 120%;
+                }
+
+                .trend-group > .trend-block:first-of-type:hover {
+                    padding-top: var(--block-focus-size-increase);
                 }
     
                 .screen-reader {
