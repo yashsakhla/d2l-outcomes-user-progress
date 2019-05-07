@@ -1,8 +1,12 @@
 import '@polymer/polymer/polymer-legacy.js';
 import { PolymerElement, html } from '@polymer/polymer';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
+import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
+import 'd2l-icons/d2l-icon';
+import 'd2l-icons/tier1-icons';
 import 'd2l-localize-behavior/d2l-localize-behavior';
 
+const BLOCK_MIN_WIDTH = 24;         // Also defined in CSS
 const BLOCK_SPACING = 9;            // Also defined in CSS
 const COMPONENT_HEIGHT = 120;       // Also defined in CSS
 const GRID_THICKNESS = 1;           // Also defined in CSS
@@ -33,12 +37,12 @@ export class BigTrend extends mixinBehaviors(
                     --not-assessed-height: 4px;
                 }
 
-                .container {
+                #container {
                     overflow: hidden;
                     position: relative;
                 }
     
-                .grid {
+                #grid {
                     float: left;
                     position: relative;
                     width: 100%;
@@ -49,7 +53,7 @@ export class BigTrend extends mixinBehaviors(
                     height: var(--grid-thickness);
                 }
 
-                .scroll-container {
+                #scroll-container {
                     height: calc(var(--container-height) + var(--footer-height));
                     left: 0px;
                     overflow-x: scroll;
@@ -61,7 +65,35 @@ export class BigTrend extends mixinBehaviors(
                     width: calc(100% - 2 * var(--block-spacing));
                 }
     
-                .data {
+                .scroll-button {
+                    align-items: center;
+                    background: rgba(255, 255, 255, 0.5);
+                    display: flex;
+                    height: var(--container-height);
+                    position: absolute;
+                    top: 0px;
+                    vertical-align: middle;
+                    width: 50px;
+                }
+
+                .scroll-button:hover {
+                    cursor: pointer;
+                    filter: brightness(120%);
+                }
+
+                #scroll-button-left {
+                    background: linear-gradient(90deg, white, transparent);
+                    justify-content: flex-start;
+                    left: 0px;
+                }
+
+                #scroll-button-right {
+                    background: linear-gradient(-90deg, white, transparent);
+                    justify-content: flex-end;
+                    right: 0px;
+                }
+    
+                #data {
                     height: var(--container-height);
                 }
     
@@ -125,15 +157,19 @@ export class BigTrend extends mixinBehaviors(
                 .clear {
                     clear: both;
                 }
+
+                .hidden {
+                    display: none !important;
+                }
             </style>
-            <div class="container">
-                <div class="grid">
+            <div id="container">
+                <div id="grid">
                     <template is="dom-repeat" items="[[getGridHorizontal(levels)]]">
                         <div class="h-line" style="margin-bottom: [[item.size]]px;"></div>
                     </template>
                 </div>
-                <div class="scroll-container">
-                    <div class="data">
+                <div id="scroll-container">
+                    <div id="data">
                         <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]">
                             <div class$="[[getGroupClasses(item)]]">
                                 <template is="dom-if" if="[[!groupHasBlocks(item)]]">
@@ -150,6 +186,12 @@ export class BigTrend extends mixinBehaviors(
                             </div>
                         </template>
                     </div>
+                </div>
+                <div id="scroll-button-left" class="scroll-button hidden">
+                    <d2l-icon icon="d2l-tier1:chevron-left"></d2l-icon>
+                </div>
+                <div id="scroll-button-right" class="scroll-button hidden">
+                    <d2l-icon icon="d2l-tier1:chevron-right"></d2l-icon>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -226,6 +268,30 @@ export class BigTrend extends mixinBehaviors(
                 ]
             }
         };
+    }
+
+    ready() {
+        super.ready();
+        
+        afterNextRender(this, function() {
+            this.scrollContainer = this.root.getElementById('scroll-container');
+            this.scrollButtonLeft = this.root.getElementById('scroll-button-left');
+            this.scrollButtonRight = this.root.getElementById('scroll-button-right');
+
+            window.addEventListener('resize', this.onDataScrolled.bind(this));
+            this.scrollContainer.addEventListener('scroll', this.onDataScrolled.bind(this));
+            this.scrollButtonLeft.addEventListener('click', this.onScrollButtonClicked.bind(this));
+            this.scrollButtonRight.addEventListener('click', this.onScrollButtonClicked.bind(this));
+
+            this.onDataScrolled();
+            this.scrollToEnd();
+        });
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+
+        window.removeEventListener('resize', this.onDataScrolled);
     }
 
     hasTrendData(trendGroups) {
@@ -333,6 +399,35 @@ export class BigTrend extends mixinBehaviors(
 
     getScreenReaderText(levels, trendGroups) {
         return 'nothing...';
+    }
+
+    scrollToEnd() {
+        this.scrollContainer.scrollLeft = this.scrollContainer.scrollLeftMax;
+    }
+
+    onDataScrolled() {
+        if (this.scrollContainer.scrollLeft === 0) {
+            this.scrollButtonLeft.classList.add('hidden');
+        } else {
+            this.scrollButtonLeft.classList.remove('hidden');
+        }
+
+        if (this.scrollContainer.scrollLeft === this.scrollContainer.scrollLeftMax) {
+            this.scrollButtonRight.classList.add('hidden');
+        } else {
+            this.scrollButtonRight.classList.remove('hidden');
+        }
+    }
+
+    onScrollButtonClicked(e) {
+        const scrollButton = e.currentTarget;
+        let scrollAmount = BLOCK_MIN_WIDTH + 2 * BLOCK_SPACING;
+
+        if (scrollButton === this.scrollButtonLeft) {
+            scrollAmount *= -1;
+        }
+
+        this.scrollContainer.scrollLeft += scrollAmount;
     }
 }
 
