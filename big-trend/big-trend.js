@@ -434,13 +434,16 @@ export class BigTrend extends mixinBehaviors(
     }
 
     onDataScrolled() {
+        const scrollMax = this.scrollContainer.scrollLeftMax 
+            || (this.scrollContainer.scrollWidth - this.scrollContainer.offsetWidth);
+
         if (this.scrollContainer.scrollLeft === 0) {
             this.scrollButtonLeft.classList.add('hidden');
         } else {
             this.scrollButtonLeft.classList.remove('hidden');
         }
 
-        if (this.scrollContainer.scrollLeft === this.scrollContainer.scrollLeftMax) {
+        if (this.scrollContainer.scrollLeft === scrollMax) {
             this.scrollButtonRight.classList.add('hidden');
         } else {
             this.scrollButtonRight.classList.remove('hidden');
