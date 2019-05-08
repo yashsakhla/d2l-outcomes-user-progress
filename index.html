@@ -9,15 +9,38 @@
         <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
         <script type="module" src="mini-trend/mini-trend.js"></script>
         <script type="module" src="big-trend/big-trend.js"></script>
+
+        <style>
+            body {
+                background-color: #eee;
+            }
+
+            h1 {
+                margin-top: 0px;
+            }
+
+            .demo-container {
+                background-color: #fff;
+                margin: 48px auto;
+                padding: 48px;
+                width: 800px;
+            }
+        </style>
     </head>
     <body>
-        <h1>Mini Trend Demo</h1>
-        <p>
+        <div class="demo-container">
+            <h1>Mini Trend Demo</h1>
+            <h2>No Data, 3 Levels</h2>
             <mini-trend></mini-trend>
-        </p>
-        <h1>Big Trend Demo</h1>
-        <p>
+            <h2>Complicated Dataset, 10 Levels</h2>
+            <mini-trend data-set="1"></mini-trend>
+        </div>
+        <div class="demo-container">
+            <h1>Big Trend Demo</h1>
+            <h2>No Data, 3 Levels</h2>
             <big-trend></big-trend>
-        </p>
+            <h2>Complicated Dataset, 10 Levels</h2>
+            <big-trend data-set="1"></big-trend>
+        </div>
     </body>
 </html>

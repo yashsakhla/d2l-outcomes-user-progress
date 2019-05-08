@@ -3,6 +3,7 @@ import { PolymerElement, html } from '@polymer/polymer';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 
 import { strings } from './strings';
+import { getLevelData, getTrendData } from '../fake-trend-data';
 
 const BLOCK_SPACING = 2;        // Also defined in CSS
 const COMPONENT_HEIGHT = 36;    // Also defined in CSS
@@ -68,10 +69,10 @@ export class MiniTrend extends mixinBehaviors(
                     width: 1px;
                 }
             </style>
-            <template is="dom-if" if="[[!hasTrendData(trendGroups)]]">
+            <template is="dom-if" if="[[!hasTrendData(levels,trendGroups)]]">
                 <div class="empty-text">[[getNotAssessedText()]]</div>
             </template>
-            <template is="dom-if" if="[[hasTrendData(trendGroups)]]">
+            <template is="dom-if" if="[[hasTrendData(levels,trendGroups)]]">
                 <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]" as="trendGroup">
                     <div class="trend-group">
                         <template is="dom-repeat" items="[[trendGroup.blocks]]" as="trendBlock">
@@ -88,65 +89,62 @@ export class MiniTrend extends mixinBehaviors(
 
     static get properties() {
         return {
+            dataSet: {
+                type: Number,
+                value: 0
+            },
             levels: {
                 type: Object,
-                value: {
-                    'abc111': {
-                        score: 1,
-                        color: '#ff4000',
-                        name: 'Level 1'
-                    },
-                    'abc222': {
-                        score: 3,
-                        color: '#ffcc00',
-                        name: 'Level 3'
-                    },
-                    'abc333': {
-                        score: 4,
-                        color: '#88CC55',
-                        name: 'Level 4'
-                    },
-                    'abc444': {
-                        score: 8,
-                        color: '#88CC55',
-                        name: 'Level 8'
-                    },
-                    'abc555': {
-                        score: 10,
-                        color: '#009933',
-                        name: 'Level 10'
-                    }
-                }
+                computed: 'getLevelsData(dataSet)'
             },
             trendGroups: {
                 type: Array,
-                value: [
-                    [ 'abc111' ],
-                    [ 'abc222' ],
-                    [ ],
-                    [ 'abc333' ],
-                    [ 'abc222', 'abc444' ],
-                    [ 'abc555' ]
-                ]
+                computed: 'getTrendData(dataSet)'
             }
         };
     }
 
-    hasTrendData(trendGroups) {
-        const numAssessed = trendGroups.reduce((acc, group) => acc + group.length, 0);
-        return numAssessed > 0;
+    getLevelsData(setNumber) {
+        return getLevelData(setNumber);
+    }
+
+    getTrendData(setNumber) {
+        return getTrendData(setNumber);
+    }
+
+    groupFilter(acc, group) {
+        return acc + group.blocks.length;
+    }
+
+    hasTrendData(levels, trendGroups) {
+        const blockGroups = this.getTrendItems(levels, trendGroups);
+        const numBlocks = blockGroups.reduce(this.groupFilter.bind(this), 0);
+        return numBlocks > 0;
+    }
+
+    getMaxLevelScore(levels) {
+        return Math.max.apply(null, Object.keys(levels).map(levelId => levels[levelId].score));
     }
 
     getTrendItems(levels, trendGroups) {
         const trendItems = [];
-        const maxLevel = Math.max.apply(null, Object.keys(levels).map(levelId => levels[levelId].score));
+        const maxLevel = this.getMaxLevelScore(levels);
         
         trendGroups.forEach(group => {
             const blocks = [];
-            const groupSize = group.length;
+            const groupAttempts = group.attempts;
+            const groupItem = {};
+
+            // Compute levels achieved
+            const groupLevels = groupAttempts
+                .filter((val, index, self) => self.indexOf(val) === index)
+                .sort((left, right) => levels[left].score - levels[right].score);
+            const groupSize = groupLevels.length;
+
+            // Add trend blocks to group
             let prevScore = 0;
 
-            group.forEach(levelId => {
+            groupLevels.forEach(levelId => {
                 const color = levels[levelId].color;
                 const height = COMPONENT_HEIGHT / maxLevel * (levels[levelId].score - prevScore) - BLOCK_SPACING * (groupSize - 1) / groupSize;
                 prevScore = levels[levelId].score;
@@ -157,9 +155,9 @@ export class MiniTrend extends mixinBehaviors(
                 });
             }, this);
 
-            trendItems.push({
-                blocks: blocks.reverse()
-            });
+            groupItem.blocks = blocks.reverse();
+
+            trendItems.push(groupItem);
         }, this);
 
         return trendItems;
@@ -170,8 +168,8 @@ export class MiniTrend extends mixinBehaviors(
     }
 
     getScreenReaderText(levels, trendGroups) {
-        const numAssessed = trendGroups.reduce((acc, group) => acc + group.length, 0);
-        const levelNames = trendGroups.reduce((acc, group) => acc.concat(group.map(levelId => levels[levelId].name)), []);
+        const numAssessed = trendGroups.reduce((acc, group) => acc + group.attempts.length, 0);
+        const levelNames = trendGroups.reduce((acc, group) => acc.concat(group.attempts.map(levelId => levels[levelId].name)), []);
 
         return strings.screenReaderText(numAssessed, levelNames);
     }
