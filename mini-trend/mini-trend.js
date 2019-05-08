@@ -7,6 +7,7 @@ import { getLevelData, getTrendData } from '../fake-trend-data';
 
 const BLOCK_SPACING = 2;        // Also defined in CSS
 const COMPONENT_HEIGHT = 36;    // Also defined in CSS
+const MAX_TREND_ITEMS = 6;
 
 export class MiniTrend extends mixinBehaviors(
     [],
@@ -109,7 +110,7 @@ export class MiniTrend extends mixinBehaviors(
     }
 
     getTrendData(setNumber) {
-        return getTrendData(setNumber);
+        return getTrendData(setNumber).slice(-MAX_TREND_ITEMS);
     }
 
     groupFilter(acc, group) {

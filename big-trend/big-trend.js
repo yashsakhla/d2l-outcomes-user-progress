@@ -10,11 +10,10 @@ import 'd2l-tooltip/d2l-tooltip';
 import { strings } from './strings';
 import { getLevelData, getTrendData } from '../fake-trend-data';
 
-const BLOCK_MIN_WIDTH = 24;         // Also defined in CSS
-const BLOCK_SPACING = 9;            // Also defined in CSS
 const COMPONENT_HEIGHT = 120;       // Also defined in CSS
 const GRID_THICKNESS = 1;           // Also defined in CSS
 const FOOTER_HEIGHT = 22;           // Also defined in CSS
+const SCROLL_VIEWPORT_FRACTION = 0.5;
 
 export class BigTrend extends mixinBehaviors(
     [ D2L.PolymerBehaviors.LocalizeBehavior ],
@@ -127,7 +126,7 @@ export class BigTrend extends mixinBehaviors(
                     width: 100%;
                 }
 
-                .grid-column.section {
+                .grid-column.section:not(:first-of-type) {
                     border-left: var(--grid-thickness) solid var(--grid-color);
                 }
     
@@ -147,6 +146,10 @@ export class BigTrend extends mixinBehaviors(
                     padding-top: var(--label-margin-top);
                     position: absolute;
                     top: calc(var(--container-height) + 1px);
+                }
+
+                .grid-column:first-of-type .grid-label {
+                    border-left: 0px;
                 }
     
                 .trend-block {
@@ -176,20 +179,10 @@ export class BigTrend extends mixinBehaviors(
                     outline: none;
                 }
                 
-                .trend-group:not(.not-assessed):hover > .trend-block,
-                .trend-group:not(.not-assessed):focus > .trend-block {
+                .trend-group:not(.not-assessed):hover .trend-block,
+                .trend-group:not(.not-assessed):focus .trend-block {
                     filter: brightness(120%);
-                }
-
-                .trend-group:hover > .trend-block,
-                .trend-group:focus > .trend-block {
                     shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
-                    width: var(--block-focus-width-increase);
-                }
-
-                .trend-group:hover > .trend-block:first-of-type,
-                .trend-group:focus > .trend-block:first-of-type {
-                    padding-top: var(--block-focus-height-increase);
                 }
     
                 .screen-reader {
@@ -367,7 +360,7 @@ export class BigTrend extends mixinBehaviors(
             };
 
             // Create vertical grid lines
-            if (trendItems.length > 0 && groupLabel !== lastGroupLabel) {
+            if (groupLabel !== lastGroupLabel) {
                 groupItem.label = groupLabel;
             }
 
@@ -470,7 +463,10 @@ export class BigTrend extends mixinBehaviors(
     }
 
     scrollToEnd() {
-        this.scrollContainer.scrollLeft = this.scrollContainer.scrollLeftMax;
+        const scrollMax = this.scrollContainer.scrollLeftMax 
+            || (this.scrollContainer.scrollWidth - this.scrollContainer.offsetWidth);
+
+        this.scrollContainer.scrollLeft = scrollMax;
     }
 
     onDataScrolled() {
@@ -492,7 +488,7 @@ export class BigTrend extends mixinBehaviors(
 
     onScrollButtonClicked(e) {
         const scrollButton = e.currentTarget;
-        let scrollAmount = BLOCK_MIN_WIDTH + 2 * BLOCK_SPACING;
+        let scrollAmount = SCROLL_VIEWPORT_FRACTION * this.scrollContainer.offsetWidth;
 
         if (scrollButton === this.scrollButtonLeft) {
             scrollAmount *= -1;
