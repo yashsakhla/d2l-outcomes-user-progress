@@ -5,6 +5,9 @@ import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import 'd2l-icons/d2l-icon';
 import 'd2l-icons/tier1-icons';
 import 'd2l-localize-behavior/d2l-localize-behavior';
+import 'd2l-tooltip/d2l-tooltip';
+
+import { strings } from './strings';
 
 const BLOCK_MIN_WIDTH = 24;         // Also defined in CSS
 const BLOCK_SPACING = 9;            // Also defined in CSS
@@ -34,12 +37,13 @@ export class BigTrend extends mixinBehaviors(
                     --grid-thickness: 1px;
                     --label-font-size: 14px;
                     --label-margin-top: 4px;
+                    --max-tooltip-width: 210px;
                     --not-assessed-color: #d3d9e3;
                     --not-assessed-height: 4px;
+                    --scroll-button-width: 50px;
                 }
 
                 #container {
-                    overflow: hidden;
                     position: relative;
                 }
     
@@ -58,13 +62,19 @@ export class BigTrend extends mixinBehaviors(
                 #scroll-container {
                     height: calc(var(--container-height) + var(--block-focus-size-increase) + var(--footer-height));
                     left: 0px;
+                    overflow-y: hidden;
+                    position: absolute;
+                    top: 0px;
+                    width: 100%;
+                }
+
+                #scroll {
+                    height: calc(var(--container-height) + var(--block-focus-size-increase) + var(--footer-height));
                     overflow-x: scroll;
                     overflow-y: hidden;
                     padding: 0px var(--block-spacing);
                     padding-bottom: 20px;
-                    position: absolute;
                     scroll-behavior: smooth;
-                    top: 0px;
                     width: calc(100% - 2 * var(--block-spacing));
                 }
 
@@ -76,7 +86,7 @@ export class BigTrend extends mixinBehaviors(
                     position: absolute;
                     top: var(--block-focus-size-increase);
                     vertical-align: middle;
-                    width: 50px;
+                    width: var(--scroll-button-width);
                 }
 
                 .scroll-button:hover {
@@ -102,29 +112,33 @@ export class BigTrend extends mixinBehaviors(
                     flex-direction: row;
                     height: calc(var(--container-height) + var(--block-focus-size-increase));
                 }
-    
-                .trend-group {
-                    align-items: center;
+
+                .grid-column {
                     display: flex;
                     flex-direction: column;
                     height: var(--container-height);
                     justify-content: flex-end;
                     max-width: var(--block-max-width);
                     min-width: var(--block-min-width);
-                    overflow-y: visible;
                     padding: 0px var(--block-spacing);
                     position: relative;
                     width: 100%;
                 }
 
-                .trend-group.section {
+                .grid-column.section {
                     border-left: var(--grid-thickness) solid var(--grid-color);
                 }
+    
+                .trend-group {
+                    align-items: center;
+                    display: flex;
+                    flex-direction: column;
+                    overflow: visible;
+                }
 
-                .grid-label { /* Must be different element type than .trend-block */
+                .grid-label { /* Must be different element type than .trend-block because of last-of-type selector */
                     border-left: var(--grid-thickness) solid var(--grid-color);
                     color: var(--grid-label-color);
-                    display: table-cell;
                     font-size: var(--label-font-size);
                     left: calc(var(--grid-thickness) * -1);
                     padding-left: var(--block-spacing);
@@ -140,14 +154,9 @@ export class BigTrend extends mixinBehaviors(
                     width: 100%;
                 }
 
-                .not-assessed {
-                    height: var(--not-assessed-height);
-                    width: 100%;
-                }
-
                 .not-assessed .trend-block {
                     background-color: var(--not-assessed-color);
-                    height: 100%;
+                    height: var(--not-assessed-height);
                 }
     
                 .trend-group .trend-block:first-of-type {
@@ -159,18 +168,20 @@ export class BigTrend extends mixinBehaviors(
                     margin-bottom: 0px;
                 }
 
-                .trend-block:hover,
-                .not-assessed:hover {
+                .trend-group:hover {
                     cursor: pointer;
                 }
                 
-                :not(.not-assessed) > .trend-block:hover {
+                .trend-group:not(.not-assessed):hover > .trend-block {
                     filter: brightness(120%);
-                    shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.1);
+                }
+
+                .trend-group:hover > .trend-block {
+                    shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
                     width: 120%;
                 }
 
-                .trend-group > .trend-block:first-of-type:hover {
+                .trend-group:hover > .trend-block:first-of-type {
                     padding-top: var(--block-focus-size-increase);
                 }
     
@@ -180,6 +191,11 @@ export class BigTrend extends mixinBehaviors(
                     overflow: hidden;
                     position: absolute;
                     width: 1px;
+                }
+
+                d2l-tooltip {
+                    max-width: var(--max-tooltip-width);
+                    text-align: center;
                 }
 
                 .clear {
@@ -197,22 +213,24 @@ export class BigTrend extends mixinBehaviors(
                     </template>
                 </div>
                 <div id="scroll-container">
-                    <div id="data">
-                        <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]">
-                            <div class$="[[getGroupClasses(item)]]">
-                                <template is="dom-if" if="[[!groupHasBlocks(item)]]">
-                                    <div class="not-assessed" style="padding-top: calc([[item.gridHeight]]px - var(--not-assessed-height));">
-                                        <div class="trend-block"></div>
+                    <div id="scroll">
+                        <div id="data">
+                            <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]" index-as="groupIndex">
+                                <div class$="[[getColumnClasses(item)]]">
+                                    <div id$="[[getUniqueGroupId(groupIndex)]]" class$="[[getGroupClasses(item)]]">
+                                        <template is="dom-if" if="[[!groupHasBlocks(item)]]">
+                                            <div class="trend-block" style="margin-top: calc([[item.gridHeight]]px - var(--not-assessed-height));"></div>
+                                        </template>
+                                        <template is="dom-repeat" items="[[item.blocks]]" as="trendBlock">
+                                            <div class="trend-block" style="height: [[trendBlock.height]]px; background-color: [[trendBlock.color]];"></div>
+                                        </template>
                                     </div>
-                                </template>
-                                <template is="dom-repeat" items="[[item.blocks]]" as="trendBlock">
-                                    <div class="trend-block" style="height: [[trendBlock.height]]px; background-color: [[trendBlock.color]];"></div>
-                                </template>
-                                <template is="dom-if" if="[[item.label]]">
-                                    <span class="grid-label">[[item.label]]</span>
-                                </template>
-                            </div>
-                        </template>
+                                    <template is="dom-if" if="[[item.label]]">
+                                        <span class="grid-label">[[item.label]]</span>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
                     </div>
                 </div>
                 <div id="scroll-button-left" class="scroll-button hidden">
@@ -221,7 +239,22 @@ export class BigTrend extends mixinBehaviors(
                 <div id="scroll-button-right" class="scroll-button hidden">
                     <d2l-icon icon="d2l-tier1:chevron-right"></d2l-icon>
                 </div>
-                <div class="clear"></div>
+                <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]" index-as="groupIndex">
+                    <d2l-tooltip for$="[[getUniqueGroupId(groupIndex)]]" position="top">
+                        <div><b>[[item.name]]</b></div>
+                        <template is="dom-repeat" items="[[item.attempts]]" as="attemptGroup">
+                            <div>
+                                <template is="dom-if" if="[[hasMultipleAttempts(item)]]">
+                                    <b>[[getAttemptGroupLabel(attemptGroup)]]</b>:
+                                </template>
+                                [[attemptGroup.name]]
+                            </div>
+                        </template>
+                        <template is="dom-if" if="[[!groupHasBlocks(item)]]">
+                            <div>[[getNotAssessedText()]]</div>
+                        </template>
+                    </d2l-tooltip>
+                </template>
             </div>
         `;
         template.setAttribute('strip-whitespace', true);
@@ -265,33 +298,38 @@ export class BigTrend extends mixinBehaviors(
                 value: [
                     {
                         activityId: '123',
+                        attempts: [ 'abc111' ],
                         date: '1546318800',
-                        levels: [ 'abc111' ]
+                        name: 'Intro Activity'
                     },
                     {
                         activityId: '124',
-                        date: '1546318801',
-                        levels: [ 'abc222' ]
+                        attempts: [ 'abc222', 'abc222' ],
+                        date: '1546318801'
                     },
                     {
                         activityId: '125',
+                        attempts: [ ],
                         date: '1548997200',
-                        levels: [ ]
+                        name: 'Book Report'
                     },
                     {
                         activityId: '126',
+                        attempts: [ 'abc333' ],
                         date: '1551416400',
-                        levels: [ 'abc333' ]
+                        name: 'Assembly Assignment'
                     },
                     {
                         activityId: '127',
+                        attempts: [ 'abc222', 'abc444', 'abc222' ],
                         date: '1551416401',
-                        levels: [ 'abc222', 'abc444' ]
+                        name: 'Learning Numbers'
                     },
                     {
                         activityId: '128',
+                        attempts: [ 'abc555' ],
                         date: '1551416402',
-                        levels: [ 'abc555' ]
+                        name: 'Happy Pizza'
                     }
                 ]
             }
@@ -302,7 +340,7 @@ export class BigTrend extends mixinBehaviors(
         super.ready();
         
         afterNextRender(this, function() {
-            this.scrollContainer = this.root.getElementById('scroll-container');
+            this.scrollContainer = this.root.getElementById('scroll');
             this.scrollButtonLeft = this.root.getElementById('scroll-button-left');
             this.scrollButtonRight = this.root.getElementById('scroll-button-right');
 
@@ -366,10 +404,12 @@ export class BigTrend extends mixinBehaviors(
         
         trendGroups.forEach(group => {
             const blocks = [];
-            const groupLevels = group.levels;
+            const groupName = group.name || strings.untitled;
+            const groupAttempts = group.attempts;
             const groupLabel = this.getGroupLabel(group);
             const groupItem = {
                 gridHeight: gridHeight,
+                name: groupName,
                 type: 'block'
             };
 
@@ -379,6 +419,11 @@ export class BigTrend extends mixinBehaviors(
             }
 
             lastGroupLabel = groupLabel;
+
+            // Compute levels achieved
+            const groupLevels = groupAttempts
+                .filter((val, index, self) => self.indexOf(val) === index)
+                .sort((left, right) => levels[left].score - levels[right].score);
 
             // Add trend blocks to group
             let prevScore = 0;
@@ -395,6 +440,30 @@ export class BigTrend extends mixinBehaviors(
             }, this);
 
             groupItem.blocks = blocks.reverse();
+
+            // Group attempt labels
+            let attemptCounter = 1,
+                attemptLabels = [];
+            groupAttempts.forEach(attempt => {
+                let label = {
+                    id: attempt,
+                    name: levels[attempt].name,
+                    attempts: [ attemptCounter++ ]
+                };
+                const prevAttempt = attemptLabels.pop();
+
+                if (prevAttempt && prevAttempt.id === attempt) {
+                    label = prevAttempt;
+                    label.attempts.push(attemptCounter);
+                } else if (prevAttempt) {
+                    attemptLabels.push(prevAttempt);
+                } 
+
+                attemptLabels.push(label);
+            });
+
+            groupItem.attempts = attemptLabels;
+
             trendItems.push(groupItem);
         }, this);
 
@@ -410,6 +479,18 @@ export class BigTrend extends mixinBehaviors(
             'trend-group'
         ];
         
+        if (!this.groupHasBlocks(group)) {
+            classes.push('not-assessed');
+        }
+
+        return classes.join(' ');
+    }
+
+    getColumnClasses(group) {
+        const classes = [
+            'grid-column'
+        ];
+        
         if (group.label) {
             classes.push('section');
         }
@@ -421,12 +502,22 @@ export class BigTrend extends mixinBehaviors(
         return group.blocks.length > 0;
     }
 
-    getNotAssessedText() {
-        return 'nothing...';
+    getUniqueGroupId(groupIndex) {
+        return `group${groupIndex}`;
     }
 
-    getScreenReaderText(levels, trendGroups) {
-        return 'nothing...';
+    hasMultipleAttempts(group) {
+        return group.attempts.length > 0 && (group.attempts.length > 1 || group.attempts[0].attempts.length > 1); 
+    }
+
+    getAttemptGroupLabel(attemptGroup) {
+        return (attemptGroup.attempts.length > 1 ? strings.attemptPlural : strings.attemptSingular)
+                + ' '
+                + attemptGroup.attempts.join(', ');
+    }
+
+    getNotAssessedText() {
+        return strings.notAssessed;
     }
 
     scrollToEnd() {

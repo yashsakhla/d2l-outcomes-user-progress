@@ -11,7 +11,8 @@
   "dependencies": {
     "@polymer/polymer": "^3.2.0",
     "d2l-icons": "BrightspaceUI/icons#semver:^6",
-    "d2l-localize-behavior": "BrightspaceUI/localize-behavior#semver:^2"
+    "d2l-localize-behavior": "BrightspaceUI/localize-behavior#semver:^2",
+    "d2l-tooltip": "BrightspaceUI/tooltip#semver:^3"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.10"
