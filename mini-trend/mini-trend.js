@@ -21,15 +21,18 @@ export class MiniTrend extends mixinBehaviors(
                     --border-radius: 2px;
                     --container-height: 36px;
 
-                    display: inline-block;
+                    align-items: center;
+                    display: inline-flex;
+                    flex-direction: row;
                     height: var(--container-height);
                 }
 
                 .trend-group {
-                    display: table-cell;
+                    display: flex;
+                    flex-direction: column;
                     height: var(--container-height);
+                    justify-content: flex-end;
                     padding-right: var(--block-spacing);
-                    vertical-align: bottom;
                     width: 12px;
                 }
 
@@ -54,10 +57,7 @@ export class MiniTrend extends mixinBehaviors(
 
                 .empty-text {
                     color: #7C8695;
-                    display: table-cell;
                     font-size: 14px;
-                    height: var(--container-height);
-                    vertical-align: middle;
                 }
 
                 .screen-reader {
