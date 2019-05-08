@@ -25,7 +25,8 @@ export class BigTrend extends mixinBehaviors(
         const template = html`
             <style>
                 :host {
-                    --block-focus-size-increase: 4px;
+                    --block-focus-height-increase: 4px;
+                    --block-focus-width-increase: 110%;
                     --block-max-width: 54px;
                     --block-min-width: 24px;
                     --block-spacing: 9px;
@@ -49,7 +50,7 @@ export class BigTrend extends mixinBehaviors(
     
                 #grid {
                     float: left;
-                    padding-top: var(--block-focus-size-increase);
+                    padding-top: var(--block-focus-height-increase);
                     position: relative;
                     width: 100%;
                 }
@@ -60,7 +61,7 @@ export class BigTrend extends mixinBehaviors(
                 }
 
                 #scroll-container {
-                    height: calc(var(--container-height) + var(--block-focus-size-increase) + var(--footer-height));
+                    height: calc(var(--container-height) + var(--block-focus-height-increase) + var(--footer-height));
                     left: 0px;
                     overflow-y: hidden;
                     position: absolute;
@@ -69,7 +70,7 @@ export class BigTrend extends mixinBehaviors(
                 }
 
                 #scroll {
-                    height: calc(var(--container-height) + var(--block-focus-size-increase) + var(--footer-height));
+                    height: calc(var(--container-height) + var(--block-focus-height-increase) + var(--footer-height));
                     overflow-x: scroll;
                     overflow-y: hidden;
                     padding: 0px var(--block-spacing);
@@ -84,7 +85,7 @@ export class BigTrend extends mixinBehaviors(
                     display: flex;
                     height: var(--container-height);
                     position: absolute;
-                    top: var(--block-focus-size-increase);
+                    top: var(--block-focus-height-increase);
                     vertical-align: middle;
                     width: var(--scroll-button-width);
                 }
@@ -110,7 +111,7 @@ export class BigTrend extends mixinBehaviors(
                     align-items: flex-end;
                     display: flex;
                     flex-direction: row;
-                    height: calc(var(--container-height) + var(--block-focus-size-increase));
+                    height: calc(var(--container-height) + var(--block-focus-height-increase));
                 }
 
                 .grid-column {
@@ -168,21 +169,26 @@ export class BigTrend extends mixinBehaviors(
                     margin-bottom: 0px;
                 }
 
-                .trend-group:hover {
+                .trend-group:hover,
+                .trend-group:focus {
                     cursor: pointer;
+                    outline: none;
                 }
                 
-                .trend-group:not(.not-assessed):hover > .trend-block {
+                .trend-group:not(.not-assessed):hover > .trend-block,
+                .trend-group:not(.not-assessed):focus > .trend-block {
                     filter: brightness(120%);
                 }
 
-                .trend-group:hover > .trend-block {
+                .trend-group:hover > .trend-block,
+                .trend-group:focus > .trend-block {
                     shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
-                    width: 120%;
+                    width: var(--block-focus-width-increase);
                 }
 
-                .trend-group:hover > .trend-block:first-of-type {
-                    padding-top: var(--block-focus-size-increase);
+                .trend-group:hover > .trend-block:first-of-type,
+                .trend-group:focus > .trend-block:first-of-type {
+                    padding-top: var(--block-focus-height-increase);
                 }
     
                 .screen-reader {
@@ -217,7 +223,7 @@ export class BigTrend extends mixinBehaviors(
                         <div id="data">
                             <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]" index-as="groupIndex">
                                 <div class$="[[getColumnClasses(item)]]">
-                                    <div id$="[[getUniqueGroupId(groupIndex)]]" class$="[[getGroupClasses(item)]]">
+                                    <div id$="[[getUniqueGroupId(groupIndex)]]" class$="[[getGroupClasses(item)]]" tabindex="0">
                                         <template is="dom-if" if="[[!groupHasBlocks(item)]]">
                                             <div class="trend-block" style="margin-top: calc([[item.gridHeight]]px - var(--not-assessed-height));"></div>
                                         </template>
@@ -239,6 +245,7 @@ export class BigTrend extends mixinBehaviors(
                 <div id="scroll-button-right" class="scroll-button hidden">
                     <d2l-icon icon="d2l-tier1:chevron-right"></d2l-icon>
                 </div>
+                <div class="clear"></div>
                 <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]" index-as="groupIndex">
                     <d2l-tooltip for$="[[getUniqueGroupId(groupIndex)]]" position="top">
                         <div><b>[[item.name]]</b></div>
