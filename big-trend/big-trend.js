@@ -401,7 +401,7 @@ export class BigTrend extends mixinBehaviors(
                 let label = {
                     id: attempt,
                     name: levels[attempt].name,
-                    attempts: [ attemptCounter++ ]
+                    attempts: [ attemptCounter ]
                 };
                 const prevAttempt = attemptLabels.pop();
 
@@ -413,6 +413,7 @@ export class BigTrend extends mixinBehaviors(
                 } 
 
                 attemptLabels.push(label);
+                attemptCounter++;
             });
 
             groupItem.attempts = attemptLabels;
