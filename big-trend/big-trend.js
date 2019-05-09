@@ -11,8 +11,11 @@ import { strings } from './strings';
 import { getLevelData, getTrendData } from '../fake-trend-data';
 
 const COMPONENT_HEIGHT = 120;       // Also defined in CSS
-const GRID_THICKNESS = 1;           // Also defined in CSS
 const FOOTER_HEIGHT = 22;           // Also defined in CSS
+const GRID_THICKNESS = 1;           // Also defined in CSS
+const NOT_ASSESSED_HEIGHT = 4;      // Also defined in CSS
+const TOOLTIP_GAP = 8;
+const TOOLTIP_POINTER_SIZE = 8;
 const SCROLL_VIEWPORT_FRACTION = 0.5;
 
 export class BigTrend extends mixinBehaviors(
@@ -241,7 +244,7 @@ export class BigTrend extends mixinBehaviors(
                 </div>
                 <div class="clear"></div>
                 <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]" index-as="groupIndex">
-                    <d2l-tooltip for$="[[getUniqueGroupId(groupIndex)]]" position="top">
+                    <d2l-tooltip for$="[[getUniqueGroupId(groupIndex)]]" position="top" offset$="[[getTooltipOffset(item)]]">
                         <div><b>[[item.name]]</b></div>
                         <template is="dom-repeat" items="[[item.attempts]]" as="attemptGroup">
                             <div>
@@ -271,6 +274,10 @@ export class BigTrend extends mixinBehaviors(
             levels: {
                 type: Object,
                 computed: 'getLevelsData(dataSet)'
+            },
+            rowHeight: {
+                type: Number,
+                computed: 'getRowHeight(levels)'
             },
             trendGroups: {
                 type: Array,
@@ -315,14 +322,14 @@ export class BigTrend extends mixinBehaviors(
         return Math.max.apply(null, Object.keys(levels).map(levelId => levels[levelId].score));
     }
 
-    getGridHeight(levels) {
+    getRowHeight(levels) {
         const maxLevel = this.getMaxLevelScore(levels);
-        return COMPONENT_HEIGHT / maxLevel - GRID_THICKNESS;
+        return COMPONENT_HEIGHT / maxLevel;
     }
 
     getGridHorizontal(levels) {
         const maxLevel = this.getMaxLevelScore(levels);
-        const gridHeight = this.getGridHeight(levels);
+        const gridHeight = this.rowHeight - GRID_THICKNESS;
 
         const gridData = Array.apply(null, { length: maxLevel + 1 }).map((v, i) => {
             return {
@@ -345,7 +352,7 @@ export class BigTrend extends mixinBehaviors(
     getTrendItems(levels, trendGroups) {
         const trendItems = [];
         const maxLevel = this.getMaxLevelScore(levels);
-        const gridHeight = this.getGridHeight(levels);
+        const gridHeight = this.rowHeight - GRID_THICKNESS;
         let lastGroupLabel = null;
         
         trendGroups.forEach(group => {
@@ -442,6 +449,16 @@ export class BigTrend extends mixinBehaviors(
 
     groupHasBlocks(group) {
         return group.blocks.length > 0;
+    }
+
+    getTooltipOffset(group) {
+        let offset = TOOLTIP_POINTER_SIZE + TOOLTIP_GAP;
+
+        if (!this.groupHasBlocks(group)) {
+            offset -= this.rowHeight - GRID_THICKNESS - NOT_ASSESSED_HEIGHT;
+        }
+
+        return offset;
     }
 
     getUniqueGroupId(groupIndex) {
