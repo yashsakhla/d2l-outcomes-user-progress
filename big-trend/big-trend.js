@@ -86,7 +86,7 @@ export class BigTrend extends mixinBehaviors(
                     align-items: center;
                     background: rgba(255, 255, 255, 0.5);
                     display: flex;
-                    height: var(--container-height);
+                    height: calc(var(--container-height) + var(--grid-thickness) + var(--footer-height));
                     position: absolute;
                     top: var(--block-focus-height-increase);
                     vertical-align: middle;
