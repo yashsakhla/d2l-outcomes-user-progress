@@ -185,7 +185,7 @@ export class BigTrend extends mixinBehaviors(
                 .trend-group:not(.not-assessed):hover .trend-block,
                 .trend-group:not(.not-assessed):focus .trend-block {
                     filter: brightness(120%);
-                    shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+                    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
                 }
     
                 .screen-reader {
@@ -208,8 +208,18 @@ export class BigTrend extends mixinBehaviors(
                 .hidden {
                     display: none !important;
                 }
+
+                table {
+                    border-collapse: collapse;
+                    border: 1px solid black;
+                }
+
+                table td,
+                table th {
+                    border: 1px solid black;
+                }
             </style>
-            <div id="container">
+            <div id="container" aria-hidden="true">
                 <div id="grid">
                     <template is="dom-repeat" items="[[getGridHorizontal(levels)]]">
                         <div class="h-line" style="margin-bottom: [[item.size]]px;"></div>
@@ -249,7 +259,7 @@ export class BigTrend extends mixinBehaviors(
                         <template is="dom-repeat" items="[[item.attempts]]" as="attemptGroup">
                             <div>
                                 <template is="dom-if" if="[[hasMultipleAttempts(item)]]">
-                                    <b>[[getAttemptGroupLabel(attemptGroup)]]</b>:
+                                    <b>[[getAttemptGroupLabel(attemptGroup.attempts)]]</b>:
                                 </template>
                                 [[attemptGroup.name]]
                             </div>
@@ -258,6 +268,43 @@ export class BigTrend extends mixinBehaviors(
                             <div>[[getNotAssessedText()]]</div>
                         </template>
                     </d2l-tooltip>
+                </template>
+            </div>
+            <div class="screen-reader">
+                <template is="dom-if" if="[[!hasTrendData(trendGroups)]]">
+                    [[getNotAssessedText()]]
+                </template>
+                <template is="dom-if" if="[[hasTrendData(trendGroups)]]">
+                    <table>
+                        <thead>
+                            <tr>
+                                <template is="dom-repeat" items="[[getScreenReaderTableHeadings()]]">
+                                    <th>[[item]]</th>
+                                </template>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]">
+                                <tr>
+                                    <td>[[item.date]]</td>
+                                    <td>[[item.name]]</td>
+                                    <td>
+                                        <template is="dom-repeat" items="[[item.attempts]]" as="attemptGroup">
+                                            <div>
+                                                <template is="dom-if" if="[[hasMultipleAttempts(item)]]">
+                                                    [[getAttemptGroupScreenReaderText(attemptGroup.attempts)]]:
+                                                </template>
+                                                [[attemptGroup.name]]
+                                            </div>
+                                        </template>
+                                        <template is="dom-if" if="[[!groupHasBlocks(item)]]">
+                                            <div>[[getNotAssessedText()]]</div>
+                                        </template>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
                 </template>
             </div>
         `;
@@ -357,10 +404,14 @@ export class BigTrend extends mixinBehaviors(
         
         trendGroups.forEach(group => {
             const blocks = [];
-            const groupName = group.name || strings.untitled;
+
             const groupAttempts = group.attempts;
+            const groupDate = this.formatDate(new Date(group.date * 1000), { format: 'MMMM d, yyyy' });
             const groupLabel = this.getGroupLabel(group);
+            const groupName = (!group.name || group.name.trim() === '') ? strings.untitled : group.name;
+
             const groupItem = {
+                date: groupDate,
                 gridHeight: gridHeight,
                 name: groupName,
                 type: 'block'
@@ -466,14 +517,26 @@ export class BigTrend extends mixinBehaviors(
         return `group${groupIndex}`;
     }
 
+    hasTrendData(trendGroups) {
+        return trendGroups.length > 0 && trendGroups[0].attempts.length > 0;
+    }
+
     hasMultipleAttempts(group) {
         return group.attempts.length > 0 && (group.attempts.length > 1 || group.attempts[0].attempts.length > 1); 
     }
 
-    getAttemptGroupLabel(attemptGroup) {
-        return (attemptGroup.attempts.length > 1 ? strings.attemptPlural : strings.attemptSingular)
-                + ' '
-                + attemptGroup.attempts.join(', ');
+    getAttemptGroupLabel(attempts) {
+        if (attempts.length === 1) {
+            return strings.getAttemptsTooltipStringSingular(attempts[0]);
+        }
+        return strings.getAttemptsTooltipStringPlural(attempts.join(', '));
+    }
+
+    getAttemptGroupScreenReaderText(attempts) {
+        if (attempts.length === 1) {
+            return strings.getAttemptsScreenReaderStringSingular(attempts[0]);
+        }
+        return strings.getAttemptsScreenReaderStringPlural(attempts.slice(0, -1).join(', '), attempts.slice(-1));
     }
 
     getNotAssessedText() {
@@ -513,6 +576,14 @@ export class BigTrend extends mixinBehaviors(
         }
 
         this.scrollContainer.scrollLeft += scrollAmount;
+    }
+
+    getScreenReaderTableHeadings() {
+        return [
+            strings.headingDate,
+            strings.headingEvidence,
+            strings.headingLoa
+        ];
     }
 }
 

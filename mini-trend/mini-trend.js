@@ -170,7 +170,7 @@ export class MiniTrend extends mixinBehaviors(
 
     getScreenReaderText(levels, trendGroups) {
         const numAssessed = trendGroups.reduce((acc, group) => acc + group.attempts.length, 0);
-        const levelNames = trendGroups.reduce((acc, group) => acc.concat(group.attempts.map(levelId => levels[levelId].name)), []);
+        const levelNames = trendGroups.reduce((acc, group) => acc.concat(group.attempts.map(levelId => levels[levelId].name)), []).join(', ');
 
         return strings.screenReaderText(numAssessed, levelNames);
     }
