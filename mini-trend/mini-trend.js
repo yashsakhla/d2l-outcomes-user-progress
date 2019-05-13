@@ -77,7 +77,7 @@ export class MiniTrend extends mixinBehaviors(
                 <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]" as="trendGroup">
                     <div class="trend-group">
                         <template is="dom-repeat" items="[[trendGroup.blocks]]" as="trendBlock">
-                            <div class="trend-block" style="height: [[trendBlock.height]]px; background-color: [[trendBlock.color]];"></div>
+                            <div class="trend-block" style$="height: [[trendBlock.height]]px; background-color: [[trendBlock.color]];"></div>
                         </template>
                     </div>
                 </template>

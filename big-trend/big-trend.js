@@ -222,7 +222,7 @@ export class BigTrend extends mixinBehaviors(
             <div id="container" aria-hidden="true">
                 <div id="grid">
                     <template is="dom-repeat" items="[[getGridHorizontal(levels)]]">
-                        <div class="h-line" style="margin-bottom: [[item.size]]px;"></div>
+                        <div class="h-line" style$="margin-bottom: [[item.size]]px;"></div>
                     </template>
                 </div>
                 <div id="scroll-container">
@@ -232,10 +232,10 @@ export class BigTrend extends mixinBehaviors(
                                 <div class$="[[getColumnClasses(item)]]">
                                     <div id$="[[getUniqueGroupId(groupIndex)]]" class$="[[getGroupClasses(item)]]" tabindex="0">
                                         <template is="dom-if" if="[[!groupHasBlocks(item)]]">
-                                            <div class="trend-block" style="margin-top: calc([[item.gridHeight]]px - var(--not-assessed-height));"></div>
+                                            <div class="trend-block" style$="margin-top: calc([[item.gridHeight]]px - var(--not-assessed-height));"></div>
                                         </template>
                                         <template is="dom-repeat" items="[[item.blocks]]" as="trendBlock">
-                                            <div class="trend-block" style="height: [[trendBlock.height]]px; background-color: [[trendBlock.color]];"></div>
+                                            <div class="trend-block" style$="height: [[trendBlock.height]]px; background-color: [[trendBlock.color]];"></div>
                                         </template>
                                     </div>
                                     <template is="dom-if" if="[[item.label]]">
