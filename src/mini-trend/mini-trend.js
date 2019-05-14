@@ -3,7 +3,7 @@ import { PolymerElement, html } from '@polymer/polymer';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import '../localize-behavior';
 
-import { getLevelData, getTrendData } from '../fake-trend-data';
+import { getLevelData, getTrendData } from '../../data/fake-trend-data';
 
 const BLOCK_SPACING = 2;        // Also defined in CSS
 const COMPONENT_HEIGHT = 36;    // Also defined in CSS

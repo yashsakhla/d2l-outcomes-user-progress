@@ -7,7 +7,7 @@ import 'd2l-icons/tier1-icons';
 import 'd2l-tooltip/d2l-tooltip';
 import '../localize-behavior';
 
-import { getLevelData, getTrendData } from '../fake-trend-data';
+import { getLevelData, getTrendData } from '../../data/fake-trend-data';
 
 const COMPONENT_HEIGHT = 120;       // Also defined in CSS
 const FOOTER_HEIGHT = 22;           // Also defined in CSS
