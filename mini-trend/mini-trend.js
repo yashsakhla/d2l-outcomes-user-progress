@@ -1,8 +1,8 @@
 import '@polymer/polymer/polymer-legacy.js';
 import { PolymerElement, html } from '@polymer/polymer';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
+import '../localize-behavior';
 
-import { strings } from './strings';
 import { getLevelData, getTrendData } from '../fake-trend-data';
 
 const BLOCK_SPACING = 2;        // Also defined in CSS
@@ -10,7 +10,7 @@ const COMPONENT_HEIGHT = 36;    // Also defined in CSS
 const MAX_TREND_ITEMS = 6;
 
 export class MiniTrend extends mixinBehaviors(
-    [],
+    [ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior ],
     PolymerElement
 ) {
     static get is() { return 'mini-trend' };
@@ -165,14 +165,14 @@ export class MiniTrend extends mixinBehaviors(
     }
 
     getNotAssessedText() {
-        return strings.notAssessed;
+        return this.localize('notAssessed');
     }
 
     getScreenReaderText(levels, trendGroups) {
         const numAssessed = trendGroups.reduce((acc, group) => acc + group.attempts.length, 0);
         const levelNames = trendGroups.reduce((acc, group) => acc.concat(group.attempts.map(levelId => levels[levelId].name)), []).join(', ');
 
-        return strings.screenReaderText(numAssessed, levelNames);
+        return this.localize('miniTrendScreenReaderText', 'numAssessed', numAssessed, 'levelNames', levelNames);
     }
 }
 

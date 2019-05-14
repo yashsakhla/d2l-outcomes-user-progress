@@ -4,10 +4,9 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import 'd2l-icons/d2l-icon';
 import 'd2l-icons/tier1-icons';
-import 'd2l-localize-behavior/d2l-localize-behavior';
 import 'd2l-tooltip/d2l-tooltip';
+import '../localize-behavior';
 
-import { strings } from './strings';
 import { getLevelData, getTrendData } from '../fake-trend-data';
 
 const COMPONENT_HEIGHT = 120;       // Also defined in CSS
@@ -19,7 +18,7 @@ const TOOLTIP_POINTER_SIZE = 8;
 const SCROLL_VIEWPORT_FRACTION = 0.5;
 
 export class BigTrend extends mixinBehaviors(
-    [ D2L.PolymerBehaviors.LocalizeBehavior ],
+    [ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior ],
     PolymerElement
 ) {
     static get is() { return 'big-trend' };
@@ -408,7 +407,7 @@ export class BigTrend extends mixinBehaviors(
             const groupAttempts = group.attempts;
             const groupDate = this.formatDate(new Date(group.date * 1000), { format: 'MMMM d, yyyy' });
             const groupLabel = this.getGroupLabel(group);
-            const groupName = (!group.name || group.name.trim() === '') ? strings.untitled : group.name;
+            const groupName = (!group.name || group.name.trim() === '') ? this.localize('untitled') : group.name;
 
             const groupItem = {
                 date: groupDate,
@@ -526,21 +525,26 @@ export class BigTrend extends mixinBehaviors(
     }
 
     getAttemptGroupLabel(attempts) {
-        if (attempts.length === 1) {
-            return strings.getAttemptsTooltipStringSingular(attempts[0]);
+        return this.localize(
+            'bigTrendAttemptsTooltipString', 
+            'numAttempts', attempts.length, 
+            'attemptNames', attempts.join(', ')
+        );
         }
-        return strings.getAttemptsTooltipStringPlural(attempts.join(', '));
-    }
 
     getAttemptGroupScreenReaderText(attempts) {
-        if (attempts.length === 1) {
-            return strings.getAttemptsScreenReaderStringSingular(attempts[0]);
-        }
-        return strings.getAttemptsScreenReaderStringPlural(attempts.slice(0, -1).join(', '), attempts.slice(-1));
+        const attemptNames = attempts.length > 1 ? attempts.slice(0, -1).join(', ') : attempts[0];
+        const lastAttemptName = attempts.slice(-1);
+        return this.localize(
+            'bigTrendAttemptsScreenReaderString', 
+            'numAttempts', attempts.length, 
+            'attemptNames', attemptNames, 
+            'lastAttemptName', lastAttemptName
+        );
     }
 
     getNotAssessedText() {
-        return strings.notAssessed;
+        return this.localize('notAssessed');
     }
 
     scrollToEnd() {
@@ -580,9 +584,9 @@ export class BigTrend extends mixinBehaviors(
 
     getScreenReaderTableHeadings() {
         return [
-            strings.headingDate,
-            strings.headingEvidence,
-            strings.headingLoa
+            this.localize('headingDate'),
+            this.localize('headingEvidence'),
+            this.localize('headingLoa')
         ];
     }
 }
