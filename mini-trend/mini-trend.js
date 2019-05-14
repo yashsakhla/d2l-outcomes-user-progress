@@ -70,18 +70,18 @@ export class MiniTrend extends mixinBehaviors(
                     width: 1px;
                 }
             </style>
-            <template is="dom-if" if="[[!hasTrendData(levels,trendGroups)]]">
-                <div class="empty-text">[[getNotAssessedText()]]</div>
+            <template is="dom-if" if="[[!_hasTrendData(_levels,_trendGroups)]]">
+                <div class="empty-text">[[_getNotAssessedText()]]</div>
             </template>
-            <template is="dom-if" if="[[hasTrendData(levels,trendGroups)]]">
-                <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]" as="trendGroup">
+            <template is="dom-if" if="[[_hasTrendData(_levels,_trendGroups)]]">
+                <template is="dom-repeat" items="[[_getTrendItems(_levels,_trendGroups)]]" as="trendGroup">
                     <div class="trend-group">
                         <template is="dom-repeat" items="[[trendGroup.blocks]]" as="trendBlock">
                             <div class="trend-block" style$="height: [[trendBlock.height]]px; background-color: [[trendBlock.color]];"></div>
                         </template>
                     </div>
                 </template>
-                <p class="screen-reader">[[getScreenReaderText(levels,trendGroups)]]</p>
+                <p class="screen-reader">[[_getScreenReaderText(_levels,_trendGroups)]]</p>
             </template>
         `;
         template.setAttribute('strip-whitespace', true);
@@ -94,42 +94,43 @@ export class MiniTrend extends mixinBehaviors(
                 type: Number,
                 value: 0
             },
-            levels: {
+            _levels: {
                 type: Object,
-                computed: 'getLevelsData(dataSet)'
+                computed: '_getLevelsData(dataSet)'
             },
-            trendGroups: {
+            _trendGroups: {
                 type: Array,
-                computed: 'getTrendData(dataSet)'
+                computed: '_getTrendData(dataSet)'
             }
         };
     }
 
-    getLevelsData(setNumber) {
+    _getLevelsData(setNumber) {
         return getLevelData(setNumber);
     }
 
-    getTrendData(setNumber) {
-        return getTrendData(setNumber).slice(-MAX_TREND_ITEMS);
-    }
-
-    groupFilter(acc, group) {
-        return acc + group.blocks.length;
-    }
-
-    hasTrendData(levels, trendGroups) {
-        const blockGroups = this.getTrendItems(levels, trendGroups);
-        const numBlocks = blockGroups.reduce(this.groupFilter.bind(this), 0);
-        return numBlocks > 0;
-    }
-
-    getMaxLevelScore(levels) {
+    _getMaxLevelScore(levels) {
         return Math.max.apply(null, Object.keys(levels).map(levelId => levels[levelId].score));
     }
 
-    getTrendItems(levels, trendGroups) {
+    _getNotAssessedText() {
+        return this.localize('notAssessed');
+    }
+
+    _getScreenReaderText(levels, trendGroups) {
+        const numAssessed = trendGroups.reduce((acc, group) => acc + group.attempts.length, 0);
+        const levelNames = trendGroups.reduce((acc, group) => acc.concat(group.attempts.map(levelId => levels[levelId].name)), []).join(', ');
+
+        return this.localize('miniTrendScreenReaderText', 'numAssessed', numAssessed, 'levelNames', levelNames);
+    }
+
+    _getTrendData(setNumber) {
+        return getTrendData(setNumber).slice(-MAX_TREND_ITEMS);
+    }
+
+    _getTrendItems(levels, trendGroups) {
         const trendItems = [];
-        const maxLevel = this.getMaxLevelScore(levels);
+        const maxLevel = this._getMaxLevelScore(levels);
         
         trendGroups.forEach(group => {
             const blocks = [];
@@ -164,15 +165,10 @@ export class MiniTrend extends mixinBehaviors(
         return trendItems;
     }
 
-    getNotAssessedText() {
-        return this.localize('notAssessed');
-    }
-
-    getScreenReaderText(levels, trendGroups) {
-        const numAssessed = trendGroups.reduce((acc, group) => acc + group.attempts.length, 0);
-        const levelNames = trendGroups.reduce((acc, group) => acc.concat(group.attempts.map(levelId => levels[levelId].name)), []).join(', ');
-
-        return this.localize('miniTrendScreenReaderText', 'numAssessed', numAssessed, 'levelNames', levelNames);
+    _hasTrendData(levels, trendGroups) {
+        const blockGroups = this._getTrendItems(levels, trendGroups);
+        const numBlocks = blockGroups.reduce((acc, group) => acc + group.blocks.length, 0);
+        return numBlocks > 0;
     }
 }
 

@@ -220,17 +220,17 @@ export class BigTrend extends mixinBehaviors(
             </style>
             <div id="container" aria-hidden="true">
                 <div id="grid">
-                    <template is="dom-repeat" items="[[getGridHorizontal(levels)]]">
+                    <template is="dom-repeat" items="[[_getGridHorizontal(_levels)]]">
                         <div class="h-line" style$="margin-bottom: [[item.size]]px;"></div>
                     </template>
                 </div>
                 <div id="scroll-container">
                     <div id="scroll">
                         <div id="data">
-                            <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]" index-as="groupIndex">
-                                <div class$="[[getColumnClasses(item)]]">
-                                    <div id$="[[getUniqueGroupId(groupIndex)]]" class$="[[getGroupClasses(item)]]" tabindex="0">
-                                        <template is="dom-if" if="[[!groupHasBlocks(item)]]">
+                            <template is="dom-repeat" items="[[_getTrendItems(_levels,_trendGroups)]]" index-as="groupIndex">
+                                <div class$="[[_getColumnClasses(item)]]">
+                                    <div id$="[[_getUniqueGroupId(groupIndex)]]" class$="[[_getGroupClasses(item)]]" tabindex="0">
+                                        <template is="dom-if" if="[[!_groupHasBlocks(item)]]">
                                             <div class="trend-block" style$="margin-top: calc([[item.gridHeight]]px - var(--not-assessed-height));"></div>
                                         </template>
                                         <template is="dom-repeat" items="[[item.blocks]]" as="trendBlock">
@@ -252,52 +252,52 @@ export class BigTrend extends mixinBehaviors(
                     <d2l-icon icon="d2l-tier1:chevron-right"></d2l-icon>
                 </div>
                 <div class="clear"></div>
-                <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]" index-as="groupIndex">
-                    <d2l-tooltip for$="[[getUniqueGroupId(groupIndex)]]" position="top" offset$="[[getTooltipOffset(item)]]">
+                <template is="dom-repeat" items="[[_getTrendItems(_levels,_trendGroups)]]" index-as="groupIndex">
+                    <d2l-tooltip for$="[[_getUniqueGroupId(groupIndex)]]" position="top" offset$="[[_getTooltipOffset(item)]]">
                         <div><b>[[item.name]]</b></div>
                         <template is="dom-repeat" items="[[item.attempts]]" as="attemptGroup">
                             <div>
-                                <template is="dom-if" if="[[hasMultipleAttempts(item)]]">
-                                    <b>[[getAttemptGroupLabel(attemptGroup.attempts)]]</b>:
+                                <template is="dom-if" if="[[_hasMultipleAttempts(item)]]">
+                                    <b>[[_getAttemptGroupLabel(attemptGroup.attempts)]]</b>:
                                 </template>
                                 [[attemptGroup.name]]
                             </div>
                         </template>
-                        <template is="dom-if" if="[[!groupHasBlocks(item)]]">
-                            <div>[[getNotAssessedText()]]</div>
+                        <template is="dom-if" if="[[!_groupHasBlocks(item)]]">
+                            <div>[[_getNotAssessedText()]]</div>
                         </template>
                     </d2l-tooltip>
                 </template>
             </div>
             <div class="screen-reader">
-                <template is="dom-if" if="[[!hasTrendData(trendGroups)]]">
-                    [[getNotAssessedText()]]
+                <template is="dom-if" if="[[!_hasTrendData(_trendGroups)]]">
+                    [[_getNotAssessedText()]]
                 </template>
-                <template is="dom-if" if="[[hasTrendData(trendGroups)]]">
+                <template is="dom-if" if="[[_hasTrendData(_trendGroups)]]">
                     <table>
                         <thead>
                             <tr>
-                                <template is="dom-repeat" items="[[getScreenReaderTableHeadings()]]">
+                                <template is="dom-repeat" items="[[_getScreenReaderTableHeadings()]]">
                                     <th>[[item]]</th>
                                 </template>
                             </tr>
                         </thead>
                         <tbody>
-                            <template is="dom-repeat" items="[[getTrendItems(levels,trendGroups)]]">
+                            <template is="dom-repeat" items="[[_getTrendItems(_levels,_trendGroups)]]">
                                 <tr>
                                     <td>[[item.date]]</td>
                                     <td>[[item.name]]</td>
                                     <td>
                                         <template is="dom-repeat" items="[[item.attempts]]" as="attemptGroup">
                                             <div>
-                                                <template is="dom-if" if="[[hasMultipleAttempts(item)]]">
-                                                    [[getAttemptGroupScreenReaderText(attemptGroup.attempts)]]:
+                                                <template is="dom-if" if="[[_hasMultipleAttempts(item)]]">
+                                                    [[_getAttemptGroupScreenReaderText(attemptGroup.attempts)]]:
                                                 </template>
                                                 [[attemptGroup.name]]
                                             </div>
                                         </template>
-                                        <template is="dom-if" if="[[!groupHasBlocks(item)]]">
-                                            <div>[[getNotAssessedText()]]</div>
+                                        <template is="dom-if" if="[[!_groupHasBlocks(item)]]">
+                                            <div>[[_getNotAssessedText()]]</div>
                                         </template>
                                     </td>
                                 </tr>
@@ -317,27 +317,19 @@ export class BigTrend extends mixinBehaviors(
                 type: Number,
                 value: 0
             },
-            levels: {
+            _levels: {
                 type: Object,
-                computed: 'getLevelsData(dataSet)'
+                computed: '_getLevelsData(dataSet)'
             },
-            rowHeight: {
+            _rowHeight: {
                 type: Number,
-                computed: 'getRowHeight(levels)'
+                computed: '_getRowHeight(_levels)'
             },
-            trendGroups: {
+            _trendGroups: {
                 type: Array,
-                computed: 'getTrendData(dataSet)'
+                computed: '_getTrendData(dataSet)'
             }
         };
-    }
-
-    getLevelsData(setNumber) {
-        return getLevelData(setNumber);
-    }
-
-    getTrendData(setNumber) {
-        return getTrendData(setNumber);
     }
 
     ready() {
@@ -348,34 +340,56 @@ export class BigTrend extends mixinBehaviors(
             this.scrollButtonLeft = this.root.getElementById('scroll-button-left');
             this.scrollButtonRight = this.root.getElementById('scroll-button-right');
 
-            window.addEventListener('resize', this.onDataScrolled.bind(this));
-            this.scrollContainer.addEventListener('scroll', this.onDataScrolled.bind(this));
-            this.scrollButtonLeft.addEventListener('click', this.onScrollButtonClicked.bind(this));
-            this.scrollButtonRight.addEventListener('click', this.onScrollButtonClicked.bind(this));
+            window.addEventListener('resize', this._onDataScrolled.bind(this));
+            this.scrollContainer.addEventListener('scroll', this._onDataScrolled.bind(this));
+            this.scrollButtonLeft.addEventListener('click', this._onScrollButtonClicked.bind(this));
+            this.scrollButtonRight.addEventListener('click', this._onScrollButtonClicked.bind(this));
 
-            this.onDataScrolled();
-            this.scrollToEnd();
+            this._onDataScrolled();
+            this._scrollToEnd();
         });
     }
 
     disconnectedCallback() {
         super.disconnectedCallback();
 
-        window.removeEventListener('resize', this.onDataScrolled);
+        window.removeEventListener('resize', this._onDataScrolled);
     }
 
-    getMaxLevelScore(levels) {
-        return Math.max.apply(null, Object.keys(levels).map(levelId => levels[levelId].score));
+    _getAttemptGroupLabel(attempts) {
+        return this.localize(
+            'bigTrendAttemptsTooltipString', 
+            'numAttempts', attempts.length, 
+            'attemptNames', attempts.join(', ')
+        );
     }
 
-    getRowHeight(levels) {
-        const maxLevel = this.getMaxLevelScore(levels);
-        return COMPONENT_HEIGHT / maxLevel;
+    _getAttemptGroupScreenReaderText(attempts) {
+        const attemptNames = attempts.length > 1 ? attempts.slice(0, -1).join(', ') : attempts[0];
+        const lastAttemptName = attempts.slice(-1);
+        return this.localize(
+            'bigTrendAttemptsScreenReaderString', 
+            'numAttempts', attempts.length, 
+            'attemptNames', attemptNames, 
+            'lastAttemptName', lastAttemptName
+        );
     }
 
-    getGridHorizontal(levels) {
-        const maxLevel = this.getMaxLevelScore(levels);
-        const gridHeight = this.rowHeight - GRID_THICKNESS;
+    _getColumnClasses(group) {
+        const classes = [
+            'grid-column'
+        ];
+        
+        if (group.label) {
+            classes.push('section');
+        }
+
+        return classes.join(' ');
+    }
+
+    _getGridHorizontal(levels) {
+        const maxLevel = this._getMaxLevelScore(levels);
+        const gridHeight = this._rowHeight - GRID_THICKNESS;
 
         const gridData = Array.apply(null, { length: maxLevel + 1 }).map((v, i) => {
             return {
@@ -388,17 +402,68 @@ export class BigTrend extends mixinBehaviors(
         return gridData;
     }
 
-    getGroupLabel(group) {
+    _getGroupClasses(group) {
+        const classes = [
+            'trend-group'
+        ];
+        
+        if (!this._groupHasBlocks(group)) {
+            classes.push('not-assessed');
+        }
+
+        return classes.join(' ');
+    }
+
+    _getGroupLabel(group) {
         return this.formatDate(
             new Date(group.date * 1000), {
                 format: 'MMM'
             });
     }
+    
+    _getLevelsData(setNumber) {
+        return getLevelData(setNumber);
+    }
 
-    getTrendItems(levels, trendGroups) {
+    _getMaxLevelScore(levels) {
+        return Math.max.apply(null, Object.keys(levels).map(levelId => levels[levelId].score));
+    }
+
+    _getNotAssessedText() {
+        return this.localize('notAssessed');
+    }
+
+    _getRowHeight(levels) {
+        const maxLevel = this._getMaxLevelScore(levels);
+        return COMPONENT_HEIGHT / maxLevel;
+    }
+
+    _getScreenReaderTableHeadings() {
+        return [
+            this.localize('headingDate'),
+            this.localize('headingEvidence'),
+            this.localize('headingLoa')
+        ];
+    }
+
+    _getTooltipOffset(group) {
+        let offset = TOOLTIP_POINTER_SIZE + TOOLTIP_GAP;
+
+        if (!this._groupHasBlocks(group)) {
+            offset -= this._rowHeight - GRID_THICKNESS - NOT_ASSESSED_HEIGHT;
+        }
+
+        return offset;
+    }
+
+    _getTrendData(setNumber) {
+        return getTrendData(setNumber);
+    }
+
+    _getTrendItems(levels, trendGroups) {
         const trendItems = [];
-        const maxLevel = this.getMaxLevelScore(levels);
-        const gridHeight = this.rowHeight - GRID_THICKNESS;
+        const maxLevel = this._getMaxLevelScore(levels);
+        const gridHeight = this._rowHeight - GRID_THICKNESS;
         let lastGroupLabel = null;
         
         trendGroups.forEach(group => {
@@ -406,7 +471,7 @@ export class BigTrend extends mixinBehaviors(
 
             const groupAttempts = group.attempts;
             const groupDate = this.formatDate(new Date(group.date * 1000), { format: 'MMMM d, yyyy' });
-            const groupLabel = this.getGroupLabel(group);
+            const groupLabel = this._getGroupLabel(group);
             const groupName = (!group.name || group.name.trim() === '') ? this.localize('untitled') : group.name;
 
             const groupItem = {
@@ -474,87 +539,23 @@ export class BigTrend extends mixinBehaviors(
         return trendItems;
     }
 
-    getGroupClasses(group) {
-        const classes = [
-            'trend-group'
-        ];
-        
-        if (!this.groupHasBlocks(group)) {
-            classes.push('not-assessed');
-        }
-
-        return classes.join(' ');
-    }
-
-    getColumnClasses(group) {
-        const classes = [
-            'grid-column'
-        ];
-        
-        if (group.label) {
-            classes.push('section');
-        }
-
-        return classes.join(' ');
-    }
-
-    groupHasBlocks(group) {
-        return group.blocks.length > 0;
-    }
-
-    getTooltipOffset(group) {
-        let offset = TOOLTIP_POINTER_SIZE + TOOLTIP_GAP;
-
-        if (!this.groupHasBlocks(group)) {
-            offset -= this.rowHeight - GRID_THICKNESS - NOT_ASSESSED_HEIGHT;
-        }
-
-        return offset;
-    }
-
-    getUniqueGroupId(groupIndex) {
+    _getUniqueGroupId(groupIndex) {
         return `group${groupIndex}`;
     }
 
-    hasTrendData(trendGroups) {
+    _groupHasBlocks(group) {
+        return group.blocks.length > 0;
+    }
+
+    _hasTrendData(trendGroups) {
         return trendGroups.length > 0 && trendGroups[0].attempts.length > 0;
     }
 
-    hasMultipleAttempts(group) {
+    _hasMultipleAttempts(group) {
         return group.attempts.length > 0 && (group.attempts.length > 1 || group.attempts[0].attempts.length > 1); 
     }
 
-    getAttemptGroupLabel(attempts) {
-        return this.localize(
-            'bigTrendAttemptsTooltipString', 
-            'numAttempts', attempts.length, 
-            'attemptNames', attempts.join(', ')
-        );
-        }
-
-    getAttemptGroupScreenReaderText(attempts) {
-        const attemptNames = attempts.length > 1 ? attempts.slice(0, -1).join(', ') : attempts[0];
-        const lastAttemptName = attempts.slice(-1);
-        return this.localize(
-            'bigTrendAttemptsScreenReaderString', 
-            'numAttempts', attempts.length, 
-            'attemptNames', attemptNames, 
-            'lastAttemptName', lastAttemptName
-        );
-    }
-
-    getNotAssessedText() {
-        return this.localize('notAssessed');
-    }
-
-    scrollToEnd() {
-        const scrollMax = this.scrollContainer.scrollLeftMax 
-            || (this.scrollContainer.scrollWidth - this.scrollContainer.offsetWidth);
-
-        this.scrollContainer.scrollLeft = scrollMax;
-    }
-
-    onDataScrolled() {
+    _onDataScrolled() {
         const scrollMax = this.scrollContainer.scrollLeftMax 
             || (this.scrollContainer.scrollWidth - this.scrollContainer.offsetWidth);
 
@@ -571,7 +572,7 @@ export class BigTrend extends mixinBehaviors(
         }
     }
 
-    onScrollButtonClicked(e) {
+    _onScrollButtonClicked(e) {
         const scrollButton = e.currentTarget;
         let scrollAmount = SCROLL_VIEWPORT_FRACTION * this.scrollContainer.offsetWidth;
 
@@ -582,12 +583,11 @@ export class BigTrend extends mixinBehaviors(
         this.scrollContainer.scrollLeft += scrollAmount;
     }
 
-    getScreenReaderTableHeadings() {
-        return [
-            this.localize('headingDate'),
-            this.localize('headingEvidence'),
-            this.localize('headingLoa')
-        ];
+    _scrollToEnd() {
+        const scrollMax = this.scrollContainer.scrollLeftMax 
+            || (this.scrollContainer.scrollWidth - this.scrollContainer.offsetWidth);
+
+        this.scrollContainer.scrollLeft = scrollMax;
     }
 }
 
