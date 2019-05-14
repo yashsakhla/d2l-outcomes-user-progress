@@ -21,7 +21,7 @@ export class BigTrend extends mixinBehaviors(
     [ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior ],
     PolymerElement
 ) {
-    static get is() { return 'big-trend' };
+    static get is() { return 'd2l-big-trend' };
 
     static get template() {
         const template = html`

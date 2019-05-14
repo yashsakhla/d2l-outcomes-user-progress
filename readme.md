@@ -23,11 +23,11 @@ To view component demos, run `polymer serve` then navigate to the URL provided i
 ### Mini Trend<a name="mini-trend"></a>
 
 ```html
-<mini-trend></mini-trend>
+<d2l-mini-trend></d2l-mini-trend>
 ```
 
 ### Big Trend<a name="big-trend"></a>
 
 ```html
-<big-trend></big-trend>
+<d2l-big-trend></d2l-big-trend>
 ```

@@ -13,7 +13,7 @@ export class MiniTrend extends mixinBehaviors(
     [ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior ],
     PolymerElement
 ) {
-    static get is() { return 'mini-trend' };
+    static get is() { return 'd2l-mini-trend' };
 
     static get template() {
         const template = html`
