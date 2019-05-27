@@ -6,8 +6,7 @@ import 'd2l-icons/d2l-icon';
 import 'd2l-icons/tier1-icons';
 import 'd2l-tooltip/d2l-tooltip';
 import '../localize-behavior';
-
-import { getLevelData, getTrendData } from '../../data/fake-trend-data';
+import '../trend-behavior';
 
 const COMPONENT_HEIGHT = 120;       // Also defined in CSS
 const FOOTER_HEIGHT = 22;           // Also defined in CSS
@@ -18,7 +17,10 @@ const TOOLTIP_POINTER_SIZE = 8;
 const SCROLL_VIEWPORT_FRACTION = 0.5;
 
 export class BigTrend extends mixinBehaviors(
-    [ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior ],
+    [ 
+        D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
+        D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior
+    ],
     PolymerElement
 ) {
     static get is() { return 'd2l-big-trend' };
@@ -220,14 +222,14 @@ export class BigTrend extends mixinBehaviors(
             </style>
             <div id="container" aria-hidden="true">
                 <div id="grid">
-                    <template is="dom-repeat" items="[[_getGridHorizontal(_levels)]]">
+                    <template is="dom-repeat" items="[[_getGridHorizontal(levels)]]">
                         <div class="h-line" style$="margin-bottom: [[item.size]]px;"></div>
                     </template>
                 </div>
                 <div id="scroll-container">
                     <div id="scroll">
                         <div id="data">
-                            <template is="dom-repeat" items="[[_getTrendItems(_levels,_trendGroups)]]" index-as="groupIndex">
+                            <template is="dom-repeat" items="[[_getTrendItems(levels,trendGroups)]]" index-as="groupIndex">
                                 <div class$="[[_getColumnClasses(item)]]">
                                     <div id$="[[_getUniqueGroupId(groupIndex)]]" class$="[[_getGroupClasses(item)]]" tabindex="0">
                                         <template is="dom-if" if="[[!_groupHasBlocks(item)]]">
@@ -252,7 +254,7 @@ export class BigTrend extends mixinBehaviors(
                     <d2l-icon icon="d2l-tier1:chevron-right"></d2l-icon>
                 </div>
                 <div class="clear"></div>
-                <template is="dom-repeat" items="[[_getTrendItems(_levels,_trendGroups)]]" index-as="groupIndex">
+                <template is="dom-repeat" items="[[_getTrendItems(levels,trendGroups)]]" index-as="groupIndex">
                     <d2l-tooltip for$="[[_getUniqueGroupId(groupIndex)]]" position="top" offset$="[[_getTooltipOffset(item)]]">
                         <div><b>[[item.name]]</b></div>
                         <template is="dom-repeat" items="[[item.attempts]]" as="attemptGroup">
@@ -270,10 +272,10 @@ export class BigTrend extends mixinBehaviors(
                 </template>
             </div>
             <div class="screen-reader">
-                <template is="dom-if" if="[[!_hasTrendData(_trendGroups)]]">
+                <template is="dom-if" if="[[!_hasTrendData(trendGroups)]]">
                     [[_getNotAssessedText()]]
                 </template>
-                <template is="dom-if" if="[[_hasTrendData(_trendGroups)]]">
+                <template is="dom-if" if="[[_hasTrendData(trendGroups)]]">
                     <table>
                         <thead>
                             <tr>
@@ -283,7 +285,7 @@ export class BigTrend extends mixinBehaviors(
                             </tr>
                         </thead>
                         <tbody>
-                            <template is="dom-repeat" items="[[_getTrendItems(_levels,_trendGroups)]]">
+                            <template is="dom-repeat" items="[[_getTrendItems(levels,trendGroups)]]">
                                 <tr>
                                     <td>[[item.date]]</td>
                                     <td>[[item.name]]</td>
@@ -313,21 +315,9 @@ export class BigTrend extends mixinBehaviors(
 
     static get properties() {
         return {
-            dataSet: {
-                type: Number,
-                value: 0
-            },
-            _levels: {
-                type: Object,
-                computed: '_getLevelsData(dataSet)'
-            },
             _rowHeight: {
                 type: Number,
-                computed: '_getRowHeight(_levels)'
-            },
-            _trendGroups: {
-                type: Array,
-                computed: '_getTrendData(dataSet)'
+                computed: '_getRowHeight(levels)'
             }
         };
     }
@@ -415,10 +405,7 @@ export class BigTrend extends mixinBehaviors(
     }
 
     _getGroupLabel(group) {
-        return this.formatDate(
-            new Date(group.date * 1000), {
-                format: 'MMM'
-            });
+        return this.formatDate(group.date, { format: 'MMM' });
     }
     
     _getLevelsData(setNumber) {
@@ -470,7 +457,7 @@ export class BigTrend extends mixinBehaviors(
             const blocks = [];
 
             const groupAttempts = group.attempts;
-            const groupDate = this.formatDate(new Date(group.date * 1000), { format: 'MMMM d, yyyy' });
+            const groupDate = this.formatDate(group.date, { format: 'MMMM d, yyyy' });
             const groupLabel = this._getGroupLabel(group);
             const groupName = (!group.name || group.name.trim() === '') ? this.localize('untitled') : group.name;
 

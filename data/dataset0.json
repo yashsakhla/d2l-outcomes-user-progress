@@ -1,0 +1,79 @@
+{
+    "class": [
+        "collection",
+        "outcomes-progress"
+    ],
+    "entities": [
+        {
+            "class": [
+                "level-of-achievment"
+            ],
+            "rel": [
+                "item"
+            ],
+            "properties": {
+                "levelId": "abc111",
+                "name": "Level 1",
+                "color": "#ff4000"
+            },
+            "links": [
+                {
+                    "rel": [
+                        "self"
+                    ],
+                    "href": "http://unused"
+                }
+            ]
+        },
+        {
+            "class": [
+                "level-of-achievment"
+            ],
+            "rel": [
+                "item"
+            ],
+            "properties": {
+                "levelId": "abc222",
+                "name": "Level 2",
+                "color": "#ffcc00"
+            },
+            "links": [
+                {
+                    "rel": [
+                        "self"
+                    ],
+                    "href": "http://unused"
+                }
+            ]
+        },
+        {
+            "class": [
+                "level-of-achievment"
+            ],
+            "rel": [
+                "item"
+            ],
+            "properties": {
+                "levelId": "abc333",
+                "name": "Level 3",
+                "color": "#88CC55"
+            },
+            "links": [
+                {
+                    "rel": [
+                        "self"
+                    ],
+                    "href": "http://unused"
+                }
+            ]
+        }
+    ],
+    "links": [
+        {
+            "rel": [
+                "self"
+            ],
+            "href": "/data/dataset0.json"
+        }
+    ]
+}
