@@ -6,5 +6,6 @@
     "headingLoa": "Level of Achievement",
     "miniTrendScreenReaderText": "Assessed {numAssessed} {numAssessed, plural, one {time} other {times}}: {levelNames}",
     "notAssessed": "Not assessed",
-    "untitled": "Untitled"
+    "untitled": "Untitled",
+    "close": "关闭"
 }

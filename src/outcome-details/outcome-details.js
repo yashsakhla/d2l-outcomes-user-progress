@@ -71,7 +71,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 					<d2l-button-icon
 						class="close-button"
 						icon="d2l-tier1:close-large-thick"
-						text="Close"
+						text="[[localize('close')]]"
 						on-click="_close"
 					></d2l-button-icon>
 				</div>
@@ -81,7 +81,6 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 				<d2l-big-trend
 					href="[[href]]"
 					token="[[token]]"
-					data-set="1"
 				></d2l-big-trend>
 				<h3>[[localize('evidence')]]</h3>
 				<template is="dom-repeat" items="[[_activities]]" as="activity">
