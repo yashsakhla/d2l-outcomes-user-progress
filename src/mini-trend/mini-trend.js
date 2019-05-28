@@ -2,15 +2,17 @@ import '@polymer/polymer/polymer-legacy.js';
 import { PolymerElement, html } from '@polymer/polymer';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import '../localize-behavior';
-
-import { getLevelData, getTrendData } from '../../data/fake-trend-data';
+import '../trend-behavior';
 
 const BLOCK_SPACING = 2;        // Also defined in CSS
 const COMPONENT_HEIGHT = 36;    // Also defined in CSS
 const MAX_TREND_ITEMS = 6;
 
 export class MiniTrend extends mixinBehaviors(
-    [ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior ],
+    [ 
+        D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
+        D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior
+    ],
     PolymerElement
 ) {
     static get is() { return 'd2l-mini-trend' };
@@ -70,18 +72,18 @@ export class MiniTrend extends mixinBehaviors(
                     width: 1px;
                 }
             </style>
-            <template is="dom-if" if="[[!_hasTrendData(_levels,_trendGroups)]]">
+            <template is="dom-if" if="[[!_hasTrendData(levels,trendGroupsTruncated)]]">
                 <div class="empty-text">[[_getNotAssessedText()]]</div>
             </template>
-            <template is="dom-if" if="[[_hasTrendData(_levels,_trendGroups)]]">
-                <template is="dom-repeat" items="[[_getTrendItems(_levels,_trendGroups)]]" as="trendGroup">
+            <template is="dom-if" if="[[_hasTrendData(levels,trendGroupsTruncated)]]">
+                <template is="dom-repeat" items="[[_getTrendItems(levels,trendGroupsTruncated)]]" as="trendGroup">
                     <div class="trend-group">
                         <template is="dom-repeat" items="[[trendGroup.blocks]]" as="trendBlock">
                             <div class="trend-block" style$="height: [[trendBlock.height]]px; background-color: [[trendBlock.color]];"></div>
                         </template>
                     </div>
                 </template>
-                <p class="screen-reader">[[_getScreenReaderText(_levels,_trendGroups)]]</p>
+                <p class="screen-reader">[[_getScreenReaderText(levels,trendGroupsTruncated)]]</p>
             </template>
         `;
         template.setAttribute('strip-whitespace', true);
@@ -90,23 +92,11 @@ export class MiniTrend extends mixinBehaviors(
 
     static get properties() {
         return {
-            dataSet: {
-                type: Number,
-                value: 0
-            },
-            _levels: {
-                type: Object,
-                computed: '_getLevelsData(dataSet)'
-            },
-            _trendGroups: {
+            trendGroupsTruncated: {
                 type: Array,
-                computed: '_getTrendData(dataSet)'
+                computed: '_truncTrendData(trendGroups)'
             }
         };
-    }
-
-    _getLevelsData(setNumber) {
-        return getLevelData(setNumber);
     }
 
     _getMaxLevelScore(levels) {
@@ -122,10 +112,6 @@ export class MiniTrend extends mixinBehaviors(
         const levelNames = trendGroups.reduce((acc, group) => acc.concat(group.attempts.map(levelId => levels[levelId].name)), []).join(', ');
 
         return this.localize('miniTrendScreenReaderText', 'numAssessed', numAssessed, 'levelNames', levelNames);
-    }
-
-    _getTrendData(setNumber) {
-        return getTrendData(setNumber).slice(-MAX_TREND_ITEMS);
     }
 
     _getTrendItems(levels, trendGroups) {
@@ -169,6 +155,10 @@ export class MiniTrend extends mixinBehaviors(
         const blockGroups = this._getTrendItems(levels, trendGroups);
         const numBlocks = blockGroups.reduce((acc, group) => acc + group.blocks.length, 0);
         return numBlocks > 0;
+    }
+
+    _truncTrendData(trendGroups) {
+        return trendGroups.slice(-MAX_TREND_ITEMS);
     }
 }
 

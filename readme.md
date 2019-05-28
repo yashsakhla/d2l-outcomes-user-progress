@@ -22,12 +22,30 @@ To view component demos, run `polymer serve` then navigate to the URL provided i
 
 ### Mini Trend<a name="mini-trend"></a>
 
+A visual display of the 6 most recent demonstrations of an outcome for a user in a course.
+
+#### Usage
+
 ```html
-<d2l-mini-trend></d2l-mini-trend>
+<d2l-mini-trend href="" token=""></d2l-mini-trend>
 ```
+
+#### Attributes
+
+- `href` - Hypermedia URL for trend activity data; of the form `{tenant}.user-progress.api.{domain}/org-unit/{orgUnitId}/user/{userId}/outcomes/{outcomeId}/activities`
+- `token` - Auth token
 
 ### Big Trend<a name="big-trend"></a>
 
+An interactive display of all demonstrations of an outcome for a user in a course.
+
+#### Usage
+
 ```html
-<d2l-big-trend></d2l-big-trend>
+<d2l-big-trend href="" token=""></d2l-big-trend>
 ```
+
+#### Attributes
+
+- `href` - Hypermedia URL for trend activity data; of the form `{tenant}.user-progress.api.{domain}/org-unit/{orgUnitId}/user/{userId}/outcomes/{outcomeId}/activities`
+- `token` - Auth token
