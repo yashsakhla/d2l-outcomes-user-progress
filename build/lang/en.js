@@ -17,6 +17,10 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangEnBehavior = {
     "headingLoa": "Level of Achievement",
     "miniTrendScreenReaderText": "Assessed {numAssessed} {numAssessed, plural, one {time} other {times}}: {levelNames}",
     "notAssessed": "Not assessed",
-    "untitled": "Untitled"
+    "untitled": "Untitled",
+    "trend": "Trend",
+    "evidence": "Evidence",
+    "close": "Close",
+    "close": "Close"
 }
 };
