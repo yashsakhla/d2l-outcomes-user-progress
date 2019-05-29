@@ -1,0 +1,124 @@
+{
+    "class": [
+        "demonstration",
+        "assessed"
+    ],
+    "properties": {
+        "dateAssessed": "2019-05-28T13:54:57.743Z"
+    },
+    "entities": [
+        {
+            "class": [
+                "demonstratable-level"
+            ],
+            "rel": [
+                "item"
+            ],
+            "properties": {
+                "levelId": "31c9e97b-5178-4d46-bf0b-6da30dc98b7f"
+            },
+            "actions": [
+                {
+                    "type": "application/json",
+                    "href": "/data/outcome-details-demo/demonstrations/2.json",
+                    "name": "select",
+                    "method": "POST",
+                    "fields": [
+                        {
+                            "type": "hidden",
+                            "name": "levelId",
+                            "value": "31c9e97b-5178-4d46-bf0b-6da30dc98b7f"
+                        },
+                        {
+                            "type": "hidden",
+                            "name": "select",
+                            "value": true
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "rel": [
+                        "https://achievements.api.brightspace.com/rels/level"
+                    ],
+                    "href": "/data/outcome-details-demo/levels/1.json"
+                }
+            ]
+        },
+        {
+            "class": [
+                "demonstratable-level"
+            ],
+            "rel": [
+                "item"
+            ],
+            "properties": {
+                "levelId": "f14dd060-1704-4dea-9b8d-18715fd90cf8"
+            },
+            "actions": [
+                {
+                    "type": "application/json",
+                    "href": "/data/outcome-details-demo/demonstrations/2.json",
+                    "name": "select",
+                    "method": "POST",
+                    "fields": [
+                        {
+                            "type": "hidden",
+                            "name": "levelId",
+                            "value": "f14dd060-1704-4dea-9b8d-18715fd90cf8"
+                        },
+                        {
+                            "type": "hidden",
+                            "name": "select",
+                            "value": true
+                        }
+                    ]
+                }
+            ],
+            "links": [
+                {
+                    "rel": [
+                        "https://achievements.api.brightspace.com/rels/level"
+                    ],
+                    "href": "/data/outcome-details-demo/levels/2.json"
+                }
+            ]
+        },
+        {
+            "class": [
+                "demonstratable-level",
+                "selected",
+                "suggested"
+            ],
+            "rel": [
+                "item"
+            ],
+            "properties": {
+                "levelId": "536013c8-7476-44bb-aa13-79920f3fea86"
+            },
+            "links": [
+                {
+                    "rel": [
+                        "https://achievements.api.brightspace.com/rels/level"
+                    ],
+                    "href": "/data/outcome-details-demo/levels/3.json"
+                }
+            ]
+        }
+    ],
+    "links": [
+        {
+            "rel": [
+                "self"
+            ],
+            "href": "/data/outcome-details-demo/demonstrations/2.json"
+        },
+        {
+            "rel": [
+                "https://activities.api.brightspace.com/rels/user-activity-usage"
+            ],
+            "href": "/d2l/api/hm/activities/activities/6606_2000_2/usages/6613/users/30221"
+        }
+    ]
+}
