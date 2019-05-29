@@ -22,10 +22,10 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 ) {
 	static get is() {
 		return 'd2l-outcome-progress-details';
-	};
+	}
 
 	static get template() {
-		let template = html`
+		const template = html`
 			<style include="d2l-typography">
 				.card {
 					padding: 30px;
@@ -130,7 +130,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 		if (!entity) {
 			return null;
 		}
-		let outcomeLink = entity.getLink( 'https://outcomes.api.brightspace.com/rels/outcome' );
+		const outcomeLink = entity.getLink('https://outcomes.api.brightspace.com/rels/outcome');
 		return outcomeLink ? outcomeLink.href : null;
 	}
 
@@ -138,7 +138,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 		if (!entity) {
 			return null;
 		}
-		let activitiesLink = entity.getLink( 'https://user-progress.api.brightspace.com/rels/outcome-activities' );
+		const activitiesLink = entity.getLink('https://user-progress.api.brightspace.com/rels/outcome-activities');
 		return activitiesLink ? activitiesLink.href : null;
 	}
 
@@ -161,12 +161,12 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 	}
 
 	_getDateAssessed(demonstrationEntity) {
-		let date = Date.parse(demonstrationEntity.properties.dateAssessed);
+		const date = Date.parse(demonstrationEntity.properties.dateAssessed);
 		if (isNaN(date)) {
 			return '';
 		}
 		return this.formatDate(
-			new Date( date ),
+			new Date(date),
 			{ format: 'full' }
 		);
 	}
@@ -175,14 +175,14 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 		if (!sirenEntity) {
 			return null;
 		}
-		let selfLink = sirenEntity.getLink('self');
+		const selfLink = sirenEntity.getLink('self');
 		return selfLink ? selfLink.href : null;
 	}
 
 	_close() {
-		this.dispatchEvent( new CustomEvent( 'd2l-outcome-progress-details-closed' ) );
+		this.dispatchEvent(new CustomEvent('d2l-outcome-progress-details-closed'));
 	}
 
-};
+}
 
 customElements.define(OutcomeProgressDetails.is, OutcomeProgressDetails);

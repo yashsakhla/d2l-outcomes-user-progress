@@ -8,81 +8,81 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress = window.D2L.PolymerBehaviors.O
 D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
 	properties: {
 		levels: {
-            type: Object,
-            value: {}
-        },
-        trendGroups: {
-            type: Array,
-            value: []
-        }
-    },
-    
-    observers: [
-        '_onEntityChanged(entity)'
-    ],
+			type: Object,
+			value: {}
+		},
+		trendGroups: {
+			type: Array,
+			value: []
+		}
+	},
 
-    _onEntityChanged: function(entity) {
-        const levels = {};
-        const trendGroups = [];
+	observers: [
+		'_onEntityChanged(entity)'
+	],
 
-        if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.activities) && entity.entities) {
-            const levelEntities = entity.getSubEntitiesByClass(hmConsts.Classes.outcomes.levelOfAchievement);
-            levelEntities.forEach((levelEntity, index) => {
-                levels[levelEntity.properties.levelId] = {
-                    name: levelEntity.properties.name,
-                    color: levelEntity.properties.color,
-                    score: (index + 1)
-                };
-            });          
+	_onEntityChanged: function(entity) {
+		const levels = {};
+		const trendGroups = [];
 
-            const activityEntities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.activity);
-            const parsedGroups = this._parseTrendGroups(activityEntities, levels);
-            parsedGroups.forEach(group => {
-                trendGroups.push(group);
-            });
-        }
+		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.activities) && entity.entities) {
+			const levelEntities = entity.getSubEntitiesByClass(hmConsts.Classes.outcomes.levelOfAchievement);
+			levelEntities.forEach((levelEntity, index) => {
+				levels[levelEntity.properties.levelId] = {
+					name: levelEntity.properties.name,
+					color: levelEntity.properties.color,
+					score: (index + 1)
+				};
+			});
 
-        this.levels = levels;
-        this.trendGroups = trendGroups;
-    },
+			const activityEntities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.activity);
+			const parsedGroups = this._parseTrendGroups(activityEntities, levels);
+			parsedGroups.forEach(group => {
+				trendGroups.push(group);
+			});
+		}
 
-    _parseTrendGroups: function(activityEntities, validLevels) {
-        let trendGroups = [];
+		this.levels = levels;
+		this.trendGroups = trendGroups;
+	},
 
-        trendGroups = activityEntities.reduce((acc, cur) => {
-            const name = cur.properties.name || null;
-            const dueDate = cur.properties.dueDate ? new Date(cur.properties.dueDate) : null;
-            const demonstrations = cur.entities ? cur.getSubEntitiesByClasses([hmConsts.Classes.outcomes.demonstration, hmConsts.Classes.outcomes.assessed]) : [];
-            const attempts = [];
-            
-            let demonstrationDate = null;
-            demonstrations.forEach(demonstration => {
-                const assessedDate = new Date(demonstration.properties.dateAssessed);
-                const levelEntity = demonstration.getSubEntityByClasses([hmConsts.Classes.outcomes.demonstratableLevel, hmConsts.Classes.outcomes.selected]);
-                const levelId = levelEntity.properties.levelId;
-                
-                if (validLevels[levelId]) {
-                    demonstrationDate = demonstrationDate || assessedDate;
-                    attempts.push(levelId);
-                }
-            });
-                
-            if (dueDate !== null || attempts.length > 0) {
-                acc.push({
-                    attempts: attempts,
-                    date: dueDate || demonstrationDate,
-                    name: name
-                });
-            }
+	_parseTrendGroups: function(activityEntities, validLevels) {
+		let trendGroups = [];
 
-            return acc;
-        }, trendGroups);
+		trendGroups = activityEntities.reduce((acc, cur) => {
+			const name = cur.properties.name || null;
+			const dueDate = cur.properties.dueDate ? new Date(cur.properties.dueDate) : null;
+			const demonstrations = cur.entities ? cur.getSubEntitiesByClasses([hmConsts.Classes.outcomes.demonstration, hmConsts.Classes.outcomes.assessed]) : [];
+			const attempts = [];
 
-        return trendGroups;
-    }
+			let demonstrationDate = null;
+			demonstrations.forEach(demonstration => {
+				const assessedDate = new Date(demonstration.properties.dateAssessed);
+				const levelEntity = demonstration.getSubEntityByClasses([hmConsts.Classes.outcomes.demonstratableLevel, hmConsts.Classes.outcomes.selected]);
+				const levelId = levelEntity.properties.levelId;
+
+				if (validLevels[levelId]) {
+					demonstrationDate = demonstrationDate || assessedDate;
+					attempts.push(levelId);
+				}
+			});
+
+			if (dueDate !== null || attempts.length > 0) {
+				acc.push({
+					attempts: attempts,
+					date: dueDate || demonstrationDate,
+					name: name
+				});
+			}
+
+			return acc;
+		}, trendGroups);
+
+		return trendGroups;
+	}
 };
 /** @polymerBehavior */
 D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior = [
-    D2L.PolymerBehaviors.Siren.EntityBehavior,
+	D2L.PolymerBehaviors.Siren.EntityBehavior,
 	D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl
 ];
