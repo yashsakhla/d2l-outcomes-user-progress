@@ -24,7 +24,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
         const levels = {};
         const trendGroups = [];
 
-        if (entity && entity.hasClass('outcomes-progress') && entity.entities) {
+        if (entity && entity.hasClass('outcome-activities') && entity.entities) {
             const levelEntities = entity.getSubEntitiesByClass('level-of-achievment');
             levelEntities.forEach((levelEntity, index) => {
                 levels[levelEntity.properties.levelId] = {

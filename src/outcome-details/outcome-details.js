@@ -65,7 +65,8 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 					margin-bottom: 18px;
 				}
 			</style>
-			<siren-entity href="[[outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
+			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
+			<siren-entity href="[[_activitiesHref]]" token="[[token]]" entity="{{_activitiesEntity}}"></siren-entity>
 			<div class="card">
 				<div style="height: 18px;">
 					<d2l-button-icon
@@ -79,7 +80,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 				<div class="notation">[[getOutcomeIdentifier(_outcomeEntity)]]</div>
 				<h3>[[localize('trend')]]</h3>
 				<d2l-big-trend
-					href="[[href]]"
+					href="[[_activitiesHref]]"
 					token="[[token]]"
 				></d2l-big-trend>
 				<h3>[[localize('evidence')]]</h3>
@@ -103,22 +104,42 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 
 	static get properties() {
 		return {
-			outcomeHref: {
+			_outcomeHref: {
 				type: String,
-				value: null
+				computed: '_getOutcomeHref(entity)'
+			},
+			_activitiesHref: {
+				type: String,
+				computed: '_getActivitiesHref(entity)'
 			},
 			_activities: {
 				type: Array,
-				computed: '_getActivities(entity)'
+				computed: '_getActivities(_activitiesEntity)'
 			}
 		};
 	}
 
-	_getActivities(entity) {
+	_getOutcomeHref(entity) {
 		if (!entity) {
+			return null;
+		}
+		let outcomeLink = entity.getLink( 'https://outcomes.api.brightspace.com/rels/outcome' );
+		return outcomeLink ? outcomeLink.href : null;
+	}
+
+	_getActivitiesHref(entity) {
+		if (!entity) {
+			return null;
+		}
+		let activitiesLink = entity.getLink( 'https://user-progress.api.brightspace.com/rels/outcome-activities' );
+		return activitiesLink ? activitiesLink.href : null;
+	}
+
+	_getActivities(activitiesEntity) {
+		if (!activitiesEntity) {
 			return [];
 		}
-		return entity.getSubEntitiesByClass('user-progress-outcome-activity');
+		return activitiesEntity.getSubEntitiesByClass('user-progress-outcome-activity');
 	}
 
 	_getDemonstrations(activityEntity) {
