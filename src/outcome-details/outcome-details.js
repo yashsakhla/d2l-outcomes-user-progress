@@ -48,10 +48,16 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 					margin: 24px 0;
 				}
 				
-				h3 + hr {
-					display: none;
+				.evidence {
+					padding: 15px 10px;
+					border-top: 1px solid var(--d2l-color-mica);
 				}
-
+				
+				h3 + .evidence {
+					border-top: none;
+					padding-top: 0;
+				}
+				
 				.notation {
 					@apply --d2l-body-small-text;
 					margin-bottom: 6px;
@@ -86,14 +92,15 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 				<h3>[[localize('evidence')]]</h3>
 				<template is="dom-repeat" items="[[_activities]]" as="activity">
 					<template is="dom-repeat" items="[[_getDemonstrations(activity)]]" as="demonstration" >
-						<hr>
-						<div class="assessment-date">[[_getDateAssessed(demonstration)]]</div>
-						<strong>[[_getActivityName(activity)]]</strong>
-						<d2l-outcomes-level-of-achievements
-							href="[[_getHref(demonstration)]]"
-							token="[[token]]"
-							read-only
-						></d2l-outcomes-level-of-achievements>
+						<div class="evidence">
+							<div class="assessment-date">[[_getDateAssessed(demonstration)]]</div>
+							<strong>[[_getActivityName(activity)]]</strong>
+							<d2l-outcomes-level-of-achievements
+								href="[[_getHref(demonstration)]]"
+								token="[[token]]"
+								read-only
+							></d2l-outcomes-level-of-achievements>
+						</div>
 					</template>
 				</template>
 			</div>
@@ -158,8 +165,10 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 		if (isNaN(date)) {
 			return '';
 		}
-		//FIXME: need to get date formatting preferences from the LMS somehow?
-		return new Date(date).toDateString();
+		return this.formatDate(
+			new Date(date),
+			{ format: 'full' }
+		);
 	}
 
 	_getHref(sirenEntity) {
