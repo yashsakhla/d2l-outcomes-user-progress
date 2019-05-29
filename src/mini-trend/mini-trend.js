@@ -9,16 +9,16 @@ const COMPONENT_HEIGHT = 36;    // Also defined in CSS
 const MAX_TREND_ITEMS = 6;
 
 export class MiniTrend extends mixinBehaviors(
-    [ 
-        D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
-        D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior
-    ],
-    PolymerElement
+	[
+		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
+		D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior
+	],
+	PolymerElement
 ) {
-    static get is() { return 'd2l-mini-trend' };
+	static get is() { return 'd2l-mini-trend'; }
 
-    static get template() {
-        const template = html`
+	static get template() {
+		const template = html`
             <style>
                 :host {
                     --block-spacing: 2px;
@@ -86,80 +86,80 @@ export class MiniTrend extends mixinBehaviors(
                 <p class="screen-reader">[[_getScreenReaderText(levels,trendGroupsTruncated)]]</p>
             </template>
         `;
-        template.setAttribute('strip-whitespace', true);
-        return template;
-    }
+		template.setAttribute('strip-whitespace', true);
+		return template;
+	}
 
-    static get properties() {
-        return {
-            trendGroupsTruncated: {
-                type: Array,
-                computed: '_truncTrendData(trendGroups)'
-            }
-        };
-    }
+	static get properties() {
+		return {
+			trendGroupsTruncated: {
+				type: Array,
+				computed: '_truncTrendData(trendGroups)'
+			}
+		};
+	}
 
-    _getMaxLevelScore(levels) {
-        return Math.max.apply(null, Object.keys(levels).map(levelId => levels[levelId].score));
-    }
+	_getMaxLevelScore(levels) {
+		return Math.max.apply(null, Object.keys(levels).map(levelId => levels[levelId].score));
+	}
 
-    _getNotAssessedText() {
-        return this.localize('notAssessed');
-    }
+	_getNotAssessedText() {
+		return this.localize('notAssessed');
+	}
 
-    _getScreenReaderText(levels, trendGroups) {
-        const numAssessed = trendGroups.reduce((acc, group) => acc + group.attempts.length, 0);
-        const levelNames = trendGroups.reduce((acc, group) => acc.concat(group.attempts.map(levelId => levels[levelId].name)), []).join(', ');
+	_getScreenReaderText(levels, trendGroups) {
+		const numAssessed = trendGroups.reduce((acc, group) => acc + group.attempts.length, 0);
+		const levelNames = trendGroups.reduce((acc, group) => acc.concat(group.attempts.map(levelId => levels[levelId].name)), []).join(', ');
 
-        return this.localize('miniTrendScreenReaderText', 'numAssessed', numAssessed, 'levelNames', levelNames);
-    }
+		return this.localize('miniTrendScreenReaderText', 'numAssessed', numAssessed, 'levelNames', levelNames);
+	}
 
-    _getTrendItems(levels, trendGroups) {
-        const trendItems = [];
-        const maxLevel = this._getMaxLevelScore(levels);
-        
-        trendGroups.forEach(group => {
-            const blocks = [];
-            const groupAttempts = group.attempts;
-            const groupItem = {};
+	_getTrendItems(levels, trendGroups) {
+		const trendItems = [];
+		const maxLevel = this._getMaxLevelScore(levels);
 
-            // Compute levels achieved
-            const groupLevels = groupAttempts
-                .filter((val, index, self) => self.indexOf(val) === index)
-                .sort((left, right) => levels[left].score - levels[right].score);
-            const groupSize = groupLevels.length;
+		trendGroups.forEach(group => {
+			const blocks = [];
+			const groupAttempts = group.attempts;
+			const groupItem = {};
 
-            // Add trend blocks to group
-            let prevScore = 0;
+			// Compute levels achieved
+			const groupLevels = groupAttempts
+				.filter((val, index, self) => self.indexOf(val) === index)
+				.sort((left, right) => levels[left].score - levels[right].score);
+			const groupSize = groupLevels.length;
 
-            groupLevels.forEach(levelId => {
-                const color = levels[levelId].color;
-                const height = COMPONENT_HEIGHT / maxLevel * (levels[levelId].score - prevScore) - BLOCK_SPACING * (groupSize - 1) / groupSize;
-                prevScore = levels[levelId].score;
+			// Add trend blocks to group
+			let prevScore = 0;
 
-                blocks.push({
-                    color,
-                    height
-                });
-            }, this);
+			groupLevels.forEach(levelId => {
+				const color = levels[levelId].color;
+				const height = COMPONENT_HEIGHT / maxLevel * (levels[levelId].score - prevScore) - BLOCK_SPACING * (groupSize - 1) / groupSize;
+				prevScore = levels[levelId].score;
 
-            groupItem.blocks = blocks.reverse();
+				blocks.push({
+					color,
+					height
+				});
+			}, this);
 
-            trendItems.push(groupItem);
-        }, this);
+			groupItem.blocks = blocks.reverse();
 
-        return trendItems;
-    }
+			trendItems.push(groupItem);
+		}, this);
 
-    _hasTrendData(levels, trendGroups) {
-        const blockGroups = this._getTrendItems(levels, trendGroups);
-        const numBlocks = blockGroups.reduce((acc, group) => acc + group.blocks.length, 0);
-        return numBlocks > 0;
-    }
+		return trendItems;
+	}
 
-    _truncTrendData(trendGroups) {
-        return trendGroups.slice(-MAX_TREND_ITEMS);
-    }
+	_hasTrendData(levels, trendGroups) {
+		const blockGroups = this._getTrendItems(levels, trendGroups);
+		const numBlocks = blockGroups.reduce((acc, group) => acc + group.blocks.length, 0);
+		return numBlocks > 0;
+	}
+
+	_truncTrendData(trendGroups) {
+		return trendGroups.slice(-MAX_TREND_ITEMS);
+	}
 }
 
 customElements.define(MiniTrend.is, MiniTrend);

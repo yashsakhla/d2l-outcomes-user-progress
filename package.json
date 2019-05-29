@@ -4,24 +4,30 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "D2L Corporation",
   "license": "Apache-2.0",
   "dependencies": {
     "@polymer/polymer": "^3.2.0",
+    "d2l-activity-alignments": "Brightspace/d2l-activity-alignments.git#semver:^1",
+    "d2l-button": "BrightspaceUI/button#semver:^5",
     "d2l-icons": "BrightspaceUI/icons#semver:^6",
     "d2l-hypermedia-constants": "Brightspace/d2l-hypermedia-constants#semver:^6",
     "d2l-localize-behavior": "BrightspaceUI/localize-behavior#semver:^2",
-    "d2l-tooltip": "BrightspaceUI/tooltip#semver:^3",
-    "d2l-button": "BrightspaceUI/button#semver:^5",
-    "d2l-typography": "BrightspaceUI/typography#semver:^7",
-    "d2l-activity-alignments": "Brightspace/d2l-activity-alignments.git#semver:^1",
     "d2l-polymer-siren-behaviors": "Brightspace/polymer-siren-behaviors#semver:^1",
+    "d2l-resize-aware": "BrightspaceUI/resize-aware#semver:^1",
+    "d2l-tooltip": "BrightspaceUI/tooltip#semver:^3",
+    "d2l-typography": "BrightspaceUI/typography#semver:^7",
     "siren-entity": "BrightspaceHypermediaComponents/siren-entity#semver:^1"
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.10",
-    "d2l-outcomes-level-of-achievements": "Brightspace/outcomes-level-of-achievement-ui.git#semver:^2"
+    "babel-eslint": "^10.0.1",
+    "d2l-outcomes-level-of-achievements": "Brightspace/outcomes-level-of-achievement-ui.git#semver:^2",
+    "eslint": "^5.16.0",
+    "eslint-config-brightspace": "^0.5.3",
+    "eslint-plugin-html": "^5.0.5"
   }
 }

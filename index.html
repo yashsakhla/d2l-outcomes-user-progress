@@ -23,12 +23,28 @@
                 width: calc(100% - 100px);
             }
         </style>
+
+        <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+        <script type="module" src="../node_modules/d2l-typography/d2l-typography.js"></script>    
+        <script type="module">
+            const $_typographyImport = document.createElement('template');
+
+            $_typographyImport.innerHTML = `
+                <custom-style include="d2l-typography">
+                    <style is="custom-style" include="d2l-typography">
+                        html { font-size: 20px; }
+                    </style>
+                </custom-style>`;
+
+            document.body.appendChild($_typographyImport.content);
+        </script>
     </head>
-    <body>
+    <body class="d2l-typography">
         <div class="demo-container">
-            <h1>d2l-outcomes-user-progress Component Demos</h1>
+            <h2>d2l-outcomes-user-progress Component Demos</h2>
             <ul>
                 <li><a href="demo/trend-demos.html">Trend Component Demos</a></li>
+                <li><a href="demo/outcome-progress-demos.html">Outcome Progress Demo</a></li>
             </ul>
         </div>
     </body>
