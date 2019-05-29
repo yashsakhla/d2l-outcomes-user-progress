@@ -1,0 +1,18 @@
+{
+    "class": [
+        "level-of-achievment"
+    ],
+    "properties": {
+        "levelId": "536013c8-7476-44bb-aa13-79920f3fea86",
+        "name": "Success",
+        "color": "#009e0f"
+    },
+    "links": [
+        {
+            "rel": [
+                "self"
+            ],
+            "href": "/data/outcome-details-demo/levels/3.json"
+        }
+    ]
+}
