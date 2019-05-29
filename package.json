@@ -11,6 +11,7 @@
   "dependencies": {
     "@polymer/polymer": "^3.2.0",
     "d2l-icons": "BrightspaceUI/icons#semver:^6",
+    "d2l-hypermedia-constants": "Brightspace/d2l-hypermedia-constants#semver:^6",
     "d2l-localize-behavior": "BrightspaceUI/localize-behavior#semver:^2",
     "d2l-tooltip": "BrightspaceUI/tooltip#semver:^3",
     "d2l-button": "BrightspaceUI/button#semver:^5",
