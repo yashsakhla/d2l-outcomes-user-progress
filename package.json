@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "D2L Corporation",
@@ -22,6 +23,10 @@
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.10",
-    "d2l-outcomes-level-of-achievements": "Brightspace/outcomes-level-of-achievement-ui.git#semver:^2"
+    "babel-eslint": "^10.0.1",
+    "d2l-outcomes-level-of-achievements": "Brightspace/outcomes-level-of-achievement-ui.git#semver:^2",
+    "eslint": "^5.16.0",
+    "eslint-config-brightspace": "^0.5.3",
+    "eslint-plugin-html": "^5.0.5"
   }
 }
