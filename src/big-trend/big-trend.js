@@ -4,6 +4,7 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import { afterNextRender } from '@polymer/polymer/lib/utils/render-status.js';
 import 'd2l-icons/d2l-icon';
 import 'd2l-icons/tier1-icons';
+import { ResizeObserver } from 'd2l-resize-aware/resize-observer-module';
 import 'd2l-tooltip/d2l-tooltip';
 import '../localize-behavior';
 import '../trend-behavior';
@@ -330,20 +331,17 @@ export class BigTrend extends mixinBehaviors(
 			this.scrollButtonLeft = this.root.getElementById('scroll-button-left');
 			this.scrollButtonRight = this.root.getElementById('scroll-button-right');
 
-			window.addEventListener('resize', this._onDataScrolled.bind(this));
 			this.scrollContainer.addEventListener('scroll', this._onDataScrolled.bind(this));
 			this.scrollButtonLeft.addEventListener('click', this._onScrollButtonClicked.bind(this));
 			this.scrollButtonRight.addEventListener('click', this._onScrollButtonClicked.bind(this));
 
-			this._onDataScrolled();
-			this._scrollToEnd();
+			this.resizeObserver = new ResizeObserver(() => {
+				this._onDataScrolled();
+				this._scrollToEnd();
+			});
+
+			this.resizeObserver.observe(this);
 		}.bind(this));
-	}
-
-	disconnectedCallback() {
-		super.disconnectedCallback();
-
-		window.removeEventListener('resize', this._onDataScrolled);
 	}
 
 	_getAttemptGroupLabel(attempts) {
