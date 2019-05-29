@@ -36,12 +36,12 @@ export class BigTrend extends mixinBehaviors(
                     --block-spacing: 9px;
                     --border-radius: 6px;
                     --container-height: 120px;
-                    --footer-height: 22px;
+                    --footer-height: 24px;
                     --grid-color: #d3d9e3;
                     --grid-label-color: #7C8695;
                     --grid-thickness: 1px;
                     --label-font-size: 14px;
-                    --label-margin-top: 4px;
+                    --label-margin-top: 0;
                     --max-tooltip-width: 210px;
                     --not-assessed-color: #d3d9e3;
                     --not-assessed-height: 4px;
