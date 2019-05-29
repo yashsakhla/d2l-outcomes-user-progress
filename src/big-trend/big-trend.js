@@ -17,16 +17,16 @@ const TOOLTIP_POINTER_SIZE = 8;
 const SCROLL_VIEWPORT_FRACTION = 0.5;
 
 export class BigTrend extends mixinBehaviors(
-    [ 
-        D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
-        D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior
-    ],
-    PolymerElement
+	[
+		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
+		D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior
+	],
+	PolymerElement
 ) {
-    static get is() { return 'd2l-big-trend' };
+	static get is() { return 'd2l-big-trend'; }
 
-    static get template() {
-        const template = html`
+	static get template() {
+		const template = html`
             <style>
                 :host {
                     --block-focus-height-increase: 4px;
@@ -309,273 +309,265 @@ export class BigTrend extends mixinBehaviors(
                 </template>
             </div>
         `;
-        template.setAttribute('strip-whitespace', true);
-        return template;
-    }
+		template.setAttribute('strip-whitespace', true);
+		return template;
+	}
 
-    static get properties() {
-        return {
-            _rowHeight: {
-                type: Number,
-                computed: '_getRowHeight(levels)'
-            }
-        };
-    }
+	static get properties() {
+		return {
+			_rowHeight: {
+				type: Number,
+				computed: '_getRowHeight(levels)'
+			}
+		};
+	}
 
-    ready() {
-        super.ready();
-        
-        afterNextRender(this, function() {
-            this.scrollContainer = this.root.getElementById('scroll');
-            this.scrollButtonLeft = this.root.getElementById('scroll-button-left');
-            this.scrollButtonRight = this.root.getElementById('scroll-button-right');
+	ready() {
+		super.ready();
 
-            window.addEventListener('resize', this._onDataScrolled.bind(this));
-            this.scrollContainer.addEventListener('scroll', this._onDataScrolled.bind(this));
-            this.scrollButtonLeft.addEventListener('click', this._onScrollButtonClicked.bind(this));
-            this.scrollButtonRight.addEventListener('click', this._onScrollButtonClicked.bind(this));
+		afterNextRender(this, function() {
+			this.scrollContainer = this.root.getElementById('scroll');
+			this.scrollButtonLeft = this.root.getElementById('scroll-button-left');
+			this.scrollButtonRight = this.root.getElementById('scroll-button-right');
 
-            this._onDataScrolled();
-            this._scrollToEnd();
-        });
-    }
+			window.addEventListener('resize', this._onDataScrolled.bind(this));
+			this.scrollContainer.addEventListener('scroll', this._onDataScrolled.bind(this));
+			this.scrollButtonLeft.addEventListener('click', this._onScrollButtonClicked.bind(this));
+			this.scrollButtonRight.addEventListener('click', this._onScrollButtonClicked.bind(this));
 
-    disconnectedCallback() {
-        super.disconnectedCallback();
+			this._onDataScrolled();
+			this._scrollToEnd();
+		}.bind(this));
+	}
 
-        window.removeEventListener('resize', this._onDataScrolled);
-    }
+	disconnectedCallback() {
+		super.disconnectedCallback();
 
-    _getAttemptGroupLabel(attempts) {
-        return this.localize(
-            'bigTrendAttemptsTooltipString', 
-            'numAttempts', attempts.length, 
-            'attemptNames', attempts.join(', ')
-        );
-    }
+		window.removeEventListener('resize', this._onDataScrolled);
+	}
 
-    _getAttemptGroupScreenReaderText(attempts) {
-        const attemptNames = attempts.length > 1 ? attempts.slice(0, -1).join(', ') : attempts[0];
-        const lastAttemptName = attempts.slice(-1);
-        return this.localize(
-            'bigTrendAttemptsScreenReaderString', 
-            'numAttempts', attempts.length, 
-            'attemptNames', attemptNames, 
-            'lastAttemptName', lastAttemptName
-        );
-    }
+	_getAttemptGroupLabel(attempts) {
+		return this.localize(
+			'bigTrendAttemptsTooltipString',
+			'numAttempts', attempts.length,
+			'attemptNames', attempts.join(', ')
+		);
+	}
 
-    _getColumnClasses(group) {
-        const classes = [
-            'grid-column'
-        ];
-        
-        if (group.label) {
-            classes.push('section');
-        }
+	_getAttemptGroupScreenReaderText(attempts) {
+		const attemptNames = attempts.length > 1 ? attempts.slice(0, -1).join(', ') : attempts[0];
+		const lastAttemptName = attempts.slice(-1);
+		return this.localize(
+			'bigTrendAttemptsScreenReaderString',
+			'numAttempts', attempts.length,
+			'attemptNames', attemptNames,
+			'lastAttemptName', lastAttemptName
+		);
+	}
 
-        return classes.join(' ');
-    }
+	_getColumnClasses(group) {
+		const classes = [
+			'grid-column'
+		];
 
-    _getGridHorizontal(levels) {
-        const maxLevel = this._getMaxLevelScore(levels);
-        const gridHeight = this._rowHeight - GRID_THICKNESS;
+		if (group.label) {
+			classes.push('section');
+		}
 
-        const gridData = Array.apply(null, { length: maxLevel + 1 }).map((v, i) => {
-            return {
-                size: (i === maxLevel 
-                    ? FOOTER_HEIGHT 
-                    : gridHeight
-                )
-            };
-        });
-        return gridData;
-    }
+		return classes.join(' ');
+	}
 
-    _getGroupClasses(group) {
-        const classes = [
-            'trend-group'
-        ];
-        
-        if (!this._groupHasBlocks(group)) {
-            classes.push('not-assessed');
-        }
+	_getGridHorizontal(levels) {
+		const maxLevel = this._getMaxLevelScore(levels);
+		const gridHeight = this._rowHeight - GRID_THICKNESS;
 
-        return classes.join(' ');
-    }
+		const gridData = Array.apply(null, { length: maxLevel + 1 }).map((v, i) => {
+			return {
+				size: (i === maxLevel
+					? FOOTER_HEIGHT
+					: gridHeight
+				)
+			};
+		});
+		return gridData;
+	}
 
-    _getGroupLabel(group) {
-        return this.formatDate(group.date, { format: 'MMM' });
-    }
-    
-    _getLevelsData(setNumber) {
-        return getLevelData(setNumber);
-    }
+	_getGroupClasses(group) {
+		const classes = [
+			'trend-group'
+		];
 
-    _getMaxLevelScore(levels) {
-        return Math.max.apply(null, Object.keys(levels).map(levelId => levels[levelId].score));
-    }
+		if (!this._groupHasBlocks(group)) {
+			classes.push('not-assessed');
+		}
 
-    _getNotAssessedText() {
-        return this.localize('notAssessed');
-    }
+		return classes.join(' ');
+	}
 
-    _getRowHeight(levels) {
-        const maxLevel = this._getMaxLevelScore(levels);
-        return COMPONENT_HEIGHT / maxLevel;
-    }
+	_getGroupLabel(group) {
+		return this.formatDate(group.date, { format: 'MMM' });
+	}
 
-    _getScreenReaderTableHeadings() {
-        return [
-            this.localize('headingDate'),
-            this.localize('headingEvidence'),
-            this.localize('headingLoa')
-        ];
-    }
+	_getMaxLevelScore(levels) {
+		return Math.max.apply(null, Object.keys(levels).map(levelId => levels[levelId].score));
+	}
 
-    _getTooltipOffset(group) {
-        let offset = TOOLTIP_POINTER_SIZE + TOOLTIP_GAP;
+	_getNotAssessedText() {
+		return this.localize('notAssessed');
+	}
 
-        if (!this._groupHasBlocks(group)) {
-            offset -= this._rowHeight - GRID_THICKNESS - NOT_ASSESSED_HEIGHT;
-        }
+	_getRowHeight(levels) {
+		const maxLevel = this._getMaxLevelScore(levels);
+		return COMPONENT_HEIGHT / maxLevel;
+	}
 
-        return offset;
-    }
+	_getScreenReaderTableHeadings() {
+		return [
+			this.localize('headingDate'),
+			this.localize('headingEvidence'),
+			this.localize('headingLoa')
+		];
+	}
 
-    _getTrendData(setNumber) {
-        return getTrendData(setNumber);
-    }
+	_getTooltipOffset(group) {
+		let offset = TOOLTIP_POINTER_SIZE + TOOLTIP_GAP;
 
-    _getTrendItems(levels, trendGroups) {
-        const trendItems = [];
-        const maxLevel = this._getMaxLevelScore(levels);
-        const gridHeight = this._rowHeight - GRID_THICKNESS;
-        let lastGroupLabel = null;
-        
-        trendGroups.forEach(group => {
-            const blocks = [];
+		if (!this._groupHasBlocks(group)) {
+			offset -= this._rowHeight - GRID_THICKNESS - NOT_ASSESSED_HEIGHT;
+		}
 
-            const groupAttempts = group.attempts;
-            const groupDate = this.formatDate(group.date, { format: 'MMMM d, yyyy' });
-            const groupLabel = this._getGroupLabel(group);
-            const groupName = (!group.name || group.name.trim() === '') ? this.localize('untitled') : group.name;
+		return offset;
+	}
 
-            const groupItem = {
-                date: groupDate,
-                gridHeight: gridHeight,
-                name: groupName,
-                type: 'block'
-            };
+	_getTrendItems(levels, trendGroups) {
+		const trendItems = [];
+		const maxLevel = this._getMaxLevelScore(levels);
+		const gridHeight = this._rowHeight - GRID_THICKNESS;
+		let lastGroupLabel = null;
 
-            // Create vertical grid lines
-            if (groupLabel !== lastGroupLabel) {
-                groupItem.label = groupLabel;
-            }
+		trendGroups.forEach(group => {
+			const blocks = [];
 
-            lastGroupLabel = groupLabel;
+			const groupAttempts = group.attempts;
+			const groupDate = this.formatDate(group.date, { format: 'MMMM d, yyyy' });
+			const groupLabel = this._getGroupLabel(group);
+			const groupName = (!group.name || group.name.trim() === '') ? this.localize('untitled') : group.name;
 
-            // Compute levels achieved
-            const groupLevels = groupAttempts
-                .filter((val, index, self) => self.indexOf(val) === index)
-                .sort((left, right) => levels[left].score - levels[right].score);
+			const groupItem = {
+				date: groupDate,
+				gridHeight: gridHeight,
+				name: groupName,
+				type: 'block'
+			};
 
-            // Add trend blocks to group
-            let prevScore = 0;
+			// Create vertical grid lines
+			if (groupLabel !== lastGroupLabel) {
+				groupItem.label = groupLabel;
+			}
 
-            groupLevels.forEach(levelId => {
-                const color = levels[levelId].color;
-                const height = COMPONENT_HEIGHT / maxLevel * (levels[levelId].score - prevScore) - GRID_THICKNESS;
-                prevScore = levels[levelId].score;
+			lastGroupLabel = groupLabel;
 
-                blocks.push({
-                    color,
-                    height
-                });
-            }, this);
+			// Compute levels achieved
+			const groupLevels = groupAttempts
+				.filter((val, index, self) => self.indexOf(val) === index)
+				.sort((left, right) => levels[left].score - levels[right].score);
 
-            groupItem.blocks = blocks.reverse();
+			// Add trend blocks to group
+			let prevScore = 0;
 
-            // Group attempt labels
-            let attemptCounter = 1,
-                attemptLabels = [];
-            groupAttempts.forEach(attempt => {
-                let label = {
-                    id: attempt,
-                    name: levels[attempt].name,
-                    attempts: [ attemptCounter ]
-                };
-                const prevAttempt = attemptLabels.pop();
+			groupLevels.forEach(levelId => {
+				const color = levels[levelId].color;
+				const height = COMPONENT_HEIGHT / maxLevel * (levels[levelId].score - prevScore) - GRID_THICKNESS;
+				prevScore = levels[levelId].score;
 
-                if (prevAttempt && prevAttempt.id === attempt) {
-                    label = prevAttempt;
-                    label.attempts.push(attemptCounter);
-                } else if (prevAttempt) {
-                    attemptLabels.push(prevAttempt);
-                } 
+				blocks.push({
+					color,
+					height
+				});
+			}, this);
 
-                attemptLabels.push(label);
-                attemptCounter++;
-            });
+			groupItem.blocks = blocks.reverse();
 
-            groupItem.attempts = attemptLabels;
+			// Group attempt labels
+			const attemptLabels = [];
+			let attemptCounter = 1;
+			groupAttempts.forEach(attempt => {
+				let label = {
+					id: attempt,
+					name: levels[attempt].name,
+					attempts: [ attemptCounter ]
+				};
+				const prevAttempt = attemptLabels.pop();
 
-            trendItems.push(groupItem);
-        }, this);
+				if (prevAttempt && prevAttempt.id === attempt) {
+					label = prevAttempt;
+					label.attempts.push(attemptCounter);
+				} else if (prevAttempt) {
+					attemptLabels.push(prevAttempt);
+				}
 
-        return trendItems;
-    }
+				attemptLabels.push(label);
+				attemptCounter++;
+			});
 
-    _getUniqueGroupId(groupIndex) {
-        return `group${groupIndex}`;
-    }
+			groupItem.attempts = attemptLabels;
 
-    _groupHasBlocks(group) {
-        return group.blocks.length > 0;
-    }
+			trendItems.push(groupItem);
+		}, this);
 
-    _hasTrendData(trendGroups) {
-        return trendGroups.length > 0 && trendGroups[0].attempts.length > 0;
-    }
+		return trendItems;
+	}
 
-    _hasMultipleAttempts(group) {
-        return group.attempts.length > 0 && (group.attempts.length > 1 || group.attempts[0].attempts.length > 1); 
-    }
+	_getUniqueGroupId(groupIndex) {
+		return `group${groupIndex}`;
+	}
 
-    _onDataScrolled() {
-        const scrollMax = this.scrollContainer.scrollLeftMax 
+	_groupHasBlocks(group) {
+		return group.blocks.length > 0;
+	}
+
+	_hasTrendData(trendGroups) {
+		return trendGroups.length > 0 && trendGroups[0].attempts.length > 0;
+	}
+
+	_hasMultipleAttempts(group) {
+		return group.attempts.length > 0 && (group.attempts.length > 1 || group.attempts[0].attempts.length > 1);
+	}
+
+	_onDataScrolled() {
+		const scrollMax = this.scrollContainer.scrollLeftMax
             || (this.scrollContainer.scrollWidth - this.scrollContainer.offsetWidth);
 
-        if (this.scrollContainer.scrollLeft === 0) {
-            this.scrollButtonLeft.classList.add('hidden');
-        } else {
-            this.scrollButtonLeft.classList.remove('hidden');
-        }
+		if (this.scrollContainer.scrollLeft === 0) {
+			this.scrollButtonLeft.classList.add('hidden');
+		} else {
+			this.scrollButtonLeft.classList.remove('hidden');
+		}
 
-        if (this.scrollContainer.scrollLeft === scrollMax) {
-            this.scrollButtonRight.classList.add('hidden');
-        } else {
-            this.scrollButtonRight.classList.remove('hidden');
-        }
-    }
+		if (this.scrollContainer.scrollLeft === scrollMax) {
+			this.scrollButtonRight.classList.add('hidden');
+		} else {
+			this.scrollButtonRight.classList.remove('hidden');
+		}
+	}
 
-    _onScrollButtonClicked(e) {
-        const scrollButton = e.currentTarget;
-        let scrollAmount = SCROLL_VIEWPORT_FRACTION * this.scrollContainer.offsetWidth;
+	_onScrollButtonClicked(e) {
+		const scrollButton = e.currentTarget;
+		let scrollAmount = SCROLL_VIEWPORT_FRACTION * this.scrollContainer.offsetWidth;
 
-        if (scrollButton === this.scrollButtonLeft) {
-            scrollAmount *= -1;
-        }
+		if (scrollButton === this.scrollButtonLeft) {
+			scrollAmount *= -1;
+		}
 
-        this.scrollContainer.scrollLeft += scrollAmount;
-    }
+		this.scrollContainer.scrollLeft += scrollAmount;
+	}
 
-    _scrollToEnd() {
-        const scrollMax = this.scrollContainer.scrollLeftMax 
+	_scrollToEnd() {
+		const scrollMax = this.scrollContainer.scrollLeftMax
             || (this.scrollContainer.scrollWidth - this.scrollContainer.offsetWidth);
 
-        this.scrollContainer.scrollLeft = scrollMax;
-    }
+		this.scrollContainer.scrollLeft = scrollMax;
+	}
 }
 
 customElements.define(BigTrend.is, BigTrend);
