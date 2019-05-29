@@ -1,4 +1,5 @@
 import 'd2l-polymer-siren-behaviors/store/entity-behavior';
+import * as hmConsts from 'd2l-hypermedia-constants';
 
 window.D2L = window.D2L || {};
 window.D2L.PolymerBehaviors = window.D2L.PolymerBehaviors || {};
@@ -24,8 +25,8 @@ D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
         const levels = {};
         const trendGroups = [];
 
-        if (entity && entity.hasClass('outcome-activities') && entity.entities) {
-            const levelEntities = entity.getSubEntitiesByClass('level-of-achievment');
+        if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.activities) && entity.entities) {
+            const levelEntities = entity.getSubEntitiesByClass(hmConsts.Classes.outcomes.levelOfAchievement);
             levelEntities.forEach((levelEntity, index) => {
                 levels[levelEntity.properties.levelId] = {
                     name: levelEntity.properties.name,
@@ -34,7 +35,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
                 };
             });          
 
-            const activityEntities = entity.getSubEntitiesByClass('user-progress-outcome-activity');
+            const activityEntities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.activity);
             const parsedGroups = this._parseTrendGroups(activityEntities, levels);
             parsedGroups.forEach(group => {
                 trendGroups.push(group);
@@ -51,13 +52,13 @@ D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
         trendGroups = activityEntities.reduce((acc, cur) => {
             const name = cur.properties.name || null;
             const dueDate = cur.properties.dueDate ? new Date(cur.properties.dueDate) : null;
-            const demonstrations = cur.entities ? cur.getSubEntitiesByClasses(['demonstration', 'assessed']) : [];
+            const demonstrations = cur.entities ? cur.getSubEntitiesByClasses([hmConsts.Classes.outcomes.demonstration, hmConsts.Classes.outcomes.assessed]) : [];
             const attempts = [];
             
             let demonstrationDate = null;
             demonstrations.forEach(demonstration => {
                 const assessedDate = new Date(demonstration.properties.dateAssessed);
-                const levelEntity = demonstration.getSubEntityByClasses(['demonstratable-level', 'selected']);
+                const levelEntity = demonstration.getSubEntityByClasses([hmConsts.Classes.outcomes.demonstratableLevel, hmConsts.Classes.outcomes.selected]);
                 const levelId = levelEntity.properties.levelId;
                 
                 if (validLevels[levelId]) {

@@ -1,7 +1,7 @@
 {
     "class": [
         "collection",
-        "outcome-activities"
+        "user-progress-outcome-activities"
     ],
     "entities": [
         {
@@ -73,7 +73,7 @@
             "rel": [
                 "self"
             ],
-            "href": "/data/dataset0.json"
+            "href": "/data/outcomes/0/activities.json"
         }
     ]
 }
