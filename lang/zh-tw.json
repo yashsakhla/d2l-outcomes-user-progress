@@ -7,5 +7,6 @@
     "miniTrendScreenReaderText": "Assessed {numAssessed} {numAssessed, plural, one {time} other {times}}: {levelNames}",
     "notAssessed": "Not assessed",
     "untitled": "Untitled",
-    "close": "關閉"
+    "close": "關閉",
+    "noItemsFound": "找不到項目。"
 }

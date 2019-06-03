@@ -20,6 +20,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangKoBehavior = {
     "untitled": "Untitled",
     "trend": "Trend",
     "evidence": "Evidence",
-    "close": "닫기"
+    "close": "닫기",
+    "noItemsFound": "항목을 찾을 수 없음."
 }
 };

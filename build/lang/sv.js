@@ -20,6 +20,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangSvBehavior = {
     "untitled": "Untitled",
     "trend": "Trend",
     "evidence": "Evidence",
-    "close": "Stäng"
+    "close": "Stäng",
+    "noItemsFound": "Inga objekt har hittats."
 }
 };
