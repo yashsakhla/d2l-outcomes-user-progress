@@ -73,7 +73,7 @@
             "rel": [
                 "self"
             ],
-            "href": "/data/outcomes/0/activities.json"
+            "href": "/data/user-progress-outcomes/0/activities.json"
         }
     ]
 }

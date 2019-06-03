@@ -4474,7 +4474,7 @@
             "rel": [
                 "self"
             ],
-            "href": "/data/outcomes/3/activities.json"
+            "href": "/data/user-progress-outcomes/3/activities.json"
         }
     ]
 }
