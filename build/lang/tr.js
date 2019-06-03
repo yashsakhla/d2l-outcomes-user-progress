@@ -20,6 +20,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangTrBehavior = {
     "untitled": "Untitled",
     "trend": "Trend",
     "evidence": "Evidence",
-    "close": "Kapat"
+    "close": "Kapat",
+    "noItemsFound": "Hiçbir öğe bulunamadı."
 }
 };

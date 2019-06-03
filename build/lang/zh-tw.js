@@ -20,6 +20,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangZhTwBehavior = {
     "untitled": "Untitled",
     "trend": "Trend",
     "evidence": "Evidence",
-    "close": "關閉"
+    "close": "關閉",
+    "noItemsFound": "找不到項目。"
 }
 };

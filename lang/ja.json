@@ -7,5 +7,6 @@
     "miniTrendScreenReaderText": "Assessed {numAssessed} {numAssessed, plural, one {time} other {times}}: {levelNames}",
     "notAssessed": "Not assessed",
     "untitled": "Untitled",
-    "close": "閉じる"
+    "close": "閉じる",
+    "noItemsFound": "項目が見つかりません。"
 }

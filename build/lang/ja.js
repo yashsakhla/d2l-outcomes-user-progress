@@ -20,6 +20,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangJaBehavior = {
     "untitled": "Untitled",
     "trend": "Trend",
     "evidence": "Evidence",
-    "close": "閉じる"
+    "close": "閉じる",
+    "noItemsFound": "項目が見つかりません。"
 }
 };

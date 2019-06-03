@@ -20,6 +20,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangPtBehavior = {
     "untitled": "Untitled",
     "trend": "Trend",
     "evidence": "Evidence",
-    "close": "Fechar"
+    "close": "Fechar",
+    "noItemsFound": "Nenhum item encontrado."
 }
 };

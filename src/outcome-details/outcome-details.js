@@ -70,6 +70,16 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 				d2l-big-trend {
 					margin-bottom: 18px;
 				}
+				
+				.no-evidence {
+					border: 1px solid var(--d2l-color-gypsum);
+					border-radius: 8px;
+					background-color: var(--d2l-color-regolith);
+					color: var(--d2l-color-ferrite);
+					padding: 40px;
+					box-sizing: border-box;
+					width: 100%;
+				}
 			</style>
 			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
 			<siren-entity href="[[_activitiesHref]]" token="[[token]]" entity="{{_activitiesEntity}}"></siren-entity>
@@ -102,6 +112,9 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 							></d2l-outcomes-level-of-achievements>
 						</div>
 					</template>
+				</template>
+				<template is="dom-if" if="[[_isEmpty(_activities)]]">
+					<div class="no-evidence">[[localize('noItemsFound')]]</div>
 				</template>
 			</div>
 		`;
@@ -177,6 +190,10 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 		}
 		const selfLink = sirenEntity.getLink('self');
 		return selfLink ? selfLink.href : null;
+	}
+
+	_isEmpty(array) {
+		return !array || !array.length;
 	}
 
 	_close() {
