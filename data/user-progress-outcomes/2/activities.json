@@ -188,7 +188,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 2"
+                "name": "Activity 2",
+                "dueDate": "2018-09-01T04:00:01.000Z"
             },
             "entities": [],
             "links": [

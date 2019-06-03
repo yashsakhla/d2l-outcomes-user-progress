@@ -646,7 +646,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Book Report"
+                "name": "Book Report",
+                "dueDate": "2019-01-01T05:00:02.000Z"
             },
             "entities": [],
             "links": [
