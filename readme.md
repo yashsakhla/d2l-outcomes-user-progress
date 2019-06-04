@@ -19,6 +19,7 @@ To view component demos, run `polymer serve` then navigate to the URL provided i
 
 - [Mini Trend](#mini-trend)
 - [Big Trend](#big-trend)
+- [Outcomes List](#outcomes-list)
 
 ### Mini Trend<a name="mini-trend"></a>
 
@@ -49,3 +50,23 @@ An interactive display of all demonstrations of an outcome for a user in a cours
 
 - `href` - Hypermedia URL for trend activity data; of the form `{tenant}.user-progress.api.{domain}/org-unit/{orgUnitId}/user/{userId}/outcomes/{outcomeId}/activities`
 - `token` - Auth token
+
+### Outcomes List<a name="outcomes-list"></a>
+
+Displays a list of outcomes that a user has made progress towards demonstrating. A trend of the user's recent performance of each outcome is shown in the list.
+
+#### Usage
+
+```html
+<d2l-outcomes-list href="" token=""></d2l-outcomes-list>
+```
+
+#### Attributes
+
+- `href` - Hypermedia URL for user progress outcomes data; of the form `{tenant}.user-progress.api.{domain}/org-unit/{orgUnitId}/user/{userId}/outcomes`
+- `token` - Auth token
+
+#### Events
+
+- `onOutcomeClick` - Fired when one of the outcome items in the list is clicked. The event contains a `details` property with the following values:
+    - `id` - The `ObjectiveId` of the outcome
