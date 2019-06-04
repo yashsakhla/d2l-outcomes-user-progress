@@ -10,7 +10,7 @@ import * as hmConsts from 'd2l-hypermedia-constants';
 import '../mini-trend/mini-trend';
 
 export class OutcomesListItem extends mixinBehaviors(
-	[ 
+	[
 		D2L.PolymerBehaviors.Siren.EntityBehavior,
 		OutcomeParserBehaviour
 	],
@@ -122,14 +122,14 @@ export class OutcomesListItem extends mixinBehaviors(
 				value: null
 			}
 		};
-    }
-    
-    static get observers() {
-        return [
-		    '_onEntityChanged(entity)'
-        ];
 	}
-	
+
+	static get observers() {
+		return [
+			'_onEntityChanged(entity)'
+		];
+	}
+
 	_isset(prop) {
 		return !!prop;
 	}
@@ -152,7 +152,7 @@ export class OutcomesListItem extends mixinBehaviors(
 		let activitiesHref = null,
 			outcomeHref = null;
 
-        if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcome)) {
+		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcome)) {
 			activitiesHref = entity.getLinkByRel('https://user-progress.api.brightspace.com/rels/outcome-activities').href;
 			outcomeHref = entity.getLinkByRel(hmConsts.Rels.Outcomes.outcome).href;
 		}
@@ -160,7 +160,7 @@ export class OutcomesListItem extends mixinBehaviors(
 		this._activitiesHref = activitiesHref;
 		this._outcomeHref = outcomeHref;
 	}
-	
+
 	_onItemClicked() {
 		this.dispatchEvent(new CustomEvent('onOutcomeClick', { composed: true, detail: { id: this.entity.properties.id } }));
 	}

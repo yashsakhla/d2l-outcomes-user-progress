@@ -12,7 +12,7 @@ export class OutcomesList extends mixinBehaviors(
 	static get is() { return 'd2l-outcomes-list'; }
 
 	static get template() {
-        const template = html`
+		const template = html`
 			<div id="container" role="list">
 				<template is="dom-repeat" items="[[_outcomes]]">
 					<d2l-outcomes-list-item href="[[_getOutcomeHref(item)]]" token="[[token]]"></d2l-outcomes-list-item>
