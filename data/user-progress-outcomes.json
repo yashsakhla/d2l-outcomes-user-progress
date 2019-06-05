@@ -11,9 +11,6 @@
             "rel": [
                 "item"
             ],
-            "properties": {
-                "id": "0"
-            },
             "links": [
                 {
                     "rel": [
@@ -42,9 +39,6 @@
             "rel": [
                 "item"
             ],
-            "properties": {
-                "id": "1"
-            },
             "links": [
                 {
                     "rel": [
@@ -73,9 +67,6 @@
             "rel": [
                 "item"
             ],
-            "properties": {
-                "id": "2"
-            },
             "links": [
                 {
                     "rel": [

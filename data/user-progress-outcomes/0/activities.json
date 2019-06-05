@@ -12,7 +12,7 @@
                 "item"
             ],
             "properties": {
-                "levelId": "abc111",
+                "levelId": "s000abc111",
                 "name": "Level 1",
                 "color": "#ff4000"
             },
@@ -21,7 +21,7 @@
                     "rel": [
                         "self"
                     ],
-                    "href": "http://unused"
+                    "href": "/data/levels/s000abc111.json"
                 }
             ]
         },
@@ -33,7 +33,7 @@
                 "item"
             ],
             "properties": {
-                "levelId": "abc222",
+                "levelId": "s000abc222",
                 "name": "Level 2",
                 "color": "#ffcc00"
             },
@@ -42,7 +42,7 @@
                     "rel": [
                         "self"
                     ],
-                    "href": "http://unused"
+                    "href": "/data/levels/s000abc222.json"
                 }
             ]
         },
@@ -54,7 +54,7 @@
                 "item"
             ],
             "properties": {
-                "levelId": "abc333",
+                "levelId": "s000abc333",
                 "name": "Level 3",
                 "color": "#88CC55"
             },
@@ -63,7 +63,7 @@
                     "rel": [
                         "self"
                     ],
-                    "href": "http://unused"
+                    "href": "/data/levels/s000abc333.json"
                 }
             ]
         }

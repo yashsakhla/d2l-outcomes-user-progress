@@ -2,9 +2,6 @@
     "class": [
         "user-progress-outcome"
     ],
-    "properties": {
-        "id": "2"
-    },
     "links": [
         {
             "rel": [

@@ -12,7 +12,7 @@
                 "item"
             ],
             "properties": {
-                "levelId": "abc111",
+                "levelId": "s002abc111",
                 "name": "Level 1",
                 "color": "#ff4000"
             },
@@ -21,7 +21,7 @@
                     "rel": [
                         "self"
                     ],
-                    "href": "http://unused"
+                    "href": "/data/levels/s002abc111.json"
                 }
             ]
         },
@@ -33,7 +33,7 @@
                 "item"
             ],
             "properties": {
-                "levelId": "abc222",
+                "levelId": "s002abc222",
                 "name": "Level 2",
                 "color": "#ffcc00"
             },
@@ -42,7 +42,7 @@
                     "rel": [
                         "self"
                     ],
-                    "href": "http://unused"
+                    "href": "/data/levels/s002abc222.json"
                 }
             ]
         },
@@ -54,7 +54,7 @@
                 "item"
             ],
             "properties": {
-                "levelId": "abc333",
+                "levelId": "s002abc333",
                 "name": "Level 3",
                 "color": "#88CC55"
             },
@@ -63,7 +63,7 @@
                     "rel": [
                         "self"
                     ],
-                    "href": "http://unused"
+                    "href": "/data/levels/s002abc333.json"
                 }
             ]
         },
@@ -99,14 +99,14 @@
                                 "item"
                             ],
                             "properties": {
-                                "levelId": "abc111"
+                                "levelId": "s002abc111"
                             },
                             "links": [
                                 {
                                     "rel": [
                                         "https://achievements.api.brightspace.com/rels/level"
                                     ],
-                                    "href": "http://unused"
+                                    "href": "/data/levels/s002abc111.json"
                                 }
                             ]
                         },
@@ -118,14 +118,14 @@
                                 "item"
                             ],
                             "properties": {
-                                "levelId": "abc222"
+                                "levelId": "s002abc222"
                             },
                             "links": [
                                 {
                                     "rel": [
                                         "https://achievements.api.brightspace.com/rels/level"
                                     ],
-                                    "href": "http://unused"
+                                    "href": "/data/levels/s002abc222.json"
                                 }
                             ]
                         },
@@ -137,14 +137,14 @@
                                 "item"
                             ],
                             "properties": {
-                                "levelId": "abc333"
+                                "levelId": "s002abc333"
                             },
                             "links": [
                                 {
                                     "rel": [
                                         "https://achievements.api.brightspace.com/rels/level"
                                     ],
-                                    "href": "http://unused"
+                                    "href": "/data/levels/s002abc333.json"
                                 }
                             ]
                         }
@@ -154,7 +154,7 @@
                             "rel": [
                                 "self"
                             ],
-                            "href": "http://unused"
+                            "href": "/data/demonstrations/7.json"
                         },
                         {
                             "rel": [
@@ -238,14 +238,14 @@
                                 "item"
                             ],
                             "properties": {
-                                "levelId": "abc111"
+                                "levelId": "s002abc111"
                             },
                             "links": [
                                 {
                                     "rel": [
                                         "https://achievements.api.brightspace.com/rels/level"
                                     ],
-                                    "href": "http://unused"
+                                    "href": "/data/levels/s002abc111.json"
                                 }
                             ]
                         },
@@ -258,14 +258,14 @@
                                 "item"
                             ],
                             "properties": {
-                                "levelId": "abc222"
+                                "levelId": "s002abc222"
                             },
                             "links": [
                                 {
                                     "rel": [
                                         "https://achievements.api.brightspace.com/rels/level"
                                     ],
-                                    "href": "http://unused"
+                                    "href": "/data/levels/s002abc222.json"
                                 }
                             ]
                         },
@@ -277,14 +277,14 @@
                                 "item"
                             ],
                             "properties": {
-                                "levelId": "abc333"
+                                "levelId": "s002abc333"
                             },
                             "links": [
                                 {
                                     "rel": [
                                         "https://achievements.api.brightspace.com/rels/level"
                                     ],
-                                    "href": "http://unused"
+                                    "href": "/data/levels/s002abc333.json"
                                 }
                             ]
                         }
@@ -294,7 +294,7 @@
                             "rel": [
                                 "self"
                             ],
-                            "href": "http://unused"
+                            "href": "/data/demonstrations/8.json"
                         },
                         {
                             "rel": [
