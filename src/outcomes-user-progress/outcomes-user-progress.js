@@ -12,7 +12,7 @@ export class OutcomesUserProgress extends mixinBehaviors(
 	static get is() { return 'd2l-outcomes-user-progress'; }
 
 	static get template() {
-        const template = html`
+		const template = html`
             <style>
                 .hidden {
                     display: none !important;
@@ -37,56 +37,56 @@ export class OutcomesUserProgress extends mixinBehaviors(
 
 	static get properties() {
 		return {
-            href: {
-                type: String
-            },
-            token: {
-                type: String
-            },
-            _detailsHref: {
-                type: String,
-                value: null
-            },
-            _showDetails: {
-                type: Boolean,
-                value: false
-            }
+			href: {
+				type: String
+			},
+			token: {
+				type: String
+			},
+			_detailsHref: {
+				type: String,
+				value: null
+			},
+			_showDetails: {
+				type: Boolean,
+				value: false
+			}
 		};
-    }
-    
-    ready() {
-        super.ready();
+	}
 
-        this.list = this.root.getElementById('list');
-        this.details = this.root.getElementById('details');
+	ready() {
+		super.ready();
 
-        this.addEventListener(oupConsts.events.outcomeListItemClicked, this._onOutcomeClick.bind(this));
-        this.addEventListener(oupConsts.events.detailsCloseClicked, this._onDetailsClosed.bind(this));
-    }
+		this.list = this.root.getElementById('list');
+		this.details = this.root.getElementById('details');
 
-    _getDetailsClasses(showDetails) {
-        if (!showDetails) {
-            return "hidden";
-        }
-        return null;
-    }
+		this.addEventListener(oupConsts.events.outcomeListItemClicked, this._onOutcomeClick.bind(this));
+		this.addEventListener(oupConsts.events.detailsCloseClicked, this._onDetailsClosed.bind(this));
+	}
 
-    _getListClasses(showDetails) {
-        if (showDetails) {
-            return "hidden";
-        }
-        return null;
-    }
+	_getDetailsClasses(showDetails) {
+		if (!showDetails) {
+			return 'hidden';
+		}
+		return null;
+	}
 
-    _onOutcomeClick(e) {
-        this._detailsHref = e.detail.href;
-        this._showDetails = true;
-    }
+	_getListClasses(showDetails) {
+		if (showDetails) {
+			return 'hidden';
+		}
+		return null;
+	}
 
-    _onDetailsClosed() {
-        this._detailsHref = '';
-        this._showDetails = false;
-    }
+	_onOutcomeClick(e) {
+		this._detailsHref = e.detail.href;
+		this._showDetails = true;
+	}
+
+	_onDetailsClosed() {
+		this._detailsHref = '';
+		this._showDetails = false;
+	}
 }
 
 customElements.define(OutcomesUserProgress.is, OutcomesUserProgress);

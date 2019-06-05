@@ -469,20 +469,20 @@ export class BigTrend extends mixinBehaviors(
 			const groupLevels = groupAttempts
 				.filter((val, index, self) => self.indexOf(val) === index)
 				.sort((left, right) => {
-                    if (!levels[left] || !levels[right]) {
-                        return 0;
-                    } else {
-                        return levels[left].score - levels[right].score
-                    }
-                });
+					if (!levels[left] || !levels[right]) {
+						return 0;
+					} else {
+						return levels[left].score - levels[right].score;
+					}
+				});
 
 			// Add trend blocks to group
 			let prevScore = 0;
 
 			groupLevels.forEach(levelId => {
-                if (!levels[levelId]) {
-                    return;
-                }
+				if (!levels[levelId]) {
+					return;
+				}
 
 				const color = levels[levelId].color;
 				const height = COMPONENT_HEIGHT / maxLevel * (levels[levelId].score - prevScore) - GRID_THICKNESS;
@@ -500,9 +500,9 @@ export class BigTrend extends mixinBehaviors(
 			const attemptLabels = [];
 			let attemptCounter = 1;
 			groupAttempts.forEach(attempt => {
-                if (!levels[attempt]) {
-                    return;
-                }
+				if (!levels[attempt]) {
+					return;
+				}
 
 				let label = {
 					id: attempt,
