@@ -33,24 +33,26 @@ export class EvidenceList extends mixinBehaviors(
 					width: 100%;
 				}
 			</style>
-			<template is="dom-if" if="[[entity]]">
-				<template is="dom-repeat" items="[[_evidence]]" as="info">
-					<d2l-evidence-entry
-						type="[[info.type]]"
-						name="[[info.name]]"
-						date="[[info.date]]"
-						level-href="[[info.levelHref]]"
-						token="[[token]]"
-						last="[[info.isLast]]"
-					></d2l-evidence-entry>
+			<div aria-busy="[[!entity]]">
+				<template is="dom-if" if="[[entity]]">
+					<template is="dom-repeat" items="[[_evidence]]" as="info">
+						<d2l-evidence-entry
+							type="[[info.type]]"
+							name="[[info.name]]"
+							date="[[info.date]]"
+							level-href="[[info.levelHref]]"
+							token="[[token]]"
+							last="[[info.isLast]]"
+						></d2l-evidence-entry>
+					</template>
+					<div class="no-evidence" hidden="[[!_isEmpty(_evidence)]]">
+						[[localize('noItemsFound')]]
+					</div>
 				</template>
-				<div class="no-evidence" hidden="[[!_isEmpty(_evidence)]]">
-					[[localize('noItemsFound')]]
-				</div>
-			</template>
-			<template is="dom-if" if="[[!entity]]">
-				<d2l-evidence-skeleton></d2l-evidence-skeleton>
-			</template>
+				<template is="dom-if" if="[[!entity]]">
+					<d2l-evidence-skeleton></d2l-evidence-skeleton>
+				</template>
+			</div>
 		`;
 		template.setAttribute('strip-whitespace', true);
 		return template;
