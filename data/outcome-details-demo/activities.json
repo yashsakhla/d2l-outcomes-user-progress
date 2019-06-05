@@ -75,7 +75,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Kappa"
+                "name": "Kappa",
+                "type": "Dropbox"
             },
             "entities": [
                 {
@@ -248,7 +249,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Drapbux"
+                "name": "Drapbux",
+                "type": "Dropbox"
             },
             "entities": [
                 {

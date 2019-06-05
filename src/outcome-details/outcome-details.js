@@ -10,6 +10,8 @@ import 'd2l-button/d2l-button-icon';
 import 'd2l-colors/d2l-colors.js';
 import '../localize-behavior';
 import 'siren-entity/siren-entity.js';
+import '../big-trend/big-trend.js';
+import '../evidence/evidence-list.js';
 import OutcomeParserBehaviour from 'd2l-activity-alignments/d2l-outcome-parser-behavior.js';
 
 export class OutcomeProgressDetails extends mixinBehaviors(
@@ -48,41 +50,16 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 					margin: 24px 0;
 				}
 				
-				.evidence {
-					padding: 15px 10px;
-					border-top: 1px solid var(--d2l-color-mica);
-				}
-				
-				h3 + .evidence {
-					border-top: none;
-					padding-top: 0;
-				}
-				
 				.notation {
 					@apply --d2l-body-small-text;
 					margin-bottom: 6px;
 				}
 				
-				.assessment-date {
-					@apply --d2l-body-compact-text;
-				}
-
 				d2l-big-trend {
 					margin-bottom: 18px;
 				}
-				
-				.no-evidence {
-					border: 1px solid var(--d2l-color-gypsum);
-					border-radius: 8px;
-					background-color: var(--d2l-color-regolith);
-					color: var(--d2l-color-ferrite);
-					padding: 40px;
-					box-sizing: border-box;
-					width: 100%;
-				}
 			</style>
 			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
-			<siren-entity href="[[_activitiesHref]]" token="[[token]]" entity="{{_activitiesEntity}}"></siren-entity>
 			<div class="card">
 				<div style="height: 18px;">
 					<d2l-button-icon
@@ -100,22 +77,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 					token="[[token]]"
 				></d2l-big-trend>
 				<h3>[[localize('evidence')]]</h3>
-				<template is="dom-repeat" items="[[_activities]]" as="activity">
-					<template is="dom-repeat" items="[[_getDemonstrations(activity)]]" as="demonstration" >
-						<div class="evidence">
-							<div class="assessment-date">[[_getDateAssessed(demonstration)]]</div>
-							<strong>[[_getActivityName(activity)]]</strong>
-							<d2l-outcomes-level-of-achievements
-								href="[[_getHref(demonstration)]]"
-								token="[[token]]"
-								read-only
-							></d2l-outcomes-level-of-achievements>
-						</div>
-					</template>
-				</template>
-				<template is="dom-if" if="[[_isEmpty(_activities)]]">
-					<div class="no-evidence">[[localize('noItemsFound')]]</div>
-				</template>
+				<d2l-evidence-list href="[[_activitiesHref]]" token="[[token""></d2l-evidence-list>
 			</div>
 		`;
 		template.setAttribute('strip-whitespace', true);
@@ -131,10 +93,6 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 			_activitiesHref: {
 				type: String,
 				computed: '_getActivitiesHref(entity)'
-			},
-			_activities: {
-				type: Array,
-				computed: '_getActivities(_activitiesEntity)'
 			}
 		};
 	}
@@ -153,47 +111,6 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 		}
 		const activitiesLink = entity.getLink('https://user-progress.api.brightspace.com/rels/outcome-activities');
 		return activitiesLink ? activitiesLink.href : null;
-	}
-
-	_getActivities(activitiesEntity) {
-		if (!activitiesEntity) {
-			return [];
-		}
-		return activitiesEntity.getSubEntitiesByClass('user-progress-outcome-activity');
-	}
-
-	_getDemonstrations(activityEntity) {
-		if (!activityEntity) {
-			return [];
-		}
-		return activityEntity.getSubEntitiesByClasses(['demonstration', 'assessed']);
-	}
-
-	_getActivityName(activityEntity) {
-		return activityEntity.properties.name;
-	}
-
-	_getDateAssessed(demonstrationEntity) {
-		const date = Date.parse(demonstrationEntity.properties.dateAssessed);
-		if (isNaN(date)) {
-			return '';
-		}
-		return this.formatDate(
-			new Date(date),
-			{ format: 'full' }
-		);
-	}
-
-	_getHref(sirenEntity) {
-		if (!sirenEntity) {
-			return null;
-		}
-		const selfLink = sirenEntity.getLink('self');
-		return selfLink ? selfLink.href : null;
-	}
-
-	_isEmpty(array) {
-		return !array || !array.length;
 	}
 
 	_close() {
