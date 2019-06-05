@@ -20,6 +20,8 @@ To view component demos, run `polymer serve` then navigate to the URL provided i
 - [Mini Trend](#mini-trend)
 - [Big Trend](#big-trend)
 - [Outcomes List](#outcomes-list)
+- [Outcome Details](#outcome-details)
+- [Outcomes User Progress](#outcomes-user-progress)
 
 ### Mini Trend<a name="mini-trend"></a>
 
@@ -70,3 +72,22 @@ Displays a list of outcomes that a user has made progress towards demonstrating.
 
 - `onOutcomeClick` - Fired when one of the outcome items in the list is clicked. The event contains a `details` property with the following values:
     - `id` - The `ObjectiveId` of the outcome
+
+### Outcome Details<a name="outcome-details"></a>
+
+> TODO: Finish me
+
+### Outcomes User Progress<a name="outcomes-user-progress"></a>
+
+A wrapper component which combines the `d2l-outcomes-list` with the `d2l-outcome-progress-details` to act as the entire Outcomes User Progress page.
+
+#### Usage
+
+```html
+<d2l-outcomes-user-progress href="" token=""></d2l-outcomes-user-progress>
+```
+
+#### Attributes
+
+- `href` - Hypermedia URL for user progress outcomes data; of the form `{tenant}.user-progress.api.{domain}/org-unit/{orgUnitId}/user/{userId}/outcomes`
+- `token` - Auth token
