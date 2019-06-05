@@ -13,20 +13,15 @@ export class OutcomesUserProgress extends mixinBehaviors(
 
 	static get template() {
 		const template = html`
-            <style>
-                .hidden {
-                    display: none !important;
-                }
-            </style>
             <d2l-outcomes-list
                 id="list"
-                class$="[[_getListClasses(_showDetails)]]"
+                hidden$="[[_showDetails]]"
                 href="[[href]]"
                 token="[[token]]"
             ></d2l-outcomes-list>
             <d2l-outcome-progress-details
                 id="details"
-                class$="[[_getDetailsClasses(_showDetails)]]"
+                hidden$="[[!_showDetails]]"
                 href="[[_detailsHref]]"
                 token="[[token]]"
             ></d2l-outcome-progress-details>
@@ -62,20 +57,6 @@ export class OutcomesUserProgress extends mixinBehaviors(
 
 		this.addEventListener(oupConsts.events.outcomeListItemClicked, this._onOutcomeClick.bind(this));
 		this.addEventListener(oupConsts.events.detailsCloseClicked, this._onDetailsClosed.bind(this));
-	}
-
-	_getDetailsClasses(showDetails) {
-		if (!showDetails) {
-			return 'hidden';
-		}
-		return null;
-	}
-
-	_getListClasses(showDetails) {
-		if (showDetails) {
-			return 'hidden';
-		}
-		return null;
 	}
 
 	_onOutcomeClick(e) {
