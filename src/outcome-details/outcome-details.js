@@ -11,6 +11,9 @@ import 'd2l-colors/d2l-colors.js';
 import '../localize-behavior';
 import 'siren-entity/siren-entity.js';
 import OutcomeParserBehaviour from 'd2l-activity-alignments/d2l-outcome-parser-behavior.js';
+import '../big-trend/big-trend';
+import 'd2l-outcomes-level-of-achievements/d2l-outcomes-level-of-achievements';
+import { oupConsts } from '../consts';
 
 export class OutcomeProgressDetails extends mixinBehaviors(
 	[
@@ -170,7 +173,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 	}
 
 	_getActivityName(activityEntity) {
-		return activityEntity.properties.name;
+		return activityEntity.properties.name || this.localize('untitled');
 	}
 
 	_getDateAssessed(demonstrationEntity) {
@@ -197,7 +200,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 	}
 
 	_close() {
-		this.dispatchEvent(new CustomEvent('d2l-outcome-progress-details-closed'));
+		this.dispatchEvent(new CustomEvent(oupConsts.events.detailsCloseClicked, { composed: true }));
 	}
 
 }

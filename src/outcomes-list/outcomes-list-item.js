@@ -7,6 +7,7 @@ import 'd2l-typography/d2l-typography.js';
 import 'd2l-typography/d2l-typography-shared-styles.js';
 import OutcomeParserBehaviour from 'd2l-activity-alignments/d2l-outcome-parser-behavior.js';
 import * as hmConsts from 'd2l-hypermedia-constants';
+import { oupConsts } from '../consts';
 import '../mini-trend/mini-trend';
 
 export class OutcomesListItem extends mixinBehaviors(
@@ -111,7 +112,7 @@ export class OutcomesListItem extends mixinBehaviors(
 		return {
 			_activitiesHref: {
 				type: String,
-				value: null
+				computed: '_getActivitiesHref(entity)'
 			},
 			_outcomeEntity: {
 				type: Object,
@@ -119,7 +120,11 @@ export class OutcomesListItem extends mixinBehaviors(
 			},
 			_outcomeHref: {
 				type: String,
-				value: null
+				computed: '_getOutcomeHref(entity)'
+			},
+			_selfHref: {
+				type: String,
+				computed: '_getSelfHref(entity)'
 			}
 		};
 	}
@@ -132,6 +137,13 @@ export class OutcomesListItem extends mixinBehaviors(
 
 	_isset(prop) {
 		return !!prop;
+	}
+
+	_getActivitiesHref(entity) {
+		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcome)) {
+			return entity.getLinkByRel('https://user-progress.api.brightspace.com/rels/outcome-activities').href;
+		}
+		return null;
 	}
 
 	/**
@@ -148,21 +160,22 @@ export class OutcomesListItem extends mixinBehaviors(
 		return '';
 	}
 
-	_onEntityChanged(entity) {
-		let activitiesHref = null,
-			outcomeHref = null;
-
+	_getOutcomeHref(entity) {
 		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcome)) {
-			activitiesHref = entity.getLinkByRel('https://user-progress.api.brightspace.com/rels/outcome-activities').href;
-			outcomeHref = entity.getLinkByRel(hmConsts.Rels.Outcomes.outcome).href;
+			return entity.getLinkByRel(hmConsts.Rels.Outcomes.outcome).href;
 		}
+		return null;
+	}
 
-		this._activitiesHref = activitiesHref;
-		this._outcomeHref = outcomeHref;
+	_getSelfHref(entity) {
+		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcome)) {
+			return entity.getLinkByRel('self').href;
+		}
+		return null;
 	}
 
 	_onItemClicked() {
-		this.dispatchEvent(new CustomEvent('onOutcomeClick', { composed: true, detail: { id: this.entity.properties.id } }));
+		this.dispatchEvent(new CustomEvent(oupConsts.events.outcomeListItemClicked, { composed: true, detail: { href: this._selfHref } }));
 	}
 }
 
