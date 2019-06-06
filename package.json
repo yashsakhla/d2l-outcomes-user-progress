@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lang:build": "node langtools/build.js -c langtools/config.json",
+    "lang:copy": "node langtools/copy.js -c langtools/config.json",
     "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,6 +29,7 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-config-brightspace": "^0.5.3",
-    "eslint-plugin-html": "^5.0.5"
+    "eslint-plugin-html": "^5.0.5",
+    "yargs": "^13.2.4"
   }
 }
