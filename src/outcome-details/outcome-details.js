@@ -13,6 +13,9 @@ import 'siren-entity/siren-entity.js';
 import '../big-trend/big-trend.js';
 import '../evidence/evidence-list.js';
 import OutcomeParserBehaviour from 'd2l-activity-alignments/d2l-outcome-parser-behavior.js';
+import '../big-trend/big-trend';
+import 'd2l-outcomes-level-of-achievements/d2l-outcomes-level-of-achievements';
+import { oupConsts } from '../consts';
 
 export class OutcomeProgressDetails extends mixinBehaviors(
 	[
@@ -114,7 +117,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 	}
 
 	_close() {
-		this.dispatchEvent(new CustomEvent('d2l-outcome-progress-details-closed'));
+		this.dispatchEvent(new CustomEvent(oupConsts.events.detailsCloseClicked, { composed: true }));
 	}
 
 }

@@ -1,6 +1,8 @@
 import '@polymer/polymer/polymer-legacy.js';
 import { PolymerElement, html } from '@polymer/polymer';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
+import 'd2l-typography/d2l-typography.js';
+import 'd2l-typography/d2l-typography-shared-styles.js';
 import '../localize-behavior';
 import '../trend-behavior';
 
@@ -19,16 +21,17 @@ export class MiniTrend extends mixinBehaviors(
 
 	static get template() {
 		const template = html`
-            <style>
+            <style include="d2l-typography">
                 :host {
                     --block-spacing: 2px;
                     --border-radius: 2px;
-                    --container-height: 36px;
+					--container-height: 36px;
+					--trend-group-width: 12px;
 
                     align-items: center;
                     display: inline-flex;
                     flex-direction: row;
-                    height: var(--container-height);
+					height: var(--container-height);
                 }
 
                 .trend-group {
@@ -37,7 +40,7 @@ export class MiniTrend extends mixinBehaviors(
                     height: var(--container-height);
                     justify-content: flex-end;
                     padding-right: var(--block-spacing);
-                    width: 12px;
+                    width: var(--trend-group-width);
                 }
 
                 .trend-group:last-of-type {
@@ -60,8 +63,7 @@ export class MiniTrend extends mixinBehaviors(
                 }
 
                 .empty-text {
-                    color: #7C8695;
-                    font-size: 14px;
+                    @apply --d2l-body-small-text;
                 }
 
                 .screen-reader {
