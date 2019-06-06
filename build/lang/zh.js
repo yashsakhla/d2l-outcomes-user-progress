@@ -21,6 +21,6 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangZhBehavior = {
     "trend": "Trend",
     "evidence": "Evidence",
     "close": "关闭",
-    "noItemsFound": "未找到任何项目。"
+    "noEvidence": "This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed"
 }
 };

@@ -8,5 +8,5 @@
     "notAssessed": "Not assessed",
     "untitled": "Untitled",
     "close": "閉じる",
-    "noItemsFound": "項目が見つかりません。"
+    "noEvidence": "This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed"
 }

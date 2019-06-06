@@ -21,6 +21,6 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangNlBehavior = {
     "trend": "Trend",
     "evidence": "Evidence",
     "close": "Sluiten",
-    "noItemsFound": "Geen items gevonden."
+    "noEvidence": "This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed"
 }
 };

@@ -28,7 +28,7 @@ export class EvidenceList extends mixinBehaviors(
 					border-radius: 8px;
 					background-color: var(--d2l-color-regolith);
 					color: var(--d2l-color-ferrite);
-					padding: 40px;
+					padding: 15px;
 					box-sizing: border-box;
 					width: 100%;
 				}
@@ -46,7 +46,7 @@ export class EvidenceList extends mixinBehaviors(
 						></d2l-evidence-entry>
 					</template>
 					<div class="no-evidence" hidden="[[!_isEmpty(_evidence)]]">
-						[[localize('noItemsFound')]]
+						[[localize('noEvidence', 'outcome', outcomeTerm)]]
 					</div>
 				</template>
 				<template is="dom-if" if="[[!entity]]">
@@ -60,6 +60,7 @@ export class EvidenceList extends mixinBehaviors(
 
 	static get properties() {
 		return {
+			outcomeTerm: String,
 			_evidence: {
 				type: Array,
 				computed: '_getEvidence(entity)'
