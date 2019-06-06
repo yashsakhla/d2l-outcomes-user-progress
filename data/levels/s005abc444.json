@@ -1,0 +1,18 @@
+{
+    "class": [
+        "level-of-achievment"
+    ],
+    "properties": {
+        "levelId": "s005abc444",
+        "name": "Level 4",
+        "color": "#ff4000"
+    },
+    "links": [
+        {
+            "rel": [
+                "self"
+            ],
+            "href": "/data/levels/s005abc444.json"
+        }
+    ]
+}
