@@ -58,12 +58,12 @@ export class OutcomesListItem extends mixinBehaviors(
 				}
 
 				@keyframes skeleton-pulse {
-					0% { background-color: var(--d2l-color-sylvite); }
-					50% { background-color: var(--d2l-color-regolith); }
-					100% { background-color: var(--d2l-color-sylvite); }
+					from { background-color: var(--d2l-color-sylvite); }
+					to { background-color: var(--d2l-color-regolith); }
 				}
 
 				.skeleton {
+					animation-direction: alternate;
 					animation-duration: 1.8s;
 					animation-iteration-count: infinite;
 					animation-name: skeleton-pulse;
