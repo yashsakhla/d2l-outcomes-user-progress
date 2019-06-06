@@ -81,12 +81,12 @@ export class EvidenceList extends mixinBehaviors(
 		const activities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.activities);
 		activities.forEach(activity => {
 			const demonstrations = activity.getSubEntitiesByClasses([
-				hmConsts.Classes.outcomes.demonstration, 
+				hmConsts.Classes.outcomes.demonstration,
 				hmConsts.Classes.outcomes.assessed
 			]);
 			demonstrations.forEach(demonstration => {
 				const level = demonstration.getSubEntityByClasses([
-					hmConsts.Classes.outcomes.demonstratableLevel, 
+					hmConsts.Classes.outcomes.demonstratableLevel,
 					hmConsts.Classes.outcomes.selected
 				]);
 				if (!level) {
