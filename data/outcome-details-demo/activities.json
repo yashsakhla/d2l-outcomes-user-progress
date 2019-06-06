@@ -75,7 +75,7 @@
                 "item"
             ],
             "properties": {
-                "name": "Kappa",
+                "name": "Assignment 1",
                 "type": "Dropbox"
             },
             "entities": [
@@ -88,7 +88,7 @@
                         "item"
                     ],
                     "properties": {
-                        "dateAssessed": "2019-05-28T13:54:09.710Z"
+                        "dateAssessed": "2019-07-30T13:54:09.710Z"
                     },
                     "entities": [
                         {
@@ -249,7 +249,7 @@
                 "item"
             ],
             "properties": {
-                "name": "Drapbux",
+                "name": "Assignment 2",
                 "type": "Dropbox"
             },
             "entities": [
@@ -262,7 +262,7 @@
                         "item"
                     ],
                     "properties": {
-                        "dateAssessed": "2019-05-28T13:54:57.743Z"
+                        "dateAssessed": "2019-08-01T13:54:57.743Z"
                     },
                     "entities": [
                         {
