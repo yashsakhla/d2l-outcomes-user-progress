@@ -53,10 +53,6 @@ export class OutcomesListItem extends mixinBehaviors(
 					min-width: 84px;
 				}
 
-				#secondary.loading * {
-					display: none !important;
-				}
-
 				@keyframes skeleton-pulse {
 					from { background-color: var(--d2l-color-sylvite); }
 					to { background-color: var(--d2l-color-regolith); }
@@ -81,15 +77,19 @@ export class OutcomesListItem extends mixinBehaviors(
 					height: 14px;
 					width: 20%;
 				}
+
+				[hidden] {
+					display: none !important;
+				}
 			</style>
 			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
-			<div id="container" role="listitem" on-click="_onItemClicked">
+			<div id="container" role="listitem" on-click="_onItemClicked" aria-busy="[[!_outcomeEntity]]">
 				<div id="primary">
-					<template is="dom-if" if="[[_isset(_outcomeEntity)]]">
+					<template is="dom-if" if="[[_outcomeEntity]]">
 						<div class="main-text">[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</div>
 						<div class="sub-text">[[getOutcomeIdentifier(_outcomeEntity)]]</div>
 					</template>
-					<template is="dom-if" if="[[!_isset(_outcomeEntity)]]">
+					<template is="dom-if" if="[[!_outcomeEntity]]">
 						<div class="main-text">
 							<div class="skeleton"></div>
 							<div class="skeleton"></div>
@@ -99,8 +99,12 @@ export class OutcomesListItem extends mixinBehaviors(
 						</div>
 					</template>
 				</div>
-				<div id="secondary" class$="[[_getLoadingClass(_outcomeEntity)]]">
-					<d2l-mini-trend href="[[_activitiesHref]]" token="[[token]]"></d2l-mini-trend>
+				<div id="secondary">
+					<d2l-mini-trend
+						hidden$="[[!_outcomeEntity]]"
+						href="[[_activitiesHref]]"
+						token="[[token]]"
+					></d2l-mini-trend>
 				</div>
 			</div>
 		`;
@@ -135,29 +139,11 @@ export class OutcomesListItem extends mixinBehaviors(
 		];
 	}
 
-	_isset(prop) {
-		return !!prop;
-	}
-
 	_getActivitiesHref(entity) {
 		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcome)) {
 			return entity.getLinkByRel('https://user-progress.api.brightspace.com/rels/outcome-activities').href;
 		}
 		return null;
-	}
-
-	/**
-	 * Used to ensure that skeleton data is finished loading before other elements
-	 * (trend) are visible.
-	 * @param {Object} showProp When false-y, page is considered to be loading,
-	 * otherwise not.
-	 */
-	_getLoadingClass(showProp) {
-		if (!this._isset(showProp)) {
-			return 'loading';
-		}
-
-		return '';
 	}
 
 	_getOutcomeHref(entity) {
