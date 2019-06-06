@@ -80,7 +80,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 					token="[[token]]"
 				></d2l-big-trend>
 				<h3>[[localize('evidence')]]</h3>
-				<d2l-evidence-list href="[[_activitiesHref]]" token="[[token""></d2l-evidence-list>
+				<d2l-evidence-list href="[[_activitiesHref]]" token="[[token]]"></d2l-evidence-list>
 			</div>
 		`;
 		template.setAttribute('strip-whitespace', true);
