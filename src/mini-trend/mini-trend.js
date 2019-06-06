@@ -74,18 +74,18 @@ export class MiniTrend extends mixinBehaviors(
                     width: 1px;
                 }
             </style>
-            <template is="dom-if" if="[[!_hasTrendData(levels,trendGroupsTruncated)]]">
+            <template is="dom-if" if="[[!_hasTrendData(trendDataTruncated)]]">
                 <div class="empty-text">[[_getNotAssessedText()]]</div>
             </template>
-            <template is="dom-if" if="[[_hasTrendData(levels,trendGroupsTruncated)]]">
-                <template is="dom-repeat" items="[[_getTrendItems(levels,trendGroupsTruncated)]]" as="trendGroup">
+            <template is="dom-if" if="[[_hasTrendData(trendDataTruncated)]]">
+                <template is="dom-repeat" items="[[_getTrendItems(trendDataTruncated)]]" as="trendGroup">
                     <div class="trend-group">
                         <template is="dom-repeat" items="[[trendGroup.blocks]]" as="trendBlock">
                             <div class="trend-block" style$="height: [[trendBlock.height]]px; background-color: [[trendBlock.color]];"></div>
                         </template>
                     </div>
                 </template>
-                <p class="screen-reader">[[_getScreenReaderText(levels,trendGroupsTruncated)]]</p>
+                <p class="screen-reader">[[_getScreenReaderText(trendDataTruncated)]]</p>
             </template>
         `;
 		template.setAttribute('strip-whitespace', true);
@@ -94,9 +94,9 @@ export class MiniTrend extends mixinBehaviors(
 
 	static get properties() {
 		return {
-			trendGroupsTruncated: {
-				type: Array,
-				computed: '_truncTrendData(trendGroups)'
+			trendDataTruncated: {
+				type: Object,
+				computed: '_truncTrendData(trendData)'
 			}
 		};
 	}
@@ -109,14 +109,27 @@ export class MiniTrend extends mixinBehaviors(
 		return this.localize('notAssessed');
 	}
 
-	_getScreenReaderText(levels, trendGroups) {
+	_getScreenReaderText(trendData) {
+		if (!trendData || !trendData.levels || !trendData.groups) {
+			return null;
+		}
+
+		const levels = trendData.levels;
+		const trendGroups = trendData.groups;
+
 		const numAssessed = trendGroups.reduce((acc, group) => acc + group.attempts.length, 0);
 		const levelNames = trendGroups.reduce((acc, group) => acc.concat(group.attempts.map(levelId => levels[levelId].name)), []).join(', ');
 
 		return this.localize('miniTrendScreenReaderText', 'numAssessed', numAssessed, 'levelNames', levelNames);
 	}
 
-	_getTrendItems(levels, trendGroups) {
+	_getTrendItems(trendData) {
+		if (!trendData || !trendData.levels || !trendData.groups) {
+			return [];
+		}
+
+		const levels = trendData.levels;
+		const trendGroups = trendData.groups;
 		const trendItems = [];
 		const maxLevel = this._getMaxLevelScore(levels);
 
@@ -153,14 +166,21 @@ export class MiniTrend extends mixinBehaviors(
 		return trendItems;
 	}
 
-	_hasTrendData(levels, trendGroups) {
-		const blockGroups = this._getTrendItems(levels, trendGroups);
+	_hasTrendData(trendData) {
+		const blockGroups = this._getTrendItems(trendData);
 		const numBlocks = blockGroups.reduce((acc, group) => acc + group.blocks.length, 0);
 		return numBlocks > 0;
 	}
 
-	_truncTrendData(trendGroups) {
-		return trendGroups.slice(-MAX_TREND_ITEMS);
+	_truncTrendData(trendData) {
+		if (!trendData || !trendData.levels || !trendData.groups) {
+			return null;
+		}
+
+		return {
+			levels: trendData.levels,
+			groups: trendData.groups.slice(-MAX_TREND_ITEMS)
+		};
 	}
 }
 

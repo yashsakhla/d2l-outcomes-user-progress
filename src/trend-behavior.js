@@ -7,13 +7,9 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress = window.D2L.PolymerBehaviors.O
 /** @polymerBehavior D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior */
 D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
 	properties: {
-		levels: {
+		trendData: {
 			type: Object,
-			value: {}
-		},
-		trendGroups: {
-			type: Array,
-			value: []
+			value: null
 		}
 	},
 
@@ -23,7 +19,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
 
 	_onEntityChanged: function(entity) {
 		const levels = {};
-		const trendGroups = [];
+		const groups = [];
 
 		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.activities) && entity.entities) {
 			const levelEntities = entity.getSubEntitiesByClass(hmConsts.Classes.outcomes.levelOfAchievement);
@@ -38,12 +34,14 @@ D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
 			const activityEntities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.activity);
 			const parsedGroups = this._parseTrendGroups(activityEntities, levels);
 			parsedGroups.forEach(group => {
-				trendGroups.push(group);
+				groups.push(group);
 			});
 		}
 
-		this.levels = levels;
-		this.trendGroups = trendGroups;
+		this.trendData = {
+			levels,
+			groups
+		};
 	},
 
 	_parseTrendGroups: function(activityEntities, validLevels) {
