@@ -141,7 +141,7 @@ export class OutcomesListItem extends mixinBehaviors(
 
 	_getActivitiesHref(entity) {
 		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcome)) {
-			return entity.getLinkByRel('https://user-progress.api.brightspace.com/rels/outcome-activities').href;
+			return entity.getLinkByRel(hmConsts.Rels.UserProgress.Outcomes.activities).href;
 		}
 		return null;
 	}
