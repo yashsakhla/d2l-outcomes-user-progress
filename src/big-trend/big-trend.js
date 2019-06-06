@@ -223,14 +223,14 @@ export class BigTrend extends mixinBehaviors(
             </style>
             <div id="container" aria-hidden="true">
                 <div id="grid">
-                    <template is="dom-repeat" items="[[_getGridHorizontal(levels)]]">
+                    <template is="dom-repeat" items="[[_gridHorizontal]]">
                         <div class="h-line" style$="margin-bottom: [[item.size]]px;"></div>
                     </template>
                 </div>
                 <div id="scroll-container">
                     <div id="scroll">
                         <div id="data">
-                            <template is="dom-repeat" items="[[_getTrendItems(levels,trendGroups)]]" index-as="groupIndex">
+                            <template is="dom-repeat" items="[[_trendItems]]" index-as="groupIndex">
                                 <div class$="[[_getColumnClasses(item)]]">
                                     <div id$="[[_getUniqueGroupId(groupIndex)]]" class$="[[_getGroupClasses(item)]]" tabindex="0">
                                         <template is="dom-if" if="[[!_groupHasBlocks(item)]]">
@@ -255,7 +255,7 @@ export class BigTrend extends mixinBehaviors(
                     <d2l-icon icon="d2l-tier1:chevron-right"></d2l-icon>
                 </div>
                 <div class="clear"></div>
-                <template is="dom-repeat" items="[[_getTrendItems(levels,trendGroups)]]" index-as="groupIndex">
+                <template is="dom-repeat" items="[[_trendItems]]" index-as="groupIndex">
                     <d2l-tooltip for$="[[_getUniqueGroupId(groupIndex)]]" position="top" offset$="[[_getTooltipOffset(item)]]">
                         <div><b>[[item.name]]</b></div>
                         <template is="dom-repeat" items="[[item.attempts]]" as="attemptGroup">
@@ -273,10 +273,10 @@ export class BigTrend extends mixinBehaviors(
                 </template>
             </div>
             <div class="screen-reader">
-                <template is="dom-if" if="[[!_hasTrendData(trendGroups)]]">
+                <template is="dom-if" if="[[!_hasTrendData]]">
                     [[_getNotAssessedText()]]
                 </template>
-                <template is="dom-if" if="[[_hasTrendData(trendGroups)]]">
+                <template is="dom-if" if="[[_hasTrendData]]">
                     <table>
                         <thead>
                             <tr>
@@ -286,7 +286,7 @@ export class BigTrend extends mixinBehaviors(
                             </tr>
                         </thead>
                         <tbody>
-                            <template is="dom-repeat" items="[[_getTrendItems(levels,trendGroups)]]">
+                            <template is="dom-repeat" items="[[_trendItems]]">
                                 <tr>
                                     <td>[[item.date]]</td>
                                     <td>[[item.name]]</td>
@@ -316,9 +316,21 @@ export class BigTrend extends mixinBehaviors(
 
 	static get properties() {
 		return {
+			_gridHorizontal: {
+				type: Array,
+				computed: '_getGridHorizontal(trendData)'
+			},
+			_hasTrendData: {
+				type: Boolean,
+				computed: '_checkTrendData(trendData)'
+			},
 			_rowHeight: {
 				type: Number,
-				computed: '_getRowHeight(levels)'
+				computed: '_getRowHeight(trendData)'
+			},
+			_trendItems: {
+				type: Array,
+				computed: '_getTrendItems(trendData)'
 			}
 		};
 	}
@@ -342,6 +354,15 @@ export class BigTrend extends mixinBehaviors(
 
 			this.resizeObserver.observe(this);
 		}.bind(this));
+	}
+
+	_checkTrendData(trendData) {
+		if (!trendData || !trendData.groups) {
+			return false;
+		}
+
+		const trendGroups = trendData.groups;
+		return trendGroups.length > 0 && trendGroups[0].attempts.length > 0;
 	}
 
 	_getAttemptGroupLabel(attempts) {
@@ -375,7 +396,12 @@ export class BigTrend extends mixinBehaviors(
 		return classes.join(' ');
 	}
 
-	_getGridHorizontal(levels) {
+	_getGridHorizontal(trendData) {
+		if (!trendData || !trendData.levels) {
+			return [];
+		}
+
+		const levels = trendData.levels;
 		const maxLevel = this._getMaxLevelScore(levels);
 		const gridHeight = this._rowHeight - GRID_THICKNESS;
 
@@ -414,8 +440,12 @@ export class BigTrend extends mixinBehaviors(
 		return this.localize('notAssessed');
 	}
 
-	_getRowHeight(levels) {
-		const maxLevel = this._getMaxLevelScore(levels);
+	_getRowHeight(trendData) {
+		if (!trendData || !trendData.levels) {
+			return null;
+		}
+
+		const maxLevel = this._getMaxLevelScore(trendData.levels);
 		return COMPONENT_HEIGHT / maxLevel;
 	}
 
@@ -437,7 +467,13 @@ export class BigTrend extends mixinBehaviors(
 		return offset;
 	}
 
-	_getTrendItems(levels, trendGroups) {
+	_getTrendItems(trendData) {
+		if (!trendData || !trendData.levels || !trendData.groups) {
+			return [];
+		}
+
+		const levels = trendData.levels;
+		const trendGroups = trendData.groups;
 		const trendItems = [];
 		const maxLevel = this._getMaxLevelScore(levels);
 		const gridHeight = this._rowHeight - GRID_THICKNESS;
@@ -468,22 +504,12 @@ export class BigTrend extends mixinBehaviors(
 			// Compute levels achieved
 			const groupLevels = groupAttempts
 				.filter((val, index, self) => self.indexOf(val) === index)
-				.sort((left, right) => {
-					if (!levels[left] || !levels[right]) {
-						return 0;
-					} else {
-						return levels[left].score - levels[right].score;
-					}
-				});
+				.sort((left, right) => levels[left].score - levels[right].score);
 
 			// Add trend blocks to group
 			let prevScore = 0;
 
 			groupLevels.forEach(levelId => {
-				if (!levels[levelId]) {
-					return;
-				}
-
 				const color = levels[levelId].color;
 				const height = COMPONENT_HEIGHT / maxLevel * (levels[levelId].score - prevScore) - GRID_THICKNESS;
 				prevScore = levels[levelId].score;
@@ -500,10 +526,6 @@ export class BigTrend extends mixinBehaviors(
 			const attemptLabels = [];
 			let attemptCounter = 1;
 			groupAttempts.forEach(attempt => {
-				if (!levels[attempt]) {
-					return;
-				}
-
 				let label = {
 					id: attempt,
 					name: levels[attempt].name,
@@ -536,10 +558,6 @@ export class BigTrend extends mixinBehaviors(
 
 	_groupHasBlocks(group) {
 		return group.blocks.length > 0;
-	}
-
-	_hasTrendData(trendGroups) {
-		return trendGroups.length > 0 && trendGroups[0].attempts.length > 0;
 	}
 
 	_hasMultipleAttempts(group) {
