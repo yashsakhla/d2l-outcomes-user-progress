@@ -29,6 +29,7 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-config-brightspace": "^0.5.3",
-    "eslint-plugin-html": "^5.0.5"
+    "eslint-plugin-html": "^5.0.5",
+    "yargs": "^13.2.4"
   }
 }
