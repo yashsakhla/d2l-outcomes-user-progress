@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lang:build": "node langtools/build.js -c langtools/config.json",
+    "lang:copy": "node langtools/copy.js -c langtools/config.json",
     "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
