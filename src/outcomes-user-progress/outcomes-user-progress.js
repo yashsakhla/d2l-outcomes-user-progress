@@ -24,6 +24,7 @@ export class OutcomesUserProgress extends mixinBehaviors(
                 hidden$="[[!_showDetails]]"
                 href="[[_detailsHref]]"
                 token="[[token]]"
+                outcome-term="[[outcomeTerm]]"
             ></d2l-outcome-progress-details>
         `;
 		template.setAttribute('strip-whitespace', true);
@@ -45,7 +46,8 @@ export class OutcomesUserProgress extends mixinBehaviors(
 			_showDetails: {
 				type: Boolean,
 				value: false
-			}
+			},
+			outcomeTerm: String
 		};
 	}
 

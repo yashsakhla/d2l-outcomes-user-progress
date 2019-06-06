@@ -21,6 +21,6 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangJaBehavior = {
     "trend": "Trend",
     "evidence": "Evidence",
     "close": "閉じる",
-    "noItemsFound": "項目が見つかりません。"
+    "noEvidence": "This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed"
 }
 };

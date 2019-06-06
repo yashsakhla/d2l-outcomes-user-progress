@@ -21,6 +21,6 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangTrBehavior = {
     "trend": "Trend",
     "evidence": "Evidence",
     "close": "Kapat",
-    "noItemsFound": "Hiçbir öğe bulunamadı."
+    "noEvidence": "This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed"
 }
 };

@@ -21,6 +21,6 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangKoBehavior = {
     "trend": "Trend",
     "evidence": "Evidence",
     "close": "닫기",
-    "noItemsFound": "항목을 찾을 수 없음."
+    "noEvidence": "This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed"
 }
 };
