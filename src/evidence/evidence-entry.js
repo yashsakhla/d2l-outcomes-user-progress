@@ -124,7 +124,7 @@ export class EvidenceEntry extends mixinBehaviors(
 	_formatDate(date) {
 		return this.formatDate(
 			new Date(date),
-			{ format: 'monthDay' }
+			{ format: 'MMM d' }
 		);
 	}
 
