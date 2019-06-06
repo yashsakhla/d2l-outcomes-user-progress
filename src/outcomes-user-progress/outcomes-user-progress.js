@@ -24,7 +24,7 @@ export class OutcomesUserProgress extends mixinBehaviors(
                 hidden$="[[!_showDetails]]"
                 href="[[_detailsHref]]"
                 token="[[token]]"
-				outcome-term="[[outcomeTerm]]"
+                outcome-term="[[outcomeTerm]]"
             ></d2l-outcome-progress-details>
         `;
 		template.setAttribute('strip-whitespace', true);
