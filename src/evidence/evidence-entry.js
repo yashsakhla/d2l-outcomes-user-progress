@@ -8,6 +8,8 @@ import 'd2l-typography/d2l-typography-shared-styles.js';
 import 'd2l-icons/d2l-icon';
 import 'd2l-icons/tier2-icons';
 import 'd2l-colors/d2l-colors.js';
+import 'd2l-more-less/d2l-more-less.js';
+import 's-html/s-html.js';
 
 export class EvidenceEntry extends mixinBehaviors(
 	[D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior],
@@ -38,12 +40,23 @@ export class EvidenceEntry extends mixinBehaviors(
 				
 				.card {
 					display: flex;
+					flex-direction: column;
+					align-items: stretch;
 					flex-grow: 1;
 					flex-shrink: 1;
 					border: 1px solid var(--d2l-color-gypsum);
 					border-radius: 4px;
 					padding: 24px 18px;
 					margin-bottom: 17px;
+				}
+				
+				.card-header {
+					display: flex;
+				}
+				
+				.feedback {
+					margin-top: 17px;
+					display: flex;
 				}
 				
 				.circle {
@@ -69,6 +82,10 @@ export class EvidenceEntry extends mixinBehaviors(
 					visibility: hidden;
 				}
 				
+				.quote {
+					margin-right: 12px;
+				}
+				
 				.fit {
 					flex-grow: 0;
 					flex-shrink: 0;
@@ -80,6 +97,7 @@ export class EvidenceEntry extends mixinBehaviors(
 				}
 			</style>
 			<siren-entity href="[[levelHref]]" token="[[token]]" entity="{{_levelEntity}}"></siren-entity>
+			<siren-entity href="[[feedbackHref]]" token="[[token]]" entity="{{_feedbackEntity}}"></siren-entity>
 			<div class="evidence">
 				<div class="timeline">
 					<d2l-icon class="fit" icon="[[_getActivityIcon(type)]]"></d2l-icon>
@@ -87,10 +105,20 @@ export class EvidenceEntry extends mixinBehaviors(
 					<div class="grow line"></div>
 				</div>
 				<div class="card">
-					<b class="fit">[[name]]</b>
-					<div class="grow"></div>
-					<span class="fit">[[_getLevelName(_levelEntity)]]</span>
-					<div class="fit circle" style="[[_getLevelColourStyle(_levelEntity)]]"></div>
+					<div class="card-header">
+						<b class="fit">[[name]]</b>
+						<div class="grow"></div>
+						<span class="fit">[[_getLevelName(_levelEntity)]]</span>
+						<div class="fit circle" style="[[_getLevelColourStyle(_levelEntity)]]"></div>
+					</div>
+					<d2l-more-less height="4rem">
+						<template is="dom-repeat" items="[[_feedback]]" as="feedback">
+							<div class="feedback">
+								<img class="quote fit" src="[[_quoteImage]]" height="11" width="11"></img>
+								<s-html class="grow" html="[[feedback]]"></s-html>
+							</div>
+						</template>
+					</d2l-more-less>
 				</div>
 			</div>
 		`;
@@ -104,11 +132,20 @@ export class EvidenceEntry extends mixinBehaviors(
 			name: String,
 			date: String,
 			levelHref: String,
+			feedbackHref: String,
 			token: String,
 			last: {
 				type: Boolean,
 				reflectToAttribute: true,
 				value: false
+			},
+			_feedback: {
+				type: Array,
+				computed: '_getFeedback(_feedbackEntity)'
+			},
+			_quoteImage: {
+				type: String,
+				value: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPg0KICA8ZGVmcz4NCiAgICA8cGF0aCBpZD0iYSIgZD0iTTAgMGgyNHYyNEgweiIvPg0KICA8L2RlZnM+DQogIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4NCiAgICA8bWFzayBpZD0iYiIgZmlsbD0iI2ZmZiI+DQogICAgICA8dXNlIHhsaW5rOmhyZWY9IiNhIi8+DQogICAgPC9tYXNrPg0KICAgIDxwYXRoIGQ9Ik02IDIyLjY2N0E0LjY2NyA0LjY2NyAwIDAgMCAxMC42NjcgMThjMC0xLjIyNy0uNTU5LTIuNS0xLjMzNC0zLjMzM0M4LjQ4MSAxMy43NSA3LjM1IDEzLjMzMyA2IDEzLjMzM2MtLjQxMSAwIDEuMzMzLTYuNjY2IDMtOSAxLjY2Ny0yLjMzMyAxLjMzMy0zIC4zMzMtM0M4IDEuMzMzIDUuMjUzIDQuNTg2IDQgNy4yNTUgMS43NzMgMTIgMS4zMzMgMTUuMzkyIDEuMzMzIDE4QTQuNjY3IDQuNjY3IDAgMCAwIDYgMjIuNjY3ek0xOCAyMi42NjdBNC42NjcgNC42NjcgMCAwIDAgMjIuNjY3IDE4YzAtMS4yMjctLjU1OS0yLjUtMS4zMzQtMy4zMzMtLjg1Mi0uOTE3LTEuOTgzLTEuMzM0LTMuMzMzLTEuMzM0LS40MTEgMCAxLjMzMy02LjY2NiAzLTkgMS42NjctMi4zMzMgMS4zMzMtMyAuMzMzLTMtMS4zMzMgMC00LjA4IDMuMjUzLTUuMzMzIDUuOTIyQzEzLjc3MyAxMiAxMy4zMzMgMTUuMzkyIDEzLjMzMyAxOEE0LjY2NyA0LjY2NyAwIDAgMCAxOCAyMi42Njd6IiBmaWxsPSIjRDNEOUUzIiBtYXNrPSJ1cmwoI2IpIi8+DQogIDwvZz4NCjwvc3ZnPg=='
 			}
 		};
 	}
@@ -125,6 +162,25 @@ export class EvidenceEntry extends mixinBehaviors(
 		return this.formatDate(
 			new Date(date),
 			{ format: 'MMM d' }
+		);
+	}
+
+	_processFeedbackHtml(feedbackHtml) {
+		const htmlRoot = document.createElement('div');
+		htmlRoot.innerHTML = feedbackHtml;
+		const firstElement = htmlRoot.firstChild;
+		if (firstElement && firstElement.tagName === 'P') {
+			firstElement.style.margin = '0';
+		}
+		return htmlRoot.innerHTML;
+	}
+
+	_getFeedback(feedbackEntity) {
+		if (!feedbackEntity) {
+			return [];
+		}
+		return feedbackEntity.getSubEntitiesByClass('feedback').map(
+			feedback => this._processFeedbackHtml(feedback.properties.html)
 		);
 	}
 

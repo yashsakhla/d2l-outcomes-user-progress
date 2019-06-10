@@ -41,6 +41,7 @@ export class EvidenceList extends mixinBehaviors(
 							name="[[info.name]]"
 							date="[[info.date]]"
 							level-href="[[info.levelHref]]"
+							feedback-href="[[info.feedbackHref]]"
 							token="[[token]]"
 							last="[[info.isLast]]"
 						></d2l-evidence-entry>
@@ -90,11 +91,13 @@ export class EvidenceList extends mixinBehaviors(
 				if (!levelLink || !levelLink.href) {
 					return;
 				}
+				const feedbackLink = activity.getLink('https://user-progress.api.brightspace.com/rels/feedback') || {};
 				evidenceList.push({
 					type: activity.properties.type,
 					name: (!activity.properties.name || activity.properties.name.trim() === '' ? this.localize('untitled') : activity.properties.name),
 					date: demonstration.properties.dateAssessed,
-					levelHref: levelLink.href
+					levelHref: levelLink.href,
+					feedbackHref: feedbackLink.href || null
 				});
 			});
 		});
