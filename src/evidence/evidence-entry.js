@@ -157,6 +157,7 @@ export class EvidenceEntry extends mixinBehaviors(
 			case 'Competencies':
 				return 'd2l-tier2:user-competencies';
 			case 'ePortfolio':
+			case '703000': // Folio
 				return 'd2l-tier2:eportfolio';
 			default:
 				return 'd2l-tier2:content';
