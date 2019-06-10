@@ -75,7 +75,8 @@
                 "item"
             ],
             "properties": {
-                "name": null
+                "name": null,
+                "type": "Dropbox"
             },
             "entities": [
                 {
@@ -189,7 +190,8 @@
             ],
             "properties": {
                 "name": "Activity 2",
-                "dueDate": "2018-09-01T04:00:01.000Z"
+                "dueDate": "2018-09-01T04:00:01.000Z",
+                "type": "News"
             },
             "entities": [],
             "links": [
@@ -215,7 +217,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 3"
+                "name": "Activity 3",
+                "type": "Chat"
             },
             "entities": [
                 {

@@ -54,7 +54,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 1"
+                "name": "Activity 1",
+                "type": "SelfAssessments"
             },
             "entities": [
                 {
@@ -148,7 +149,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 2"
+                "name": "Activity 2",
+                "type": "Quizzing"
             },
             "entities": [
                 {
@@ -242,7 +244,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 3"
+                "name": "Activity 3",
+                "type": "QuestionCollection"
             },
             "entities": [
                 {
@@ -403,7 +406,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 4"
+                "name": "Activity 4",
+                "type": "Checklist"
             },
             "entities": [
                 {
@@ -497,7 +501,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 5"
+                "name": "Activity 5",
+                "type": "Dropbox"
             },
             "entities": [
                 {
@@ -591,7 +596,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 6"
+                "name": "Activity 6",
+                "type": "Quizzing"
             },
             "entities": [
                 {

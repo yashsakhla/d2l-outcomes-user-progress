@@ -96,7 +96,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 1"
+                "name": "Activity 1",
+                "type": "QuestionCollection"
             },
             "entities": [
                 {
@@ -228,7 +229,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 2"
+                "name": "Activity 2",
+                "type": "Discussions"
             },
             "entities": [
                 {
@@ -360,7 +362,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 3"
+                "name": "Activity 3",
+                "type": "LTI"
             },
             "entities": [
                 {
@@ -597,7 +600,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 4"
+                "name": "Activity 4",
+                "type": "Grades"
             },
             "entities": [
                 {
@@ -729,7 +733,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 5"
+                "name": "Activity 5",
+                "type": "ePortfolio"
             },
             "entities": [
                 {
@@ -861,7 +866,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 6"
+                "name": "Activity 6",
+                "type": "LTI"
             },
             "entities": [
                 {
@@ -993,7 +999,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 7"
+                "name": "Activity 7",
+                "type": "SelfAssessments"
             },
             "entities": [
                 {
@@ -1125,7 +1132,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 8"
+                "name": "Activity 8",
+                "type": "Discussions"
             },
             "entities": [
                 {
@@ -1362,7 +1370,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 9"
+                "name": "Activity 9",
+                "type": "ePortfolio"
             },
             "entities": [
                 {
@@ -1494,7 +1503,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 10"
+                "name": "Activity 10",
+                "type": "Grades"
             },
             "entities": [
                 {
@@ -1626,7 +1636,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 11"
+                "name": "Activity 11",
+                "type": "News"
             },
             "entities": [
                 {
@@ -1758,7 +1769,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 12"
+                "name": "Activity 12",
+                "type": "Chat"
             },
             "entities": [
                 {
@@ -1890,7 +1902,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 13"
+                "name": "Activity 13",
+                "type": "News"
             },
             "entities": [
                 {
@@ -2022,7 +2035,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 14"
+                "name": "Activity 14",
+                "type": "Links"
             },
             "entities": [
                 {
@@ -2154,7 +2168,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 15"
+                "name": "Activity 15",
+                "type": "Locker"
             },
             "entities": [
                 {
@@ -2286,7 +2301,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 16"
+                "name": "Activity 16",
+                "type": "Grades"
             },
             "entities": [
                 {
@@ -2418,7 +2434,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 17"
+                "name": "Activity 17",
+                "type": "Links"
             },
             "entities": [
                 {
@@ -2550,7 +2567,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 18"
+                "name": "Activity 18",
+                "type": "QuestionCollection"
             },
             "entities": [
                 {
@@ -2787,7 +2805,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 19"
+                "name": "Activity 19",
+                "type": "SelfAssessments"
             },
             "entities": [
                 {
@@ -2919,7 +2938,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 20"
+                "name": "Activity 20",
+                "type": "Discussions"
             },
             "entities": [
                 {
@@ -3051,7 +3071,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 21"
+                "name": "Activity 21",
+                "type": "Links"
             },
             "entities": [
                 {
@@ -3183,7 +3204,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 22"
+                "name": "Activity 22",
+                "type": "Checklist"
             },
             "entities": [
                 {
@@ -3315,7 +3337,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 23"
+                "name": "Activity 23",
+                "type": "Locker"
             },
             "entities": [
                 {
@@ -3552,7 +3575,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 24"
+                "name": "Activity 24",
+                "type": "Content"
             },
             "entities": [
                 {
@@ -3684,7 +3708,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 25"
+                "name": "Activity 25",
+                "type": "Checklist"
             },
             "entities": [
                 {
@@ -3816,7 +3841,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 26"
+                "name": "Activity 26",
+                "type": "Locker"
             },
             "entities": [
                 {
@@ -3948,7 +3974,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 27"
+                "name": "Activity 27",
+                "type": "SelfAssessments"
             },
             "entities": [
                 {
@@ -4080,7 +4107,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 28"
+                "name": "Activity 28",
+                "type": "LTI"
             },
             "entities": [
                 {
@@ -4212,7 +4240,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 29"
+                "name": "Activity 29",
+                "type": "Quizzing"
             },
             "entities": [
                 {
@@ -4344,7 +4373,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 30"
+                "name": "Activity 30",
+                "type": "Checklist"
             },
             "entities": [
                 {

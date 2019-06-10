@@ -432,7 +432,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 1"
+                "name": "Activity 1",
+                "type": "Checklist"
             },
             "entities": [
                 {
@@ -868,7 +869,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 2"
+                "name": "Activity 2",
+                "type": "Grades"
             },
             "entities": [
                 {
@@ -1304,7 +1306,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 3"
+                "name": "Activity 3",
+                "type": "Chat"
             },
             "entities": [
                 {
@@ -2149,7 +2152,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 4"
+                "name": "Activity 4",
+                "type": "ePortfolio"
             },
             "entities": [
                 {
@@ -2994,7 +2998,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 5"
+                "name": "Activity 5",
+                "type": "Competencies"
             },
             "entities": [
                 {
@@ -3430,7 +3435,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 6"
+                "name": "Activity 6",
+                "type": "Locker"
             },
             "entities": [
                 {
@@ -4275,7 +4281,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 7"
+                "name": "Activity 7",
+                "type": "Surveys"
             },
             "entities": [
                 {
@@ -4711,7 +4718,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 8"
+                "name": "Activity 8",
+                "type": "Chat"
             },
             "entities": [
                 {
@@ -5147,7 +5155,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 9"
+                "name": "Activity 9",
+                "type": "Grades"
             },
             "entities": [
                 {
@@ -5992,7 +6001,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 10"
+                "name": "Activity 10",
+                "type": "Discussions"
             },
             "entities": [
                 {
@@ -6428,7 +6438,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 11"
+                "name": "Activity 11",
+                "type": "Grades"
             },
             "entities": [
                 {
@@ -6864,7 +6875,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 12"
+                "name": "Activity 12",
+                "type": "Grades"
             },
             "entities": [
                 {
@@ -7300,7 +7312,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 13"
+                "name": "Activity 13",
+                "type": "Grades"
             },
             "entities": [
                 {
@@ -7736,7 +7749,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 14"
+                "name": "Activity 14",
+                "type": "Chat"
             },
             "entities": [
                 {
@@ -8581,7 +8595,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Activity 15"
+                "name": "Activity 15",
+                "type": "SelfAssessments"
             },
             "entities": [
                 {

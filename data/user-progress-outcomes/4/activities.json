@@ -222,7 +222,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Intro Activity"
+                "name": "Intro Activity",
+                "type": "LTI"
             },
             "entities": [
                 {
@@ -372,7 +373,9 @@
             "rel": [
                 "item"
             ],
-            "properties": {},
+            "properties": {
+                "type": "Dropbox"
+            },
             "entities": [
                 {
                     "class": [
@@ -647,7 +650,8 @@
             ],
             "properties": {
                 "name": "Book Report",
-                "dueDate": "2019-01-01T05:00:02.000Z"
+                "dueDate": "2019-01-01T05:00:02.000Z",
+                "type": "Dropbox"
             },
             "entities": [],
             "links": [
@@ -673,7 +677,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Assembly Assignment"
+                "name": "Assembly Assignment",
+                "type": "Competencies"
             },
             "entities": [
                 {
@@ -824,7 +829,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Learning Numbers"
+                "name": "Learning Numbers",
+                "type": "Content"
             },
             "entities": [
                 {
@@ -1223,7 +1229,8 @@
                 "item"
             ],
             "properties": {
-                "name": "Happy Pizza"
+                "name": "Happy Pizza",
+                "type": "QuestionCollection"
             },
             "entities": [
                 {
