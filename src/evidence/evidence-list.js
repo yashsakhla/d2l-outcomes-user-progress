@@ -92,7 +92,7 @@ export class EvidenceList extends mixinBehaviors(
 				if (!level) {
 					return;
 				}
-				const levelLink = level.getLink(hmConsts.Rels.Outcomes.level);
+				const levelLink = level.getLink(hmConsts.Rels.Achievements.level);
 				if (!levelLink || !levelLink.href) {
 					return;
 				}
