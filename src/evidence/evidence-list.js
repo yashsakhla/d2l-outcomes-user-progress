@@ -80,7 +80,7 @@ export class EvidenceList extends mixinBehaviors(
 		}
 
 		let evidenceList = [];
-		const activities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.activities);
+		const activities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.activity);
 		activities.forEach(activity => {
 			const demonstrations = activity.getSubEntitiesByClasses([
 				hmConsts.Classes.outcomes.demonstration,
