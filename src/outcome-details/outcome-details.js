@@ -113,7 +113,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 		if (!entity) {
 			return null;
 		}
-		const activitiesLink = entity.getLink(hmConsts.Rels.UserProgress.Outcomes.activities);
+		const activitiesLink = entity.getLink(hmConsts.Rels.UserProgress.outcomeActivities);
 		return activitiesLink ? activitiesLink.href : null;
 	}
 
