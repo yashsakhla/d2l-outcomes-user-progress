@@ -15,6 +15,7 @@ import '../evidence/evidence-list.js';
 import OutcomeParserBehaviour from 'd2l-activity-alignments/d2l-outcome-parser-behavior.js';
 import '../big-trend/big-trend';
 import 'd2l-outcomes-level-of-achievements/d2l-outcomes-level-of-achievements';
+import * as hmConsts from 'd2l-hypermedia-constants';
 import { oupConsts } from '../consts';
 
 export class OutcomeProgressDetails extends mixinBehaviors(
@@ -105,7 +106,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 		if (!entity) {
 			return null;
 		}
-		const outcomeLink = entity.getLink('https://outcomes.api.brightspace.com/rels/outcome');
+		const outcomeLink = entity.getLink(hmConsts.Rels.Outcomes.outcome);
 		return outcomeLink ? outcomeLink.href : null;
 	}
 
@@ -113,7 +114,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 		if (!entity) {
 			return null;
 		}
-		const activitiesLink = entity.getLink('https://user-progress.api.brightspace.com/rels/outcome-activities');
+		const activitiesLink = entity.getLink(hmConsts.Rels.UserProgress.outcomeActivities);
 		return activitiesLink ? activitiesLink.href : null;
 	}
 

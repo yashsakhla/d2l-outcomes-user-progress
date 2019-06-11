@@ -4,6 +4,7 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior.js';
 import 'd2l-colors/d2l-colors.js';
 import 'd2l-typography/d2l-typography.js';
+import * as hmConsts from 'd2l-hypermedia-constants';
 import '../localize-behavior';
 import './evidence-skeleton.js';
 import './evidence-entry.js';
@@ -78,15 +79,21 @@ export class EvidenceList extends mixinBehaviors(
 		}
 
 		let evidenceList = [];
-		const activities = entity.getSubEntitiesByClass('user-progress-outcome-activity');
+		const activities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.activities);
 		activities.forEach(activity => {
-			const demonstrations = activity.getSubEntitiesByClasses(['demonstration', 'assessed']);
+			const demonstrations = activity.getSubEntitiesByClasses([
+				hmConsts.Classes.outcomes.demonstration,
+				hmConsts.Classes.outcomes.assessed
+			]);
 			demonstrations.forEach(demonstration => {
-				const level = demonstration.getSubEntityByClasses(['demonstratable-level', 'selected']);
+				const level = demonstration.getSubEntityByClasses([
+					hmConsts.Classes.outcomes.demonstratableLevel,
+					hmConsts.Classes.outcomes.selected
+				]);
 				if (!level) {
 					return;
 				}
-				const levelLink = level.getLink('https://achievements.api.brightspace.com/rels/level');
+				const levelLink = level.getLink(hmConsts.Rels.Achievements.level);
 				if (!levelLink || !levelLink.href) {
 					return;
 				}
