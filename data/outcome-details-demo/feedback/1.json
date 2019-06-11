@@ -1,0 +1,36 @@
+{
+    "class": [
+        "feedback-list",
+        "collection"
+    ],
+    "entities": [
+        {
+            "class": [
+                "richtext",
+                "feedback"
+            ],
+            "rel": [
+                "item"
+            ],
+            "properties": {
+                "text": "",
+                "html": "<p>This is my feedback. I'm making a note here: <b>HUGE SUCCESS</b>.</p>"
+            }
+        }
+    ],
+    "links": [
+        {
+            "rel": [
+                "up",
+                "https://user-progress.api.brightspace.com/rels/outcome-activity"
+            ],
+            "href": "/data/outcome-details-demo/demonstrations/1.json"
+        },
+        {
+            "rel": [
+                "self"
+            ],
+            "href": "/data/outcome-details-demo/feedback/1.json"
+        }
+    ]
+}

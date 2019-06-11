@@ -238,7 +238,13 @@
                         "https://activities.api.brightspace.com/rels/user-activity-usage"
                     ],
                     "href": "/d2l/api/hm/activities/activities/6606_2000_1/usages/6613/users/30221"
-                }
+                },
+				{
+					"rel": [
+						"https://user-progress.api.brightspace.com/rels/feedback"
+					],
+					"href": "/data/outcome-details-demo/feedback/1.json"
+				}
             ]
         },
         {
