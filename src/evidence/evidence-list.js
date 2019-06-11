@@ -4,6 +4,7 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior.js';
 import 'd2l-colors/d2l-colors.js';
 import 'd2l-typography/d2l-typography.js';
+import * as hmConsts from 'd2l-hypermedia-constants';
 import '../localize-behavior';
 import './evidence-skeleton.js';
 import './evidence-entry.js';
@@ -91,7 +92,7 @@ export class EvidenceList extends mixinBehaviors(
 				if (!levelLink || !levelLink.href) {
 					return;
 				}
-				const feedbackLink = activity.getLink('https://user-progress.api.brightspace.com/rels/feedback') || {};
+				const feedbackLink = activity.getLink(hmConsts.Rels.UserProgress.feedback) || {};
 				evidenceList.push({
 					type: activity.properties.type,
 					name: (!activity.properties.name || activity.properties.name.trim() === '' ? this.localize('untitled') : activity.properties.name),
