@@ -102,7 +102,7 @@ export class EvidenceList extends mixinBehaviors(
 				evidenceList.push({
 					type: activity.properties.type,
 					name: (!activity.properties.name || activity.properties.name.trim() === '' ? this.localize('untitled') : activity.properties.name),
-					date: demonstration.properties.dateAssessed,
+					date: activity.properties.dueDate || demonstration.properties.dateAssessed,
 					levelHref: levelLink.href,
 					feedbackHref: feedbackLink.href || null
 				});
