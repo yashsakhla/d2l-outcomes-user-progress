@@ -76,7 +76,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
 			return acc;
 		}, trendGroups);
 
-		return trendGroups;
+		return trendGroups.sort((a, b) => a.date.getTime() - b.date.getTime());
 	}
 };
 /** @polymerBehavior */
