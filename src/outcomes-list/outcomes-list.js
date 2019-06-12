@@ -5,6 +5,8 @@ import 'd2l-polymer-siren-behaviors/store/entity-behavior';
 import * as hmConsts from 'd2l-hypermedia-constants';
 import './outcomes-list-item';
 
+const DEFAULT_SKELETON_COUNT = 10;
+
 export class OutcomesList extends mixinBehaviors(
 	[ D2L.PolymerBehaviors.Siren.EntityBehavior ],
 	PolymerElement
@@ -14,6 +16,11 @@ export class OutcomesList extends mixinBehaviors(
 	static get template() {
 		const template = html`
 			<div id="container" role="list">
+				<template is="dom-if" if="[[!entity]]">
+					<template is="dom-repeat" items="[[_numSkeletons]]">
+						<d2l-outcomes-list-item></d2l-outcomes-list-item>
+					</template>
+				</template>
 				<template is="dom-repeat" items="[[_outcomes]]">
 					<d2l-outcomes-list-item href="[[_getOutcomeHref(item)]]" token="[[token]]"></d2l-outcomes-list-item>
 				</template>
@@ -28,6 +35,10 @@ export class OutcomesList extends mixinBehaviors(
 			_outcomes: {
 				type: Array,
 				value: []
+			},
+			_numSkeletons: {
+				type: Number,
+				value: Array.apply(null, { length: DEFAULT_SKELETON_COUNT }).map((v, i) => i)
 			}
 		};
 	}
