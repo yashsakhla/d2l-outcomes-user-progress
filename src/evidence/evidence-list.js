@@ -110,7 +110,7 @@ export class EvidenceList extends mixinBehaviors(
 		});
 
 		evidenceList = evidenceList.sort((a, b) => {
-			return new Date(a.assessmentDate).getTime() - new Date(b.assessmentDate).getTime();
+			return new Date(a.date).getTime() - new Date(b.date).getTime();
 		});
 
 		if (evidenceList.length) {
