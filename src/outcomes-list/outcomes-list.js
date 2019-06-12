@@ -37,7 +37,7 @@ export class OutcomesList extends mixinBehaviors(
 				value: []
 			},
 			_numSkeletons: {
-				type: Number,
+				type: Array,
 				value: Array.apply(null, { length: DEFAULT_SKELETON_COUNT }).map((v, i) => i)
 			}
 		};
