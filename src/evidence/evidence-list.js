@@ -105,22 +105,30 @@ export class EvidenceList extends mixinBehaviors(
 				evidenceList.push({
 					type: activity.properties.type,
 					name: (!activity.properties.name || activity.properties.name.trim() === '' ? this.localize('untitled') : activity.properties.name),
-					date: activity.properties.dueDate || demonstration.properties.dateAssessed,
+					date: this._getEvidenceDate(activity, demonstration),
 					levelHref: levelLink.href,
 					feedbackHref: feedbackLink.href || null
 				});
 			});
 		});
 
-		evidenceList = evidenceList.sort((a, b) => {
-			return new Date(b.date).getTime() - new Date(a.date).getTime();
-		});
+		evidenceList.reverse();
 
 		if (evidenceList.length) {
 			evidenceList[evidenceList.length - 1].isLast = true;
 		}
 
 		return evidenceList;
+	}
+
+	_getEvidenceDate(activityEntity, demonstrationEntity) {
+		if (activityEntity.properties.dueDate
+			&& new Date(activityEntity.properties.dueDate) <= new Date()
+		) {
+			return activityEntity.properties.dueDate;
+		}
+
+		return demonstrationEntity.properties.dateAssessed;
 	}
 
 }
