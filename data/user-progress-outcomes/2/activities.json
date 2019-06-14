@@ -321,6 +321,33 @@
                     "href": "http://unused"
                 }
             ]
+        },
+        {
+            "class": [
+                "user-progress-outcome-activity"
+            ],
+            "rel": [
+                "item"
+            ],
+            "properties": {
+                "name": "Activity 4",
+                "dueDate": "2018-09-01T04:00:03.000Z",
+                "type": "Dropbox"
+            },
+            "links": [
+                {
+                    "rel": [
+                        "self"
+                    ],
+                    "href": "http://unused"
+                },
+                {
+                    "rel": [
+                        "https://activities.api.brightspace.com/rels/user-activity-usage"
+                    ],
+                    "href": "http://unused"
+                }
+            ]
         }
     ],
     "links": [
