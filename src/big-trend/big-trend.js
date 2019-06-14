@@ -483,8 +483,8 @@ export class BigTrend extends mixinBehaviors(
 			const blocks = [];
 
 			const groupAttempts = group.attempts;
-            const groupDate = this.formatDate(group.date, { format: 'MMMM d, yyyy' });
-            const groupId = this.formatDate(group.date, { format: 'yyyy-MM' });
+			const groupDate = this.formatDate(group.date, { format: 'MMMM d, yyyy' });
+			const groupId = this.formatDate(group.date, { format: 'yyyy-MM' });
 			const groupLabel = this._getGroupLabel(group);
 			const groupName = (!group.name || group.name.trim() === '') ? this.localize('untitled') : group.name;
 
