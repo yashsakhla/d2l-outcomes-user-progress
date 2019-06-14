@@ -477,13 +477,14 @@ export class BigTrend extends mixinBehaviors(
 		const trendItems = [];
 		const maxLevel = this._getMaxLevelScore(levels);
 		const gridHeight = this._rowHeight - GRID_THICKNESS;
-		let lastGroupLabel = null;
+		let lastGroupId = null;
 
 		trendGroups.forEach(group => {
 			const blocks = [];
 
 			const groupAttempts = group.attempts;
 			const groupDate = this.formatDate(group.date, { format: 'MMMM d, yyyy' });
+			const groupId = this.formatDate(group.date, { format: 'yyyy-MM' });
 			const groupLabel = this._getGroupLabel(group);
 			const groupName = (!group.name || group.name.trim() === '') ? this.localize('untitled') : group.name;
 
@@ -495,11 +496,11 @@ export class BigTrend extends mixinBehaviors(
 			};
 
 			// Create vertical grid lines
-			if (groupLabel !== lastGroupLabel) {
+			if (groupId !== lastGroupId) {
 				groupItem.label = groupLabel;
 			}
 
-			lastGroupLabel = groupLabel;
+			lastGroupId = groupId;
 
 			// Compute levels achieved
 			const groupLevels = groupAttempts

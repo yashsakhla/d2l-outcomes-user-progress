@@ -177,9 +177,23 @@ export class MiniTrend extends mixinBehaviors(
 			return null;
 		}
 
+		const truncGroups = [];
+		const trendGroups = trendData.groups;
+		for (let i = trendGroups.length - 1; i >= 0; i--) {
+			if (truncGroups.length === MAX_TREND_ITEMS) {
+				break;
+			}
+
+			if (truncGroups.length === 0 && trendGroups[i].attempts.length === 0) {
+				continue;
+			}
+
+			truncGroups.push(trendGroups[i]);
+		}
+
 		return {
 			levels: trendData.levels,
-			groups: trendData.groups.slice(-MAX_TREND_ITEMS)
+			groups: truncGroups.reverse()
 		};
 	}
 }
