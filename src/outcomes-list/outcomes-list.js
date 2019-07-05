@@ -11,7 +11,7 @@ import '../localize-behavior';
 const DEFAULT_SKELETON_COUNT = 10;
 
 export class OutcomesList extends mixinBehaviors(
-	[ 
+	[
 		D2L.PolymerBehaviors.Siren.EntityBehavior,
 		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior
 	],
