@@ -28,7 +28,7 @@ export class OutcomesListItem extends mixinBehaviors(
 					padding: 18px 0px;
 				}
 
-				#container:hover {
+				#container:not([aria-busy]):hover {
 					cursor: pointer;
 				}
 
@@ -83,7 +83,7 @@ export class OutcomesListItem extends mixinBehaviors(
 				}
 			</style>
 			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
-			<div id="container" role="listitem" on-click="_onItemClicked" aria-busy="[[!_outcomeEntity]]">
+			<div id="container" role="listitem" on-click="_onItemClicked" aria-busy$="[[!_outcomeEntity]]">
 				<div id="primary">
 					<template is="dom-if" if="[[_outcomeEntity]]">
 						<div class="main-text">[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</div>
@@ -161,7 +161,9 @@ export class OutcomesListItem extends mixinBehaviors(
 	}
 
 	_onItemClicked() {
-		this.dispatchEvent(new CustomEvent(oupConsts.events.outcomeListItemClicked, { composed: true, detail: { href: this._selfHref } }));
+		if (this._outcomeEntity) {
+			this.dispatchEvent(new CustomEvent(oupConsts.events.outcomeListItemClicked, { composed: true, detail: { href: this._selfHref } }));
+		}
 	}
 }
 
