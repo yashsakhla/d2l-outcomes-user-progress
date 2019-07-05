@@ -17,7 +17,8 @@ export class OutcomesUserProgress extends mixinBehaviors(
                 id="list"
                 hidden$="[[_showDetails]]"
                 href="[[href]]"
-                token="[[token]]"
+				token="[[token]]"
+				outcome-term="[[outcomeTerm]]"
             ></d2l-outcomes-list>
             <d2l-outcome-progress-details
                 id="details"

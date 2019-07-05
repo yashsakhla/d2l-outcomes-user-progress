@@ -60,13 +60,14 @@ Displays a list of outcomes that a user has made progress towards demonstrating.
 #### Usage
 
 ```html
-<d2l-outcomes-list href="" token=""></d2l-outcomes-list>
+<d2l-outcomes-list href="" token="" outcomeTerm=""></d2l-outcomes-list>
 ```
 
 #### Attributes
 
 - `href` - Hypermedia URL for user progress outcomes data; of the form `{tenant}.user-progress.api.{domain}/org-unit/{orgUnitId}/user/{userId}/outcomes`
 - `token` - Auth token
+- `outcomeTerm` - **[Optional]** The preferred term to use when referring to outcomes. Accepted values are: `competencies`, `expectations`, `objectives`, `outcomes` and `standards`. Default value is `standards`
 
 #### Events
 
@@ -84,10 +85,11 @@ A wrapper component which combines the `d2l-outcomes-list` with the `d2l-outcome
 #### Usage
 
 ```html
-<d2l-outcomes-user-progress href="" token=""></d2l-outcomes-user-progress>
+<d2l-outcomes-user-progress href="" token="" outcomeTerm=""></d2l-outcomes-user-progress>
 ```
 
 #### Attributes
 
 - `href` - Hypermedia URL for user progress outcomes data; of the form `{tenant}.user-progress.api.{domain}/org-unit/{orgUnitId}/user/{userId}/outcomes`
 - `token` - Auth token
+- `outcomeTerm` - **[Optional]** The preferred term to use when referring to outcomes. Accepted values are: `competencies`, `expectations`, `objectives`, `outcomes` and `standards`. Default value is `standards`
