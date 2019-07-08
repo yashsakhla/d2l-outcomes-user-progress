@@ -8,5 +8,8 @@
     "notAssessed": "Not assessed",
     "untitled": "Untitled",
     "close": "닫기",
-    "noEvidence": "This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed"
+    "noEvidence": "This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed",
+    "trend": "Trend",
+    "evidence": "Evidence",
+    "noOutcomes": "No {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}} to report for this user"
 }

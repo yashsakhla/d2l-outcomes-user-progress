@@ -43,7 +43,10 @@
     </head>
     <body class="d2l-typography">
         <div class="demo-container">
-            <h2>Outcomes List Demo</h2>
+            <h2>Outcomes List Demos</h2>
+            <h3>Empty List</h3>
+            <d2l-outcomes-list href="/data/user-progress-no-outcomes.json" token="abc123"></d2l-outcomes-list>
+            <h3>List With Data</h3>
             <d2l-outcomes-list href="/data/user-progress-outcomes.json" token="abc123"></d2l-outcomes-list>
         </div>
         <div class="demo-container">
@@ -52,10 +55,12 @@
         </div>
         <script type="module">
             import { oupConsts } from '../src/consts';
-            console.log(JSON.stringify(oupConsts));
-            document.getElementsByTagName('d2l-outcomes-list')[0].addEventListener(oupConsts.events.outcomeListItemClicked, (e) => {
-                console.log(`Clicked on outcome: ${e.detail.href}`);
-            });
+            const listElements = document.getElementsByTagName('d2l-outcomes-list');
+            for (let i = 0; i < listElements.length; i++) {
+                listElements[i].addEventListener(oupConsts.events.outcomeListItemClicked, (e) => {
+                    alert(`Clicked on outcome: ${e.detail.href}`);
+                });
+            }
         </script>
     </body>
 </html>

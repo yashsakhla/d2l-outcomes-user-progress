@@ -5,22 +5,23 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress = window.D2L.PolymerBehaviors.O
 window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior || {};
 
 /*
- * en lang terms
+ * En lang terms
  * @polymerBehavior D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangEnBehavior
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangEnBehavior = {
     en: {
-    "bigTrendAttemptsScreenReaderString": "{numAttempts, plural, one {Attempt {attemptNames}} other {Attempts {attemptNames} and {lastAttemptName}}}",
-    "bigTrendAttemptsTooltipString": "{numAttempts, plural, one {Attempt} other {Attempts}} {attemptNames}",
-    "headingDate": "Date",
-    "headingEvidence": "Evidence Name",
-    "headingLoa": "Level of Achievement",
-    "miniTrendScreenReaderText": "Assessed {numAssessed} {numAssessed, plural, one {time} other {times}}: {levelNames}",
-    "notAssessed": "Not assessed",
-    "untitled": "Untitled",
-    "trend": "Trend",
-    "evidence": "Evidence",
-    "close": "Close",
-    "noEvidence": "This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed"
-}
+        "bigTrendAttemptsScreenReaderString": "{numAttempts, plural, one {Attempt {attemptNames}} other {Attempts {attemptNames} and {lastAttemptName}}}",
+        "bigTrendAttemptsTooltipString": "{numAttempts, plural, one {Attempt} other {Attempts}} {attemptNames}",
+        "headingDate": "Date",
+        "headingEvidence": "Evidence Name",
+        "headingLoa": "Level of Achievement",
+        "miniTrendScreenReaderText": "Assessed {numAssessed} {numAssessed, plural, one {time} other {times}}: {levelNames}",
+        "notAssessed": "Not assessed",
+        "untitled": "Untitled",
+        "trend": "Trend",
+        "evidence": "Evidence",
+        "close": "Close",
+        "noEvidence": "This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed",
+        "noOutcomes": "No {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}} to report for this user"
+    }
 };
