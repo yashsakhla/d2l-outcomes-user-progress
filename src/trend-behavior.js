@@ -65,7 +65,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
 				}
 			});
 
-			const groupDate = dueDate && dueDate <= new Date() ? dueDate : demonstrationDate;
+			const groupDate = dueDate && dueDate <= new Date() ? dueDate : demonstrationDate || dueDate;
 			if (dueDate !== null || attempts.length > 0) {
 				acc.push({
 					attempts: attempts,
