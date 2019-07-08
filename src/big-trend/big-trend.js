@@ -169,7 +169,7 @@ export class BigTrend extends mixinBehaviors(
                     height: var(--not-assessed-height);
                 }
     
-                .trend-group .trend-block:first-of-type {
+                .trend-group .trend-block:first-of-type { /* Requires trend-blocks and not-assessed trend-blocks to be different element types */
                     border-top-left-radius: var(--border-radius);
                     border-top-right-radius: var(--border-radius);
                 }
@@ -234,7 +234,7 @@ export class BigTrend extends mixinBehaviors(
                                 <div class$="[[_getColumnClasses(item)]]">
                                     <div id$="[[_getUniqueGroupId(groupIndex)]]" class$="[[_getGroupClasses(item)]]" tabindex="0">
                                         <template is="dom-if" if="[[!_groupHasBlocks(item)]]">
-                                            <div class="trend-block" style$="margin-top: calc([[item.gridHeight]]px - var(--not-assessed-height));"></div>
+                                            <span class="trend-block" style$="margin-top: calc([[item.gridHeight]]px - var(--not-assessed-height));"></span>
                                         </template>
                                         <template is="dom-repeat" items="[[item.blocks]]" as="trendBlock">
                                             <div class="trend-block" style$="height: [[trendBlock.height]]px; background-color: [[trendBlock.color]];"></div>
