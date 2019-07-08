@@ -45,6 +45,7 @@ export class EvidenceList extends mixinBehaviors(
 							feedback-href="[[info.feedbackHref]]"
 							token="[[token]]"
 							last="[[info.isLast]]"
+							link="[[info.link]]"
 						></d2l-evidence-entry>
 					</template>
 					<div class="no-evidence" hidden="[[!_isEmpty(_evidence)]]">
@@ -89,6 +90,7 @@ export class EvidenceList extends mixinBehaviors(
 				hmConsts.Classes.outcomes.demonstration,
 				hmConsts.Classes.outcomes.assessed
 			]);
+			const submissionLink = activity.getLink('https://user-progress.api.brightspace.com/rels/submission-link') || {};
 			demonstrations.forEach(demonstration => {
 				const level = demonstration.getSubEntityByClasses([
 					hmConsts.Classes.outcomes.demonstratableLevel,
@@ -107,7 +109,8 @@ export class EvidenceList extends mixinBehaviors(
 					name: (!activity.properties.name || activity.properties.name.trim() === '' ? this.localize('untitled') : activity.properties.name),
 					date: this._getEvidenceDate(activity, demonstration),
 					levelHref: levelLink.href,
-					feedbackHref: feedbackLink.href || null
+					feedbackHref: feedbackLink.href || null,
+					link: submissionLink.href || null
 				});
 			});
 		});
