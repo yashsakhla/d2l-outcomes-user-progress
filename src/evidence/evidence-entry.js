@@ -48,6 +48,20 @@ export class EvidenceEntry extends mixinBehaviors(
 					border-radius: 4px;
 					padding: 24px 18px;
 					margin-bottom: 17px;
+					border-box: none;
+					color: var(--d2l-color-ferrite);
+					background-color: var(--d2l-color-white);
+					-moz-appearance: none;
+					-webkit-appearance: none;
+					appearance: none;
+				}
+				
+				.card:not([disabled]):hover, .card:not([disabled]):focus {
+					box-shadow: 0 4px 18px 2px rgba(0,0,0,0.06);
+					transform: translateY(-4px);
+					transition: all 0.3s ease-out;
+					transition-delay: 0.05s;
+					cursor: pointer;
 				}
 				
 				.card-header {
@@ -104,7 +118,7 @@ export class EvidenceEntry extends mixinBehaviors(
 					<span class="fit date">[[_formatDate(date)]]</span>
 					<div class="grow line"></div>
 				</div>
-				<div class="card">
+				<button class="card" disabled="[[!link]]" on-click="_onClick">
 					<div class="card-header">
 						<b class="fit">[[name]]</b>
 						<div class="grow"></div>
@@ -119,7 +133,7 @@ export class EvidenceEntry extends mixinBehaviors(
 							</div>
 						</template>
 					</d2l-more-less>
-				</div>
+				</button>
 			</div>
 		`;
 		template.setAttribute('strip-whitespace', true);
@@ -134,6 +148,10 @@ export class EvidenceEntry extends mixinBehaviors(
 			levelHref: String,
 			feedbackHref: String,
 			token: String,
+			link: {
+				type: String,
+				value: null
+			},
 			last: {
 				type: Boolean,
 				reflectToAttribute: true,
@@ -182,6 +200,12 @@ export class EvidenceEntry extends mixinBehaviors(
 		return feedbackEntity.getSubEntitiesByClass('feedback').map(
 			feedback => this._processFeedbackHtml(feedback.properties.html)
 		);
+	}
+
+	_onClick() {
+		if (this.link) {
+			window.location = this.link;
+		}
 	}
 
 	_getActivityIcon(toolName) {
