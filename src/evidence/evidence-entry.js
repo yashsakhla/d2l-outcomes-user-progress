@@ -39,6 +39,8 @@ export class EvidenceEntry extends mixinBehaviors(
 				}
 				
 				.card {
+					position: relative;
+					top: 0px;
 					display: flex;
 					flex-direction: column;
 					align-items: stretch;
@@ -58,7 +60,7 @@ export class EvidenceEntry extends mixinBehaviors(
 				
 				.card:not([disabled]):hover, .card:not([disabled]):focus {
 					box-shadow: 0 4px 18px 2px rgba(0,0,0,0.06);
-					transform: translateY(-4px);
+					top: -4px;
 					transition: all 0.3s ease-out;
 					transition-delay: 0.05s;
 					cursor: pointer;
