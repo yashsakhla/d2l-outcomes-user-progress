@@ -73,6 +73,7 @@ export class EvidenceEntry extends mixinBehaviors(
 				.feedback {
 					margin-top: 17px;
 					display: flex;
+					text-align: left;
 				}
 				
 				.circle {
