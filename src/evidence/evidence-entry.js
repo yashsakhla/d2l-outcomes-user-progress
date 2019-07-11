@@ -33,7 +33,8 @@ export class EvidenceEntry extends mixinBehaviors(
 					flex-direction: column;
 					align-items: center;
 					width: 60px;
-					margin-top: 8px;
+					margin-top: 9px;
+					margin-right: 12px;
 					flex-grow: 0;
 					flex-shrink: 0;
 				}
@@ -48,14 +49,11 @@ export class EvidenceEntry extends mixinBehaviors(
 					flex-shrink: 1;
 					border: 1px solid var(--d2l-color-gypsum);
 					border-radius: 4px;
-					padding: 24px 18px;
+					padding: 18px 24px;
 					margin-bottom: 17px;
 					border-box: none;
 					color: var(--d2l-color-ferrite);
 					background-color: var(--d2l-color-white);
-					-moz-appearance: none;
-					-webkit-appearance: none;
-					appearance: none;
 				}
 				
 				.card:not([disabled]):hover, .card:not([disabled]):focus {
@@ -74,6 +72,7 @@ export class EvidenceEntry extends mixinBehaviors(
 					margin-top: 17px;
 					display: flex;
 					text-align: left;
+					font-size: 16px;
 				}
 				
 				.circle {
@@ -87,6 +86,7 @@ export class EvidenceEntry extends mixinBehaviors(
 				
 				.date {
 					@apply --d2l-body-small-text;
+					margin-top: 6px;
 				}
 				
 				.line {
@@ -112,6 +112,24 @@ export class EvidenceEntry extends mixinBehaviors(
 					flex-grow: 1;
 					flex-shrink: 1;
 				}
+				
+				button {
+					font: inherit;
+					-moz-appearance: none;
+					-webkit-appearance: none;
+					appearance: none;
+				}
+				
+				h4 {
+					@apply --d2l-heading-4;
+					margin: 0;
+				}
+				
+				.level-name {
+					@apply --d2l-heading-4;
+					margin: 0;
+					font-weight: normal;
+				}
 			</style>
 			<siren-entity href="[[levelHref]]" token="[[token]]" entity="{{_levelEntity}}"></siren-entity>
 			<siren-entity href="[[feedbackHref]]" token="[[token]]" entity="{{_feedbackEntity}}"></siren-entity>
@@ -123,9 +141,9 @@ export class EvidenceEntry extends mixinBehaviors(
 				</div>
 				<button class="card" disabled="[[!link]]" on-click="_onClick">
 					<div class="card-header">
-						<b class="fit">[[name]]</b>
+						<h4 class="fit">[[name]]</h4>
 						<div class="grow"></div>
-						<span class="fit">[[_getLevelName(_levelEntity)]]</span>
+						<span class="fit level-name">[[_getLevelName(_levelEntity)]]</span>
 						<div class="fit circle" style="[[_getLevelColourStyle(_levelEntity)]]"></div>
 					</div>
 					<d2l-more-less height="4rem">
@@ -205,10 +223,21 @@ export class EvidenceEntry extends mixinBehaviors(
 		);
 	}
 
-	_onClick() {
-		if (this.link) {
-			window.location = this.link;
+	_onClick(event) {
+		if (
+			!this.link ||
+			!event.composedPath() ||
+			event.composedPath().some(element => {
+				return (
+					element instanceof HTMLElement &&
+					element.tagName === 'D2L-BUTTON-SUBTLE' &&
+					element.classList.contains('more-less-toggle')
+				);
+			})
+		) {
+			return;
 		}
+		window.location = this.link;
 	}
 
 	_getActivityIcon(toolName) {
