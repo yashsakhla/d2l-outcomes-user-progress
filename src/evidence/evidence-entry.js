@@ -72,6 +72,7 @@ export class EvidenceEntry extends mixinBehaviors(
 					margin-top: 17px;
 					display: flex;
 					text-align: left;
+					font-size: 16px;
 				}
 				
 				.circle {
@@ -118,6 +119,17 @@ export class EvidenceEntry extends mixinBehaviors(
 					-webkit-appearance: none;
 					appearance: none;
 				}
+				
+				h4 {
+					@apply --d2l-heading-4;
+					margin: 0;
+				}
+				
+				.level-name {
+					@apply --d2l-heading-4;
+					margin: 0;
+					font-weight: normal;
+				}
 			</style>
 			<siren-entity href="[[levelHref]]" token="[[token]]" entity="{{_levelEntity}}"></siren-entity>
 			<siren-entity href="[[feedbackHref]]" token="[[token]]" entity="{{_feedbackEntity}}"></siren-entity>
@@ -129,9 +141,9 @@ export class EvidenceEntry extends mixinBehaviors(
 				</div>
 				<button class="card" disabled="[[!link]]" on-click="_onClick">
 					<div class="card-header">
-						<b class="fit">[[name]]</b>
+						<h4 class="fit">[[name]]</h4>
 						<div class="grow"></div>
-						<span class="fit">[[_getLevelName(_levelEntity)]]</span>
+						<span class="fit level-name">[[_getLevelName(_levelEntity)]]</span>
 						<div class="fit circle" style="[[_getLevelColourStyle(_levelEntity)]]"></div>
 					</div>
 					<d2l-more-less height="4rem">
