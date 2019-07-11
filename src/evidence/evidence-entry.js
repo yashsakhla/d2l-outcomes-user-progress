@@ -33,7 +33,8 @@ export class EvidenceEntry extends mixinBehaviors(
 					flex-direction: column;
 					align-items: center;
 					width: 60px;
-					margin-top: 8px;
+					margin-top: 9px;
+					margin-right: 12px;
 					flex-grow: 0;
 					flex-shrink: 0;
 				}
@@ -48,14 +49,11 @@ export class EvidenceEntry extends mixinBehaviors(
 					flex-shrink: 1;
 					border: 1px solid var(--d2l-color-gypsum);
 					border-radius: 4px;
-					padding: 24px 18px;
+					padding: 18px 24px;
 					margin-bottom: 17px;
 					border-box: none;
 					color: var(--d2l-color-ferrite);
 					background-color: var(--d2l-color-white);
-					-moz-appearance: none;
-					-webkit-appearance: none;
-					appearance: none;
 				}
 				
 				.card:not([disabled]):hover, .card:not([disabled]):focus {
@@ -87,6 +85,7 @@ export class EvidenceEntry extends mixinBehaviors(
 				
 				.date {
 					@apply --d2l-body-small-text;
+					margin-top: 6px;
 				}
 				
 				.line {
@@ -111,6 +110,13 @@ export class EvidenceEntry extends mixinBehaviors(
 				.grow {
 					flex-grow: 1;
 					flex-shrink: 1;
+				}
+				
+				button {
+					font: inherit;
+					-moz-appearance: none;
+					-webkit-appearance: none;
+					appearance: none;
 				}
 			</style>
 			<siren-entity href="[[levelHref]]" token="[[token]]" entity="{{_levelEntity}}"></siren-entity>
