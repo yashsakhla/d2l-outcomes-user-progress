@@ -39,18 +39,32 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 					border-radius: 6px;
 					box-shadow: 0 4px 8px 0 rgba(0,0,0,0.03);
 				}
+				
+				.header {
+					display: flex;
+				}
+				
+				.header > h2 {
+					flex-grow: 0;
+				}
+				
+				.spacer {
+					flex-grow: 1;
+				}
 
 				.close-button {
 					display: block;
-					float: right;
-					margin-top: -14px;
+					flex-grow: 0;
 				}
 
 				h2 {
-					margin: 12px 0;
+					@apply --d2l-heading-2;
+					margin: 0;
+					margin-bottom: 12px;
 				}
 
 				h3 {
+					@apply --d2l-heading-3;
 					margin: 24px 0;
 				}
 				
@@ -65,7 +79,8 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 			</style>
 			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
 			<div class="card">
-				<div style="height: 18px;">
+				<div class="header">
+					<h2>[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h2>
 					<d2l-button-icon
 						class="close-button"
 						icon="d2l-tier1:close-large-thick"
@@ -73,7 +88,6 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 						on-click="_close"
 					></d2l-button-icon>
 				</div>
-				<h2>[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h2>
 				<div class="notation">[[getOutcomeIdentifier(_outcomeEntity)]]</div>
 				<h3>[[localize('trend')]]</h3>
 				<d2l-big-trend
