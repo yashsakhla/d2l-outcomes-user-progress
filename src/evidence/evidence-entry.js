@@ -211,10 +211,21 @@ export class EvidenceEntry extends mixinBehaviors(
 		);
 	}
 
-	_onClick() {
-		if (this.link) {
-			window.location = this.link;
+	_onClick(event) {
+		if (
+			!this.link ||
+			!event.composedPath() ||
+			event.composedPath().some(element => {
+				return (
+					element instanceof HTMLElement &&
+					element.tagName === 'D2L-BUTTON-SUBTLE' &&
+					element.classList.contains('more-less-toggle')
+				);
+			})
+		) {
+			return;
 		}
+		window.location = this.link;
 	}
 
 	_getActivityIcon(toolName) {
