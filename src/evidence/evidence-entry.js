@@ -133,7 +133,7 @@ export class EvidenceEntry extends mixinBehaviors(
 				}
 				
 				s-html {
-					overflow-y: auto;
+					overflow-x: auto;
 				}
 			</style>
 			<siren-entity href="[[levelHref]]" token="[[token]]" entity="{{_levelEntity}}"></siren-entity>
