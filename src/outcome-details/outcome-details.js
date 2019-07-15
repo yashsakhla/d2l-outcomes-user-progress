@@ -81,6 +81,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 			<div class="card">
 				<div class="header">
 					<h2>[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h2>
+					<span class="spacer"></span>
 					<d2l-button-icon
 						class="close-button"
 						icon="d2l-tier1:close-large-thick"
