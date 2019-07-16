@@ -45,6 +45,7 @@ export class EvidenceEntry extends mixinBehaviors(
 					display: flex;
 					flex-direction: column;
 					align-items: stretch;
+					width: 0;
 					flex-grow: 1;
 					flex-shrink: 1;
 					border: 1px solid var(--d2l-color-gypsum);
@@ -129,6 +130,10 @@ export class EvidenceEntry extends mixinBehaviors(
 					@apply --d2l-heading-4;
 					margin: 0;
 					font-weight: normal;
+				}
+				
+				s-html {
+					overflow-x: auto;
 				}
 			</style>
 			<siren-entity href="[[levelHref]]" token="[[token]]" entity="{{_levelEntity}}"></siren-entity>
