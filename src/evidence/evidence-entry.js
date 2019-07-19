@@ -102,6 +102,7 @@ export class EvidenceEntry extends mixinBehaviors(
 				
 				.quote {
 					margin-right: 12px;
+					margin-top: 7px;
 				}
 				
 				.fit {
