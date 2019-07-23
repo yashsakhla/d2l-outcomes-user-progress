@@ -329,7 +329,7 @@ export class BigTrend extends mixinBehaviors(
 
 	static get properties() {
 		return {
-            outcomeTerm: String,
+			outcomeTerm: String,
 			_gridHorizontal: {
 				type: Array,
 				computed: '_getGridHorizontal(trendData)'
@@ -450,9 +450,9 @@ export class BigTrend extends mixinBehaviors(
 		return Math.max.apply(null, Object.keys(levels).map(levelId => levels[levelId].score));
 	}
 
-    _getNoScaleText() {
-        return this.localize('')
-    }
+	_getNoScaleText() {
+		return this.localize('');
+	}
 
 	_getNotAssessedText() {
 		return this.localize('notAssessed');
@@ -581,11 +581,11 @@ export class BigTrend extends mixinBehaviors(
 
 	_hasMultipleAttempts(group) {
 		return group.attempts.length > 0 && (group.attempts.length > 1 || group.attempts[0].attempts.length > 1);
-    }
-    
-    _hasNoScale(trendData) {
-        return trendData && trendData.levels && Object.keys(trendData.levels).length === 0;
-    }
+	}
+
+	_hasNoScale(trendData) {
+		return trendData && trendData.levels && Object.keys(trendData.levels).length === 0;
+	}
 
 	_onDataScrolled() {
 		const scrollMax = this.scrollContainer.scrollLeftMax
