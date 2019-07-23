@@ -5,7 +5,7 @@ const
 	fs = require('fs'),
 	yargs = require('yargs');
 
-const args = yargs.usage('USAGE: $0 [options]\n\nCopies new lang terms from the source file to all other lang term files. Default behaviour will only copy new terms over, leaving existing translations intact. If an existing term is modified, you must run with the `--all` flag to ensure all terms are overwritten; however all translations will need to be redone.')
+const args = yargs.usage('USAGE: $0 [options] [terms]\n\nCopies new and deleted lang terms from the source file to all other lang term files. Default behaviour will not copy changes to existing lang terms. If an existing term is modified, you must specify the term as an argument to force-copy it from the source file (any translations of this term will be lost).')
 	.strict(true)
 	.option('config', {
 		alias: 'c',
@@ -21,6 +21,7 @@ const args = yargs.usage('USAGE: $0 [options]\n\nCopies new lang terms from the 
 
 const configFile = args.config;
 const copyAll = args.all;
+const terms = args._;
 
 let config = null;
 try {
@@ -67,13 +68,14 @@ config.langNames.forEach(langName => {
 
 	const destPath = getLangFilePath(langName);
 
-	let outputJson = {};
+	const outputJson = {};
+	let destJson;
 	if (copyAll || !fs.existsSync(destPath)) {
 		Object.assign(outputJson, sourceJson);
 	} else {
 		try {
 			const destContents = fs.readFileSync(destPath);
-			outputJson = JSON.parse(destContents);
+			destJson = JSON.parse(destContents);
 		} catch (e) {
 			let msg = null;
 			if (e instanceof SyntaxError) {
@@ -85,10 +87,11 @@ config.langNames.forEach(langName => {
 			throw new Error(`${msg} ${e}`);
 		}
 
-		// Copy new values over only
 		Object.keys(sourceJson).forEach(key => {
-			if (!outputJson[key]) {
+			if (!destJson[key] || terms.indexOf(key) >= 0) {
 				outputJson[key] = sourceJson[key];
+			} else {
+				outputJson[key] = destJson[key];
 			}
 		});
 	}
