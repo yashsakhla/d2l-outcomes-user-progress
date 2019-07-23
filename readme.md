@@ -45,13 +45,14 @@ An interactive display of all demonstrations of an outcome for a user in a cours
 #### Usage
 
 ```html
-<d2l-big-trend href="" token=""></d2l-big-trend>
+<d2l-big-trend href="" token="" outcomeTerm=""></d2l-big-trend>
 ```
 
 #### Attributes
 
 - `href` - Hypermedia URL for trend activity data; of the form `{tenant}.user-progress.api.{domain}/org-unit/{orgUnitId}/user/{userId}/outcomes/{outcomeId}/activities`
 - `token` - Auth token
+- `outcomeTerm` - **[Optional]** The preferred term to use when referring to outcomes. Accepted values are: `competencies`, `expectations`, `objectives`, `outcomes` and `standards`. Default value is `standards`
 
 ### Outcomes List<a name="outcomes-list"></a>
 
