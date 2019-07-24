@@ -10,19 +10,19 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.P
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangFrBehavior = {
 	fr: {
-    "bigTrendAttemptsScreenReaderString": "{numAttempts, plural, one {Attempt {attemptNames}} other {Attempts {attemptNames} and {lastAttemptName}}}",
-    "bigTrendAttemptsTooltipString": "{numAttempts, plural, one {Attempt} other {Attempts}} {attemptNames}",
+    "bigTrendAttemptsScreenReaderString": "{numAttempts, plural, one {Tentative {attemptNames}} other {Tentatives {attemptNames} et {lastAttemptName}}}",
+    "bigTrendAttemptsTooltipString": "{numAttempts, plural, one {Tentative} other {Tentatives}} {attemptNames}",
     "headingDate": "Date",
-    "headingEvidence": "Evidence Name",
-    "headingLoa": "Level of Achievement",
-    "miniTrendScreenReaderText": "Assessed {numAssessed} {numAssessed, plural, one {time} other {times}}: {levelNames}",
-    "notAssessed": "Not assessed",
-    "untitled": "Untitled",
-    "trend": "Trend",
-    "evidence": "Evidence",
+    "headingEvidence": "Nom de la preuve",
+    "headingLoa": "Niveau atteint",
+    "miniTrendScreenReaderText": "Évalué {numAssessed} {numAssessed, plural, one {fois} other {fois}}: {levelNames}",
+    "notAssessed": "Pas évalué",
+    "untitled": "Sans titre",
+    "trend": "Tendance",
+    "evidence": "Preuve",
     "close": "Fermer",
-    "noEvidence": "This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed",
-    "noOutcomes": "To start tracking achievement of {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}}, align course {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}} to assessed activities.",
-    "noScale": "No scale has been set to measure achievement of {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}}."
+    "noEvidence": "Cette {outcome, select, competencies {compétence} expectations {attente} objectives {objectif} outcomes {résultat} standards {norme} other {norme}} n'a pas encore été évaluée",
+    "noOutcomes": "{outcome, select, competencies {Aucune compétence} expectations {Aucune attente} objectives {Aucun objectif} outcomes {Aucun résultat} standards {Aucune norme} other {Aucune norme}} n'a été évaluée.",
+    "noScale": "Aucune échelle n'a été définie pour mesurer l'atteinte des {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}}."
 }
 };
