@@ -220,7 +220,20 @@ export class BigTrend extends mixinBehaviors(
                 table th {
                     border: 1px solid black;
                 }
+
+                .no-scale {
+					border: 1px solid var(--d2l-color-gypsum);
+					border-radius: 8px;
+					background-color: var(--d2l-color-regolith);
+					color: var(--d2l-color-ferrite);
+					padding: 15px;
+					box-sizing: border-box;
+					width: 100%;
+				}
             </style>
+            <template is="dom-if" if="[[_hasNoScale(trendData)]]">
+                <div class="no-scale">[[localize('noScale', 'outcome', outcomeTerm)]]</div>
+            </template>
             <div id="container" aria-hidden="true">
                 <div id="grid">
                     <template is="dom-repeat" items="[[_gridHorizontal]]">
@@ -316,6 +329,7 @@ export class BigTrend extends mixinBehaviors(
 
 	static get properties() {
 		return {
+			outcomeTerm: String,
 			_gridHorizontal: {
 				type: Array,
 				computed: '_getGridHorizontal(trendData)'
@@ -434,6 +448,10 @@ export class BigTrend extends mixinBehaviors(
 
 	_getMaxLevelScore(levels) {
 		return Math.max.apply(null, Object.keys(levels).map(levelId => levels[levelId].score));
+	}
+
+	_getNoScaleText() {
+		return this.localize('');
 	}
 
 	_getNotAssessedText() {
@@ -563,6 +581,10 @@ export class BigTrend extends mixinBehaviors(
 
 	_hasMultipleAttempts(group) {
 		return group.attempts.length > 0 && (group.attempts.length > 1 || group.attempts[0].attempts.length > 1);
+	}
+
+	_hasNoScale(trendData) {
+		return trendData && trendData.levels && Object.keys(trendData.levels).length === 0;
 	}
 
 	_onDataScrolled() {
