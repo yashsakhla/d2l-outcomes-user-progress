@@ -94,7 +94,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 				<d2l-big-trend
 					href="[[_activitiesHref]]"
 					token="[[token]]"
-					outcomeTerm="[[outcomeTerm]]"
+					outcome-term="[[outcomeTerm]]"
 				></d2l-big-trend>
 				<h3>[[localize('evidence')]]</h3>
 				<d2l-evidence-list outcome-term="[[outcomeTerm]]" href="[[_activitiesHref]]" token="[[token]]"></d2l-evidence-list>
