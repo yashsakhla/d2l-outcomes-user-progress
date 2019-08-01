@@ -232,7 +232,7 @@ export class BigTrend extends mixinBehaviors(
 				}
             </style>
             <template is="dom-if" if="[[_hasNoScale(trendData)]]">
-                <div class="no-scale">[[localize('noScale', 'outcome', outcomeTerm)]]</div>
+                <div class="no-scale">[[_getNoScaleText(instructor, outcomeTerm)]]</div>
             </template>
             <div id="container" aria-hidden="true">
                 <div id="grid">
@@ -329,6 +329,10 @@ export class BigTrend extends mixinBehaviors(
 
 	static get properties() {
 		return {
+            instructor: {
+                type: Boolean,
+                value: false
+            },
 			outcomeTerm: String,
 			_gridHorizontal: {
 				type: Array,
@@ -450,8 +454,9 @@ export class BigTrend extends mixinBehaviors(
 		return Math.max.apply(null, Object.keys(levels).map(levelId => levels[levelId].score));
 	}
 
-	_getNoScaleText() {
-		return this.localize('');
+	_getNoScaleText(instructor, outcomeTerm) {
+        const langTerm = !!instructor ? 'noScaleInstructor' : 'noScaleStudent';
+		return this.localize(langTerm, 'outcome', outcomeTerm);
 	}
 
 	_getNotAssessedText() {
