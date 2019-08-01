@@ -329,10 +329,10 @@ export class BigTrend extends mixinBehaviors(
 
 	static get properties() {
 		return {
-            instructor: {
-                type: Boolean,
-                value: false
-            },
+			instructor: {
+				type: Boolean,
+				value: false
+			},
 			outcomeTerm: String,
 			_gridHorizontal: {
 				type: Array,
@@ -455,7 +455,7 @@ export class BigTrend extends mixinBehaviors(
 	}
 
 	_getNoScaleText(instructor, outcomeTerm) {
-        const langTerm = !!instructor ? 'noScaleInstructor' : 'noScaleStudent';
+		const langTerm = instructor ? 'noScaleInstructor' : 'noScaleStudent';
 		return this.localize(langTerm, 'outcome', outcomeTerm);
 	}
 

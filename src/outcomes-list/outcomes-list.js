@@ -71,7 +71,7 @@ export class OutcomesList extends mixinBehaviors(
 	}
 
 	_getEmptyMessage(instructor, outcomeTerm) {
-		const langTerm = !!instructor ? 'noOutcomesInstructor' : 'noOutcomesStudent';
+		const langTerm = instructor ? 'noOutcomesInstructor' : 'noOutcomesStudent';
 		return this.localize(langTerm, 'outcome', outcomeTerm);
 	}
 
