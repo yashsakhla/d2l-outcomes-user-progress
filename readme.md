@@ -45,7 +45,7 @@ An interactive display of all demonstrations of an outcome for a user in a cours
 #### Usage
 
 ```html
-<d2l-big-trend href="" token="" outcomeTerm=""></d2l-big-trend>
+<d2l-big-trend href="" token="" outcomeTerm="" instructor></d2l-big-trend>
 ```
 
 #### Attributes
@@ -53,6 +53,7 @@ An interactive display of all demonstrations of an outcome for a user in a cours
 - `href` - Hypermedia URL for trend activity data; of the form `{tenant}.user-progress.api.{domain}/org-unit/{orgUnitId}/user/{userId}/outcomes/{outcomeId}/activities`
 - `token` - Auth token
 - `outcomeTerm` - **[Optional]** The preferred term to use when referring to outcomes. Accepted values are: `competencies`, `expectations`, `objectives`, `outcomes` and `standards`. Default value is `standards`
+- `instructor` - **[Optional]** Boolean attribute should be set when requesting user is an instructor. Used to display language better suited to the user's role.
 
 ### Outcomes List<a name="outcomes-list"></a>
 
@@ -61,7 +62,7 @@ Displays a list of outcomes that a user has made progress towards demonstrating.
 #### Usage
 
 ```html
-<d2l-outcomes-list href="" token="" outcomeTerm=""></d2l-outcomes-list>
+<d2l-outcomes-list href="" token="" outcomeTerm="" instructor></d2l-outcomes-list>
 ```
 
 #### Attributes
@@ -69,6 +70,7 @@ Displays a list of outcomes that a user has made progress towards demonstrating.
 - `href` - Hypermedia URL for user progress outcomes data; of the form `{tenant}.user-progress.api.{domain}/org-unit/{orgUnitId}/user/{userId}/outcomes`
 - `token` - Auth token
 - `outcomeTerm` - **[Optional]** The preferred term to use when referring to outcomes. Accepted values are: `competencies`, `expectations`, `objectives`, `outcomes` and `standards`. Default value is `standards`
+- `instructor` - **[Optional]** Boolean attribute should be set when requesting user is an instructor. Used to display language better suited to the user's role.
 
 #### Events
 
@@ -86,7 +88,7 @@ A wrapper component which combines the `d2l-outcomes-list` with the `d2l-outcome
 #### Usage
 
 ```html
-<d2l-outcomes-user-progress href="" token="" outcomeTerm=""></d2l-outcomes-user-progress>
+<d2l-outcomes-user-progress href="" token="" outcomeTerm="" instructor></d2l-outcomes-user-progress>
 ```
 
 #### Attributes
@@ -94,3 +96,4 @@ A wrapper component which combines the `d2l-outcomes-list` with the `d2l-outcome
 - `href` - Hypermedia URL for user progress outcomes data; of the form `{tenant}.user-progress.api.{domain}/org-unit/{orgUnitId}/user/{userId}/outcomes`
 - `token` - Auth token
 - `outcomeTerm` - **[Optional]** The preferred term to use when referring to outcomes. Accepted values are: `competencies`, `expectations`, `objectives`, `outcomes` and `standards`. Default value is `standards`
+- `instructor` - **[Optional]** Boolean attribute should be set when requesting user is an instructor. Used to display language better suited to the user's role.

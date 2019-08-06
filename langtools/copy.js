@@ -2,6 +2,7 @@
  * Copies new lang terms from the source file to all other lang term files
  */
 const
+    chalk = require('chalk'),
 	fs = require('fs'),
 	yargs = require('yargs');
 
@@ -87,13 +88,37 @@ config.langNames.forEach(langName => {
 			throw new Error(`${msg} ${e}`);
 		}
 
+		const summary = [];
 		Object.keys(sourceJson).forEach(key => {
 			if (!destJson[key] || terms.indexOf(key) >= 0) {
+				summary.push({
+					action: (!destJson[key] ? chalk.green('+') : (destJson[key] !== sourceJson[key] ? chalk.yellow('~') : '.')),
+					term: key
+				});
+
 				outputJson[key] = sourceJson[key];
 			} else {
 				outputJson[key] = destJson[key];
 			}
 		});
+
+		Object.keys(destJson).forEach(key => {
+			if (!sourceJson[key]) {
+				summary.push({
+					action: chalk.red('-'),
+					term: key
+				});
+			}
+		});
+
+        if (summary.length > 0) {
+            console.log(`Changes made to lang [${langName}]:`);
+            summary.sort((l, r) => {
+                    return l.term.toLowerCase().localeCompare(r.term.toLowerCase());
+                }).forEach(item => {
+                    console.log(`${item.action} ${item.term}`);
+                });
+        }
 	}
 
 	fs.writeFileSync(destPath, JSON.stringify(outputJson, null, 4) + '\n');

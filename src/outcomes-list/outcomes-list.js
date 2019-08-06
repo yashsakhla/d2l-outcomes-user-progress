@@ -40,7 +40,7 @@ export class OutcomesList extends mixinBehaviors(
 				</template>
 				<template is="dom-if" if="[[entity]]">
 					<div class="no-items" hidden="[[!_isEmpty(_outcomes)]]">
-						[[localize('noOutcomes', 'outcome', outcomeTerm)]]
+						[[_getEmptyMessage(instructor, outcomeTerm)]]
 					</div>
 					<template is="dom-repeat" items="[[_outcomes]]">
 						<d2l-outcomes-list-item href="[[_getOutcomeHref(item)]]" token="[[token]]"></d2l-outcomes-list-item>
@@ -54,6 +54,10 @@ export class OutcomesList extends mixinBehaviors(
 
 	static get properties() {
 		return {
+			instructor: {
+				type: Boolean,
+				value: false
+			},
 			outcomeTerm: String,
 			_outcomes: {
 				type: Array,
@@ -64,6 +68,11 @@ export class OutcomesList extends mixinBehaviors(
 				value: Array.apply(null, { length: DEFAULT_SKELETON_COUNT }).map((v, i) => i)
 			}
 		};
+	}
+
+	_getEmptyMessage(instructor, outcomeTerm) {
+		const langTerm = instructor ? 'noOutcomesInstructor' : 'noOutcomesStudent';
+		return this.localize(langTerm, 'outcome', outcomeTerm);
 	}
 
 	_getOutcomeHref(outcomeEntity) {

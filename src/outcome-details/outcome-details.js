@@ -95,6 +95,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 					href="[[_activitiesHref]]"
 					token="[[token]]"
 					outcome-term="[[outcomeTerm]]"
+					instructor="[[instructor]]"
 				></d2l-big-trend>
 				<h3>[[localize('evidence')]]</h3>
 				<d2l-evidence-list outcome-term="[[outcomeTerm]]" href="[[_activitiesHref]]" token="[[token]]"></d2l-evidence-list>
@@ -106,6 +107,10 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 
 	static get properties() {
 		return {
+			instructor: {
+				type: Boolean,
+				value: false
+			},
 			outcomeTerm: String,
 			_outcomeHref: {
 				type: String,
