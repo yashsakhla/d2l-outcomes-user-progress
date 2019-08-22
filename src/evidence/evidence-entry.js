@@ -152,14 +152,16 @@ export class EvidenceEntry extends mixinBehaviors(
 						<span class="fit level-name">[[_getLevelName(_levelEntity)]]</span>
 						<div class="fit circle" style="[[_getLevelColourStyle(_levelEntity)]]"></div>
 					</div>
-					<d2l-more-less height="4rem">
-						<template is="dom-repeat" items="[[_feedback]]" as="feedback">
-							<div class="feedback">
-								<img class="quote fit" src="[[_quoteImage]]" height="11" width="11"></img>
-								<s-html class="grow" html="[[feedback]]"></s-html>
-							</div>
-						</template>
-					</d2l-more-less>
+					<template is="dom-if" if="[[_hasFeedback(_feedback)]]">
+						<d2l-more-less height="4rem">
+							<template is="dom-repeat" items="[[_feedback]]" as="feedback">
+								<div class="feedback">
+									<img class="quote fit" src="[[_quoteImage]]" height="11" width="11"></img>
+									<s-html class="grow" html="[[feedback]]"></s-html>
+								</div>
+							</template>
+						</d2l-more-less>
+					</template>
 				</button>
 			</div>
 		`;
@@ -227,6 +229,10 @@ export class EvidenceEntry extends mixinBehaviors(
 		return feedbackEntity.getSubEntitiesByClass('feedback').map(
 			feedback => this._processFeedbackHtml(feedback.properties.html)
 		);
+	}
+
+	_hasFeedback(feedback) {
+		return feedback && feedback.length;
 	}
 
 	_onClick(event) {
