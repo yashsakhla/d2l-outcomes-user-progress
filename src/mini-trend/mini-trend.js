@@ -1,6 +1,7 @@
 import '@polymer/polymer/polymer-legacy.js';
 import { PolymerElement, html } from '@polymer/polymer';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
+import 'd2l-tooltip/d2l-tooltip';
 import 'd2l-typography/d2l-typography.js';
 import 'd2l-typography/d2l-typography-shared-styles.js';
 import '../localize-behavior';
@@ -9,6 +10,8 @@ import '../trend-behavior';
 const BLOCK_SPACING = 2;        // Also defined in CSS
 const COMPONENT_HEIGHT = 36;    // Also defined in CSS
 const MAX_TREND_ITEMS = 6;
+const TOOLTIP_GAP = 8;
+const TOOLTIP_POINTER_SIZE = 8;
 
 export class MiniTrend extends mixinBehaviors(
 	[
@@ -26,6 +29,7 @@ export class MiniTrend extends mixinBehaviors(
                     --block-spacing: 2px;
                     --border-radius: 2px;
 					--container-height: 36px;
+					--max-tooltip-width: 210px;
 					--trend-group-width: 12px;
 
                     align-items: center;
@@ -72,21 +76,42 @@ export class MiniTrend extends mixinBehaviors(
                     overflow: hidden;
                     position: absolute;
                     width: 1px;
+				}
+				
+				d2l-tooltip {
+                    max-width: var(--max-tooltip-width);
+                    text-align: center;
                 }
             </style>
             <template is="dom-if" if="[[!_hasTrendData(trendDataTruncated)]]">
                 <div class="empty-text">[[_getNotAssessedText()]]</div>
             </template>
             <template is="dom-if" if="[[_hasTrendData(trendDataTruncated)]]">
-                <template is="dom-repeat" items="[[_getTrendItems(trendDataTruncated)]]" as="trendGroup">
-                    <div class="trend-group">
+                <template is="dom-repeat" items="[[_getTrendItems(trendDataTruncated)]]" as="trendGroup" index-as="groupIndex">
+                    <div class="trend-group" id$="[[_getUniqueGroupId(groupIndex)]]">
                         <template is="dom-repeat" items="[[trendGroup.blocks]]" as="trendBlock">
                             <div class="trend-block" style$="height: [[trendBlock.height]]px; background-color: [[trendBlock.color]];"></div>
                         </template>
-                    </div>
+					</div>
                 </template>
                 <p class="screen-reader">[[_getScreenReaderText(trendDataTruncated)]]</p>
-            </template>
+				<template is="dom-repeat" items="[[_getTrendItems(trendDataTruncated)]]" as="trendGroup" index-as="groupIndex">
+					<d2l-tooltip for$="[[_getUniqueGroupId(groupIndex)]]" position="top" offset$="[[_getTooltipOffset()]]">
+                        <div><b>[[trendGroup.name]]</b></div>
+                        <template is="dom-repeat" items="[[trendGroup.attempts]]" as="attemptGroup">
+                            <div>
+                                <template is="dom-if" if="[[_hasMultipleAttempts(trendGroup)]]">
+                                    <b>[[_getAttemptGroupLabel(attemptGroup.attempts)]]</b>:
+                                </template>
+                                [[attemptGroup.name]]
+                            </div>
+                        </template>
+                        <template is="dom-if" if="[[!_groupHasBlocks(trendGroup)]]">
+                            <div>[[_getNotAssessedText()]]</div>
+                        </template>
+					</d2l-tooltip>
+				</template>
+			</template>
         `;
 		template.setAttribute('strip-whitespace', true);
 		return template;
@@ -99,6 +124,14 @@ export class MiniTrend extends mixinBehaviors(
 				computed: '_truncTrendData(trendData)'
 			}
 		};
+	}
+
+	_getAttemptGroupLabel(attempts) {
+		return this.localize(
+			'miniTrendAttemptsTooltipString',
+			'numAttempts', attempts.length,
+			'attemptNames', attempts.join(', ')
+		);
 	}
 
 	_getMaxLevelScore(levels) {
@@ -121,6 +154,11 @@ export class MiniTrend extends mixinBehaviors(
 		const levelNames = trendGroups.reduce((acc, group) => acc.concat(group.attempts.map(levelId => levels[levelId].name)), []).join(', ');
 
 		return this.localize('miniTrendScreenReaderText', 'numAssessed', numAssessed, 'levelNames', levelNames);
+	}
+
+	_getTooltipOffset() {
+		let offset = TOOLTIP_POINTER_SIZE + TOOLTIP_GAP;
+		return offset;
 	}
 
 	_getTrendItems(trendData) {
@@ -160,10 +198,46 @@ export class MiniTrend extends mixinBehaviors(
 
 			groupItem.blocks = blocks.reverse();
 
+			// Group attempt labels
+			const attemptLabels = [];
+			let attemptCounter = 1;
+			groupAttempts.forEach(attempt => {
+				let label = {
+					id: attempt,
+					name: levels[attempt].name,
+					attempts: [ attemptCounter ]
+				};
+				const prevAttempt = attemptLabels.pop();
+
+				if (prevAttempt && prevAttempt.id === attempt) {
+					label = prevAttempt;
+					label.attempts.push(attemptCounter);
+				} else if (prevAttempt) {
+					attemptLabels.push(prevAttempt);
+				}
+
+				attemptLabels.push(label);
+				attemptCounter++;
+			});
+
+			groupItem.attempts = attemptLabels;
+
 			trendItems.push(groupItem);
 		}, this);
 
 		return trendItems;
+	}
+
+	_getUniqueGroupId(groupIndex) {
+		return `group${groupIndex}`;
+	}
+
+	_groupHasBlocks(group) {
+		return group.blocks.length > 0;
+	}
+
+	_hasMultipleAttempts(group) {
+		return group.attempts.length > 0 && (group.attempts.length > 1 || group.attempts[0].attempts.length > 1);
 	}
 
 	_hasTrendData(trendData) {
