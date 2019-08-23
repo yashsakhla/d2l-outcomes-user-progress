@@ -157,7 +157,7 @@ export class MiniTrend extends mixinBehaviors(
 	}
 
 	_getTooltipOffset() {
-		let offset = TOOLTIP_POINTER_SIZE + TOOLTIP_GAP;
+		const offset = TOOLTIP_POINTER_SIZE + TOOLTIP_GAP;
 		return offset;
 	}
 
