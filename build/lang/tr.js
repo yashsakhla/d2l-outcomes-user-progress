@@ -15,6 +15,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangTrBehavior = {
     "headingDate": "Date",
     "headingEvidence": "Evidence Name",
     "headingLoa": "Level of Achievement",
+    "miniTrendAttemptsTooltipString": "{numAttempts, plural, one {Attempt} other {Attempts}} {attemptNames}",
     "miniTrendScreenReaderText": "Assessed {numAssessed} {numAssessed, plural, one {time} other {times}}: {levelNames}",
     "notAssessed": "Not assessed",
     "untitled": "Untitled",
