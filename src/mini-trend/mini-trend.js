@@ -24,95 +24,95 @@ export class MiniTrend extends mixinBehaviors(
 
 	static get template() {
 		const template = html`
-            <style include="d2l-typography">
-                :host {
-                    --block-spacing: 2px;
-                    --border-radius: 2px;
+			<style include="d2l-typography">
+				:host {
+					--block-spacing: 2px;
+					--border-radius: 2px;
 					--container-height: 36px;
 					--max-tooltip-width: 210px;
 					--trend-group-width: 12px;
 
-                    align-items: center;
-                    display: inline-flex;
-                    flex-direction: row;
+					align-items: center;
+					display: inline-flex;
+					flex-direction: row;
 					height: var(--container-height);
-                }
+				}
 
-                .trend-group {
-                    display: flex;
-                    flex-direction: column;
-                    height: var(--container-height);
-                    justify-content: flex-end;
-                    padding-right: var(--block-spacing);
-                    width: var(--trend-group-width);
-                }
+				.trend-group {
+					display: flex;
+					flex-direction: column;
+					height: var(--container-height);
+					justify-content: flex-end;
+					padding-right: var(--block-spacing);
+					width: var(--trend-group-width);
+				}
 
-                .trend-group:last-of-type {
-                    padding-right: 0px;
-                }
+				.trend-group:last-of-type {
+					padding-right: 0px;
+				}
 
-                .trend-block {
-                    margin-top: var(--block-spacing);
-                }
+				.trend-block {
+					margin-top: var(--block-spacing);
+				}
 
-                .trend-group .trend-block:first-of-type {
-                    border-top-left-radius: var(--border-radius);
-                    border-top-right-radius: var(--border-radius);
-                    margin-top: 0px;
-                }
+				.trend-group .trend-block:first-of-type {
+					border-top-left-radius: var(--border-radius);
+					border-top-right-radius: var(--border-radius);
+					margin-top: 0px;
+				}
 
-                .trend-group .trend-block:last-of-type {
-                    border-bottom-left-radius: var(--border-radius);
-                    border-bottom-right-radius: var(--border-radius);
-                }
+				.trend-group .trend-block:last-of-type {
+					border-bottom-left-radius: var(--border-radius);
+					border-bottom-right-radius: var(--border-radius);
+				}
 
-                .empty-text {
-                    @apply --d2l-body-small-text;
-                }
+				.empty-text {
+					@apply --d2l-body-small-text;
+				}
 
-                .screen-reader {
-                    height: 1px;
-                    left: -99999px;
-                    overflow: hidden;
-                    position: absolute;
-                    width: 1px;
+				.screen-reader {
+					height: 1px;
+					left: -99999px;
+					overflow: hidden;
+					position: absolute;
+					width: 1px;
 				}
 				
 				d2l-tooltip {
-                    max-width: var(--max-tooltip-width);
-                    text-align: center;
-                }
-            </style>
-            <template is="dom-if" if="[[!_hasTrendData(trendDataTruncated)]]">
-                <div class="empty-text">[[_getNotAssessedText()]]</div>
-            </template>
-            <template is="dom-if" if="[[_hasTrendData(trendDataTruncated)]]">
-                <template is="dom-repeat" items="[[_getTrendItems(trendDataTruncated)]]" as="trendGroup" index-as="groupIndex">
-                    <div class="trend-group" id$="[[_getUniqueGroupId(groupIndex)]]">
-                        <template is="dom-repeat" items="[[trendGroup.blocks]]" as="trendBlock">
-                            <div class="trend-block" style$="height: [[trendBlock.height]]px; background-color: [[trendBlock.color]];"></div>
-                        </template>
+					max-width: var(--max-tooltip-width);
+					text-align: center;
+				}
+			</style>
+			<template is="dom-if" if="[[!_hasTrendData(trendDataTruncated)]]">
+				<div class="empty-text">[[_getNotAssessedText()]]</div>
+			</template>
+			<template is="dom-if" if="[[_hasTrendData(trendDataTruncated)]]">
+				<template is="dom-repeat" items="[[_getTrendItems(trendDataTruncated)]]" as="trendGroup" index-as="groupIndex">
+					<div class="trend-group" id$="[[_getUniqueGroupId(groupIndex)]]">
+						<template is="dom-repeat" items="[[trendGroup.blocks]]" as="trendBlock">
+							<div class="trend-block" style$="height: [[trendBlock.height]]px; background-color: [[trendBlock.color]];"></div>
+						</template>
 					</div>
-                </template>
-                <p class="screen-reader">[[_getScreenReaderText(trendDataTruncated)]]</p>
+				</template>
+				<p class="screen-reader">[[_getScreenReaderText(trendDataTruncated)]]</p>
 				<template is="dom-repeat" items="[[_getTrendItems(trendDataTruncated)]]" as="trendGroup" index-as="groupIndex">
 					<d2l-tooltip for$="[[_getUniqueGroupId(groupIndex)]]" position="top" offset$="[[_getTooltipOffset()]]">
-                        <div><b>[[trendGroup.name]]</b></div>
-                        <template is="dom-repeat" items="[[trendGroup.attempts]]" as="attemptGroup">
-                            <div>
-                                <template is="dom-if" if="[[_hasMultipleAttempts(trendGroup)]]">
-                                    <b>[[_getAttemptGroupLabel(attemptGroup.attempts)]]</b>:
-                                </template>
-                                [[attemptGroup.name]]
-                            </div>
-                        </template>
-                        <template is="dom-if" if="[[!_groupHasBlocks(trendGroup)]]">
-                            <div>[[_getNotAssessedText()]]</div>
-                        </template>
+						<div><b>[[trendGroup.name]]</b></div>
+						<template is="dom-repeat" items="[[trendGroup.attempts]]" as="attemptGroup">
+							<div>
+								<template is="dom-if" if="[[_hasMultipleAttempts(trendGroup)]]">
+									<b>[[_getAttemptGroupLabel(attemptGroup.attempts)]]</b>:
+								</template>
+								[[attemptGroup.name]]
+							</div>
+						</template>
+						<template is="dom-if" if="[[!_groupHasBlocks(trendGroup)]]">
+							<div>[[_getNotAssessedText()]]</div>
+						</template>
 					</d2l-tooltip>
 				</template>
 			</template>
-        `;
+		`;
 		template.setAttribute('strip-whitespace', true);
 		return template;
 	}
