@@ -83,7 +83,7 @@ export class MiniTrend extends mixinBehaviors(
 					text-align: center;
 				}
 			</style>
-			<template is="dom-if" if="[[!_hasTrendData(trendDataTruncated)]]">
+			<template is="dom-if" if="[[_isNotAssessed(trendDataTruncated)]]">
 				<div class="empty-text">[[_getNotAssessedText()]]</div>
 			</template>
 			<template is="dom-if" if="[[_hasTrendData(trendDataTruncated)]]">
@@ -162,7 +162,7 @@ export class MiniTrend extends mixinBehaviors(
 	}
 
 	_getTrendItems(trendData) {
-		if (!trendData || !trendData.levels || !trendData.groups) {
+		if (!this._hasData(trendData)) {
 			return [];
 		}
 
@@ -236,6 +236,10 @@ export class MiniTrend extends mixinBehaviors(
 		return group.blocks.length > 0;
 	}
 
+	_hasData(trendData) {
+		return trendData && trendData.levels && trendData.groups;
+	}
+
 	_hasMultipleAttempts(group) {
 		return group.attempts.length > 0 && (group.attempts.length > 1 || group.attempts[0].attempts.length > 1);
 	}
@@ -246,8 +250,12 @@ export class MiniTrend extends mixinBehaviors(
 		return numBlocks > 0;
 	}
 
+	_isNotAssessed(trendData) {
+		return this._hasData(trendData) && !this._hasTrendData(trendData);
+	}
+
 	_truncTrendData(trendData) {
-		if (!trendData || !trendData.levels || !trendData.groups) {
+		if (!this._hasData(trendData)) {
 			return null;
 		}
 
