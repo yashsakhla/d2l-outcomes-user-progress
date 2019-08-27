@@ -18,32 +18,30 @@ D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
 	],
 
 	_onEntityChanged: function(entity) {
-		setTimeout(() => {
-			const levels = {};
-			const groups = [];
+		const levels = {};
+		const groups = [];
 
-			if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.activities) && entity.entities) {
-				const levelEntities = entity.getSubEntitiesByClass(hmConsts.Classes.outcomes.levelOfAchievement);
-				levelEntities.forEach((levelEntity, index) => {
-					levels[levelEntity.properties.levelId] = {
-						name: levelEntity.properties.name,
-						color: levelEntity.properties.color,
-						score: (index + 1)
-					};
-				});
+		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.activities) && entity.entities) {
+			const levelEntities = entity.getSubEntitiesByClass(hmConsts.Classes.outcomes.levelOfAchievement);
+			levelEntities.forEach((levelEntity, index) => {
+				levels[levelEntity.properties.levelId] = {
+					name: levelEntity.properties.name,
+					color: levelEntity.properties.color,
+					score: (index + 1)
+				};
+			});
 
-				const activityEntities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.activity);
-				const parsedGroups = this._parseTrendGroups(activityEntities, levels);
-				parsedGroups.forEach(group => {
-					groups.push(group);
-				});
-			}
+			const activityEntities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.activity);
+			const parsedGroups = this._parseTrendGroups(activityEntities, levels);
+			parsedGroups.forEach(group => {
+				groups.push(group);
+			});
+		}
 
-			this.trendData = {
-				levels,
-				groups
-			};
-		}, 1000);
+		this.trendData = {
+			levels,
+			groups
+		};
 	},
 
 	_parseTrendGroups: function(activityEntities, validLevels) {
