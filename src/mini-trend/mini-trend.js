@@ -237,7 +237,7 @@ export class MiniTrend extends mixinBehaviors(
 	}
 
 	_hasData(trendData) {
-		return trendData && trendData.levels && trendData.groups;
+		return trendData !== null;
 	}
 
 	_hasMultipleAttempts(group) {
