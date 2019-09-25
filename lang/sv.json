@@ -6,7 +6,7 @@
    "headingDate" : "Datum",
    "headingEvidence" : "Bevisnamn",
    "headingLoa" : "Uppnådd nivå",
-   "miniTrendAttemptsTooltipString" : "{numAttempts, plural, one {Attempt} other {Attempts}} {attemptNames}",
+   "miniTrendAttemptsTooltipString" : "{numAttempts, plural, one {försök} other {försök}} {attemptNames}",
    "miniTrendScreenReaderText" : "Utvärderade {numAssessed} {numAssessed, plural, one {gång} other {gånger}}: {levelNames}",
    "noEvidence" : "De här {outcome, select, competencies {kompetenserna} expectations {förväntningarna} objectives {målen} outcomes {resultaten} standards {standarderna} other {standarderna}} har inte utvärderats än",
    "noOutcomesInstructor" : "För att börja spåra uppnådda {outcome, select, competencies {kompetenser} expectations {förväntningar} objectives {mål} outcomes {resultat} standards {standarder} other {standarder}} justerar du kursens {outcome, select, competencies {kompetenser} expectations {förväntningar} objectives {mål} outcomes {resultat} standards {standarder} other {standarder}} mot utvärderade aktiviteter.",

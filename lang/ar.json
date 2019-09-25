@@ -6,7 +6,7 @@
    "headingDate" : "التاريخ",
    "headingEvidence" : "اسم الدليل",
    "headingLoa" : "مستوى التحصيل",
-   "miniTrendAttemptsTooltipString" : "{numAttempts, plural, one {Attempt} other {Attempts}} {attemptNames}",
+   "miniTrendAttemptsTooltipString" : "{numAttempts, plural, one {محاولة} other { من المحاولات}} {attemptNames}",
    "miniTrendScreenReaderText" : "Assessed {numAssessed} {numAssessed, plural, one {مرة} other {من المرات}}: {levelNames}",
    "noEvidence" : "لم يتم تقييم {outcome،‏ select،‏ competencies {الكفاءة} expectations {التوقع} objectives {الهدف} outcomes {النتيجة} standards {المعيار} other {المعيار}} هذا بعد",
    "noOutcomesInstructor" : "لبدء تعقّب تحصيل {outcome،‏ select،‏ competencies {الكفاءات} expectations {التوقعات} objectives {الأهداف} outcomes {النتائج} standards {المعايير} other {المعايير}}، يجب محاذاة {outcome،‏ select،‏ competencies {الكفاءات} expectations {التوقعات} objectives {الأهداف} outcomes {النتائج} standards {المعايير} other {المعايير}} الخاصة بالمقرر التعليمي مع الأنشطة التي تم تقييمها.",

@@ -6,7 +6,7 @@
    "headingDate" : "Date",
    "headingEvidence" : "Nom de la preuve",
    "headingLoa" : "Niveau de réalisation",
-   "miniTrendAttemptsTooltipString" : "{numAttempts, plural, one {Attempt} other {Attempts}} {attemptNames}",
+   "miniTrendAttemptsTooltipString" : "{numAttempts, plural, one {Tentative} other {Tentatives}} {attemptNames}",
    "miniTrendScreenReaderText" : "Évalué {numAssessed} {numAssessed, plural, one {fois} other {fois}}: {levelNames}",
    "noEvidence" : "Ce/Cette {outcome, select, competencies {compétence} expectations {attente} objectives {objectif} outcomes {résultat} standards {norme} other {norme}} n’a pas encore été évalué(e)",
    "noOutcomesInstructor" : "Pour commencer le suivi de la réalisation de {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}}, aligner les {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}} du cours sur les activités évaluées.",
