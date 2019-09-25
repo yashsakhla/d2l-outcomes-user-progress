@@ -6,7 +6,7 @@
    "headingDate" : "Fecha",
    "headingEvidence" : "Nombre de la prueba",
    "headingLoa" : "Nivel de logro",
-   "miniTrendAttemptsTooltipString" : "{numAttempts, plural, one {Attempt} other {Attempts}} {attemptNames}",
+   "miniTrendAttemptsTooltipString" : "{numAttempts, plural, one {Intento} other {Intentos}} {attemptNames}",
    "miniTrendScreenReaderText" : "{numAssessed} {numAssessed, plural, one {hora} other {horas}} evaluados: {levelNames}",
    "noEvidence" : "Este {outcome, select, competencies {competencia} expectations {expectativa} objectives {objetivo} outcomes {resultado} standards {estándar} other {estándar}} aún no se ha evaluado",
    "noOutcomesInstructor" : "Para comenzar a realizar el seguimiento del logro de {outcome, select, competencies {competencias} expectations {expectativas} objectives {objetivos} outcomes {resultados} standards {estándares} other {estándares}}, debe alinear el curso {outcome, select, competencies {competencias} expectations {expectativas} objectives {objetivos} outcomes {resultados} standards {estándares} other {estándares}} con las actividades evaluadas.",

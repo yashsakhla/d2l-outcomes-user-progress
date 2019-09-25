@@ -6,7 +6,7 @@
    "headingDate" : "Data",
    "headingEvidence" : "Nome da evidência",
    "headingLoa" : "Nível de Realização",
-   "miniTrendAttemptsTooltipString" : "{numAttempts, plural, one {Attempt} other {Attempts}} {attemptNames}",
+   "miniTrendAttemptsTooltipString" : "{numAttempts, plural, one {Tentativa} other {Tentativas}} {attemptNames}",
    "miniTrendScreenReaderText" : "Avaliado {numAssessed} {numAssessed, plural, one {vez} other {vezes}}: {levelNames}",
    "noEvidence" : "Este(a) {outcome, select, competencies {competência} expectations {expectativa} objectives {objetivo} outcomes {resultado} standards {padrão} other {padrão}} ainda não foi avaliado(a)",
    "noOutcomesInstructor" : "Para começar a acompanhar a realização dos(as) {outcome, select, competencies {competências} expectations {expectativas} objectives {objetivos} outcomes {resultados} standards {padrões} other {padrões}}, alinhe os(as) {outcome, select, competencies {competências} expectations {expectativas} objectives {objetivos} outcomes {resultados} standards {padrões} other {padrões}} do curso para as atividades avaliadas.",
