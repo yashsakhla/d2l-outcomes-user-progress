@@ -140,7 +140,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 	}
 
 	_close() {
-		this.dispatchEvent(new CustomEvent(oupConsts.events.detailsCloseClicked, { composed: true }));
+		this.dispatchEvent(new CustomEvent(oupConsts.events.detailsCloseClicked, { composed: true, bubbles: true }));
 	}
 
 }
