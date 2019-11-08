@@ -162,7 +162,7 @@ export class OutcomesListItem extends mixinBehaviors(
 
 	_onItemClicked() {
 		if (this._outcomeEntity) {
-			this.dispatchEvent(new CustomEvent(oupConsts.events.outcomeListItemClicked, { composed: true, detail: { href: this._selfHref } }));
+			this.dispatchEvent(new CustomEvent(oupConsts.events.outcomeListItemClicked, { composed: true, bubbles: true, detail: { href: this._selfHref } }));
 		}
 	}
 }
