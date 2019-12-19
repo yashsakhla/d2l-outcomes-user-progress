@@ -4,6 +4,7 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior.js';
 import 'd2l-colors/d2l-colors.js';
 import 'd2l-typography/d2l-typography.js';
+import './outcomes-details-loader.js';
 import * as hmConsts from 'd2l-hypermedia-constants';
 import '../localize-behavior';
 import './evidence-skeleton.js';
@@ -35,6 +36,13 @@ export class EvidenceList extends mixinBehaviors(
 				}
 			</style>
 			<div aria-busy="[[!entity]]">
+				<template is="dom-repeat" items="[[_getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
+					<outcomes-details-loader
+						href="[[activityHref]]"
+						token="[[token]]"
+						criterion-assessment-map="{{_activityMap}}"
+					></outcomes-details-loader>
+				</template>
 				<template is="dom-if" if="[[entity]]">
 					<template is="dom-repeat" items="[[_evidence]]" as="info">
 						<d2l-evidence-entry
@@ -67,7 +75,8 @@ export class EvidenceList extends mixinBehaviors(
 			_evidence: {
 				type: Array,
 				computed: '_getEvidence(entity)'
-			}
+			},
+			_activityMap: Object
 		};
 	}
 
@@ -75,7 +84,39 @@ export class EvidenceList extends mixinBehaviors(
 		return !array || !array.length;
 	}
 
+	_getDemonstrationActivitiesHrefs(entity) {
+		if (!entity) {
+			return [];
+		}
+		
+		const activities = entity.getSubEntitiesByClass('user-progress-outcome-activity');
+		
+		const uauHrefs = [];
+		activities.forEach(activity => {
+			const demonstrations = activity.getSubEntitiesByClasses([
+				hmConsts.Classes.outcomes.demonstration,
+				hmConsts.Classes.outcomes.assessed
+			]);
+			
+			if( !demonstrations ) {
+				return;
+			}
+			demonstrations.forEach( demonstration => {
+				const uauLink = demonstration.getLink('https://activities.api.brightspace.com/rels/user-activity-usage');
+				if (!uauLink || !uauLink.href) {
+					return;
+				}
+				
+				uauHrefs.push( uauLink.href );
+			});
+		});
+		console.log( uauHrefs );
+		return uauRefs;
+	}
+
 	_getEvidence(entity) {
+		console.log( entity );
+		
 		if (!entity || !entity.entities) {
 			return [];
 		}
@@ -90,7 +131,7 @@ export class EvidenceList extends mixinBehaviors(
 				hmConsts.Classes.outcomes.demonstration,
 				hmConsts.Classes.outcomes.assessed
 			]);
-			const submissionLink = activity.getLink('https://user-progress.api.brightspace.com/rels/submission-link') || {};
+			const submissionLinkFromRootActivity = activity.getLink('https://user-progress.api.brightspace.com/rels/submission-link') || {};
 			demonstrations.forEach(demonstration => {
 				const level = demonstration.getSubEntityByClasses([
 					hmConsts.Classes.outcomes.demonstratableLevel,
@@ -104,13 +145,18 @@ export class EvidenceList extends mixinBehaviors(
 					return;
 				}
 				const feedbackLink = activity.getLink(hmConsts.Rels.UserProgress.feedback) || {};
+				const uauLink = demonstration.getLink('https://activities.api.brightspace.com/rels/user-activity-usage') || {};
+				//console.log( uauLink );
+				
+				
+				
 				evidenceList.push({
 					type: activity.properties.type,
 					name: (!activity.properties.name || activity.properties.name.trim() === '' ? this.localize('untitled') : activity.properties.name),
 					date: this._getEvidenceDate(activity, demonstration),
 					levelHref: levelLink.href,
 					feedbackHref: feedbackLink.href || null,
-					link: submissionLink.href || null
+					link: uauLink.href || null
 				});
 			});
 		});
