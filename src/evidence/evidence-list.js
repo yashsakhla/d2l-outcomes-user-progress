@@ -36,12 +36,14 @@ export class EvidenceList extends mixinBehaviors(
 				}
 			</style>
 			<div aria-busy="[[!entity]]">
-				<template is="dom-repeat" items="[[_getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
-					<outcomes-details-loader
-						href="[[activityHref]]"
-						token="[[token]]"
-						criterion-assessment-map="{{_activityMap}}"
-					></outcomes-details-loader>
+				<template is="dom-if" if="[[entity]]">
+					<template is="dom-repeat" items="[[_getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
+						<outcomes-details-loader
+							href="[[activityHref]]"
+							token="[[token]]"
+							activity-map="{{_activityMap}}"
+						></outcomes-details-loader>
+					</template>
 				</template>
 				<template is="dom-if" if="[[entity]]">
 					<template is="dom-repeat" items="[[_evidence]]" as="info">
@@ -79,6 +81,10 @@ export class EvidenceList extends mixinBehaviors(
 			_activityMap: Object
 		};
 	}
+	
+	created() {
+		this._activityMap = {}
+	}
 
 	_isEmpty(array) {
 		return !array || !array.length;
@@ -111,15 +117,16 @@ export class EvidenceList extends mixinBehaviors(
 			});
 		});
 		console.log( uauHrefs );
-		return uauRefs;
+		return uauHrefs;
 	}
 
 	_getEvidence(entity) {
-		console.log( entity );
-		
 		if (!entity || !entity.entities) {
 			return [];
 		}
+
+		console.log( 'get evidence' );
+		console.log( this._activityMap );
 
 		const evidenceList = [];
 		const activities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.activity);
@@ -147,8 +154,6 @@ export class EvidenceList extends mixinBehaviors(
 				const feedbackLink = activity.getLink(hmConsts.Rels.UserProgress.feedback) || {};
 				const uauLink = demonstration.getLink('https://activities.api.brightspace.com/rels/user-activity-usage') || {};
 				//console.log( uauLink );
-				
-				
 				
 				evidenceList.push({
 					type: activity.properties.type,

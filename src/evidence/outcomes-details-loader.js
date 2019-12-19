@@ -19,7 +19,7 @@ Polymer({
 	is: 'outcomes-details-loader',
 
 	properties: {
-		criterionAssessmentMap: {
+		activityMap: {
 			type: Object,
 			notify: true
 		}
@@ -31,23 +31,19 @@ Polymer({
 	],
 
 	_onEntityChanged: function(entity) {
-		/*if (!entity || !entity.links) {
+		if (!entity) {
 			return;
 		}
 
-		this.criterionAssessmentMap[this.href] = entity;
-		const rubricCriterionLink = entity.getLinkByRel(this.HypermediaRels.Rubrics.criterion);
-		if (rubricCriterionLink) {
-			this.criterionAssessmentMap[rubricCriterionLink.href] = entity;
-		}
-		*/
+		this.activityMap[this.href] = entity;
 
 		console.log( 'from inner loader' );
+		console.log( entity );
 
 		// notify object changed
-		const criterionMapping = this.criterionAssessmentMap;
-		this.set('criterionAssessmentMap', {});
-		this.set('criterionAssessmentMap', 'hi');
+		const activityMap = this.activityMap;
+		this.set('activityMap', {});
+		this.set('activityMap', activityMap);
 	}
 
 });
