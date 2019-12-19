@@ -76,7 +76,7 @@ export class EvidenceList extends mixinBehaviors(
 			outcomeTerm: String,
 			_evidence: {
 				type: Array,
-				computed: '_getEvidence(entity)'
+				computed: '_getEvidence(entity, _activityMap)'
 			},
 			_activityMap: Object
 		};
@@ -108,25 +108,25 @@ export class EvidenceList extends mixinBehaviors(
 				return;
 			}
 			demonstrations.forEach( demonstration => {
-				const uauLink = demonstration.getLink('https://activities.api.brightspace.com/rels/user-activity-usage');
-				if (!uauLink || !uauLink.href) {
+				const demonstrationActivityLink = demonstration.getLink('https://activities.api.brightspace.com/rels/user-activity-usage');
+				if (!demonstrationActivityLink || !demonstrationActivityLink.href) {
 					return;
 				}
 				
-				uauHrefs.push( uauLink.href );
+				uauHrefs.push( demonstrationActivityLink.href );
 			});
 		});
 		console.log( uauHrefs );
 		return uauHrefs;
 	}
 
-	_getEvidence(entity) {
+	_getEvidence(entity, activityMap) {
 		if (!entity || !entity.entities) {
 			return [];
 		}
 
 		console.log( 'get evidence' );
-		console.log( this._activityMap );
+		console.log( activityMap );
 
 		const evidenceList = [];
 		const activities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.activity);
@@ -152,8 +152,15 @@ export class EvidenceList extends mixinBehaviors(
 					return;
 				}
 				const feedbackLink = activity.getLink(hmConsts.Rels.UserProgress.feedback) || {};
-				const uauLink = demonstration.getLink('https://activities.api.brightspace.com/rels/user-activity-usage') || {};
-				//console.log( uauLink );
+				const demonstrationActivityLink = demonstration.getLink('https://activities.api.brightspace.com/rels/user-activity-usage') || {};
+				
+				let submissionLinkFromDemonstrationActivity = null;
+				const demonstrationActivity = activityMap[ demonstrationActivityLink.href ];
+				if( demonstrationActivity ) {
+					submissionLinkFromDemonstrationActivity = demonstrationActivity.getLink('https://user-progress.api.brightspace.com/rels/submission-link');
+				}
+				
+				const submissionLink = submissionLinkFromDemonstrationActivity || submissionLinkFromRootActivity || null;
 				
 				evidenceList.push({
 					type: activity.properties.type,
@@ -161,7 +168,7 @@ export class EvidenceList extends mixinBehaviors(
 					date: this._getEvidenceDate(activity, demonstration),
 					levelHref: levelLink.href,
 					feedbackHref: feedbackLink.href || null,
-					link: uauLink.href || null
+					link: submissionLink.href
 				});
 			});
 		});

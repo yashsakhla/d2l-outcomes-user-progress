@@ -35,15 +35,13 @@ Polymer({
 			return;
 		}
 
-		this.activityMap[this.href] = entity;
-
-		console.log( 'from inner loader' );
-		console.log( entity );
+		const updatedMap = this.activityMap;
+		updatedMap[this.href] = entity;
 
 		// notify object changed
-		const activityMap = this.activityMap;
+		
 		this.set('activityMap', {});
-		this.set('activityMap', activityMap);
+		this.set('activityMap', updatedMap);
 	}
 
 });
