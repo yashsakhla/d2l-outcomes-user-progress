@@ -125,9 +125,6 @@ export class EvidenceList extends mixinBehaviors(
 			return [];
 		}
 
-		console.log( 'get evidence' );
-		console.log( activityMap );
-
 		const evidenceList = [];
 		const activities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.activity);
 		activities.forEach(activity => {
@@ -156,10 +153,10 @@ export class EvidenceList extends mixinBehaviors(
 				
 				let submissionLinkFromDemonstrationActivity = null;
 				const demonstrationActivity = activityMap[ demonstrationActivityLink.href ];
+				
 				if( demonstrationActivity ) {
 					submissionLinkFromDemonstrationActivity = demonstrationActivity.getLink('https://user-progress.api.brightspace.com/rels/submission-link');
 				}
-				
 				const submissionLink = submissionLinkFromDemonstrationActivity || submissionLinkFromRootActivity || null;
 				
 				evidenceList.push({
