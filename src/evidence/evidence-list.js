@@ -116,7 +116,7 @@ export class EvidenceList extends mixinBehaviors(
 				uauHrefs.push( demonstrationActivityLink.href );
 			});
 		});
-		console.log( uauHrefs );
+		
 		return uauHrefs;
 	}
 
@@ -148,17 +148,18 @@ export class EvidenceList extends mixinBehaviors(
 				if (!levelLink || !levelLink.href) {
 					return;
 				}
-				const feedbackLink = activity.getLink(hmConsts.Rels.UserProgress.feedback) || {};
+
+				const feedbackLink = demonstration.getLink(hmConsts.Rels.UserProgress.feedback) || {};
 				const demonstrationActivityLink = demonstration.getLink('https://activities.api.brightspace.com/rels/user-activity-usage') || {};
 				
 				let submissionLinkFromDemonstrationActivity = null;
 				const demonstrationActivity = activityMap[ demonstrationActivityLink.href ];
-				
+		
 				if( demonstrationActivity ) {
 					submissionLinkFromDemonstrationActivity = demonstrationActivity.getLink('https://user-progress.api.brightspace.com/rels/submission-link');
 				}
 				const submissionLink = submissionLinkFromDemonstrationActivity || submissionLinkFromRootActivity || null;
-				
+
 				evidenceList.push({
 					type: activity.properties.type,
 					name: (!activity.properties.name || activity.properties.name.trim() === '' ? this.localize('untitled') : activity.properties.name),
