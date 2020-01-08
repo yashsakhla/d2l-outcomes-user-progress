@@ -504,8 +504,6 @@ export class BigTrend extends mixinBehaviors(
 	}
 
 	_getTrendItems(trendData, demonstrationLoaderActivities) {
-		console.log( trendData );
-		
 		if (!trendData || !trendData.levels || !trendData.groups) {
 			return [];
 		}
@@ -543,12 +541,12 @@ export class BigTrend extends mixinBehaviors(
 			// Compute levels achieved
 			const groupLevels = groupAttempts
 				.filter((val, index, self) => self.indexOf(val) === index)
-				.sort((left, right) => levels[left].score - levels[right].score);
+				.sort((left, right) => levels[left.levelId].score - levels[right.levelId].score);
 
 			// Add trend blocks to group
 			let prevScore = 0;
-
-			groupLevels.forEach(levelId => {
+			groupLevels.forEach(attempt => {
+				const levelId = attempt.levelId;
 				const color = levels[levelId].color;
 				const height = COMPONENT_HEIGHT / maxLevel * (levels[levelId].score - prevScore) - GRID_THICKNESS;
 				prevScore = levels[levelId].score;
@@ -560,19 +558,19 @@ export class BigTrend extends mixinBehaviors(
 			}, this);
 
 			groupItem.blocks = blocks.reverse();
-
 			// Group attempt labels
 			const attemptLabels = [];
 			let attemptCounter = 1;
 			groupAttempts.forEach(attempt => {
+				const levelId = attempt.levelId;
 				let label = {
-					id: attempt,
-					name: levels[attempt].name,
+					id: levelId,
+					name: levels[levelId].name,
 					attempts: [ attemptCounter ]
 				};
 				const prevAttempt = attemptLabels.pop();
 
-				if (prevAttempt && prevAttempt.id === attempt) {
+				if (prevAttempt && prevAttempt.id === levelId) {
 					label = prevAttempt;
 					label.attempts.push(attemptCounter);
 				} else if (prevAttempt) {
