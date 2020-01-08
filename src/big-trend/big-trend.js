@@ -8,6 +8,8 @@ import { ResizeObserver } from 'd2l-resize-aware/resize-observer-module';
 import 'd2l-tooltip/d2l-tooltip';
 import '../localize-behavior';
 import '../trend-behavior';
+import '../demonstration-activity-loader.js';
+import * as hmConsts from 'd2l-hypermedia-constants';
 
 const COMPONENT_HEIGHT = 120;       // Also defined in CSS
 const FOOTER_HEIGHT = 22;           // Also defined in CSS
@@ -19,6 +21,7 @@ const SCROLL_VIEWPORT_FRACTION = 0.5;
 
 export class BigTrend extends mixinBehaviors(
 	[
+		D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehavior,
 		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
 		D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior
 	],
@@ -234,6 +237,15 @@ export class BigTrend extends mixinBehaviors(
             <template is="dom-if" if="[[_hasNoScale(trendData)]]">
                 <div class="no-scale">[[_getNoScaleText(instructor, outcomeTerm)]]</div>
             </template>
+			<template is="dom-if" if="[[entity]]">
+				<template is="dom-repeat" items="[[_getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
+					<demonstration-activities-loader
+						href="[[activityHref]]"
+						token="[[token]]"
+						activity-map="{{demonstrationLoaderActivities}}"
+					></demonstration-activities-loader>
+				</template>
+			</template>
             <div id="container" aria-hidden="true">
                 <div id="grid">
                     <template is="dom-repeat" items="[[_gridHorizontal]]">
@@ -348,7 +360,7 @@ export class BigTrend extends mixinBehaviors(
 			},
 			_trendItems: {
 				type: Array,
-				computed: '_getTrendItems(trendData)'
+				computed: '_getTrendItems(trendData, demonstrationLoaderActivities)'
 			}
 		};
 	}
@@ -384,6 +396,7 @@ export class BigTrend extends mixinBehaviors(
 	}
 
 	_getAttemptGroupLabel(attempts) {
+		return attempts;
 		return this.localize(
 			'bigTrendAttemptsTooltipString',
 			'numAttempts', attempts.length,
@@ -490,7 +503,9 @@ export class BigTrend extends mixinBehaviors(
 		return offset;
 	}
 
-	_getTrendItems(trendData) {
+	_getTrendItems(trendData, demonstrationLoaderActivities) {
+		console.log( trendData );
+		
 		if (!trendData || !trendData.levels || !trendData.groups) {
 			return [];
 		}

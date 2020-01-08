@@ -18,6 +18,10 @@ D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
 	],
 
 	_onEntityChanged: function(entity) {
+		//console.log( '-=-=-=-=-=-=' );
+		//console.log( demonstrationLoaderActivities );
+		//console.log( '-=-=-=-=-=-=' );
+		
 		const levels = {};
 		const groups = [];
 
@@ -51,7 +55,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
 			groups
 		};
 	},
-
+	
 	_parseTrendGroups: function(activityEntities, validLevels) {
 		let trendGroups = [];
 
