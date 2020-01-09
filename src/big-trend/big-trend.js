@@ -346,6 +346,7 @@ export class BigTrend extends mixinBehaviors(
 				value: false
 			},
 			outcomeTerm: String,
+			_demonstrationLoaderActivities: Object,
 			_gridHorizontal: {
 				type: Array,
 				computed: '_getGridHorizontal(trendData)'
@@ -396,12 +397,22 @@ export class BigTrend extends mixinBehaviors(
 	}
 
 	_getAttemptGroupLabel(attempts) {
-		return attempts;
-		return this.localize(
-			'bigTrendAttemptsTooltipString',
-			'numAttempts', attempts.length,
-			'attemptNames', attempts.join(', ')
-		);
+		
+		const activityNames = [];
+		
+		attempts.forEach( attempt => {
+			const activity = this._demonstrationLoaderActivities[ attempt.demonstrationActivityHref ];
+			if( activity ) {
+				const nameEntity = activity.getSubEntityByClasses( ['user-activity-name'] );
+				if( nameEntity ) {
+					activityNames.push( nameEntity.properties.shortText );
+				} else {
+					activityNames.push( '' );
+				}
+			}
+		} );
+		
+		return activityNames.join(', ');
 	}
 
 	_getAttemptGroupScreenReaderText(attempts) {
@@ -504,6 +515,8 @@ export class BigTrend extends mixinBehaviors(
 	}
 
 	_getTrendItems(trendData, demonstrationLoaderActivities) {
+		this._demonstrationLoaderActivities = demonstrationLoaderActivities;
+		
 		if (!trendData || !trendData.levels || !trendData.groups) {
 			return [];
 		}
@@ -566,13 +579,19 @@ export class BigTrend extends mixinBehaviors(
 				let label = {
 					id: levelId,
 					name: levels[levelId].name,
-					attempts: [ attemptCounter ]
+					attempts: [ { 
+						attemptIndex: attemptCounter, 
+						demonstrationActivityHref: attempt.demonstrationActivityHref 
+					} ]
 				};
 				const prevAttempt = attemptLabels.pop();
 
 				if (prevAttempt && prevAttempt.id === levelId) {
 					label = prevAttempt;
-					label.attempts.push(attemptCounter);
+					label.attempts.push( { 
+						attemptIndex: attemptCounter, 
+						demonstrationActivityHref: attempt.demonstrationActivityHref
+					} );
 				} else if (prevAttempt) {
 					attemptLabels.push(prevAttempt);
 				}
