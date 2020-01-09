@@ -21,9 +21,9 @@ const SCROLL_VIEWPORT_FRACTION = 0.5;
 
 export class BigTrend extends mixinBehaviors(
 	[
-		D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehavior,
 		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
-		D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior
+		D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior,
+		D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehavior
 	],
 	PolymerElement
 ) {

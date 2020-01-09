@@ -47,6 +47,5 @@ D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehaviorImp
 };
 /** @polymerBehavior */
 D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehavior = [
-	D2L.PolymerBehaviors.Siren.EntityBehavior,
 	D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehaviorImpl
 ];
