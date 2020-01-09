@@ -238,7 +238,7 @@ export class BigTrend extends mixinBehaviors(
                 <div class="no-scale">[[_getNoScaleText(instructor, outcomeTerm)]]</div>
             </template>
 			<template is="dom-if" if="[[entity]]">
-				<template is="dom-repeat" items="[[_getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
+				<template is="dom-repeat" items="[[getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
 					<demonstration-activities-loader
 						href="[[activityHref]]"
 						token="[[token]]"

@@ -15,7 +15,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehaviorImp
 		this.demonstrationLoaderActivities = {}
 	},
 
-	_getDemonstrationActivitiesHrefs(entity) {
+	getDemonstrationActivitiesHrefs(entity) {
 		if (!entity) {
 			return [];
 		}
