@@ -4,6 +4,7 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior.js';
 import 'd2l-colors/d2l-colors.js';
 import 'd2l-typography/d2l-typography.js';
+import '../demonstration-activity-loader.js';
 import '../evidence-activity-loader.js';
 import * as hmConsts from 'd2l-hypermedia-constants';
 import '../localize-behavior';
@@ -13,7 +14,8 @@ import './evidence-entry.js';
 export class EvidenceList extends mixinBehaviors(
 	[
 		D2L.PolymerBehaviors.Siren.EntityBehavior,
-		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior
+		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
+		D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehavior
 	],
 	PolymerElement
 ) {
@@ -37,11 +39,11 @@ export class EvidenceList extends mixinBehaviors(
 			</style>
 			<div aria-busy="[[!entity]]">
 				<template is="dom-if" if="[[entity]]">
-					<template is="dom-repeat" items="[[_getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
+					<template is="dom-repeat" items="[[getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
 						<evidence-activity-loader
 							href="[[activityHref]]"
 							token="[[token]]"
-							activity-map="{{_activityMap}}"
+							activity-map="{{demonstrationLoaderActivities}}"
 						></evidence-activity-loader>
 					</template>
 				</template>
@@ -76,51 +78,16 @@ export class EvidenceList extends mixinBehaviors(
 			outcomeTerm: String,
 			_evidence: {
 				type: Array,
-				computed: '_getEvidence(entity, _activityMap)'
-			},
-			_activityMap: Object
+				computed: '_getEvidence(entity, demonstrationLoaderActivities)'
+			}
 		};
 	}
 	
-	created() {
-		this._activityMap = {}
-	}
-
 	_isEmpty(array) {
 		return !array || !array.length;
 	}
 
-	_getDemonstrationActivitiesHrefs(entity) {
-		if (!entity) {
-			return [];
-		}
-		
-		const activities = entity.getSubEntitiesByClass('user-progress-outcome-activity');
-		
-		const uauHrefs = [];
-		activities.forEach(activity => {
-			const demonstrations = activity.getSubEntitiesByClasses([
-				hmConsts.Classes.outcomes.demonstration,
-				hmConsts.Classes.outcomes.assessed
-			]);
-			
-			if( !demonstrations ) {
-				return;
-			}
-			demonstrations.forEach( demonstration => {
-				const demonstrationActivityLink = demonstration.getLink('https://activities.api.brightspace.com/rels/user-activity-usage');
-				if (!demonstrationActivityLink || !demonstrationActivityLink.href) {
-					return;
-				}
-				
-				uauHrefs.push( demonstrationActivityLink.href );
-			});
-		});
-		
-		return uauHrefs;
-	}
-
-	_getEvidence(entity, activityMap) {
+	_getEvidence(entity, demonstrationLoaderActivities) {
 		if (!entity || !entity.entities) {
 			return [];
 		}
@@ -154,7 +121,7 @@ export class EvidenceList extends mixinBehaviors(
 				
 				let activityName = activity.properties.name;
 				let submissionLinkFromDemonstrationActivity = null;
-				const demonstrationActivity = activityMap[ demonstrationActivityLink.href ];
+				const demonstrationActivity = demonstrationLoaderActivities[ demonstrationActivityLink.href ];
 		
 				if( demonstrationActivity ) {
 					submissionLinkFromDemonstrationActivity = demonstrationActivity.getLink('https://user-progress.api.brightspace.com/rels/submission-link');
