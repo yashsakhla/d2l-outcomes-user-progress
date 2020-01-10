@@ -5,7 +5,7 @@ import 'd2l-polymer-siren-behaviors/store/entity-behavior.js';
 import 'd2l-colors/d2l-colors.js';
 import 'd2l-typography/d2l-typography.js';
 import '../demonstration-activity-loader.js';
-import '../evidence-activity-loader.js';
+import '../entity-loader.js';
 import * as hmConsts from 'd2l-hypermedia-constants';
 import '../localize-behavior';
 import './evidence-skeleton.js';
@@ -40,11 +40,11 @@ export class EvidenceList extends mixinBehaviors(
 			<div aria-busy="[[!entity]]">
 				<template is="dom-if" if="[[entity]]">
 					<template is="dom-repeat" items="[[getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
-						<evidence-activity-loader
+						<entity-loader
 							href="[[activityHref]]"
 							token="[[token]]"
 							activity-map="{{demonstrationLoaderActivities}}"
-						></evidence-activity-loader>
+						></entity-loader>
 					</template>
 				</template>
 				<template is="dom-if" if="[[entity]]">

@@ -9,7 +9,7 @@ import 'd2l-tooltip/d2l-tooltip';
 import '../localize-behavior';
 import '../trend-behavior';
 import '../demonstration-activity-loader.js';
-import '../evidence-activity-loader.js';
+import '../entity-loader.js';
 import * as hmConsts from 'd2l-hypermedia-constants';
 
 const COMPONENT_HEIGHT = 120;       // Also defined in CSS
@@ -240,11 +240,11 @@ export class BigTrend extends mixinBehaviors(
             </template>
 			<template is="dom-if" if="[[entity]]">
 				<template is="dom-repeat" items="[[getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
-					<evidence-activity-loader
+					<entity-loader
 						href="[[activityHref]]"
 						token="[[token]]"
 						activity-map="{{demonstrationLoaderActivities}}"
-					></evidence-activity-loader>
+					></entity-loader>
 				</template>
 			</template>
             <div id="container" aria-hidden="true">
