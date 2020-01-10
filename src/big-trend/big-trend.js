@@ -8,7 +8,7 @@ import { ResizeObserver } from 'd2l-resize-aware/resize-observer-module';
 import 'd2l-tooltip/d2l-tooltip';
 import '../localize-behavior';
 import '../trend-behavior';
-import '../demonstration-activity-loader.js';
+import '../demonstration-activity-provider.js';
 import '../entity-loader.js';
 import * as hmConsts from 'd2l-hypermedia-constants';
 
@@ -24,7 +24,7 @@ export class BigTrend extends mixinBehaviors(
 	[
 		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
 		D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior,
-		D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehavior
+		D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehavior
 	],
 	PolymerElement
 ) {
@@ -243,7 +243,7 @@ export class BigTrend extends mixinBehaviors(
 					<entity-loader
 						href="[[activityHref]]"
 						token="[[token]]"
-						entity-map="{{demonstrationLoaderActivities}}"
+						entity-map="{{demonstrationProviderActivities}}"
 					></entity-loader>
 				</template>
 			</template>
@@ -347,7 +347,7 @@ export class BigTrend extends mixinBehaviors(
 				value: false
 			},
 			outcomeTerm: String,
-			_demonstrationLoaderActivities: Object,
+			_demonstrationProviderActivities: Object,
 			_gridHorizontal: {
 				type: Array,
 				computed: '_getGridHorizontal(trendData)'
@@ -362,7 +362,7 @@ export class BigTrend extends mixinBehaviors(
 			},
 			_trendItems: {
 				type: Array,
-				computed: '_getTrendItems(trendData, demonstrationLoaderActivities)'
+				computed: '_getTrendItems(trendData, demonstrationProviderActivities)'
 			}
 		};
 	}
@@ -402,7 +402,7 @@ export class BigTrend extends mixinBehaviors(
 		const activityNames = [];
 		
 		attempts.forEach( attempt => {
-			const activity = this._demonstrationLoaderActivities[ attempt.demonstrationActivityHref ];
+			const activity = this._demonstrationProviderActivities[ attempt.demonstrationActivityHref ];
 			if( activity ) {
 				const nameEntity = activity.getSubEntityByClasses( ['user-activity-name'] );
 				if( nameEntity ) {
@@ -515,8 +515,8 @@ export class BigTrend extends mixinBehaviors(
 		return offset;
 	}
 
-	_getTrendItems(trendData, demonstrationLoaderActivities) {
-		this._demonstrationLoaderActivities = demonstrationLoaderActivities;
+	_getTrendItems(trendData, demonstrationProviderActivities) {
+		this._demonstrationProviderActivities = demonstrationProviderActivities;
 		
 		if (!trendData || !trendData.levels || !trendData.groups) {
 			return [];

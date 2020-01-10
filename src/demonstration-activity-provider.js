@@ -4,15 +4,15 @@ import * as hmConsts from 'd2l-hypermedia-constants';
 window.D2L = window.D2L || {};
 window.D2L.PolymerBehaviors = window.D2L.PolymerBehaviors || {};
 window.D2L.PolymerBehaviors.OutcomesUserProgress = window.D2L.PolymerBehaviors.OutcomesUserProgress || {};
-/** @polymerBehavior D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehavior */
-D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehaviorImpl = {
+/** @polymerBehavior D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehavior */
+D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehaviorImpl = {
 	
 	properties: {
-		demonstrationLoaderActivities: Object
+		demonstrationProviderActivities: Object
 	},
 
 	created() {
-		this.demonstrationLoaderActivities = {}
+		this.demonstrationProviderActivities = {}
 	},
 
 	getDemonstrationActivitiesHrefs(entity) {
@@ -46,6 +46,6 @@ D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehaviorImp
 	}
 };
 /** @polymerBehavior */
-D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehavior = [
-	D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehaviorImpl
+D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehavior = [
+	D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehaviorImpl
 ];

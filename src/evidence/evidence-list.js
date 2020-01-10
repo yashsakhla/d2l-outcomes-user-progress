@@ -4,7 +4,7 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior.js';
 import 'd2l-colors/d2l-colors.js';
 import 'd2l-typography/d2l-typography.js';
-import '../demonstration-activity-loader.js';
+import '../demonstration-activity-provider.js';
 import '../entity-loader.js';
 import * as hmConsts from 'd2l-hypermedia-constants';
 import '../localize-behavior';
@@ -15,7 +15,7 @@ export class EvidenceList extends mixinBehaviors(
 	[
 		D2L.PolymerBehaviors.Siren.EntityBehavior,
 		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
-		D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehavior
+		D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehavior
 	],
 	PolymerElement
 ) {
@@ -43,7 +43,7 @@ export class EvidenceList extends mixinBehaviors(
 						<entity-loader
 							href="[[activityHref]]"
 							token="[[token]]"
-							entity-map="{{demonstrationLoaderActivities}}"
+							entity-map="{{demonstrationProviderActivities}}"
 						></entity-loader>
 					</template>
 				</template>
@@ -78,7 +78,7 @@ export class EvidenceList extends mixinBehaviors(
 			outcomeTerm: String,
 			_evidence: {
 				type: Array,
-				computed: '_getEvidence(entity, demonstrationLoaderActivities)'
+				computed: '_getEvidence(entity, demonstrationProviderActivities)'
 			}
 		};
 	}
@@ -87,7 +87,7 @@ export class EvidenceList extends mixinBehaviors(
 		return !array || !array.length;
 	}
 
-	_getEvidence(entity, demonstrationLoaderActivities) {
+	_getEvidence(entity, demonstrationProviderActivities) {
 		if (!entity || !entity.entities) {
 			return [];
 		}
@@ -121,7 +121,7 @@ export class EvidenceList extends mixinBehaviors(
 				
 				let activityName = activity.properties.name;
 				let submissionLinkFromDemonstrationActivity = null;
-				const demonstrationActivity = demonstrationLoaderActivities[ demonstrationActivityLink.href ];
+				const demonstrationActivity = demonstrationProviderActivities[ demonstrationActivityLink.href ];
 		
 				if( demonstrationActivity ) {
 					submissionLinkFromDemonstrationActivity = demonstrationActivity.getLink('https://user-progress.api.brightspace.com/rels/submission-link');

@@ -6,7 +6,7 @@ import 'd2l-typography/d2l-typography.js';
 import 'd2l-typography/d2l-typography-shared-styles.js';
 import '../localize-behavior';
 import '../trend-behavior';
-import '../demonstration-activity-loader.js';
+import '../demonstration-activity-provider.js';
 import '../entity-loader.js';
 
 
@@ -20,7 +20,7 @@ export class MiniTrend extends mixinBehaviors(
 	[
 		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
 		D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior,
-		D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityLoaderBehavior
+		D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehavior
 	],
 	PolymerElement
 ) {
@@ -92,7 +92,7 @@ export class MiniTrend extends mixinBehaviors(
 					<entity-loader
 						href="[[activityHref]]"
 						token="[[token]]"
-						entity-map="{{demonstrationLoaderActivities}}"
+						entity-map="{{demonstrationProviderActivities}}"
 					></entity-loader>
 				</template>
 			</template>
@@ -134,9 +134,9 @@ export class MiniTrend extends mixinBehaviors(
 		return {
 			trendDataTruncated: {
 				type: Object,
-				computed: '_truncTrendData(trendData, demonstrationLoaderActivities)'
+				computed: '_truncTrendData(trendData, demonstrationProviderActivities)'
 			},
-			_demonstrationLoaderActivities: Object
+			_demonstrationProviderActivities: Object
 		};
 	}
 
@@ -144,7 +144,7 @@ export class MiniTrend extends mixinBehaviors(
 		const activityNames = [];
 		
 		attempts.forEach( attempt => {
-			const activity = this._demonstrationLoaderActivities[ attempt.demonstrationActivityHref ];
+			const activity = this._demonstrationProviderActivities[ attempt.demonstrationActivityHref ];
 			if( activity ) {
 				const nameEntity = activity.getSubEntityByClasses( ['user-activity-name'] );
 				if( nameEntity ) {
@@ -286,8 +286,8 @@ export class MiniTrend extends mixinBehaviors(
 		return this._hasData(trendData) && !this._hasTrendData(trendData);
 	}
 
-	_truncTrendData(trendData, demonstrationLoaderActivities) {
-		this._demonstrationLoaderActivities = demonstrationLoaderActivities;
+	_truncTrendData(trendData, demonstrationProviderActivities) {
+		this._demonstrationProviderActivities = demonstrationProviderActivities;
 		
 		if (!this._hasData(trendData)) {
 			return null;
