@@ -37,7 +37,7 @@ Polymer({
 		updatedMap[this.href] = entity;
 
 		// notify object changed
-		
+
 		this.set('entityMap', {});
 		this.set('entityMap', updatedMap);
 	}

@@ -10,7 +10,6 @@ import '../localize-behavior';
 import '../trend-behavior';
 import '../demonstration-activity-provider.js';
 import '../entity-loader.js';
-import * as hmConsts from 'd2l-hypermedia-constants';
 
 const COMPONENT_HEIGHT = 120;       // Also defined in CSS
 const FOOTER_HEIGHT = 22;           // Also defined in CSS
@@ -398,21 +397,21 @@ export class BigTrend extends mixinBehaviors(
 	}
 
 	_getAttemptGroupLabel(attempts) {
-		
+
 		const activityNames = [];
-		
-		attempts.forEach( attempt => {
+
+		attempts.forEach(attempt => {
 			const activity = this._demonstrationProviderActivities[ attempt.demonstrationActivityHref ];
-			if( activity ) {
-				const nameEntity = activity.getSubEntityByClasses( ['user-activity-name'] );
-				if( nameEntity ) {
-					activityNames.push( nameEntity.properties.shortText );
+			if (activity) {
+				const nameEntity = activity.getSubEntityByClasses(['user-activity-name']);
+				if (nameEntity) {
+					activityNames.push(nameEntity.properties.shortText);
 				} else {
-					activityNames.push( '' );
+					activityNames.push('');
 				}
 			}
-		} );
-		
+		});
+
 		return activityNames.join(', ');
 	}
 
@@ -517,7 +516,7 @@ export class BigTrend extends mixinBehaviors(
 
 	_getTrendItems(trendData, demonstrationProviderActivities) {
 		this._demonstrationProviderActivities = demonstrationProviderActivities;
-		
+
 		if (!trendData || !trendData.levels || !trendData.groups) {
 			return [];
 		}
@@ -580,19 +579,19 @@ export class BigTrend extends mixinBehaviors(
 				let label = {
 					id: levelId,
 					name: levels[levelId].name,
-					attempts: [ { 
-						attemptIndex: attemptCounter, 
-						demonstrationActivityHref: attempt.demonstrationActivityHref 
+					attempts: [ {
+						attemptIndex: attemptCounter,
+						demonstrationActivityHref: attempt.demonstrationActivityHref
 					} ]
 				};
 				const prevAttempt = attemptLabels.pop();
 
 				if (prevAttempt && prevAttempt.id === levelId) {
 					label = prevAttempt;
-					label.attempts.push( { 
-						attemptIndex: attemptCounter, 
+					label.attempts.push({
+						attemptIndex: attemptCounter,
 						demonstrationActivityHref: attempt.demonstrationActivityHref
-					} );
+					});
 				} else if (prevAttempt) {
 					attemptLabels.push(prevAttempt);
 				}

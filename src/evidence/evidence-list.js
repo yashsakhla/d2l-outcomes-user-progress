@@ -82,7 +82,7 @@ export class EvidenceList extends mixinBehaviors(
 			}
 		};
 	}
-	
+
 	_isEmpty(array) {
 		return !array || !array.length;
 	}
@@ -118,22 +118,22 @@ export class EvidenceList extends mixinBehaviors(
 
 				const feedbackLink = demonstration.getLink(hmConsts.Rels.UserProgress.feedback) || {};
 				const demonstrationActivityLink = demonstration.getLink('https://activities.api.brightspace.com/rels/user-activity-usage') || {};
-				
+
 				let activityName = activity.properties.name;
 				let submissionLinkFromDemonstrationActivity = null;
 				const demonstrationActivity = demonstrationProviderActivities[ demonstrationActivityLink.href ];
-		
-				if( demonstrationActivity ) {
+
+				if (demonstrationActivity) {
 					submissionLinkFromDemonstrationActivity = demonstrationActivity.getLink('https://user-progress.api.brightspace.com/rels/submission-link');
-					
-					const nameEntity = demonstrationActivity.getSubEntityByClasses( ['user-activity-name'] );
-					if( nameEntity ) {
+
+					const nameEntity = demonstrationActivity.getSubEntityByClasses(['user-activity-name']);
+					if (nameEntity) {
 						activityName = nameEntity.properties.longText;
 					}
 				}
 				const submissionLink = submissionLinkFromDemonstrationActivity || submissionLinkFromRootActivity || null;
 
-				if( demonstrationActivity ) {
+				if (demonstrationActivity) {
 					evidenceList.push({
 						type: activity.properties.type,
 						name: (!activityName || activityName.trim() === '' ? this.localize('untitled') : activityName),

@@ -51,7 +51,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
 			groups
 		};
 	},
-	
+
 	_parseTrendGroups: function(activityEntities, validLevels) {
 		let trendGroups = [];
 
@@ -69,10 +69,10 @@ D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
 
 				if (validLevels[levelId]) {
 					demonstrationDate = demonstrationDate || assessedDate;
-					attempts.push( { 
+					attempts.push({
 						levelId: levelId,
 						demonstrationActivityHref: demonstration.getLink('https://activities.api.brightspace.com/rels/user-activity-usage').href
-					} );
+					});
 				}
 			});
 
