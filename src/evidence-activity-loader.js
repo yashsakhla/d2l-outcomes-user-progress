@@ -3,7 +3,7 @@ import 'd2l-polymer-siren-behaviors/store/entity-behavior.js';
 import 'd2l-hypermedia-constants/d2l-hypermedia-constants.js';
 
 const $_documentContainer = document.createElement('template');
-$_documentContainer.innerHTML = /*html*/`<dom-module id="demonstration-activities-loader">
+$_documentContainer.innerHTML = /*html*/`<dom-module id="evidence-activities-loader">
 	<template strip-whitespace="">
 		<style>
 			:host {
@@ -16,7 +16,7 @@ $_documentContainer.innerHTML = /*html*/`<dom-module id="demonstration-activitie
 document.head.appendChild($_documentContainer.content);
 Polymer({
 
-	is: 'demonstration-activities-loader',
+	is: 'evidence-activity-loader',
 
 	properties: {
 		activityMap: {

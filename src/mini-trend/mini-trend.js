@@ -7,6 +7,8 @@ import 'd2l-typography/d2l-typography-shared-styles.js';
 import '../localize-behavior';
 import '../trend-behavior';
 import '../demonstration-activity-loader.js';
+import '../evidence-activity-loader.js';
+
 
 const BLOCK_SPACING = 2;        // Also defined in CSS
 const COMPONENT_HEIGHT = 36;    // Also defined in CSS
@@ -87,11 +89,11 @@ export class MiniTrend extends mixinBehaviors(
 			</style>
 			<template is="dom-if" if="[[entity]]">
 				<template is="dom-repeat" items="[[getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
-					<demonstration-activities-loader
+					<evidence-activity-loader
 						href="[[activityHref]]"
 						token="[[token]]"
 						activity-map="{{demonstrationLoaderActivities}}"
-					></demonstration-activities-loader>
+					></evidence-activity-loader>
 				</template>
 			</template>
 			<template is="dom-if" if="[[_isNotAssessed(trendDataTruncated)]]">
