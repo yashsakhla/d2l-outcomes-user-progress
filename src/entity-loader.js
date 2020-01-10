@@ -1,6 +1,5 @@
 import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior.js';
-import 'd2l-hypermedia-constants/d2l-hypermedia-constants.js';
 
 const $_documentContainer = document.createElement('template');
 $_documentContainer.innerHTML = /*html*/`<dom-module id="entity-loader">
@@ -19,15 +18,14 @@ Polymer({
 	is: 'entity-loader',
 
 	properties: {
-		activityMap: {
+		entityMap: {
 			type: Object,
 			notify: true
 		}
 	},
 
 	behaviors: [
-		D2L.PolymerBehaviors.Siren.EntityBehavior,
-		D2L.Hypermedia.HMConstantsBehavior
+		D2L.PolymerBehaviors.Siren.EntityBehavior
 	],
 
 	_onEntityChanged: function(entity) {
@@ -35,13 +33,13 @@ Polymer({
 			return;
 		}
 
-		const updatedMap = this.activityMap;
+		const updatedMap = this.entityMap;
 		updatedMap[this.href] = entity;
 
 		// notify object changed
 		
-		this.set('activityMap', {});
-		this.set('activityMap', updatedMap);
+		this.set('entityMap', {});
+		this.set('entityMap', updatedMap);
 	}
 
 });

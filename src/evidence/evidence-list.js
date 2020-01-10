@@ -43,7 +43,7 @@ export class EvidenceList extends mixinBehaviors(
 						<entity-loader
 							href="[[activityHref]]"
 							token="[[token]]"
-							activity-map="{{demonstrationLoaderActivities}}"
+							entity-map="{{demonstrationLoaderActivities}}"
 						></entity-loader>
 					</template>
 				</template>
