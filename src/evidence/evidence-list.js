@@ -140,15 +140,6 @@ export class EvidenceList extends mixinBehaviors(
 						feedbackHref: feedbackLink.href || null,
 						link: submissionLink.href
 					});
-				} else {
-					evidenceList.push({
-						type: activity.properties.type,
-						name: null,
-						date: this._getEvidenceDate(activity, demonstration),
-						levelHref: null,
-						feedbackHref: null,
-						link: null
-					});
 				}
 			});
 		});
