@@ -86,14 +86,12 @@ export class MiniTrend extends mixinBehaviors(
 					text-align: center;
 				}
 			</style>
-			<template is="dom-if" if="[[entity]]">
-				<template is="dom-repeat" items="[[getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
-					<entity-loader
-						href="[[activityHref]]"
-						token="[[token]]"
-						entity-map="{{demonstrationProviderActivities}}"
-					></entity-loader>
-				</template>
+			<template is="dom-repeat" items="[[getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
+				<entity-loader
+					href="[[activityHref]]"
+					token="[[token]]"
+					entity-map="{{demonstrationProviderActivities}}"
+				></entity-loader>
 			</template>
 			<template is="dom-if" if="[[_isNotAssessed(trendDataTruncated)]]">
 				<div class="empty-text">[[_getNotAssessedText()]]</div>
