@@ -284,7 +284,7 @@ export class BigTrend extends mixinBehaviors(
                         <template is="dom-repeat" items="[[item.attempts]]" as="attemptGroup">
                             <div>
                                 <template is="dom-if" if="[[_hasMultipleAttempts(item)]]">
-                                    <b>[[_getAttemptGroupLabel(attemptGroup.attempts, _demonstrationProviderActivities)]]</b>:
+                                    <b>[[_getAttemptGroupLabel(attemptGroup.attempts, demonstrationProviderActivities)]]</b>:
                                 </template>
                                 [[attemptGroup.name]]
                             </div>
@@ -344,7 +344,6 @@ export class BigTrend extends mixinBehaviors(
 				value: false
 			},
 			outcomeTerm: String,
-			_demonstrationProviderActivities: Object,
 			_gridHorizontal: {
 				type: Array,
 				computed: '_getGridHorizontal(trendData)'
@@ -511,8 +510,6 @@ export class BigTrend extends mixinBehaviors(
 	}
 
 	_getTrendItems(trendData, demonstrationProviderActivities) {
-		this._demonstrationProviderActivities = demonstrationProviderActivities;
-
 		if (!trendData || !trendData.levels || !trendData.groups) {
 			return [];
 		}
