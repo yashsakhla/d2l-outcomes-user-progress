@@ -8,7 +8,10 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress = window.D2L.PolymerBehaviors.O
 D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehaviorImpl = {
 
 	properties: {
-		demonstrationProviderActivities: Object
+		demonstrationProviderActivities: {
+			type: Object,
+			value: {}
+		}
 	},
 
 	created() {
