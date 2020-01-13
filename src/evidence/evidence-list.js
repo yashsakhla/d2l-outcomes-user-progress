@@ -115,7 +115,7 @@ export class EvidenceList extends mixinBehaviors(
 				}
 
 				const feedbackLink = demonstration.getLink(hmConsts.Rels.UserProgress.feedback) || {};
-				const demonstrationActivityLink = demonstration.getLink('https://activities.api.brightspace.com/rels/user-activity-usage') || {};
+				const demonstrationActivityLink = demonstration.getLink(hmConsts.Rels.Activities.userActivityUsage) || {};
 
 				let activityName = activity.properties.name;
 				let submissionLinkFromDemonstrationActivity = null;
