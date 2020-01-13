@@ -237,14 +237,12 @@ export class BigTrend extends mixinBehaviors(
             <template is="dom-if" if="[[_hasNoScale(trendData)]]">
                 <div class="no-scale">[[_getNoScaleText(instructor, outcomeTerm)]]</div>
             </template>
-			<template is="dom-if" if="[[entity]]">
-				<template is="dom-repeat" items="[[getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
-					<entity-loader
-						href="[[activityHref]]"
-						token="[[token]]"
-						entity-map="{{demonstrationProviderActivities}}"
-					></entity-loader>
-				</template>
+			<template is="dom-repeat" items="[[getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
+				<entity-loader
+					href="[[activityHref]]"
+					token="[[token]]"
+					entity-map="{{demonstrationProviderActivities}}"
+				></entity-loader>
 			</template>
             <div id="container" aria-hidden="true">
                 <div id="grid">
