@@ -36,7 +36,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehaviorI
 				return;
 			}
 			demonstrations.forEach(demonstration => {
-				const demonstrationActivityLink = demonstration.getLink('https://activities.api.brightspace.com/rels/user-activity-usage');
+				const demonstrationActivityLink = demonstration.getLink(hmConsts.Rels.Activities.userActivityUsage);
 				if (!demonstrationActivityLink || !demonstrationActivityLink.href) {
 					return;
 				}
