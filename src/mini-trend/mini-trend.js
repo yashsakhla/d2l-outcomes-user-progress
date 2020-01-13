@@ -111,7 +111,7 @@ export class MiniTrend extends mixinBehaviors(
 						<template is="dom-repeat" items="[[trendGroup.attempts]]" as="attemptGroup">
 							<div>
 								<template is="dom-if" if="[[_hasMultipleAttempts(trendGroup)]]">
-									<b>[[_getAttemptGroupLabel(attemptGroup.attempts)]]</b>:
+									<b>[[_getAttemptGroupLabel(attemptGroup.attempts, demonstrationProviderActivities)]]</b>:
 								</template>
 								[[attemptGroup.name]]
 							</div>
@@ -132,16 +132,15 @@ export class MiniTrend extends mixinBehaviors(
 			trendDataTruncated: {
 				type: Object,
 				computed: '_truncTrendData(trendData, demonstrationProviderActivities)'
-			},
-			_demonstrationProviderActivities: Object
+			}
 		};
 	}
 
-	_getAttemptGroupLabel(attempts) {
+	_getAttemptGroupLabel(attempts, demonstrationProviderActivities) {
 		const activityNames = [];
 
 		attempts.forEach(attempt => {
-			const activity = this._demonstrationProviderActivities[ attempt.demonstrationActivityHref ];
+			const activity = demonstrationProviderActivities[ attempt.demonstrationActivityHref ];
 			if (activity) {
 				const nameEntity = activity.getSubEntityByClasses(['user-activity-name']);
 				if (nameEntity) {
@@ -283,9 +282,7 @@ export class MiniTrend extends mixinBehaviors(
 		return this._hasData(trendData) && !this._hasTrendData(trendData);
 	}
 
-	_truncTrendData(trendData, demonstrationProviderActivities) {
-		this._demonstrationProviderActivities = demonstrationProviderActivities;
-
+	_truncTrendData(trendData) {
 		if (!this._hasData(trendData)) {
 			return null;
 		}

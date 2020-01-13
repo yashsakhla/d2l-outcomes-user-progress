@@ -509,7 +509,7 @@ export class BigTrend extends mixinBehaviors(
 		return offset;
 	}
 
-	_getTrendItems(trendData, demonstrationProviderActivities) {
+	_getTrendItems(trendData) {
 		if (!trendData || !trendData.levels || !trendData.groups) {
 			return [];
 		}
