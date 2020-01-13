@@ -38,14 +38,12 @@ export class EvidenceList extends mixinBehaviors(
 				}
 			</style>
 			<div aria-busy="[[!entity]]">
-				<template is="dom-if" if="[[entity]]">
-					<template is="dom-repeat" items="[[getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
-						<entity-loader
-							href="[[activityHref]]"
-							token="[[token]]"
-							entity-map="{{demonstrationProviderActivities}}"
-						></entity-loader>
-					</template>
+				<template is="dom-repeat" items="[[getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
+					<entity-loader
+						href="[[activityHref]]"
+						token="[[token]]"
+						entity-map="{{demonstrationProviderActivities}}"
+					></entity-loader>
 				</template>
 				<template is="dom-if" if="[[entity]]">
 					<template is="dom-repeat" items="[[_evidence]]" as="info">
