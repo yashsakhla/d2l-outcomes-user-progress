@@ -284,7 +284,7 @@ export class BigTrend extends mixinBehaviors(
                         <template is="dom-repeat" items="[[item.attempts]]" as="attemptGroup">
                             <div>
                                 <template is="dom-if" if="[[_hasMultipleAttempts(item)]]">
-                                    <b>[[_getAttemptGroupLabel(attemptGroup.attempts)]]</b>:
+                                    <b>[[_getAttemptGroupLabel(attemptGroup.attempts, _demonstrationProviderActivities)]]</b>:
                                 </template>
                                 [[attemptGroup.name]]
                             </div>
@@ -394,12 +394,12 @@ export class BigTrend extends mixinBehaviors(
 		return trendGroups.length > 0 && trendGroups[0].attempts.length > 0;
 	}
 
-	_getAttemptGroupLabel(attempts) {
+	_getAttemptGroupLabel(attempts, demonstrationProviderActivities) {
 
 		const activityNames = [];
 
 		attempts.forEach(attempt => {
-			const activity = this._demonstrationProviderActivities[ attempt.demonstrationActivityHref ];
+			const activity = demonstrationProviderActivities[ attempt.demonstrationActivityHref ];
 			if (activity) {
 				const nameEntity = activity.getSubEntityByClasses(['user-activity-name']);
 				if (nameEntity) {
