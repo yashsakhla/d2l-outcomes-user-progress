@@ -131,16 +131,14 @@ export class EvidenceList extends mixinBehaviors(
 				}
 				const submissionLink = submissionLinkFromDemonstrationActivity || submissionLinkFromRootActivity || null;
 
-				if (demonstrationActivity) {
-					evidenceList.push({
-						type: activity.properties.type,
-						name: (!activityName || activityName.trim() === '' ? this.localize('untitled') : activityName),
-						date: this._getEvidenceDate(activity, demonstration),
-						levelHref: levelLink.href,
-						feedbackHref: feedbackLink.href || null,
-						link: submissionLink.href
-					});
-				}
+				evidenceList.push({
+					type: activity.properties.type,
+					name: (!activityName || activityName.trim() === '' ? this.localize('untitled') : activityName),
+					date: this._getEvidenceDate(activity, demonstration),
+					levelHref: levelLink.href,
+					feedbackHref: feedbackLink.href || null,
+					link: submissionLink.href
+				});
 			});
 		});
 
