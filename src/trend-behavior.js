@@ -69,7 +69,10 @@ D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehaviorImpl = {
 
 				if (validLevels[levelId]) {
 					demonstrationDate = demonstrationDate || assessedDate;
-					attempts.push(levelId);
+					attempts.push({
+						levelId: levelId,
+						demonstrationActivityHref: demonstration.getLink('https://activities.api.brightspace.com/rels/user-activity-usage').href
+					});
 				}
 			});
 

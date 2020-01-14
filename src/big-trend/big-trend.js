@@ -8,6 +8,8 @@ import { ResizeObserver } from 'd2l-resize-aware/resize-observer-module';
 import 'd2l-tooltip/d2l-tooltip';
 import '../localize-behavior';
 import '../trend-behavior';
+import '../demonstration-activity-provider.js';
+import '../entity-loader.js';
 
 const COMPONENT_HEIGHT = 120;       // Also defined in CSS
 const FOOTER_HEIGHT = 22;           // Also defined in CSS
@@ -20,7 +22,8 @@ const SCROLL_VIEWPORT_FRACTION = 0.5;
 export class BigTrend extends mixinBehaviors(
 	[
 		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
-		D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior
+		D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior,
+		D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehavior
 	],
 	PolymerElement
 ) {
@@ -234,6 +237,13 @@ export class BigTrend extends mixinBehaviors(
             <template is="dom-if" if="[[_hasNoScale(trendData)]]">
                 <div class="no-scale">[[_getNoScaleText(instructor, outcomeTerm)]]</div>
             </template>
+			<template is="dom-repeat" items="[[getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
+				<entity-loader
+					href="[[activityHref]]"
+					token="[[token]]"
+					entity-map="{{demonstrationProviderActivities}}"
+				></entity-loader>
+			</template>
             <div id="container" aria-hidden="true">
                 <div id="grid">
                     <template is="dom-repeat" items="[[_gridHorizontal]]">
@@ -274,7 +284,7 @@ export class BigTrend extends mixinBehaviors(
                         <template is="dom-repeat" items="[[item.attempts]]" as="attemptGroup">
                             <div>
                                 <template is="dom-if" if="[[_hasMultipleAttempts(item)]]">
-                                    <b>[[_getAttemptGroupLabel(attemptGroup.attempts)]]</b>:
+                                    <b>[[_getAttemptGroupLabel(attemptGroup.attempts, demonstrationProviderActivities)]]</b>:
                                 </template>
                                 [[attemptGroup.name]]
                             </div>
@@ -383,12 +393,21 @@ export class BigTrend extends mixinBehaviors(
 		return trendGroups.length > 0 && trendGroups[0].attempts.length > 0;
 	}
 
-	_getAttemptGroupLabel(attempts) {
-		return this.localize(
-			'bigTrendAttemptsTooltipString',
-			'numAttempts', attempts.length,
-			'attemptNames', attempts.join(', ')
-		);
+	_getAttemptGroupLabel(attempts, demonstrationProviderActivities) {
+
+		const activityNames = [];
+
+		attempts.forEach(attempt => {
+			const activity = demonstrationProviderActivities[ attempt.demonstrationActivityHref ];
+			if (activity) {
+				const nameEntity = activity.getSubEntityByClasses(['user-activity-name']);
+				if (nameEntity) {
+					activityNames.push(nameEntity.properties.shortText);
+				}
+			}
+		});
+
+		return activityNames.join(', ');
 	}
 
 	_getAttemptGroupScreenReaderText(attempts) {
@@ -528,12 +547,12 @@ export class BigTrend extends mixinBehaviors(
 			// Compute levels achieved
 			const groupLevels = groupAttempts
 				.filter((val, index, self) => self.indexOf(val) === index)
-				.sort((left, right) => levels[left].score - levels[right].score);
+				.sort((left, right) => levels[left.levelId].score - levels[right.levelId].score);
 
 			// Add trend blocks to group
 			let prevScore = 0;
-
-			groupLevels.forEach(levelId => {
+			groupLevels.forEach(attempt => {
+				const levelId = attempt.levelId;
 				const color = levels[levelId].color;
 				const height = COMPONENT_HEIGHT / maxLevel * (levels[levelId].score - prevScore) - GRID_THICKNESS;
 				prevScore = levels[levelId].score;
@@ -545,21 +564,27 @@ export class BigTrend extends mixinBehaviors(
 			}, this);
 
 			groupItem.blocks = blocks.reverse();
-
 			// Group attempt labels
 			const attemptLabels = [];
 			let attemptCounter = 1;
 			groupAttempts.forEach(attempt => {
+				const levelId = attempt.levelId;
 				let label = {
-					id: attempt,
-					name: levels[attempt].name,
-					attempts: [ attemptCounter ]
+					id: levelId,
+					name: levels[levelId].name,
+					attempts: [ {
+						attemptIndex: attemptCounter,
+						demonstrationActivityHref: attempt.demonstrationActivityHref
+					} ]
 				};
 				const prevAttempt = attemptLabels.pop();
 
-				if (prevAttempt && prevAttempt.id === attempt) {
+				if (prevAttempt && prevAttempt.id === levelId) {
 					label = prevAttempt;
-					label.attempts.push(attemptCounter);
+					label.attempts.push({
+						attemptIndex: attemptCounter,
+						demonstrationActivityHref: attempt.demonstrationActivityHref
+					});
 				} else if (prevAttempt) {
 					attemptLabels.push(prevAttempt);
 				}

@@ -4,6 +4,8 @@ import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior.js';
 import 'd2l-colors/d2l-colors.js';
 import 'd2l-typography/d2l-typography.js';
+import '../demonstration-activity-provider.js';
+import '../entity-loader.js';
 import * as hmConsts from 'd2l-hypermedia-constants';
 import '../localize-behavior';
 import './evidence-skeleton.js';
@@ -12,7 +14,8 @@ import './evidence-entry.js';
 export class EvidenceList extends mixinBehaviors(
 	[
 		D2L.PolymerBehaviors.Siren.EntityBehavior,
-		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior
+		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
+		D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehavior
 	],
 	PolymerElement
 ) {
@@ -35,6 +38,13 @@ export class EvidenceList extends mixinBehaviors(
 				}
 			</style>
 			<div aria-busy="[[!entity]]">
+				<template is="dom-repeat" items="[[getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
+					<entity-loader
+						href="[[activityHref]]"
+						token="[[token]]"
+						entity-map="{{demonstrationProviderActivities}}"
+					></entity-loader>
+				</template>
 				<template is="dom-if" if="[[entity]]">
 					<template is="dom-repeat" items="[[_evidence]]" as="info">
 						<d2l-evidence-entry
@@ -66,7 +76,7 @@ export class EvidenceList extends mixinBehaviors(
 			outcomeTerm: String,
 			_evidence: {
 				type: Array,
-				computed: '_getEvidence(entity)'
+				computed: '_getEvidence(entity, demonstrationProviderActivities)'
 			}
 		};
 	}
@@ -75,7 +85,7 @@ export class EvidenceList extends mixinBehaviors(
 		return !array || !array.length;
 	}
 
-	_getEvidence(entity) {
+	_getEvidence(entity, demonstrationProviderActivities) {
 		if (!entity || !entity.entities) {
 			return [];
 		}
@@ -90,7 +100,7 @@ export class EvidenceList extends mixinBehaviors(
 				hmConsts.Classes.outcomes.demonstration,
 				hmConsts.Classes.outcomes.assessed
 			]);
-			const submissionLink = activity.getLink('https://user-progress.api.brightspace.com/rels/submission-link') || {};
+			const submissionLinkFromRootActivity = activity.getLink('https://user-progress.api.brightspace.com/rels/submission-link') || {};
 			demonstrations.forEach(demonstration => {
 				const level = demonstration.getSubEntityByClasses([
 					hmConsts.Classes.outcomes.demonstratableLevel,
@@ -103,14 +113,31 @@ export class EvidenceList extends mixinBehaviors(
 				if (!levelLink || !levelLink.href) {
 					return;
 				}
-				const feedbackLink = activity.getLink(hmConsts.Rels.UserProgress.feedback) || {};
+
+				const feedbackLink = demonstration.getLink(hmConsts.Rels.UserProgress.feedback) || {};
+				const demonstrationActivityLink = demonstration.getLink(hmConsts.Rels.Activities.userActivityUsage) || {};
+
+				let activityName = activity.properties.name;
+				let submissionLinkFromDemonstrationActivity = null;
+				const demonstrationActivity = demonstrationProviderActivities[ demonstrationActivityLink.href ];
+
+				if (demonstrationActivity) {
+					submissionLinkFromDemonstrationActivity = demonstrationActivity.getLink('https://user-progress.api.brightspace.com/rels/submission-link');
+
+					const nameEntity = demonstrationActivity.getSubEntityByClasses(['user-activity-name']);
+					if (nameEntity) {
+						activityName = nameEntity.properties.longText;
+					}
+				}
+				const submissionLink = submissionLinkFromDemonstrationActivity || submissionLinkFromRootActivity || null;
+
 				evidenceList.push({
 					type: activity.properties.type,
-					name: (!activity.properties.name || activity.properties.name.trim() === '' ? this.localize('untitled') : activity.properties.name),
+					name: (!activityName || activityName.trim() === '' ? this.localize('untitled') : activityName),
 					date: this._getEvidenceDate(activity, demonstration),
 					levelHref: levelLink.href,
 					feedbackHref: feedbackLink.href || null,
-					link: submissionLink.href || null
+					link: submissionLink.href
 				});
 			});
 		});

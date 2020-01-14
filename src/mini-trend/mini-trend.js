@@ -6,6 +6,8 @@ import 'd2l-typography/d2l-typography.js';
 import 'd2l-typography/d2l-typography-shared-styles.js';
 import '../localize-behavior';
 import '../trend-behavior';
+import '../demonstration-activity-provider.js';
+import '../entity-loader.js';
 
 const BLOCK_SPACING = 2;        // Also defined in CSS
 const COMPONENT_HEIGHT = 36;    // Also defined in CSS
@@ -16,7 +18,8 @@ const TOOLTIP_POINTER_SIZE = 8;
 export class MiniTrend extends mixinBehaviors(
 	[
 		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
-		D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior
+		D2L.PolymerBehaviors.OutcomesUserProgress.TrendBehavior,
+		D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehavior
 	],
 	PolymerElement
 ) {
@@ -83,6 +86,13 @@ export class MiniTrend extends mixinBehaviors(
 					text-align: center;
 				}
 			</style>
+			<template is="dom-repeat" items="[[getDemonstrationActivitiesHrefs(entity)]]" as="activityHref">
+				<entity-loader
+					href="[[activityHref]]"
+					token="[[token]]"
+					entity-map="{{demonstrationProviderActivities}}"
+				></entity-loader>
+			</template>
 			<template is="dom-if" if="[[_isNotAssessed(trendDataTruncated)]]">
 				<div class="empty-text">[[_getNotAssessedText()]]</div>
 			</template>
@@ -101,7 +111,7 @@ export class MiniTrend extends mixinBehaviors(
 						<template is="dom-repeat" items="[[trendGroup.attempts]]" as="attemptGroup">
 							<div>
 								<template is="dom-if" if="[[_hasMultipleAttempts(trendGroup)]]">
-									<b>[[_getAttemptGroupLabel(attemptGroup.attempts)]]</b>:
+									<b>[[_getAttemptGroupLabel(attemptGroup.attempts, demonstrationProviderActivities)]]</b>:
 								</template>
 								[[attemptGroup.name]]
 							</div>
@@ -121,17 +131,25 @@ export class MiniTrend extends mixinBehaviors(
 		return {
 			trendDataTruncated: {
 				type: Object,
-				computed: '_truncTrendData(trendData)'
+				computed: '_truncTrendData(trendData, demonstrationProviderActivities)'
 			}
 		};
 	}
 
-	_getAttemptGroupLabel(attempts) {
-		return this.localize(
-			'miniTrendAttemptsTooltipString',
-			'numAttempts', attempts.length,
-			'attemptNames', attempts.join(', ')
-		);
+	_getAttemptGroupLabel(attempts, demonstrationProviderActivities) {
+		const activityNames = [];
+
+		attempts.forEach(attempt => {
+			const activity = demonstrationProviderActivities[ attempt.demonstrationActivityHref ];
+			if (activity) {
+				const nameEntity = activity.getSubEntityByClasses(['user-activity-name']);
+				if (nameEntity) {
+					activityNames.push(nameEntity.properties.shortText);
+				}
+			}
+		});
+
+		return activityNames.join(', ');
 	}
 
 	_getMaxLevelScore(levels) {
@@ -151,7 +169,7 @@ export class MiniTrend extends mixinBehaviors(
 		const trendGroups = trendData.groups;
 
 		const numAssessed = trendGroups.reduce((acc, group) => acc + group.attempts.length, 0);
-		const levelNames = trendGroups.reduce((acc, group) => acc.concat(group.attempts.map(levelId => levels[levelId].name)), []).join(', ');
+		const levelNames = trendGroups.reduce((acc, group) => acc.concat(group.attempts.map(attempt => levels[attempt.levelId].name)), []).join(', ');
 
 		return this.localize('miniTrendScreenReaderText', 'numAssessed', numAssessed, 'levelNames', levelNames);
 	}
@@ -179,13 +197,14 @@ export class MiniTrend extends mixinBehaviors(
 			// Compute levels achieved
 			const groupLevels = groupAttempts
 				.filter((val, index, self) => self.indexOf(val) === index)
-				.sort((left, right) => levels[left].score - levels[right].score);
+				.sort((left, right) => levels[left.levelId].score - levels[right.levelId].score);
 			const groupSize = groupLevels.length;
 
 			// Add trend blocks to group
 			let prevScore = 0;
 
-			groupLevels.forEach(levelId => {
+			groupLevels.forEach(attempt => {
+				const levelId = attempt.levelId;
 				const color = levels[levelId].color;
 				const height = COMPONENT_HEIGHT / maxLevel * (levels[levelId].score - prevScore) - BLOCK_SPACING * (groupSize - 1) / groupSize;
 				prevScore = levels[levelId].score;
@@ -202,16 +221,23 @@ export class MiniTrend extends mixinBehaviors(
 			const attemptLabels = [];
 			let attemptCounter = 1;
 			groupAttempts.forEach(attempt => {
+				const levelId = attempt.levelId;
 				let label = {
-					id: attempt,
-					name: levels[attempt].name,
-					attempts: [ attemptCounter ]
+					id: levelId,
+					name: levels[levelId].name,
+					attempts: [ {
+						attemptIndex: attemptCounter,
+						demonstrationActivityHref: attempt.demonstrationActivityHref
+					} ]
 				};
 				const prevAttempt = attemptLabels.pop();
 
-				if (prevAttempt && prevAttempt.id === attempt) {
+				if (prevAttempt && prevAttempt.id === levelId) {
 					label = prevAttempt;
-					label.attempts.push(attemptCounter);
+					label.attempts.push({
+						attemptIndex: attemptCounter,
+						demonstrationActivityHref: attempt.demonstrationActivityHref
+					});
 				} else if (prevAttempt) {
 					attemptLabels.push(prevAttempt);
 				}
