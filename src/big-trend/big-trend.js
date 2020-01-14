@@ -358,7 +358,7 @@ export class BigTrend extends mixinBehaviors(
 			},
 			_trendItems: {
 				type: Array,
-				computed: '_getTrendItems(trendData, demonstrationProviderActivities)'
+				computed: '_getTrendItems(trendData)'
 			}
 		};
 	}
