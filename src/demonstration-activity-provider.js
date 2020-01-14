@@ -14,10 +14,6 @@ D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehaviorI
 		}
 	},
 
-	created() {
-		this.demonstrationProviderActivities = {};
-	},
-
 	getDemonstrationActivitiesHrefs(entity) {
 		if (!entity) {
 			return [];
