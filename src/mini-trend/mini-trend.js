@@ -145,8 +145,6 @@ export class MiniTrend extends mixinBehaviors(
 				const nameEntity = activity.getSubEntityByClasses(['user-activity-name']);
 				if (nameEntity) {
 					activityNames.push(nameEntity.properties.shortText);
-				} else {
-					activityNames.push('');
 				}
 			}
 		});
