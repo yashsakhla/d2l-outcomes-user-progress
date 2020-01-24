@@ -10,13 +10,13 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.P
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangEnBehavior = {
 	en: {
-		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, one {Attempt {attemptNames}} other {Attempts {attemptNames} and {lastAttemptName}}}',
-		'bigTrendAttemptsTooltipString': '{numAttempts, plural, one {Attempt} other {Attempts}} {attemptNames}',
+		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {Attempt {attemptNames}} other {Attempts {attemptNames} and {lastAttemptName}}}',
+		'bigTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Attempt} other {Attempts}} {attemptNames}',
 		'headingDate': 'Date',
 		'headingEvidence': 'Evidence Name',
 		'headingLoa': 'Level of Achievement',
-		'miniTrendAttemptsTooltipString': '{numAttempts, plural, one {Attempt} other {Attempts}} {attemptNames}',
-		'miniTrendScreenReaderText': 'Assessed {numAssessed} {numAssessed, plural, one {time} other {times}}: {levelNames}',
+		'miniTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Attempt} other {Attempts}} {attemptNames}',
+		'miniTrendScreenReaderText': 'Assessed {numAssessed} {numAssessed, plural, =1 {time} other {times}}: {levelNames}',
 		'notAssessed': 'Not assessed',
 		'untitled': 'Untitled',
 		'trend': 'Trend',

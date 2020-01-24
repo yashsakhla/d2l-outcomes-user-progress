@@ -10,15 +10,15 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.P
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangFrBehavior = {
 	fr: {
-		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, one {Tentative {attemptNames}} other {Tentatives {attemptNames} et {lastAttemptName}}}',
-		'bigTrendAttemptsTooltipString': '{numAttempts, plural, one {Tentative} other {Tentatives}} {attemptNames}',
+		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {Tentative {attemptNames}} other {Tentatives {attemptNames} et {lastAttemptName}}}',
+		'bigTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Tentative} other {Tentatives}} {attemptNames}',
 		'close': 'Fermer',
 		'evidence': 'Preuve',
 		'headingDate': 'Date',
 		'headingEvidence': 'Nom de la preuve',
 		'headingLoa': 'Niveau de réalisation',
-		'miniTrendAttemptsTooltipString': '{numAttempts, plural, one {Tentative} other {Tentatives}} {attemptNames}',
-		'miniTrendScreenReaderText': 'Évalué {numAssessed} {numAssessed, plural, one {fois} other {fois}}: {levelNames}',
+		'miniTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Tentative} other {Tentatives}} {attemptNames}',
+		'miniTrendScreenReaderText': 'Évalué {numAssessed} {numAssessed, plural, =1 {fois} other {fois}}: {levelNames}',
 		'noEvidence': 'Ce/Cette {outcome, select, competencies {compétence} expectations {attente} objectives {objectif} outcomes {résultat} standards {norme} other {norme}} n’a pas encore été évalué(e)',
 		'noOutcomesInstructor': 'Pour commencer le suivi de la réalisation de {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}}, aligner les {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}} du cours sur les activités évaluées.',
 		'noOutcomesStudent': 'Aucun(e) de ces {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}} n’a été évalué(e).',

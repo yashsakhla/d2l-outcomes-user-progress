@@ -10,18 +10,18 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.P
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangZhBehavior = {
 	zh: {
-		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, one {Attempt {attemptNames}} other {Attempts {attemptNames} and {lastAttemptName}}}',
-		'bigTrendAttemptsTooltipString': '{numAttempts, plural, one {次尝试} other {次尝试}} {attemptNames}',
+		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {Attempt {attemptNames}} other {Attempts {attemptNames} and {lastAttemptName}}}',
+		'bigTrendAttemptsTooltipString': '{numAttempts, plural, =1 {次尝试} other {次尝试}} {attemptNames}',
 		'close': '关闭',
 		'evidence': '证明',
 		'headingDate': '日期',
 		'headingEvidence': '证明名称',
 		'headingLoa': '已达到的级别',
-		'miniTrendAttemptsTooltipString': '{numAttempts, plural, one {次尝试} other {次尝试}} {attemptNames}',
-		'miniTrendScreenReaderText': '已评估 {numAssessed} {numAssessed, plural, one {次} other {次}}：{levelNames}',
+		'miniTrendAttemptsTooltipString': '{numAttempts, plural, =1 {次尝试} other {次尝试}} {attemptNames}',
+		'miniTrendScreenReaderText': '已评估 {numAssessed} {numAssessed, plural, =1 {次} other {次}}：{levelNames}',
 		'noEvidence': '该 {outcome, select, competencies {能力} expectations {预期} objectives {目标} outcomes {成果} standards {标准} other {标准}} 仍未被评估',
 		'noOutcomesInstructor': '要开始追踪 {outcome, select, competencies {能力} expectations {预期} objectives {目标} outcomes {成果} standards {标准} other {标准}} 的成绩，请将课程 {outcome, select, competencies {能力} expectations {预期} objectives {目标} outcomes {成果} standards {标准} other {标准}} 与评估活动对齐。',
-		'noOutcomesStudent': '没有 {outcomes, select, competencies {能力} expectations {预期} objectives {目标} outcomes {成果} standards {标准} other {标准}} 得到评估。',
+		'noOutcomesStudent': '没有 {outcome, select, competencies {能力} expectations {预期} objectives {目标} outcomes {成果} standards {标准} other {标准}} 得到评估。',
 		'noScaleInstructor': '要查看学员在实现此 {outcome, select, competencies {能力} expectations {预期} objectives {目标} outcomes {成果} standards {标准} other {标准}} 方面的进展，请创建和选择成绩等级。',
 		'noScaleStudent': '没有设置衡量 {outcome, select, competencies {能力} expectations {预期} objectives {目标} outcomes {成果} standards {标准} other {标准}} 的成绩的等级。',
 		'notAssessed': '未评估',

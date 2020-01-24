@@ -10,15 +10,15 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.P
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangPtBehavior = {
 	pt: {
-		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, one {Tentativa {attemptNames}} other {Tentativas {attemptNames} e {lastAttemptName}}}',
-		'bigTrendAttemptsTooltipString': '{numAttempts, plural, one {Tentativa} other {Tentativas}} {attemptNames}',
+		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {Tentativa {attemptNames}} other {Tentativas {attemptNames} e {lastAttemptName}}}',
+		'bigTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Tentativa} other {Tentativas}} {attemptNames}',
 		'close': 'Fechar',
 		'evidence': 'Evidência',
 		'headingDate': 'Data',
 		'headingEvidence': 'Nome da evidência',
 		'headingLoa': 'Nível de Realização',
-		'miniTrendAttemptsTooltipString': '{numAttempts, plural, one {Tentativa} other {Tentativas}} {attemptNames}',
-		'miniTrendScreenReaderText': 'Avaliado {numAssessed} {numAssessed, plural, one {vez} other {vezes}}: {levelNames}',
+		'miniTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Tentativa} other {Tentativas}} {attemptNames}',
+		'miniTrendScreenReaderText': 'Avaliado {numAssessed} {numAssessed, plural, =1 {vez} other {vezes}}: {levelNames}',
 		'noEvidence': 'Este(a) {outcome, select, competencies {competência} expectations {expectativa} objectives {objetivo} outcomes {resultado} standards {padrão} other {padrão}} ainda não foi avaliado(a)',
 		'noOutcomesInstructor': 'Para começar a acompanhar a realização dos(as) {outcome, select, competencies {competências} expectations {expectativas} objectives {objetivos} outcomes {resultados} standards {padrões} other {padrões}}, alinhe os(as) {outcome, select, competencies {competências} expectations {expectativas} objectives {objetivos} outcomes {resultados} standards {padrões} other {padrões}} do curso para as atividades avaliadas.',
 		'noOutcomesStudent': 'Nenhum(a) {outcome, select, competencies {competência} expectations {expectativa} objectives {objetivo} outcomes {resultado} standards {padrão} other {padrão}} foi avaliado(a).',
