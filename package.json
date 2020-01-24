@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lang:build": "node langtools/build.js -c langtools/config.json",
-    "lang:copy": "node langtools/copy.js -c langtools/config.json",
-    "lint": "eslint src",
+    "lang:build": "lang-build -ec langtools/config.json",
+    "lang:copy": "lang-copy -svc langtools/config.json",
+    "lint": "eslint src build/lang",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "D2L Corporation",
@@ -30,6 +30,7 @@
     "@webcomponents/webcomponentsjs": "^2.2.10",
     "babel-eslint": "^10.0.1",
     "chalk": "^2.4.2",
+    "d2l-polymer-langtools": "^1.1.0",
     "eslint": "^5.16.0",
     "eslint-config-brightspace": "^0.5.3",
     "eslint-plugin-html": "^5.0.5",
