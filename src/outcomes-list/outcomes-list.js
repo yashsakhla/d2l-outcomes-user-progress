@@ -5,6 +5,7 @@ import 'd2l-colors/d2l-colors.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior';
 import 'd2l-typography/d2l-typography.js';
 import * as hmConsts from 'd2l-hypermedia-constants';
+import './oucomes-tree-node';
 import './outcomes-list-item';
 import '../localize-behavior';
 
@@ -43,7 +44,12 @@ export class OutcomesList extends mixinBehaviors(
 						[[_getEmptyMessage(instructor, outcomeTerm)]]
 					</div>
 					<template is="dom-repeat" items="[[_outcomes]]">
-						<d2l-outcomes-list-item href="[[_getOutcomeHref(item)]]" token="[[token]]"></d2l-outcomes-list-item>
+						<template is="dom-if" if="[[_isHierarchy]]">
+							<d2l-outcomes-tree-node href="[[_getOutcomeHref(item)]]" token="[[token]]"></d2l-outcomes-tree-node>
+						</template>
+						<template is="dom-if" if="[[_isList]]">
+							<d2l-outcomes-list-item href="[[_getOutcomeHref(item)]]" token="[[token]]"></d2l-outcomes-list-item>
+						</template>
 					</template>
 				</template>
             </div>
@@ -57,6 +63,12 @@ export class OutcomesList extends mixinBehaviors(
 			instructor: {
 				type: Boolean,
 				value: false
+			},
+			_isHierarchy: {
+				computed: '_getIsHierarchy(entity)'
+			},
+			_isList: {
+				computed: '_getIsList(entity)'
 			},
 			outcomeTerm: String,
 			_outcomes: {
@@ -75,6 +87,14 @@ export class OutcomesList extends mixinBehaviors(
 		return this.localize(langTerm, 'outcome', outcomeTerm);
 	}
 
+	_getIsHierarchy(entity) {
+		return entity && entity.hasClass('user-progress-outcome-nodes');
+	}
+
+	_getIsList(entity) {
+		return entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomes);
+	}
+
 	_getOutcomeHref(outcomeEntity) {
 		return outcomeEntity.getLinkByRel('self').href;
 	}
@@ -86,7 +106,9 @@ export class OutcomesList extends mixinBehaviors(
 	_onEntityChanged(entity) {
 		let outcomes = [];
 
-		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomes)) {
+		if (this._isHierarchy) {
+			outcomes = entity.getSubEntitiesByClass('user-progress-outcome-node');
+		} else if (this._isList) {
 			outcomes = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.outcome);
 		}
 
