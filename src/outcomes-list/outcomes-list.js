@@ -88,7 +88,7 @@ export class OutcomesList extends mixinBehaviors(
 	}
 
 	_getIsHierarchy(entity) {
-		return entity && entity.hasClass('user-progress-outcome-nodes');
+		return entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomeTree);
 	}
 
 	_getIsList(entity) {
@@ -107,7 +107,7 @@ export class OutcomesList extends mixinBehaviors(
 		let outcomes = [];
 
 		if (this._isHierarchy) {
-			outcomes = entity.getSubEntitiesByClass('user-progress-outcome-node');
+			outcomes = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode);
 		} else if (this._isList) {
 			outcomes = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.outcome);
 		}

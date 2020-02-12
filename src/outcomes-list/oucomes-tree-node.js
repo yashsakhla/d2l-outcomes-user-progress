@@ -195,7 +195,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	_getActivitiesHref(entity) {
-		if (entity && entity.hasClass('user-progress-outcome-node')) {
+		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode)) {
 			const activitiesLink = entity.getLinkByRel(hmConsts.Rels.UserProgress.outcomeActivities);
 			if (activitiesLink) {
 				return activitiesLink.href;
@@ -205,8 +205,8 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	_getChildren(entity) {
-		if (entity && entity.hasClass('user-progress-outcome-node')) {
-			const subEntities = entity.getSubEntitiesByClass('user-progress-outcome-node');
+		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode)) {
+			const subEntities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode);
 			if (subEntities && subEntities.length) {
 				return subEntities;
 			}
@@ -230,7 +230,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	_getOutcomeHref(entity) {
-		if (entity && entity.hasClass('user-progress-outcome-node')) {
+		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode)) {
 			return entity.getLinkByRel(hmConsts.Rels.Outcomes.outcome).href;
 		}
 		return null;

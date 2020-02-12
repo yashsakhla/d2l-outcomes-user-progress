@@ -19,7 +19,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehaviorI
 			return [];
 		}
 
-		const activities = entity.getSubEntitiesByClass('user-progress-outcome-activity');
+		const activities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.activity);
 
 		const uauHrefs = [];
 		activities.forEach(activity => {
