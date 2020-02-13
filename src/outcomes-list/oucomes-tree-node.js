@@ -25,19 +25,24 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		const template = html`
 			<style include="d2l-typography">
 				#container {
-					border-top: 1px solid var(--d2l-color-mica);
+					align-items: center;
+					display: flex;
 				}
 
 				#content {
+					align-items: center;
+					border-bottom: 1px solid var(--d2l-color-mica);
 					display: flex;
+					flex-grow: 1;
 					padding: 18px 0px;
 				}
 
-				#content:not(.leaf-node) .main-text {
-					font-weight: bold;
+				#content.leaf-node {
+					margin-left: 48px;
 				}
 
-				#content:not(.leaf-node) .sub-text {
+				#content:not(.leaf-node) .sub-text,
+				#content .sub-text:empty {
 					display: none;
 				}
 
@@ -52,7 +57,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				}
 
 				.button-toggle-collapse {
-					margin-right: 8px;
+					margin-right: 6px;
 				}
 
 				#primary {
@@ -64,6 +69,11 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 				#primary .main-text {
 					@apply --d2l-body-text;
+				}
+
+				#primary .main-text h2,
+				#primary .main-text h3 {
+					margin: 0px;
 				}
 
 				#primary .sub-text {
@@ -81,7 +91,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				}
 
 				#children {
-					margin-left: 18px;
+					margin-left: 36px;
 				}
 
 				@keyframes skeleton-pulse {
@@ -115,17 +125,29 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			</style>
 			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
 			<div id="container" role="listitem" aria-busy$="[[!_outcomeEntity]]">
+				<template is="dom-if" if="[[!_isEmpty(_children)]]">
+					<d2l-button-icon
+						class="button-toggle-collapse"
+						icon="[[_getCollapseIcon(_collapsed)]]"
+						on-click="_onItemClicked"
+					></d2l-button-icon>
+				</template>
 				<div id="content" on-click="_onItemClicked" class$="[[_getContentClass(_children)]]">
-					<template is="dom-if" if="[[!_isEmpty(_children)]]">
-						<d2l-button-icon
-							class="button-toggle-collapse"
-							icon="[[_getCollapseIcon(_collapsed)]]"
-							on-click="_onItemClicked"
-						></d2l-button-icon>
-					</template>
 					<div id="primary">
 						<template is="dom-if" if="[[_outcomeEntity]]">
-							<div class="main-text">[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</div>
+							<div class="main-text">
+								<template is="dom-if" if="[[!_isEmpty(_children)]]">
+									<template is="dom-if" if="[[!hasParent]]">
+										<h2>[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h2>
+									</template>
+									<template is="dom-if" if="[[hasParent]]">
+										<h3>[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h3>
+									</template>
+								</template>
+								<template is="dom-if" if="[[_isEmpty(_children)]]">
+									[[getOutcomeDescriptionPlainText(_outcomeEntity)]]
+								</template>
+							</div>
 							<div class="sub-text">[[getOutcomeIdentifier(_outcomeEntity)]]</div>
 						</template>
 						<template is="dom-if" if="[[!_outcomeEntity]]">
@@ -146,14 +168,14 @@ export class OutcomesTreeNode extends mixinBehaviors(
 						></d2l-mini-trend>
 					</div>
 				</div>
-				<template is="dom-if" if="[[!_isEmpty(_children)]]">
-					<div id="children" hidden$="[[_collapsed]]">
-						<template is="dom-repeat" items="[[_children]]">
-							<d2l-outcomes-tree-node href="[[_getSelfHref(item)]]" token="[[token]]"></d2l-outcomes-tree-node>
-						</template>
-					</div>
-				</template>
 			</div>
+			<template is="dom-if" if="[[!_isEmpty(_children)]]">
+				<div id="children" hidden$="[[_collapsed]]">
+					<template is="dom-repeat" items="[[_children]]">
+						<d2l-outcomes-tree-node href="[[_getSelfHref(item)]]" token="[[token]]" has-parent=""></d2l-outcomes-tree-node>
+					</template>
+				</div>
+			</template>
 		`;
 		template.setAttribute('strip-whitespace', true);
 		return template;
@@ -170,6 +192,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				computed: '_getChildren(entity)'
 			},
 			_collapsed: {
+				type: Boolean,
+				value: false
+			},
+			hasParent: {
 				type: Boolean,
 				value: false
 			},
