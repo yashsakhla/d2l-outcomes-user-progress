@@ -23,6 +23,10 @@ D2L.PolymerBehaviors.OutcomesUserProgress.DemonstrationActivityProviderBehaviorI
 
 		const uauHrefs = [];
 		activities.forEach(activity => {
+			if (!activity.entities) {
+				return;
+			}
+
 			const demonstrations = activity.getSubEntitiesByClasses([
 				hmConsts.Classes.outcomes.demonstration,
 				hmConsts.Classes.outcomes.assessed
