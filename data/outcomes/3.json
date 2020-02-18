@@ -1,0 +1,24 @@
+{
+    "class": [
+        "outcome"
+    ],
+    "properties": {
+        "notation": "",
+        "altNotation": "",
+        "label": "Strand",
+        "listId": "A.",
+        "description": "Understanding Computers",
+        "subjects": [
+            "Computer Studies"
+        ],
+        "source": "asn"
+    },
+    "links": [
+        {
+            "rel": [
+                "self"
+            ],
+            "href": "/data/outcomes/3.json"
+        }
+    ]
+}
