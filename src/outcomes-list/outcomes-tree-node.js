@@ -139,7 +139,16 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				}
 			</style>
 			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
-			<div id="container" role="listitem" aria-busy$="[[!_outcomeEntity]]" class$="[[_getContainerClass(_children, _focus)]]">
+			<div 
+				id="container" 
+				role="treeitem" 
+				aria-busy$="[[!_outcomeEntity]]"
+				aria-expanded$="[[!_collapsed]]"
+				aria-setsize$="[[setSize]]"
+				aria-posinset$="[[index]]"
+				aria-level$="[[depth]]"
+				class$="[[_getContainerClass(_children, _focus)]]"
+			>
 				<template is="dom-if" if="[[!_isEmpty(_children)]]">
 					<d2l-button-icon
 						class="button-toggle-collapse"
@@ -186,9 +195,23 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				</div>
 			</div>
 			<template is="dom-if" if="[[!_isEmpty(_children)]]">
-				<div id="children" hidden$="[[_collapsed]]" aria-expanded$="[[!_collapsed]]">
+				<div id="children" hidden$="[[_collapsed]]">
 					<template is="dom-repeat" items="[[_children]]" index-as="outcomeIndex">
-						<d2l-outcomes-tree-node href="[[_getSelfHref(item)]]" token="[[token]]" has-parent="" index=[[outcomeIndex]] on-focus-next="_focusNextSibling" on-focus-previous="_focusPreviousSibling" on-focus-parent="_focusSelf" is-last=[[_getOutcomeIsLast(outcomeIndex)]]></d2l-outcomes-tree-node>
+						<d2l-outcomes-tree-node 
+							href="[[_getSelfHref(item)]]" 
+							token="[[token]]" 
+							tabindex="-1" 
+							has-parent="" 
+							index="[[outcomeIndex]]"
+							set-size="[[_children.length]]"
+							depth="[[_getDepth()]]"
+							on-focus-next="_focusNextSibling" 
+							on-focus-previous="_focusPreviousSibling" 
+							on-focus-parent="_focusSelf" 
+							on-focus-child="_onBlurSelf" 
+							on-blur="_onFocusSelf" 
+							is-last=[[_getOutcomeIsLast(outcomeIndex)]]>
+						</d2l-outcomes-tree-node>
 					</template>
 				</div>
 			</template>
@@ -238,6 +261,14 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			isLast: {
 				type: Number,
 				value: false
+			},
+			setSize: {
+				type: Number,
+				value: 0
+			},
+			depth: {
+				type: Number,
+				value: 0
 			}
 		};
 	}
@@ -246,6 +277,15 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		return [
 			'_onEntityChanged(entity)'
 		];
+	}
+
+	ready() {
+		super.ready();
+
+		afterNextRender(this, function() {
+			this.addEventListener('focus', this.onFocus);
+			this.addEventListener('blur', this.onBlur);
+		}.bind(this));
 	}
 
 	_getActivitiesHref(entity) {
@@ -315,6 +355,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		return null;
 	}
 
+	_getDepth() {
+		return this.depth + 1;
+	}
+
 	_isEmpty(children) {
 		return !children || children.length === 0;
 	}
@@ -345,7 +389,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_getTreeNodeByIndex(index) {
 		var href = this._children[index].getLinkByRel('self');
-		var elements = Array.from(this.shadowRoot.querySelectorAll('d2l-outcomes-tree-node'));
+		var elements = Array.from(this.root.querySelectorAll('d2l-outcomes-tree-node'));
 		return elements.find((e) => {
 			var link = e.entity.getLinkByRel('self');
 			return link ? link === href : false;
@@ -375,24 +419,34 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			if (this._hasChildren() && this._collapsed) {
 				this._toggleCollapse();
 			} else {
-				this._focusNext();
+				this._focusChild();
 			}
 		} else if (e.key === 'Enter') {
 			e.preventDefault();
 			e.stopPropagation();
 			this._selectHandler();
+		} else if (e.key === 'Home') {
+			e.preventDefault();
+			e.stopPropagation();
+			this._focusFirst();
+		} else if (e.key === 'End') {
+			e.preventDefault();
+			e.stopPropagation();
+			this._focusLast();
 		}
 	}
 
-	onFocus() {
-		console.log(this.href + ' focus');
+	onFocus(e) {
+		if (e) {
+			e.stopPropagation();
+		}
 		this._focus = true;
 		this.keydownEventListener = this._handleKeyDown.bind(this);
 		window.addEventListener('keydown', this.keydownEventListener);
+		this.dispatchEvent(new CustomEvent('focus-child'));
 	}
 
-	onBlur() {
-		console.log(this.href + ' blur');
+	onBlur(e) {
 		this._focus = false;
 		window.removeEventListener('keydown', this.keydownEventListener);
 	}
@@ -410,11 +464,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_focusNext() {
 		if (this._hasChildren() && !this._collapsed) {
-			this.onBlur();
-			var elem = this.shadowRoot.querySelector('d2l-outcomes-tree-node');
-			if (elem) {
-				elem.onFocus();
-			}
+			this._focusChild();
 		} else if (!this.isLast) {
 			this.onBlur();
 			var event = new CustomEvent('focus-next');
@@ -434,6 +484,15 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		}
 	}
 
+	_focusChild() {
+		if (this._hasChildren() && !this._collapsed) {
+			var elem = this.root.querySelector('d2l-outcomes-tree-node');
+			if (elem) {
+				elem.focus();
+			}
+		}
+	}
+
 	_focusParent() {
 		if (!this.hasParent) return;
 		this.onBlur();
@@ -443,20 +502,28 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	focusLast() {
 		if (!this._hasChildren() || this._collapsed) {
-			this.onFocus();
+			this.focus();
 		} else {
 			var element = this._getTreeNodeByIndex(this._children.length - 1);
 			if (element) {
-				element.onFocus();
+				element.focusLast();
 			}
 		}
+	}
+
+	_focusFirst() {
+		this.dispatchEvent(new CustomEvent('focus-first', {composed: true, bubbles: true}));
+	}
+
+	_focusLast() {
+		this.dispatchEvent(new CustomEvent('focus-last', {composed: true, bubbles: true}));
 	}
 
 	_focusNextSibling(e) {
 		if (e.index < this._children.length - 1) {
 			var element = this._getTreeNodeByIndex(e.index + 1);
 			if (element) {
-				element.onFocus();
+				element.focus();
 			}
 		} else {
 			var event = new CustomEvent('focus-next');
@@ -475,7 +542,18 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	_focusSelf(e) {
+		this.focus();
+	}
+
+	// Called when child loses focus
+	_onFocusSelf(e) {
 		this.onFocus();
+	}
+
+	// Called when child gains focus
+	_onBlurSelf(e) {
+		this.onBlur();
+		this.dispatchEvent(new CustomEvent('focus-child'));
 	}
 }
 

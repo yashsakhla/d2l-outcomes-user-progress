@@ -8,6 +8,7 @@ import * as hmConsts from 'd2l-hypermedia-constants';
 import './outcomes-tree-node';
 import './outcomes-list-item';
 import '../localize-behavior';
+import { afterNextRender } from '@polymer/polymer/lib/utils/render-status';
 
 const DEFAULT_SKELETON_COUNT = 10;
 
@@ -32,12 +33,11 @@ export class OutcomesList extends mixinBehaviors(
 					box-sizing: border-box;
 					width: 100%;
 				}
-
-				#container {
+				:host {
 					outline: 0px solid transparent;
 				}
 			</style>
-			<div id="container" role="list" tabindex="0" on-focus="_onFocus" on-blur="_onBlur">
+			<div id="container" role="list">
 				<template is="dom-if" if="[[!entity]]">
 					<template is="dom-repeat" items="[[_numSkeletons]]">
 						<d2l-outcomes-list-item></d2l-outcomes-list-item>
@@ -49,7 +49,19 @@ export class OutcomesList extends mixinBehaviors(
 					</div>
 					<template is="dom-repeat" items="[[_outcomes]]" index-as="outcomesIndex">
 						<template is="dom-if" if="[[_isHierarchy]]">
-							<d2l-outcomes-tree-node href="[[_getOutcomeHref(item)]]" token="[[token]]" index=[[outcomesIndex]] on-focus-next="_onFocusNext" on-focus-previous="_onFocusPrevious" is-last=[[_getOutcomeIsLast(outcomesIndex)]]></d2l-outcomes-tree-node>
+							<d2l-outcomes-tree-node 
+								href="[[_getOutcomeHref(item)]]" 
+								tabindex="-1" 
+								token="[[token]]" 
+								index="[[outcomesIndex]]"
+								set-size="[[_outcomes.length]]"
+								depth="1"
+								on-focus-next="_onFocusNext"
+								on-focus-previous="_onFocusPrevious" 
+								is-last=[[_getOutcomeIsLast(outcomesIndex)]]
+								on-focus-first="_onFocusFirst"
+								on-focus-last="_onFocusLast">
+							</d2l-outcomes-tree-node>
 						</template>
 						<template is="dom-if" if="[[_isList]]">
 							<d2l-outcomes-list-item href="[[_getOutcomeHref(item)]]" token="[[token]]"></d2l-outcomes-list-item>
@@ -86,9 +98,23 @@ export class OutcomesList extends mixinBehaviors(
 			_focus: {
 				type: Boolean,
 				value: false
+			},
+			tabIndex: {
+				type: Number,
+				value: 0
 			}
 		};
 	}
+
+	ready() {
+		super.ready();
+
+		afterNextRender(this, function() {
+			this.addEventListener('focus', this._onFocus.bind(this));
+			this.addEventListener('blur', this._onBlur.bind(this));
+		}.bind(this));
+	}
+
 	_getEmptyMessage(instructor, outcomeTerm) {
 		const langTerm = instructor ? 'noOutcomesInstructor' : 'noOutcomesStudent';
 		return this.localize(langTerm, 'outcome', outcomeTerm);
@@ -140,56 +166,17 @@ export class OutcomesList extends mixinBehaviors(
 		});
 	}
 
-	_handleKeyDown(e) {
-		if (!this._focus) {
-			switch (e.key) {
-				case 'ArrowUp':
-				case 'ArrowDown':
-				case 'ArrowLeft':
-				case 'ArrowRight':
-				case 'Enter':
-				case 'Home':
-				case 'End':
-					e.preventDefault();
-					var element = this._getTreeNodeByIndex(0);
-					if (element) {
-						element.onFocus();
-					}
-					this._focus = true;
-					break;
-			}
-		} else {
-			switch (e.key) {
-				case 'Home':
-					e.preventDefault();
-					this._blurAll();
-					var element = this._getTreeNodeByIndex(0);
-					if (element) {
-						element.onFocus();
-					}
-					break;
-				case 'End':
-					e.preventDefault();
-					this._blurAll();
-					var element = this._getTreeNodeByIndex(this._outcomes.length - 1);
-					if (element) {
-						element.focusLast();
-					}
-			}
-		}
-	}
-
 	_onFocus(e) {
 		if (this._isHierarchy) {
-			this._keyDownEventListener = this._handleKeyDown.bind(this);
-			this.addEventListener('keydown', this._keyDownEventListener)
+			var element = this._getTreeNodeByIndex(0);
+			if (element) {
+				element.focus();
+			}
 		}
 	}
 
 	_onBlur(e) {
 		this._blurAll();
-		this._focus = false;
-		this.removeEventListener('keydown', this._keyDownEventListener);
 	}
 
 	_blurAll() {
@@ -203,7 +190,7 @@ export class OutcomesList extends mixinBehaviors(
 		if (e.index < this._outcomes.length - 1) {
 			var element = this._getTreeNodeByIndex(e.index + 1);
 			if (element) {
-				element.onFocus();
+				element.focus();
 			}
 		}
 	}
@@ -215,6 +202,16 @@ export class OutcomesList extends mixinBehaviors(
 				element.focusLast();
 			}
 		}
+	}
+
+	_onFocusFirst(e) {
+		var element = this._getTreeNodeByIndex(0);
+		if (element) element.focus();
+	}
+
+	_onFocusLast(e) {
+		var element = this._getTreeNodeByIndex(this._outcomes.length - 1);
+		if (element) element.focusLast();
 	}
 }
 
