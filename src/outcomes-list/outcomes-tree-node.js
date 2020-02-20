@@ -446,7 +446,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		this.dispatchEvent(new CustomEvent('focus-child'));
 	}
 
-	onBlur(e) {
+	onBlur() {
 		this._focus = false;
 		window.removeEventListener('keydown', this.keydownEventListener);
 	}
@@ -456,7 +456,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			this.onBlur();
 		} else {
 			var elements = Array.from(this.root.querySelectorAll('d2l-outcomes-tree-node'));
-			elements.forEach(function (element) {
+			elements.forEach(function(element) {
 				element.blurAll();
 			});
 		}
@@ -541,17 +541,17 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		}
 	}
 
-	_focusSelf(e) {
+	_focusSelf() {
 		this.focus();
 	}
 
 	// Called when child loses focus
-	_onFocusSelf(e) {
+	_onFocusSelf() {
 		this.onFocus();
 	}
 
 	// Called when child gains focus
-	_onBlurSelf(e) {
+	_onBlurSelf() {
 		this.onBlur();
 		this.dispatchEvent(new CustomEvent('focus-child'));
 	}

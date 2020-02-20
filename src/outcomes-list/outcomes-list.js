@@ -159,14 +159,14 @@ export class OutcomesList extends mixinBehaviors(
 	_getTreeNodeByIndex(index) {
 		var href = this._outcomes[index].getLinkByRel('self');
 		var elements = Array.from(this.root.querySelectorAll('d2l-outcomes-tree-node'));
-		
+
 		return elements.find((element) => {
 			var link = element.entity.getLinkByRel('self');
 			return link ? link === href : false;
 		});
 	}
 
-	_onFocus(e) {
+	_onFocus() {
 		if (this._isHierarchy) {
 			var element = this._getTreeNodeByIndex(0);
 			if (element) {
@@ -175,13 +175,13 @@ export class OutcomesList extends mixinBehaviors(
 		}
 	}
 
-	_onBlur(e) {
+	_onBlur() {
 		this._blurAll();
 	}
 
 	_blurAll() {
 		var elements = Array.from(this.root.querySelectorAll('d2l-outcomes-tree-node'));
-		elements.forEach(function (element) {
+		elements.forEach(function(element) {
 			element.blurAll();
 		});
 	}
@@ -204,12 +204,12 @@ export class OutcomesList extends mixinBehaviors(
 		}
 	}
 
-	_onFocusFirst(e) {
+	_onFocusFirst() {
 		var element = this._getTreeNodeByIndex(0);
 		if (element) element.focus();
 	}
 
-	_onFocusLast(e) {
+	_onFocusLast() {
 		var element = this._getTreeNodeByIndex(this._outcomes.length - 1);
 		if (element) element.focusLast();
 	}
