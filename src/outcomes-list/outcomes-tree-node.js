@@ -208,8 +208,8 @@ export class OutcomesTreeNode extends mixinBehaviors(
 							on-focus-next="_focusNextSibling" 
 							on-focus-previous="_focusPreviousSibling" 
 							on-focus-parent="_focusSelf" 
-							on-focus-child="_onBlurSelf" 
-							on-blur="_onFocusSelf" 
+							on-focus-child="_onFocusChild" 
+							on-blur="_onBlurChild" 
 							is-last=[[_getOutcomeIsLast(outcomeIndex)]]>
 						</d2l-outcomes-tree-node>
 					</template>
@@ -425,23 +425,13 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		this._focus = true;
 		this.keydownEventListener = this._handleKeyDown.bind(this);
 		window.addEventListener('keydown', this.keydownEventListener);
-		this.dispatchEvent(new CustomEvent('focus-child'));
+		const event = new CustomEvent('focus-child');
+		this.dispatchEvent(event);
 	}
 
 	onBlur() {
 		this._focus = false;
 		window.removeEventListener('keydown', this.keydownEventListener);
-	}
-
-	blurAll() {
-		if (this._focus) {
-			this.onBlur();
-		} else {
-			var elements = Array.from(this.root.querySelectorAll('d2l-outcomes-tree-node'));
-			elements.forEach(function(element) {
-				element.blurAll();
-			});
-		}
 	}
 
 	_focusNext() {
@@ -528,14 +518,15 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	// Called when child loses focus
-	_onFocusSelf() {
+	_onBlurChild() {
 		this.onFocus();
 	}
 
 	// Called when child gains focus
-	_onBlurSelf() {
+	_onFocusChild(e) {
 		this.onBlur();
-		this.dispatchEvent(new CustomEvent('focus-child'));
+		const event = new CustomEvent('focus-child');
+		this.dispatchEvent(event);
 	}
 }
 

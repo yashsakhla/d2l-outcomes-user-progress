@@ -102,6 +102,10 @@ export class OutcomesList extends mixinBehaviors(
 			tabIndex: {
 				type: Number,
 				value: 0
+			},
+			_focusedNode: {
+				type: Object,
+				value: null
 			}
 		};
 	}
@@ -159,22 +163,11 @@ export class OutcomesList extends mixinBehaviors(
 
 	_onFocus() {
 		if (this._isHierarchy) {
-			var element = this._getTreeNodeByIndex(0);
+			var element = this._focusedNode ? this._focusedNode : this._getTreeNodeByIndex(0);
 			if (element) {
 				element.focus();
 			}
 		}
-	}
-
-	_onBlur() {
-		this._blurAll();
-	}
-
-	_blurAll() {
-		var elements = Array.from(this.root.querySelectorAll('d2l-outcomes-tree-node'));
-		elements.forEach(function(element) {
-			element.blurAll();
-		});
 	}
 
 	_onFocusNext(e) {
