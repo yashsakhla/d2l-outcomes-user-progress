@@ -523,7 +523,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	// Called when child gains focus
-	_onFocusChild(e) {
+	_onFocusChild() {
 		this.onBlur();
 		const event = new CustomEvent('focus-child');
 		this.dispatchEvent(event);
