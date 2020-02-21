@@ -115,7 +115,6 @@ export class OutcomesList extends mixinBehaviors(
 
 		afterNextRender(this, function() {
 			this.addEventListener('focus', this._onFocus.bind(this));
-			this.addEventListener('blur', this._onBlur.bind(this));
 		}.bind(this));
 	}
 
@@ -157,13 +156,13 @@ export class OutcomesList extends mixinBehaviors(
 	}
 
 	_getTreeNodeByIndex(index) {
-		var href = this._outcomes[index].getLinkByRel('self');
+		const href = this._outcomes[index].getLinkByRel('self');
 		return this.root.querySelector(`d2l-outcomes-tree-node[href="${href.href}"]`);
 	}
 
 	_onFocus() {
 		if (this._isHierarchy) {
-			var element = this._focusedNode ? this._focusedNode : this._getTreeNodeByIndex(0);
+			const element = this._focusedNode ? this._focusedNode : this._getTreeNodeByIndex(0);
 			if (element) {
 				element.focus();
 			}
@@ -172,7 +171,7 @@ export class OutcomesList extends mixinBehaviors(
 
 	_onFocusNext(e) {
 		if (e.index < this._outcomes.length - 1) {
-			var element = e.target.nextSibling;
+			const element = e.target.nextSibling;
 			if (element) {
 				element.focus();
 			}
@@ -181,7 +180,7 @@ export class OutcomesList extends mixinBehaviors(
 
 	_onFocusPrevious(e) {
 		if (e.index > 0) {
-			var element = e.target.previousSibling;
+			const element = e.target.previousSibling;
 			if (element) {
 				element.focusLast();
 			}
@@ -189,12 +188,12 @@ export class OutcomesList extends mixinBehaviors(
 	}
 
 	_onFocusFirst() {
-		var element = this._getTreeNodeByIndex(0);
+		const element = this._getTreeNodeByIndex(0);
 		if (element) element.focus();
 	}
 
 	_onFocusLast() {
-		var element = this._getTreeNodeByIndex(this._outcomes.length - 1);
+		const element = this._getTreeNodeByIndex(this._outcomes.length - 1);
 		if (element) element.focusLast();
 	}
 }

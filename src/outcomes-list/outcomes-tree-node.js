@@ -374,7 +374,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	_getTreeNodeByIndex(index) {
-		var href = this._children[index].getLinkByRel('self');
+		const href = this._children[index].getLinkByRel('self');
 		return this.root.querySelector(`d2l-outcomes-tree-node[href="${href.href}"]`);
 	}
 
@@ -439,7 +439,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			this._focusChild();
 		} else if (!this.isLast) {
 			this.onBlur();
-			var event = new CustomEvent('focus-next');
+			const event = new CustomEvent('focus-next');
 			event.index = this.index;
 			this.dispatchEvent(event);
 		}
@@ -448,7 +448,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	_focusPrevious() {
 		if (this.index > 0) {
 			this.onBlur();
-			var event = new CustomEvent('focus-previous');
+			const event = new CustomEvent('focus-previous');
 			event.index = this.index;
 			this.dispatchEvent(event);
 		} else {
@@ -458,7 +458,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_focusChild() {
 		if (!this._isEmpty(this._children) && !this._collapsed) {
-			var elem = this.root.querySelector('d2l-outcomes-tree-node');
+			const elem = this.root.querySelector('d2l-outcomes-tree-node');
 			if (elem) {
 				elem.focus();
 			}
@@ -468,7 +468,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	_focusParent() {
 		if (!this.hasParent) return;
 		this.onBlur();
-		var event = new CustomEvent('focus-parent');
+		const event = new CustomEvent('focus-parent');
 		this.dispatchEvent(event);
 	}
 
@@ -476,7 +476,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		if (this._isEmpty(this._children) || this._collapsed) {
 			this.focus();
 		} else {
-			var element = this._getTreeNodeByIndex(this._children.length - 1);
+			const element = this._getTreeNodeByIndex(this._children.length - 1);
 			if (element) {
 				element.focusLast();
 			}
@@ -493,12 +493,12 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_focusNextSibling(e) {
 		if (e.index < this._children.length - 1) {
-			var element = e.target.nextSibling;
+			const element = e.target.nextSibling;
 			if (element) {
 				element.focus();
 			}
 		} else {
-			var event = new CustomEvent('focus-next');
+			const event = new CustomEvent('focus-next');
 			event.index = this.index;
 			this.dispatchEvent(event);
 		}
@@ -506,7 +506,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_focusPreviousSibling(e) {
 		if (e.index > 0) {
-			var element = e.target.previousSibling;
+			const element = e.target.previousSibling;
 			if (element) {
 				element.focusLast();
 			}
