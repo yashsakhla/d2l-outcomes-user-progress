@@ -60,7 +60,8 @@ export class OutcomesList extends mixinBehaviors(
 								on-focus-previous="_onFocusPrevious" 
 								is-last=[[_getOutcomeIsLast(outcomesIndex)]]
 								on-focus-first="_onFocusFirst"
-								on-focus-last="_onFocusLast">
+								on-focus-last="_onFocusLast"
+								on-focus-child="_onFocusChild">
 							</d2l-outcomes-tree-node>
 						</template>
 						<template is="dom-if" if="[[_isList]]">
@@ -162,7 +163,7 @@ export class OutcomesList extends mixinBehaviors(
 
 	_onFocus() {
 		if (this._isHierarchy) {
-			const element = this._focusedNode ? this._focusedNode : this._getTreeNodeByIndex(0);
+			var element = this._focusedNode ? this._focusedNode : this._getTreeNodeByIndex(0);
 			if (element) {
 				element.focus();
 			}
@@ -195,6 +196,10 @@ export class OutcomesList extends mixinBehaviors(
 	_onFocusLast() {
 		const element = this._getTreeNodeByIndex(this._outcomes.length - 1);
 		if (element) element.focusLast();
+	}
+
+	_onFocusChild(e) {
+		this._focusedNode = e.node;
 	}
 }
 

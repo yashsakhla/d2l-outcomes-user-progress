@@ -421,12 +421,13 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	onFocus(e) {
 		if (e) {
 			e.stopPropagation();
+			const event = new CustomEvent('focus-child');
+			event.node = this;
+			this.dispatchEvent(event);
 		}
 		this._focus = true;
 		this.keydownEventListener = this._handleKeyDown.bind(this);
 		window.addEventListener('keydown', this.keydownEventListener);
-		const event = new CustomEvent('focus-child');
-		this.dispatchEvent(event);
 	}
 
 	onBlur() {
@@ -514,6 +515,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	_focusSelf() {
+		this.blur();
 		this.focus();
 	}
 
@@ -523,9 +525,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	// Called when child gains focus
-	_onFocusChild() {
+	_onFocusChild(e) {
 		this.onBlur();
 		const event = new CustomEvent('focus-child');
+		event.node = e.node;
 		this.dispatchEvent(event);
 	}
 }
