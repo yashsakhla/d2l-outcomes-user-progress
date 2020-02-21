@@ -51,11 +51,11 @@ export class OutcomesTreeNode extends mixinBehaviors(
 					padding: 18px 0px;
 				}
 
-				#content.leaf-node {
+				.leaf-node #content {
 					margin-left: 48px;
 				}
 
-				#content:not(.leaf-node) .sub-text,
+				:not(.leaf-node) #content .sub-text,
 				#content .sub-text:empty {
 					display: none;
 				}
@@ -64,8 +64,8 @@ export class OutcomesTreeNode extends mixinBehaviors(
 					cursor: pointer;
 				}
 
-				:not([aria-busy]) #content.leaf-node:hover .main-text,
-				.focus:not([aria-busy]) #content.leaf-node .main-text {
+				.leaf-node:not([aria-busy]) #content:hover .main-text,
+				.leaf-node.focus:not([aria-busy]) #content .main-text {
 					color: blue;
 					color: var(--d2l-color-celestine-minus-1);
 					text-decoration: underline;
@@ -157,7 +157,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 						tabindex="-1"
 					></d2l-button-icon>
 				</template>
-				<div id="content" on-click="_onItemClicked" class$="[[_getContentClass(_children)]]">
+				<div id="content" on-click="_onItemClicked">
 					<div id="primary">
 						<template is="dom-if" if="[[_outcomeEntity]]">
 							<div class="main-text">
@@ -204,7 +204,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 							has-parent="" 
 							index="[[outcomeIndex]]"
 							set-size="[[_children.length]]"
-							depth="[[_getDepth()]]"
+							depth="[[_getChildDepth(depth)]]"
 							on-focus-next="_focusNextSibling" 
 							on-focus-previous="_focusPreviousSibling" 
 							on-focus-parent="_focusSelf" 
@@ -327,16 +327,6 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		return classes.join(' ');
 	}
 
-	_getContentClass(children) {
-		const classes = [];
-
-		if (children && this._isEmpty(children)) {
-			classes.push('leaf-node');
-		}
-
-		return classes.join(';');
-	}
-
 	_getOutcomeIsLast(outcomeIndex) {
 		return this.isLast ? outcomeIndex === this._children.length - 1 : false;
 	}
@@ -355,16 +345,12 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		return null;
 	}
 
-	_getDepth() {
-		return this.depth + 1;
+	_getChildDepth(depth) {
+		return depth + 1;
 	}
 
 	_isEmpty(children) {
 		return !children || children.length === 0;
-	}
-
-	_hasChildren() {
-		return !this._isEmpty(this._children);
 	}
 
 	_selectHandler() {
@@ -389,11 +375,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_getTreeNodeByIndex(index) {
 		var href = this._children[index].getLinkByRel('self');
-		var elements = Array.from(this.root.querySelectorAll('d2l-outcomes-tree-node'));
-		return elements.find((e) => {
-			var link = e.entity.getLinkByRel('self');
-			return link ? link === href : false;
-		});
+		return this.root.querySelector(`d2l-outcomes-tree-node[href="${href.href}"]`);
 	}
 
 	_handleKeyDown(e) {
@@ -408,7 +390,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		} else if (e.key === 'ArrowLeft') {
 			e.preventDefault();
 			e.stopPropagation();
-			if (this._hasChildren() && !this._collapsed) {
+			if (!this._isEmpty(this._children) && !this._collapsed) {
 				this._toggleCollapse();
 			} else {
 				this._focusParent();
@@ -416,7 +398,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		} else if (e.key === 'ArrowRight') {
 			e.preventDefault();
 			e.stopPropagation();
-			if (this._hasChildren() && this._collapsed) {
+			if (!this._isEmpty(this._children) && this._collapsed) {
 				this._toggleCollapse();
 			} else {
 				this._focusChild();
@@ -463,7 +445,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	_focusNext() {
-		if (this._hasChildren() && !this._collapsed) {
+		if (!this._isEmpty(this._children) && !this._collapsed) {
 			this._focusChild();
 		} else if (!this.isLast) {
 			this.onBlur();
@@ -485,7 +467,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	_focusChild() {
-		if (this._hasChildren() && !this._collapsed) {
+		if (!this._isEmpty(this._children) && !this._collapsed) {
 			var elem = this.root.querySelector('d2l-outcomes-tree-node');
 			if (elem) {
 				elem.focus();
@@ -501,7 +483,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	focusLast() {
-		if (!this._hasChildren() || this._collapsed) {
+		if (this._isEmpty(this._children) || this._collapsed) {
 			this.focus();
 		} else {
 			var element = this._getTreeNodeByIndex(this._children.length - 1);
@@ -521,7 +503,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_focusNextSibling(e) {
 		if (e.index < this._children.length - 1) {
-			var element = this._getTreeNodeByIndex(e.index + 1);
+			var element = e.target.nextSibling;
 			if (element) {
 				element.focus();
 			}
@@ -534,7 +516,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_focusPreviousSibling(e) {
 		if (e.index > 0) {
-			var element = this._getTreeNodeByIndex(e.index - 1);
+			var element = e.target.previousSibling;
 			if (element) {
 				element.focusLast();
 			}
