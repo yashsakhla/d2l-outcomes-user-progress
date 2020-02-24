@@ -172,7 +172,7 @@ export class OutcomesList extends mixinBehaviors(
 
 	_onFocusNext(e) {
 		if (e.index < this._outcomes.length - 1) {
-			const element = e.target.nextSibling;
+			const element = this._getTreeNodeByIndex(e.index + 1);
 			if (element) {
 				element.focus();
 			}
@@ -181,7 +181,7 @@ export class OutcomesList extends mixinBehaviors(
 
 	_onFocusPrevious(e) {
 		if (e.index > 0) {
-			const element = e.target.previousSibling;
+			const element = this._getTreeNodeByIndex(e.index - 1);
 			if (element) {
 				element.focusLast();
 			}
