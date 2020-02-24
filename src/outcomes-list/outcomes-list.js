@@ -5,9 +5,10 @@ import 'd2l-colors/d2l-colors.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior';
 import 'd2l-typography/d2l-typography.js';
 import * as hmConsts from 'd2l-hypermedia-constants';
-import './oucomes-tree-node';
+import './outcomes-tree-node';
 import './outcomes-list-item';
 import '../localize-behavior';
+import { afterNextRender } from '@polymer/polymer/lib/utils/render-status';
 
 const DEFAULT_SKELETON_COUNT = 10;
 
@@ -32,6 +33,9 @@ export class OutcomesList extends mixinBehaviors(
 					box-sizing: border-box;
 					width: 100%;
 				}
+				:host {
+					outline: 0px solid transparent;
+				}
 			</style>
 			<div id="container" role="list">
 				<template is="dom-if" if="[[!entity]]">
@@ -43,9 +47,22 @@ export class OutcomesList extends mixinBehaviors(
 					<div class="no-items" hidden="[[!_isEmpty(_outcomes)]]">
 						[[_getEmptyMessage(instructor, outcomeTerm)]]
 					</div>
-					<template is="dom-repeat" items="[[_outcomes]]">
+					<template is="dom-repeat" items="[[_outcomes]]" index-as="outcomesIndex">
 						<template is="dom-if" if="[[_isHierarchy]]">
-							<d2l-outcomes-tree-node href="[[_getOutcomeHref(item)]]" token="[[token]]"></d2l-outcomes-tree-node>
+							<d2l-outcomes-tree-node 
+								href="[[_getOutcomeHref(item)]]" 
+								tabindex="-1" 
+								token="[[token]]" 
+								index="[[outcomesIndex]]"
+								set-size="[[_outcomes.length]]"
+								depth="1"
+								on-focus-next="_onFocusNext"
+								on-focus-previous="_onFocusPrevious" 
+								is-last=[[_getOutcomeIsLast(outcomesIndex)]]
+								on-focus-first="_onFocusFirst"
+								on-focus-last="_onFocusLast"
+								on-focus-child="_onFocusChild">
+							</d2l-outcomes-tree-node>
 						</template>
 						<template is="dom-if" if="[[_isList]]">
 							<d2l-outcomes-list-item href="[[_getOutcomeHref(item)]]" token="[[token]]"></d2l-outcomes-list-item>
@@ -78,8 +95,28 @@ export class OutcomesList extends mixinBehaviors(
 			_numSkeletons: {
 				type: Array,
 				value: Array.apply(null, { length: DEFAULT_SKELETON_COUNT }).map((v, i) => i)
+			},
+			_focus: {
+				type: Boolean,
+				value: false
+			},
+			tabIndex: {
+				type: Number,
+				value: 0
+			},
+			_focusedNode: {
+				type: Object,
+				value: null
 			}
 		};
+	}
+
+	ready() {
+		super.ready();
+
+		afterNextRender(this, function() {
+			this.addEventListener('focus', this._onFocus.bind(this));
+		}.bind(this));
 	}
 
 	_getEmptyMessage(instructor, outcomeTerm) {
@@ -99,6 +136,10 @@ export class OutcomesList extends mixinBehaviors(
 		return outcomeEntity.getLinkByRel('self').href;
 	}
 
+	_getOutcomeIsLast(outcomeIndex) {
+		return outcomeIndex === this._outcomes.length - 1;
+	}
+
 	_isEmpty(array) {
 		return !array || !array.length;
 	}
@@ -113,6 +154,55 @@ export class OutcomesList extends mixinBehaviors(
 		}
 
 		this._outcomes = outcomes;
+	}
+
+	_getTreeNodeByIndex(index) {
+		const href = this._outcomes[index].getLinkByRel('self');
+		return this.root.querySelector(`d2l-outcomes-tree-node[href="${href.href}"]`);
+	}
+
+	_onFocus() {
+		if (this._isHierarchy) {
+			var element = this._focusedNode ? this._focusedNode : this._getTreeNodeByIndex(0);
+			if (element) {
+				element.focus();
+			}
+		}
+	}
+
+	_onFocusNext(e) {
+		if (e.index < this._outcomes.length - 1) {
+			const element = this._getTreeNodeByIndex(e.index + 1);
+			if (element) {
+				element.focus();
+			}
+		}
+	}
+
+	_onFocusPrevious(e) {
+		if (e.index > 0) {
+			const element = this._getTreeNodeByIndex(e.index - 1);
+			if (element) {
+				element.focusLast();
+			}
+		}
+	}
+
+	_onFocusFirst() {
+		const element = this._getTreeNodeByIndex(0);
+		if (element) {
+			element.blur();
+			element.focus();
+		}
+	}
+
+	_onFocusLast() {
+		const element = this._getTreeNodeByIndex(this._outcomes.length - 1);
+		if (element) element.focusLast();
+	}
+
+	_onFocusChild(e) {
+		this._focusedNode = e.node;
 	}
 }
 
