@@ -190,7 +190,10 @@ export class OutcomesList extends mixinBehaviors(
 
 	_onFocusFirst() {
 		const element = this._getTreeNodeByIndex(0);
-		if (element) element.focus();
+		if (element) {
+			element.blur();
+			element.focus();
+		}
 	}
 
 	_onFocusLast() {

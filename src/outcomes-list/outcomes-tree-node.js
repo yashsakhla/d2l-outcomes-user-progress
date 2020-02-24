@@ -209,7 +209,6 @@ export class OutcomesTreeNode extends mixinBehaviors(
 							on-focus-previous="_focusPreviousSibling" 
 							on-focus-parent="_focusSelf" 
 							on-focus-child="_onFocusChild" 
-							on-blur="_onBlurChild" 
 							is-last=[[_getOutcomeIsLast(outcomeIndex)]]>
 						</d2l-outcomes-tree-node>
 					</template>
@@ -365,6 +364,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		if (this._outcomeEntity) {
 			e.stopPropagation();
 			e.preventDefault();
+			if (!this._focus) this._focusSelf();
 			this._selectHandler();
 		}
 	}
@@ -419,12 +419,11 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	onFocus(e) {
-		if (e) {
-			e.stopPropagation();
-			const event = new CustomEvent('focus-child');
-			event.node = this;
-			this.dispatchEvent(event);
-		}
+		e.stopPropagation();
+		const event = new CustomEvent('focus-child');
+		event.node = this;
+		this.dispatchEvent(event);
+
 		this._focus = true;
 		this.keydownEventListener = this._handleKeyDown.bind(this);
 		window.addEventListener('keydown', this.keydownEventListener);
@@ -514,19 +513,15 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		}
 	}
 
+	// Force a focus event on the tree node (also blurs all child nodes)
 	_focusSelf() {
 		this.blur();
 		this.focus();
 	}
 
-	// Called when child loses focus
-	_onBlurChild() {
-		this.onFocus();
-	}
-
 	// Called when child gains focus
 	_onFocusChild(e) {
-		this.onBlur();
+		if (this._focus) this.onBlur();
 		const event = new CustomEvent('focus-child');
 		event.node = e.node;
 		this.dispatchEvent(event);
