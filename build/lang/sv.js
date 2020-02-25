@@ -24,7 +24,10 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangSvBehavior = {
 		'noOutcomesStudent': 'Inga {outcome, select, competencies {kompetenser} expectations {förväntningar} objectives {mål} outcomes {resultat} standards {standarder} other {standarder}} har utvärderats.',
 		'noScaleInstructor': 'För att se elevens framsteg mot dessa {outcome, select, competencies {kompetenser} expectations {förväntningar} objectives {mål} outcomes {resultat} standards {standarder} other {standarder}} skapar du och väljer en nivåskala.',
 		'noScaleStudent': 'Ingen skala har angetts för mätning av uppnådda {outcome, select, competencies {kompetenser} expectations {förväntningar} objectives {mål} outcomes {resultat} standards {standarder} other {standarder}}.',
+		'noSearchResults': 'No results found for "{searchTerm}"',
 		'notAssessed': 'Ej bedömt',
+		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
+		'searchHint': 'search...',
 		'trend': 'Trend',
 		'untitled': 'Namnlös'
 	}

@@ -1,6 +1,9 @@
 import '@polymer/polymer/polymer-legacy.js';
 import { PolymerElement, html } from '@polymer/polymer';
+import { afterNextRender } from '@polymer/polymer/lib/utils/render-status';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
+import { IronA11yAnnouncer } from '@polymer/iron-a11y-announcer/iron-a11y-announcer.js';
+import '@brightspace-ui/core/components/inputs/input-search';
 import 'd2l-colors/d2l-colors.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior';
 import 'd2l-typography/d2l-typography.js';
@@ -36,7 +39,41 @@ export class OutcomesList extends mixinBehaviors(
 					box-sizing: border-box;
 					width: 100%;
 				}
+
+				#search-container {
+					align-items: flex-start;
+					display: flex;
+					flex-direction: column;
+					margin-bottom: 20px;
+				}
+
+				#hierarchy-search {
+					width: 300px;
+				}
+
+				#search-results {
+					margin-top: 16px;
+				}
 			</style>
+			<template is="dom-if" if="[[_isHierarchy]]">
+				<div id="search-container">
+					<d2l-input-search
+						id="hierarchy-search"
+						label="Search"
+						placeholder="[[localize('searchHint')]]"
+					></d2l-input-search>
+					<template is="dom-if" if="[[_isSearching]]">
+						<div id="search-results">
+							<template is="dom-if" if="[[_searchResultsFound]]">
+								[[localize('numSearchResults', 'numResults', _searchMatches, 'searchTerm', _searchTerm)]]
+							</template>
+							<template is="dom-if" if="[[!_searchResultsFound]]">
+								[[localize('noSearchResults', 'searchTerm', _searchTerm)]]
+							</template>
+						</div>
+					</template>
+				</div>
+			</template>
 			<div role="application">
 				<div id="container" role$="[[_getAriaRole(_isHierarchy)]]" tabindex$="[[tabIndex]]">
 					<template is="dom-if" if="[[!entity]]">
@@ -54,6 +91,9 @@ export class OutcomesList extends mixinBehaviors(
 									href="[[_getOutcomeHref(item)]]"
 									token="[[token]]"
 									tabindex="-1"
+									parent-filter-map="{{_childFilterMap}}"
+									search-term="[[_searchTerm]]"
+									visibility-mapping="{{_hierarchyVisibilityMapping}}"
 								></d2l-outcomes-tree-node>
 							</template>
 							<template is="dom-if" if="[[_isList]]">
@@ -70,9 +110,15 @@ export class OutcomesList extends mixinBehaviors(
 
 	static get properties() {
 		return {
+			_childFilterMap: {
+				type: Object
+			},
 			_focusedNode: {
 				type: Object,
 				value: null
+			},
+			_hierarchyVisibilityMapping: {
+				type: Object
 			},
 			instructor: {
 				type: Boolean,
@@ -83,6 +129,9 @@ export class OutcomesList extends mixinBehaviors(
 			},
 			_isList: {
 				computed: '_getIsList(entity)'
+			},
+			_isSearching: {
+				computed: '_getIsSearching(_searchTerm)'
 			},
 			_numSkeletons: {
 				type: Array,
@@ -96,18 +145,43 @@ export class OutcomesList extends mixinBehaviors(
 			tabIndex: {
 				type: Number,
 				value: 0
+			},
+			_searchBar: {
+				type: Object
+			},
+			_searchMatches: {
+				type: Number,
+				value: 0
+			},
+			_searchResultsFound: {
+				computed: '_isSearchResultsFound(_searchMatches)'
+			},
+			_searchResultMessage: {
+				computed: '_getSearchResultMessage(_isSearching, _searchResultsFound, _searchMatches, _searchTerm)'
+			},
+			_searchTerm: {
+				type: String,
+				value: ''
 			}
 		};
+	}
+
+	static get observers() {
+		return [
+			'_onHierarchyStatusChanged(_isHierarchy)',
+			'_onSearchResultsChanged(_searchResultMessage)'
+		];
 	}
 
 	ready() {
 		super.ready();
 
-		// Prepare function ref so it can be bound/unbound
-		this._onKeyPress = this._onKeyPress.bind(this);
+		this._childFilterMap = {};
+		this._hierarchyVisibilityMapping = {};
 
-		this.addEventListener('focus', this._onFocus.bind(this));
-		this.addEventListener('blur', this._onBlur.bind(this));
+		const container = this.root.querySelector('#container');
+		container.addEventListener('focus', this._onFocus.bind(this));
+		container.addEventListener('keydown', this._onKeyPress.bind(this));
 
 		this.addEventListener('focus-next-child', (e) => {
 			this._consumeEvent(e);
@@ -122,11 +196,31 @@ export class OutcomesList extends mixinBehaviors(
 		this.addEventListener('node-focused', (e) => {
 			this._focusedNode = e.detail.node;
 		});
+
+		this.addEventListener('search-results-updated', () => {
+			this._focusedNode = null;
+			this.debounce('update-search-count', () => {
+				this._searchMatches = this._countSearchMatches(this._hierarchyVisibilityMapping);
+			}, 10);
+		});
+	}
+
+	attached() {
+		IronA11yAnnouncer.requestAvailability();
 	}
 
 	_consumeEvent(e) {
 		e.preventDefault();
 		e.stopPropagation();
+	}
+
+	_countSearchMatches(hierarchyVisibilityMapping) {
+		if (!hierarchyVisibilityMapping) {
+			return 0;
+		}
+
+		const count = Object.values(hierarchyVisibilityMapping).reduce((acc, v) => acc + (v === true ? 1 : 0), 0);
+		return count;
 	}
 
 	_focusNextChild(currentOutcome) {
@@ -167,16 +261,44 @@ export class OutcomesList extends mixinBehaviors(
 	}
 
 	_getFirstChildNode() {
-		const children = this.root.querySelectorAll('d2l-outcomes-tree-node');
-		if (children && children.length) {
-			return children[0];
+		let firstHref = null;
+
+		for (let i = 0; i < this._outcomes.length; i++) {
+			const href = this._getSelfHref(this._outcomes[i]);
+			if (this._childFilterMap === null || this._childFilterMap[href] === false) {
+				firstHref = href;
+				break;
+			}
+		}
+
+		if (firstHref === null) {
+			return null;
+		}
+
+		const child = this.root.querySelector(`d2l-outcomes-tree-node[href="${firstHref}"]`);
+		if (child) {
+			return child;
 		}
 	}
 
 	_getLastChildNode() {
-		const children = this.root.querySelectorAll('d2l-outcomes-tree-node');
-		if (children && children.length) {
-			return children[children.length - 1];
+		let lastHref = null;
+
+		for (let i = this._outcomes.length - 1; i >= 0; i--) {
+			const href = this._getSelfHref(this._outcomes[i]);
+			if (this._childFilterMap === null || this._childFilterMap[href] === false) {
+				lastHref = href;
+				break;
+			}
+		}
+
+		if (lastHref === null) {
+			return null;
+		}
+
+		const child = this.root.querySelector(`d2l-outcomes-tree-node[href="${lastHref}"]`);
+		if (child) {
+			return child;
 		}
 	}
 
@@ -186,6 +308,10 @@ export class OutcomesList extends mixinBehaviors(
 
 	_getIsList(entity) {
 		return entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomes);
+	}
+
+	_getIsSearching(searchTerm) {
+		return searchTerm !== '';
 	}
 
 	_getOutcomeHref(outcomeEntity) {
@@ -202,6 +328,18 @@ export class OutcomesList extends mixinBehaviors(
 		return -1;
 	}
 
+	_getSearchResultMessage(isSearching, resultsFound, numMatches, searchTerm) {
+		if (!isSearching) {
+			return '';
+		}
+
+		if (resultsFound) {
+			return this.localize('numSearchResults', 'numResults', numMatches, 'searchTerm', searchTerm);
+		}
+
+		return this.localize('noSearchResults', 'searchTerm', searchTerm);
+	}
+
 	_getSelfHref(entity) {
 		if (entity) {
 			return entity.getLinkByRel('self').href;
@@ -211,6 +349,10 @@ export class OutcomesList extends mixinBehaviors(
 
 	_isEmpty(array) {
 		return !array || !array.length;
+	}
+
+	_isSearchResultsFound(searchMatches) {
+		return searchMatches > 0;
 	}
 
 	_onEntityChanged(entity) {
@@ -228,7 +370,6 @@ export class OutcomesList extends mixinBehaviors(
 	_onFocus(e) {
 		if (this._isHierarchy && !this._isEmpty(this._outcomes)) {
 			this._consumeEvent(e);
-			this.addEventListener('keydown', this._onKeyPress);
 
 			if (this._focusedNode) {
 				this._focusedNode.focusSelf();
@@ -239,17 +380,10 @@ export class OutcomesList extends mixinBehaviors(
 		}
 	}
 
-	_onBlur(e) {
-		if (this._isHierarchy && !this._isEmpty(this._outcomes)) {
-			this._consumeEvent(e);
-			this.removeEventListener('keydown', this._onKeyPress);
-		}
-	}
-
 	_onKeyPress(e) {
-		let trapped = true;
-
 		if (this._isHierarchy && !this._isEmpty(this._outcomes)) {
+			let trapped = true;
+
 			if (e.key === 'Home') {
 				this._getFirstChildNode().focusSelf();
 			} else if (e.key === 'End') {
@@ -257,10 +391,38 @@ export class OutcomesList extends mixinBehaviors(
 			} else {
 				trapped = false;
 			}
-		}
 
-		if (trapped) {
-			this._consumeEvent(e);
+			if (trapped) {
+				this._consumeEvent(e);
+			}
+		}
+	}
+
+	_onHierarchyStatusChanged(isHierarchy) {
+		if (isHierarchy) {
+			afterNextRender(this, () => {
+				if (!this._searchBar) {
+					const searchElement = this.root.querySelectorAll('#hierarchy-search')[0];
+					searchElement.addEventListener('d2l-input-search-searched', (e => {
+						const searchTerm = e.detail.value;
+						this._searchTerm = searchTerm.trim();
+					}).bind(this));
+					this._searchBar = searchElement;
+				}
+			});
+		}
+	}
+
+	_onSearchResultsChanged(searchResultMessage) {
+		if (searchResultMessage) {
+			this.debounce('announce-search-results', () => {
+				const event = new CustomEvent('iron-announce', {
+					bubbles: true,
+					composed: true,
+					detail: { text: searchResultMessage }
+				});
+				this.dispatchEvent(event);
+			}, 100);
 		}
 	}
 }
