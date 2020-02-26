@@ -5,7 +5,7 @@ import 'd2l-colors/d2l-colors.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior';
 import 'd2l-typography/d2l-typography.js';
 import * as hmConsts from 'd2l-hypermedia-constants';
-import './oucomes-tree-node';
+import './outcomes-tree-node';
 import './outcomes-list-item';
 import '../localize-behavior';
 
