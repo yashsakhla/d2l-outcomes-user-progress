@@ -10,7 +10,7 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.P
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangEsBehavior = {
 	es: {
-		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {Intento {attemptNames}} other {Intentos {attemptNames} and {lastAttemptName}}}',
+		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {Intento {attemptNames}} other {Intentos {attemptNames} y {lastAttemptName}}}',
 		'bigTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Intento} other {Intentos}} {attemptNames}',
 		'close': 'Cerrar',
 		'evidence': 'Prueba',
@@ -18,7 +18,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangEsBehavior = {
 		'headingEvidence': 'Nombre de la prueba',
 		'headingLoa': 'Nivel de logro',
 		'miniTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Intento} other {Intentos}} {attemptNames}',
-		'miniTrendScreenReaderText': '{numAssessed} {numAssessed, plural, =1 {hora} other {horas}} evaluados: {levelNames}',
+		'miniTrendScreenReaderText': 'Se evaluó {numAssessed} {numAssessed, plural, =1 {hora} other {horas}}: {levelNames}',
 		'noEvidence': 'Este {outcome, select, competencies {competencia} expectations {expectativa} objectives {objetivo} outcomes {resultado} standards {estándar} other {estándar}} aún no se ha evaluado',
 		'noOutcomesInstructor': 'Para comenzar a realizar el seguimiento del logro de {outcome, select, competencies {competencias} expectations {expectativas} objectives {objetivos} outcomes {resultados} standards {estándares} other {estándares}}, debe alinear el curso {outcome, select, competencies {competencias} expectations {expectativas} objectives {objetivos} outcomes {resultados} standards {estándares} other {estándares}} con las actividades evaluadas.',
 		'noOutcomesStudent': '{outcome, select, competencies {competencias} expectations {expectativas} objectives {objetivos} outcomes {resultados} standards {estándares} other {estándares}} no se han evaluado.',

@@ -10,15 +10,15 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.P
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangArBehavior = {
 	ar: {
-		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {Attempt {attemptNames}} other {Attempts {attemptNames} and {lastAttemptName}}}',
-		'bigTrendAttemptsTooltipString': '{numAttempts, plural, =1 {محاولة} other { من المحاولات}} {attemptNames}',
+		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {محاولة واحدة {attemptNames}} other {من المحاولات {attemptNames} و{lastAttemptName}}}',
+		'bigTrendAttemptsTooltipString': '{numAttempts, plural, =1 {محاولة واحدة} other {من المحاولات}} {attemptNames}',
 		'close': 'إغلاق',
 		'evidence': 'دليل',
 		'headingDate': 'التاريخ',
 		'headingEvidence': 'اسم الدليل',
 		'headingLoa': 'مستوى التحصيل',
-		'miniTrendAttemptsTooltipString': '{numAttempts, plural, =1 {محاولة} other { من المحاولات}} {attemptNames}',
-		'miniTrendScreenReaderText': 'Assessed {numAssessed} {numAssessed, plural, =1 {مرة} other {من المرات}}: {levelNames}',
+		'miniTrendAttemptsTooltipString': '{numAttempts, plural, =1 {محاولة واحدة} other {من المحاولات}} {attemptNames}',
+		'miniTrendScreenReaderText': 'تم التقييم {numAssessed} {numAssessed, plural, =1 {مرة واحدة} other {من المرات}}: {levelNames}',
 		'noEvidence': 'This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed',
 		'noOutcomesInstructor': 'To start tracking achievement of {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}}, align course {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}} to assessed activities.',
 		'noOutcomesStudent': 'لم يتم تقييم أي {outcome, select, competencies {كفاءات} expectations {توقعات} objectives {أهداف} outcomes {نتائج} standards {معايير} other {معايير}}.',
