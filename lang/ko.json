@@ -1,5 +1,5 @@
 {
-   "bigTrendAttemptsScreenReaderString" : "{numAttempts, plural, =1 {Attempt {attemptNames}} 기타 {Attempts {attemptNames} 및 {lastAttemptName}}}",
+   "bigTrendAttemptsScreenReaderString" : "{numAttempts, plural, =1 {Attempt {attemptNames}} other {Attempts {attemptNames} 및 {lastAttemptName}}}",
    "bigTrendAttemptsTooltipString" : "{numAttempts, plural, =1 {Attempt} 기타 {Attempts}} {attemptNames}",
    "close" : "닫기",
    "evidence" : "근거",
