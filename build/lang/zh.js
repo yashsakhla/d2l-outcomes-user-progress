@@ -10,7 +10,7 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.P
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangZhBehavior = {
 	zh: {
-		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {Attempt {attemptNames}} other {Attempts {attemptNames} and {lastAttemptName}}}',
+		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {次尝试 {attemptNames}} other {次尝试 {attemptNames} and {lastAttemptName}}}',
 		'bigTrendAttemptsTooltipString': '{numAttempts, plural, =1 {次尝试} other {次尝试}} {attemptNames}',
 		'close': '关闭',
 		'evidence': '证明',

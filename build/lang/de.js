@@ -18,7 +18,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangDeBehavior = {
 		'headingEvidence': 'Nachweisname',
 		'headingLoa': 'Erreichte Stufe',
 		'miniTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Versuch} other {Versuche}} {attemptNames}',
-		'miniTrendScreenReaderText': 'Bewertet {numAssessed} {numAssessed, plural, =1 {Mal} other {Male}}: {levelNames}',
+		'miniTrendScreenReaderText': '{numAssessed} {numAssessed, plural, =1 {Mal} other {Mal}} bewertet: {levelNames}',
 		'noEvidence': '{outcome, select, competencies {Diese Kompetenz} expectations {Diese Erwartung} objectives {Dieses Ziel} outcomes {Dieses Ergebnis} standards {Dieser Standard} other {Dieser Standard}} wurde noch nicht bewertet',
 		'noOutcomesInstructor': 'Um mit dem Nachverfolgen des Erreichens von {outcome, select, competencies {Kompetenzen} expectations {Erwartungen} objectives {Zielen} outcomes {Ergebnissen} standards {Standards} other {Standards}} zu beginnen, müssen Sie {outcome, select, competencies {die Kompetenzen} expectations {die Erwartungen} objectives {die Ziele} outcomes {die Ergebnisse} standards {die Standards} other {die Standards}} des Kurses bewerteten Aktivitäten zuweisen.',
 		'noOutcomesStudent': 'Es wurden keine {outcome, select, competencies {Kompetenzen} expectations {Erwartungen} objectives {Ziele} outcomes {Ergebnisse} standards {Standards} other {Standards}} bewertet.',

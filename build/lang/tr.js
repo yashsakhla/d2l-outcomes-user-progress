@@ -18,7 +18,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangTrBehavior = {
 		'headingEvidence': 'Kanıt Adı',
 		'headingLoa': 'Başarı Seviyesi',
 		'miniTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Deneme} other {Deneme}} {attemptNames}',
-		'miniTrendScreenReaderText': '{numAssessed} {numAssessed, plural, =1 {kez} other {kez}} değerlendirildi: {levelNames}',
+		'miniTrendScreenReaderText': 'Assessed {numAssessed} {numAssessed, plural, =1 {kez} other {kez}}: {levelNames}',
 		'noEvidence': 'Bu {outcome, select, competencies {yeterlilik} expectations {beklenti} objectives {hedef} outcomes {kazanım} standards {standart} other {standart}} henüz değerlendirilmedi',
 		'noOutcomesInstructor': '{outcome, select, competencies {yeterlilikler} expectations {beklentiler} objectives {hedefler} outcomes {kazanımlar} standards {standartlar} other {standartlar}} başarısını takip etmeye başlamak için, dersi {outcome, select, competencies {yeterlikler} expectations {beklentiler} objectives {hedefler} outcomes {kazanımlar} standards {standartlar} other {standartlar}} değerlendirilen etkinliklere hizalayın.',
 		'noOutcomesStudent': '{outcome, select, competencies {yeterlilikler} expectations {beklentiler} objectives {hedefler} outcomes {kazanımlar} standards {standartlar} other {standartlar}} değerlendirilmedi.',
