@@ -37,7 +37,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 					padding: 0 4px;
 				}
 
-				#container:focus {
+				#container:focus:not(.leaf-node) {
 					border-color: var(--d2l-color-celestine);
 					background-color: var(--d2l-color-celestine-plus-2);
 					box-shadow: inset 0 0 0 2px white;
@@ -64,6 +64,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 					cursor: pointer;
 				}
 
+				#container.leaf-node:focus:not([aria-busy]) .main-text,
 				#container.leaf-node:not([aria-busy]) #content:hover .main-text {
 					color: blue;
 					color: var(--d2l-color-celestine-minus-1);
@@ -138,7 +139,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				}
 			</style>
 			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
-			<div id="container" class$="[[_getContainerClass(_children)]]" tabindex="-1" on-click="[[_consumeEvent]]" role="listitem" aria-busy$="[[!_outcomeEntity]]">
+			<div id="container" class$="[[_getContainerClass(_children)]]" tabindex="-1" role="listitem" aria-busy$="[[!_outcomeEntity]]">
 				<template is="dom-if" if="[[!_isEmpty(_children)]]">
 					<d2l-button-icon
 						class="button-toggle-collapse"
@@ -190,7 +191,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 						<d2l-outcomes-tree-node
 							href="[[_getSelfHref(item)]]"
 							token="[[token]]"
-							parent="[[_self]]"
+							has-parent=""
 							tabindex="-1"
 						></d2l-outcomes-tree-node>
 					</template>
@@ -216,7 +217,8 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				value: false
 			},
 			hasParent: {
-				computed: '_getHasParent(parent)'
+				type: Boolean,
+				value: false
 			},
 			_outcomeEntity: {
 				type: Object,
@@ -226,12 +228,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				type: String,
 				computed: '_getOutcomeHref(entity)'
 			},
-			parent: {
-				type: Object,
-				value: null
-			},
-			_self: {
-				computed: '_getSelf()'
+			_programmaticFocus: {
+				// Hacky way to prevent focusing from click events (click triggered after focus)
+				type: Boolean,
+				value: false
 			},
 			_selfHref: {
 				type: String,
@@ -260,7 +260,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			// Ignore element's own events
 			if (e.detail.origin !== this) {
 				this._consumeEvent(e);
-				container.focus();
+				this.focusSelf();
 			}
 		});
 
@@ -281,7 +281,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		});
 
 		this.addEventListener('focus', () => {
-			container.focus();
+			this.focusSelf();
 		});
 		this.addEventListener('blur', () => container.blur());
 	}
@@ -386,6 +386,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	focusSelf() {
 		const container = this.$$('#container');
 		if (container) {
+			this._programmaticFocus = true;
 			container.focus();
 		}
 	}
@@ -439,10 +440,6 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		}
 	}
 
-	_getHasParent(parent) {
-		return parent !== null;
-	}
-
 	_getOutcomeHref(entity) {
 		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode)) {
 			return entity.getLinkByRel(hmConsts.Rels.Outcomes.outcome).href;
@@ -458,10 +455,6 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		}
 
 		return -1;
-	}
-
-	_getSelf() {
-		return this;
 	}
 
 	_getSelfHref(entity) {
@@ -508,9 +501,16 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_onFocus(e) {
 		this._consumeEvent(e);
-		this.addEventListener('keydown', this._onKeyPress);
 
-		this.dispatchEvent(new CustomEvent('node-focused', { bubbles: true, composed: true, detail: { node: this }}));
+		if (this._programmaticFocus) {
+			this.addEventListener('keydown', this._onKeyPress);
+			this.dispatchEvent(new CustomEvent('node-focused', { bubbles: true, composed: true, detail: { node: this }}));
+		} else {
+			const container = this.$$('#container');
+			container.blur();
+		}
+
+		this._programmaticFocus = false;
 	}
 
 	_onBlur(e) {
