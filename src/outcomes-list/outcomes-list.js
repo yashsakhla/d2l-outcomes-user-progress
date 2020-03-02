@@ -8,7 +8,6 @@ import * as hmConsts from 'd2l-hypermedia-constants';
 import './outcomes-tree-node';
 import './outcomes-list-item';
 import '../localize-behavior';
-import { afterNextRender } from '@polymer/polymer/lib/utils/render-status';
 
 const DEFAULT_SKELETON_COUNT = 10;
 
@@ -24,6 +23,10 @@ export class OutcomesList extends mixinBehaviors(
 	static get template() {
 		const template = html`
 			<style include="d2l-typography">
+				#container {
+					outline: none;
+				}
+
 				.no-items {
 					border: 1px solid var(--d2l-color-gypsum);
 					border-radius: 8px;
@@ -33,11 +36,8 @@ export class OutcomesList extends mixinBehaviors(
 					box-sizing: border-box;
 					width: 100%;
 				}
-				:host {
-					outline: 0px solid transparent;
-				}
 			</style>
-			<div id="container" role="list">
+			<div id="container" role="list" tabindex$="[[tabIndex]]">
 				<template is="dom-if" if="[[!entity]]">
 					<template is="dom-repeat" items="[[_numSkeletons]]">
 						<d2l-outcomes-list-item></d2l-outcomes-list-item>
@@ -47,22 +47,13 @@ export class OutcomesList extends mixinBehaviors(
 					<div class="no-items" hidden="[[!_isEmpty(_outcomes)]]">
 						[[_getEmptyMessage(instructor, outcomeTerm)]]
 					</div>
-					<template is="dom-repeat" items="[[_outcomes]]" index-as="outcomesIndex">
+					<template is="dom-repeat" items="[[_outcomes]]">
 						<template is="dom-if" if="[[_isHierarchy]]">
-							<d2l-outcomes-tree-node 
-								href="[[_getOutcomeHref(item)]]" 
-								tabindex="-1" 
-								token="[[token]]" 
-								index="[[outcomesIndex]]"
-								set-size="[[_outcomes.length]]"
-								depth="1"
-								on-focus-next="_onFocusNext"
-								on-focus-previous="_onFocusPrevious" 
-								is-last=[[_getOutcomeIsLast(outcomesIndex)]]
-								on-focus-first="_onFocusFirst"
-								on-focus-last="_onFocusLast"
-								on-focus-child="_onFocusChild">
-							</d2l-outcomes-tree-node>
+							<d2l-outcomes-tree-node
+								href="[[_getOutcomeHref(item)]]"
+								token="[[token]]"
+								tabindex="-1"
+							></d2l-outcomes-tree-node>
 						</template>
 						<template is="dom-if" if="[[_isList]]">
 							<d2l-outcomes-list-item href="[[_getOutcomeHref(item)]]" token="[[token]]"></d2l-outcomes-list-item>
@@ -77,6 +68,10 @@ export class OutcomesList extends mixinBehaviors(
 
 	static get properties() {
 		return {
+			_focusedNode: {
+				type: Object,
+				value: null
+			},
 			instructor: {
 				type: Boolean,
 				value: false
@@ -87,26 +82,18 @@ export class OutcomesList extends mixinBehaviors(
 			_isList: {
 				computed: '_getIsList(entity)'
 			},
+			_numSkeletons: {
+				type: Array,
+				value: Array.apply(null, { length: DEFAULT_SKELETON_COUNT }).map((v, i) => i)
+			},
 			outcomeTerm: String,
 			_outcomes: {
 				type: Array,
 				value: []
 			},
-			_numSkeletons: {
-				type: Array,
-				value: Array.apply(null, { length: DEFAULT_SKELETON_COUNT }).map((v, i) => i)
-			},
-			_focus: {
-				type: Boolean,
-				value: false
-			},
 			tabIndex: {
 				type: Number,
 				value: 0
-			},
-			_focusedNode: {
-				type: Object,
-				value: null
 			}
 		};
 	}
@@ -114,14 +101,77 @@ export class OutcomesList extends mixinBehaviors(
 	ready() {
 		super.ready();
 
-		afterNextRender(this, function() {
-			this.addEventListener('focus', this._onFocus.bind(this));
-		}.bind(this));
+		// Prepare function ref so it can be bound/unbound
+		this._onKeyPress = this._onKeyPress.bind(this);
+
+		this.addEventListener('focus', this._onFocus.bind(this));
+		this.addEventListener('blur', this._onBlur.bind(this));
+
+		this.addEventListener('focus-next-child', (e) => {
+			this._consumeEvent(e);
+			this._focusNextChild(e.detail.outcomeId);
+		});
+
+		this.addEventListener('focus-prev-child', (e) => {
+			this._consumeEvent(e);
+			this._focusPrevChild(e.detail.outcomeId);
+		});
+
+		this.addEventListener('node-focused', (e) => {
+			this._focusedNode = e.detail.node;
+		});
+	}
+
+	_consumeEvent(e) {
+		e.preventDefault();
+		e.stopPropagation();
+	}
+
+	_focusNextChild(currentOutcome) {
+		if (!this._isEmpty(this._outcomes)) {
+			const index = this._getOutcomeIndex(currentOutcome, this._outcomes);
+
+			if (index >= 0 && index < this._outcomes.length - 1) {
+				const href = this._getSelfHref(this._outcomes[index + 1]);
+				const node = this.root.querySelector(`d2l-outcomes-tree-node[href="${href}"]`);
+				if (node) {
+					node.focusSelf();
+				}
+			}
+		}
+	}
+
+	_focusPrevChild(currentOutcome) {
+		if (!this._isEmpty(this._outcomes)) {
+			const index = this._getOutcomeIndex(currentOutcome, this._outcomes);
+
+			if (index > 0) {
+				const href = this._getSelfHref(this._outcomes[index - 1]);
+				const node = this.root.querySelector(`d2l-outcomes-tree-node[href="${href}"]`);
+				if (node) {
+					node.focusLastVisible();
+				}
+			}
+		}
 	}
 
 	_getEmptyMessage(instructor, outcomeTerm) {
 		const langTerm = instructor ? 'noOutcomesInstructor' : 'noOutcomesStudent';
 		return this.localize(langTerm, 'outcome', outcomeTerm);
+	}
+
+	_getFirstChildNode() {
+		const children = this.root.querySelectorAll('d2l-outcomes-tree-node');
+		if (children && children.length) {
+			return children[0];
+		}
+	}
+
+	_getLastChildNode() {
+		const children = this.root.querySelectorAll('d2l-outcomes-tree-node');
+		if (children && children.length) {
+			return children[children.length - 1];
+		}
 	}
 
 	_getIsHierarchy(entity) {
@@ -136,8 +186,21 @@ export class OutcomesList extends mixinBehaviors(
 		return outcomeEntity.getLinkByRel('self').href;
 	}
 
-	_getOutcomeIsLast(outcomeIndex) {
-		return outcomeIndex === this._outcomes.length - 1;
+	_getOutcomeIndex(outcomeHref, outcomes) {
+		for (let i = 0; i < outcomes.length; i++) {
+			if (this._getSelfHref(outcomes[i]) === outcomeHref) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	_getSelfHref(entity) {
+		if (entity) {
+			return entity.getLinkByRel('self').href;
+		}
+		return null;
 	}
 
 	_isEmpty(array) {
@@ -156,53 +219,43 @@ export class OutcomesList extends mixinBehaviors(
 		this._outcomes = outcomes;
 	}
 
-	_getTreeNodeByIndex(index) {
-		const href = this._outcomes[index].getLinkByRel('self');
-		return this.root.querySelector(`d2l-outcomes-tree-node[href="${href.href}"]`);
-	}
+	_onFocus(e) {
+		if (this._isHierarchy && !this._isEmpty(this._outcomes)) {
+			this._consumeEvent(e);
+			this.addEventListener('keydown', this._onKeyPress);
 
-	_onFocus() {
-		if (this._isHierarchy) {
-			var element = this._focusedNode ? this._focusedNode : this._getTreeNodeByIndex(0);
-			if (element) {
-				element.focus();
+			if (this._focusedNode) {
+				this._focusedNode.focusSelf();
+			} else {
+				const firstChild = this._getFirstChildNode();
+				firstChild.focusSelf();
 			}
 		}
 	}
 
-	_onFocusNext(e) {
-		if (e.index < this._outcomes.length - 1) {
-			const element = this._getTreeNodeByIndex(e.index + 1);
-			if (element) {
-				element.focus();
+	_onBlur(e) {
+		if (this._isHierarchy && !this._isEmpty(this._outcomes)) {
+			this._consumeEvent(e);
+			this.removeEventListener('keydown', this._onKeyPress);
+		}
+	}
+
+	_onKeyPress(e) {
+		let trapped = true;
+
+		if (this._isHierarchy && !this._isEmpty(this._outcomes)) {
+			if (e.key === 'Home') {
+				this._getFirstChildNode().focusSelf();
+			} else if (e.key === 'End') {
+				this._getLastChildNode().focusLastVisible();
+			} else {
+				trapped = false;
 			}
 		}
-	}
 
-	_onFocusPrevious(e) {
-		if (e.index > 0) {
-			const element = this._getTreeNodeByIndex(e.index - 1);
-			if (element) {
-				element.focusLast();
-			}
+		if (trapped) {
+			this._consumeEvent(e);
 		}
-	}
-
-	_onFocusFirst() {
-		const element = this._getTreeNodeByIndex(0);
-		if (element) {
-			element.blur();
-			element.focus();
-		}
-	}
-
-	_onFocusLast() {
-		const element = this._getTreeNodeByIndex(this._outcomes.length - 1);
-		if (element) element.focusLast();
-	}
-
-	_onFocusChild(e) {
-		this._focusedNode = e.node;
 	}
 }
 
