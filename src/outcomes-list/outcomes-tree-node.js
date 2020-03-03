@@ -28,7 +28,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 					outline: none;
 				}
 
-				#container {
+				#node-data {
 					align-items: center;
 					border: 2px solid transparent;
 					border-radius: 8px;
@@ -37,7 +37,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 					padding: 0 4px;
 				}
 
-				#container:focus:not(.leaf-node) {
+				#node-data:focus:not(.leaf-node) {
 					border-color: var(--d2l-color-celestine);
 					background-color: var(--d2l-color-celestine-plus-2);
 					box-shadow: inset 0 0 0 2px white;
@@ -51,11 +51,11 @@ export class OutcomesTreeNode extends mixinBehaviors(
 					padding: 18px 0px;
 				}
 
-				#container.leaf-node #content {
+				#node-data.leaf-node #content {
 					margin-left: 48px;
 				}
 
-				#container:not(.leaf-node) .sub-text,
+				#node-data:not(.leaf-node) .sub-text,
 				.sub-text:empty {
 					display: none;
 				}
@@ -64,8 +64,8 @@ export class OutcomesTreeNode extends mixinBehaviors(
 					cursor: pointer;
 				}
 
-				#container.leaf-node:focus:not([aria-busy]) .main-text,
-				#container.leaf-node:not([aria-busy]) #content:hover .main-text {
+				#node-data.leaf-node:focus:not([aria-busy]) .main-text,
+				#node-data.leaf-node:not([aria-busy]) #content:hover .main-text {
 					color: blue;
 					color: var(--d2l-color-celestine-minus-1);
 					text-decoration: underline;
@@ -139,64 +139,73 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				}
 			</style>
 			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
-			<div id="container" class$="[[_getContainerClass(_children)]]" tabindex="-1" role="listitem" aria-busy$="[[!_outcomeEntity]]">
-				<template is="dom-if" if="[[!_isEmpty(_children)]]">
-					<d2l-button-icon
-						class="button-toggle-collapse"
-						icon="[[_getCollapseIcon(_collapsed)]]"
-						on-click="_onItemClicked"
-						tabindex="-1"
-					></d2l-button-icon>
-				</template>
-				<div id="content" on-click="_onItemClicked">
-					<div id="primary">
-						<template is="dom-if" if="[[_outcomeEntity]]">
-							<div class="main-text">
-								<template is="dom-if" if="[[!_isEmpty(_children)]]">
-									<template is="dom-if" if="[[!hasParent]]">
-										<h2>[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h2>
-									</template>
-									<template is="dom-if" if="[[hasParent]]">
-										<h3>[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h3>
-									</template>
-								</template>
-								<template is="dom-if" if="[[_isEmpty(_children)]]">
-									[[getOutcomeDescriptionPlainText(_outcomeEntity)]]
-								</template>
-							</div>
-							<div class="sub-text">[[getOutcomeIdentifier(_outcomeEntity)]]</div>
-						</template>
-						<template is="dom-if" if="[[!_outcomeEntity]]">
-							<div class="main-text">
-								<div class="skeleton"></div>
-								<div class="skeleton"></div>
-							</div>
-							<div class="sub-text">
-								<div class="skeleton"></div>
-							</div>
-						</template>
-					</div>
-					<div id="secondary" hidden$="[[!_activitiesHref]]">
-						<d2l-mini-trend
-							hidden$="[[!_outcomeEntity]]"
-							href="[[_activitiesHref]]"
-							token="[[token]]"
-						></d2l-mini-trend>
-					</div>
-				</div>
-			</div>
-			<template is="dom-if" if="[[!_isEmpty(_children)]]">
-				<div id="children" hidden$="[[_collapsed]]">
-					<template is="dom-repeat" items="[[_children]]">
-						<d2l-outcomes-tree-node
-							href="[[_getSelfHref(item)]]"
-							token="[[token]]"
-							has-parent=""
+			<div 
+				id="container"
+				role="treeitem"
+				aria-busy$="[[!_outcomeEntity]]"
+				aria-expanded$="[[!_collapsed]]"
+				aria-selected$="[[_a11yHasFocus]]"
+			>
+				<div id="node-data" class$="[[_getNodeClass(_children)]]" tabindex="-1" aria-labelledby="content">
+					<template is="dom-if" if="[[!_isEmpty(_children)]]">
+						<d2l-button-icon
+							class="button-toggle-collapse"
+							icon="[[_getCollapseIcon(_collapsed)]]"
+							on-click="_onItemClicked"
 							tabindex="-1"
-						></d2l-outcomes-tree-node>
+						></d2l-button-icon>
 					</template>
+					<div id="content" on-click="_onItemClicked">
+						<div id="primary">
+							<template is="dom-if" if="[[_outcomeEntity]]">
+								<div class="main-text">
+									<template is="dom-if" if="[[!_isEmpty(_children)]]">
+										<template is="dom-if" if="[[!hasParent]]">
+											<h2>[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h2>
+										</template>
+										<template is="dom-if" if="[[hasParent]]">
+											<h3>[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h3>
+										</template>
+									</template>
+									<template is="dom-if" if="[[_isEmpty(_children)]]">
+										[[getOutcomeDescriptionPlainText(_outcomeEntity)]]
+									</template>
+								</div>
+								<div class="sub-text">[[getOutcomeIdentifier(_outcomeEntity)]]</div>
+							</template>
+							<template is="dom-if" if="[[!_outcomeEntity]]">
+								<div class="main-text">
+									<div class="skeleton"></div>
+									<div class="skeleton"></div>
+								</div>
+								<div class="sub-text">
+									<div class="skeleton"></div>
+								</div>
+							</template>
+						</div>
+						<div id="secondary" hidden$="[[!_activitiesHref]]">
+							<d2l-mini-trend
+								hidden$="[[!_outcomeEntity]]"
+								href="[[_activitiesHref]]"
+								token="[[token]]"
+							></d2l-mini-trend>
+						</div>
+					</div>
 				</div>
-			</template>
+				<template is="dom-if" if="[[!_isEmpty(_children)]]">
+					<div id="children" role="group" hidden$="[[_collapsed]]">
+						<template is="dom-repeat" items="[[_children]]">
+							<d2l-outcomes-tree-node
+								href="[[_getSelfHref(item)]]"
+								token="[[token]]"
+								has-parent=""
+								role="treeitem"
+								tabindex="-1"
+							></d2l-outcomes-tree-node>
+						</template>
+					</div>
+				</template>
+			</div>
 		`;
 		template.setAttribute('strip-whitespace', true);
 		return template;
@@ -204,6 +213,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	static get properties() {
 		return {
+			_a11yHasFocus: {
+				type: Boolean,
+				value: false
+			},
 			_activitiesHref: {
 				type: String,
 				computed: '_getActivitiesHref(entity)'
@@ -252,9 +265,9 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		// Prepare function ref so it can be bound/unbound
 		this._onKeyPress = this._onKeyPress.bind(this);
 
-		const container = this.$$('#container');
-		container.addEventListener('focus', this._onFocus.bind(this));
-		container.addEventListener('blur', this._onBlur.bind(this));
+		const nodeData = this.$$('#node-data');
+		nodeData.addEventListener('focus', this._onFocus.bind(this));
+		nodeData.addEventListener('blur', this._onBlur.bind(this));
 
 		this.addEventListener('focus-parent', (e) => {
 			// Ignore element's own events
@@ -283,7 +296,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		this.addEventListener('focus', () => {
 			this.focusSelf();
 		});
-		this.addEventListener('blur', () => container.blur());
+		this.addEventListener('blur', () => nodeData.blur());
 	}
 
 	_consumeEvent(e) {
@@ -384,10 +397,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	focusSelf() {
-		const container = this.$$('#container');
-		if (container) {
+		const nodeData = this.$$('#node-data');
+		if (nodeData) {
 			this._programmaticFocus = true;
-			container.focus();
+			nodeData.focus();
 		}
 	}
 
@@ -416,7 +429,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		return `d2l-tier1:arrow-${collapsed ? 'expand' : 'collapse'}`;
 	}
 
-	_getContainerClass(children) {
+	_getNodeClass(children) {
 		const classes = [];
 
 		if (children && this._isEmpty(children)) {
@@ -503,17 +516,19 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		this._consumeEvent(e);
 
 		if (this._programmaticFocus) {
+			this._a11yHasFocus = true;
 			this.addEventListener('keydown', this._onKeyPress);
 			this.dispatchEvent(new CustomEvent('node-focused', { bubbles: true, composed: true, detail: { node: this }}));
 		} else {
-			const container = this.$$('#container');
-			container.blur();
+			const nodeData = this.$$('#node-data');
+			nodeData.blur();
 		}
 
 		this._programmaticFocus = false;
 	}
 
 	_onBlur(e) {
+		this._a11yHasFocus = false;
 		this._consumeEvent(e);
 		this.removeEventListener('keydown', this._onKeyPress);
 	}

@@ -37,29 +37,31 @@ export class OutcomesList extends mixinBehaviors(
 					width: 100%;
 				}
 			</style>
-			<div id="container" role="list" tabindex$="[[tabIndex]]">
-				<template is="dom-if" if="[[!entity]]">
-					<template is="dom-repeat" items="[[_numSkeletons]]">
-						<d2l-outcomes-list-item></d2l-outcomes-list-item>
-					</template>
-				</template>
-				<template is="dom-if" if="[[entity]]">
-					<div class="no-items" hidden="[[!_isEmpty(_outcomes)]]">
-						[[_getEmptyMessage(instructor, outcomeTerm)]]
-					</div>
-					<template is="dom-repeat" items="[[_outcomes]]">
-						<template is="dom-if" if="[[_isHierarchy]]">
-							<d2l-outcomes-tree-node
-								href="[[_getOutcomeHref(item)]]"
-								token="[[token]]"
-								tabindex="-1"
-							></d2l-outcomes-tree-node>
-						</template>
-						<template is="dom-if" if="[[_isList]]">
-							<d2l-outcomes-list-item href="[[_getOutcomeHref(item)]]" token="[[token]]"></d2l-outcomes-list-item>
+			<div role="application">
+				<div id="container" role$="[[_getAriaRole(_isHierarchy)]]" tabindex$="[[tabIndex]]">
+					<template is="dom-if" if="[[!entity]]">
+						<template is="dom-repeat" items="[[_numSkeletons]]">
+							<d2l-outcomes-list-item></d2l-outcomes-list-item>
 						</template>
 					</template>
-				</template>
+					<template is="dom-if" if="[[entity]]">
+						<div class="no-items" hidden="[[!_isEmpty(_outcomes)]]">
+							[[_getEmptyMessage(instructor, outcomeTerm)]]
+						</div>
+						<template is="dom-repeat" items="[[_outcomes]]">
+							<template is="dom-if" if="[[_isHierarchy]]">
+								<d2l-outcomes-tree-node
+									href="[[_getOutcomeHref(item)]]"
+									token="[[token]]"
+									tabindex="-1"
+								></d2l-outcomes-tree-node>
+							</template>
+							<template is="dom-if" if="[[_isList]]">
+								<d2l-outcomes-list-item href="[[_getOutcomeHref(item)]]" token="[[token]]"></d2l-outcomes-list-item>
+							</template>
+						</template>
+					</template>
+				</div>
             </div>
         `;
 		template.setAttribute('strip-whitespace', true);
@@ -153,6 +155,10 @@ export class OutcomesList extends mixinBehaviors(
 				}
 			}
 		}
+	}
+
+	_getAriaRole(isHierarchy) {
+		return isHierarchy ? 'tree' : 'list';
 	}
 
 	_getEmptyMessage(instructor, outcomeTerm) {
