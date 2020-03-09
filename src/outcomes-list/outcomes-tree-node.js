@@ -11,6 +11,11 @@ import OutcomeParserBehaviour from 'd2l-activity-alignments/d2l-outcome-parser-b
 import * as hmConsts from 'd2l-hypermedia-constants';
 import { oupConsts } from '../consts';
 import '../mini-trend/mini-trend';
+import './partial-bold';
+
+function escapeRegex(unsafeText) {
+	return unsafeText.replace(/[|\\{}()[\]^$+*?.-]/g, '\\$&');
+}
 
 export class OutcomesTreeNode extends mixinBehaviors(
 	[
@@ -169,10 +174,17 @@ export class OutcomesTreeNode extends mixinBehaviors(
 										</template>
 									</template>
 									<template is="dom-if" if="[[_isLeafNode]]">
-										[[getOutcomeDescriptionPlainText(_outcomeEntity)]]
+										<partial-bold content="[[getOutcomeDescriptionPlainText(_outcomeEntity)]]" bold-regex="[[_boldRegex]]"></partial-bold>
 									</template>
 								</div>
-								<div class="sub-text">[[getOutcomeIdentifier(_outcomeEntity)]]</div>
+								<div class="sub-text">
+									<template is="dom-if" if="[[_isLeafNode]]">
+										<partial-bold content="[[getOutcomeIdentifier(_outcomeEntity)]]" bold-regex="[[_boldRegex]]"></partial-bold>
+									</template>
+									<template is="dom-if" if="[[!_isLeafNode]]">
+										[[getOutcomeIdentifier(_outcomeEntity)]]
+									</template>
+								</div>
 							</template>
 							<template is="dom-if" if="[[!_outcomeEntity]]">
 								<div class="main-text">
@@ -224,6 +236,9 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			_activitiesHref: {
 				type: String,
 				computed: '_getActivitiesHref(entity)'
+			},
+			_boldRegex: {
+				computed: '_getBoldRegex(searchTerm)'
 			},
 			_children: {
 				type: Array,
@@ -485,6 +500,16 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			}
 		}
 		return null;
+	}
+
+	_getBoldRegex(searchTerm) {
+		const terms = searchTerm.trim().split(' ').map(escapeRegex);
+
+		if (!terms || !terms.length) {
+			return '';
+		}
+
+		return `(${terms.join('|')})`;
 	}
 
 	_getChildren(entity) {

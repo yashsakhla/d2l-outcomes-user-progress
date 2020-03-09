@@ -30,7 +30,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangEnBehavior = {
 		'searchCleared': 'Search results cleared',
 		'searchHint': 'search...',
 		'searchLabel': 'Search',
-		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
-		'noSearchResults': 'No results found for "{searchTerm}"'
+		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "@{searchTerm}@"',
+		'noSearchResults': 'No results found for "@{searchTerm}@"'
 	}
 };

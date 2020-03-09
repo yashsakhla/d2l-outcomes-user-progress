@@ -10,9 +10,14 @@ import 'd2l-typography/d2l-typography.js';
 import * as hmConsts from 'd2l-hypermedia-constants';
 import './outcomes-tree-node';
 import './outcomes-list-item';
+import './partial-bold';
 import '../localize-behavior';
 
 const DEFAULT_SKELETON_COUNT = 10;
+
+function escapeRegex(unsafeText) {
+	return unsafeText.replace(/[|\\{}()[\]^$+*?.-]/g, '\\$&');
+}
 
 export class OutcomesList extends mixinBehaviors(
 	[
@@ -65,10 +70,16 @@ export class OutcomesList extends mixinBehaviors(
 					<template is="dom-if" if="[[_isSearching]]">
 						<div id="search-results">
 							<template is="dom-if" if="[[_searchResultsFound]]">
-								[[localize('numSearchResults', 'numResults', _searchMatches, 'searchTerm', _searchTerm)]]
+								<partial-bold
+									bold-regex="[[_searchBoldRegex]]"
+									content="[[localize('numSearchResults', 'numResults', _searchMatches, 'searchTerm', _searchTerm)]]"
+								></partial-bold>
 							</template>
 							<template is="dom-if" if="[[!_searchResultsFound]]">
-								[[localize('noSearchResults', 'searchTerm', _searchTerm)]]
+								<partial-bold
+									bold-regex="[[_searchBoldRegex]]"
+									content="[[localize('noSearchResults', 'searchTerm', _searchTerm)]]"
+								></partial-bold>
 							</template>
 						</div>
 					</template>
@@ -148,6 +159,9 @@ export class OutcomesList extends mixinBehaviors(
 			},
 			_searchBar: {
 				type: Object
+			},
+			_searchBoldRegex: {
+				computed: '_getSearchBoldRegex(_searchTerm)'
 			},
 			_searchMatches: {
 				type: Number,
@@ -326,6 +340,10 @@ export class OutcomesList extends mixinBehaviors(
 		}
 
 		return -1;
+	}
+
+	_getSearchBoldRegex(searchTerm) {
+		return `@(${escapeRegex(searchTerm)})@`;
 	}
 
 	_getSearchResultMessage(isSearching, resultsFound, numMatches, searchTerm) {
