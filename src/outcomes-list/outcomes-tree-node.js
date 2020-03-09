@@ -1,5 +1,5 @@
 import '@polymer/polymer/polymer-legacy.js';
-import '@polymer/iron-collapse/iron-collapse.js'
+import '@polymer/iron-collapse/iron-collapse.js';
 import { PolymerElement, html } from '@polymer/polymer';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior';
