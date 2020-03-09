@@ -59,8 +59,8 @@ export class OutcomesList extends mixinBehaviors(
 				<div id="search-container">
 					<d2l-input-search
 						id="hierarchy-search"
-						label="Search"
-						placeholder="[[localize('searchHint')]]"
+						label$="[[localize('searchLabel')]]"
+						placeholder$="[[localize('searchHint')]]"
 					></d2l-input-search>
 					<template is="dom-if" if="[[_isSearching]]">
 						<div id="search-results">
@@ -330,7 +330,7 @@ export class OutcomesList extends mixinBehaviors(
 
 	_getSearchResultMessage(isSearching, resultsFound, numMatches, searchTerm) {
 		if (!isSearching) {
-			return '';
+			return this.localize('searchCleared');
 		}
 
 		if (resultsFound) {

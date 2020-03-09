@@ -27,7 +27,9 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangJaBehavior = {
 		'noSearchResults': 'No results found for "{searchTerm}"',
 		'notAssessed': '未評価',
 		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
+		'searchCleared': 'Search results cleared',
 		'searchHint': 'search...',
+		'searchLabel': 'Search',
 		'trend': '傾向',
 		'untitled': '無題'
 	}

@@ -27,7 +27,9 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangPtBehavior = {
 		'noSearchResults': 'No results found for "{searchTerm}"',
 		'notAssessed': 'Não avaliado',
 		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
+		'searchCleared': 'Search results cleared',
 		'searchHint': 'search...',
+		'searchLabel': 'Search',
 		'trend': 'Tendência',
 		'untitled': 'Sem Título'
 	}
