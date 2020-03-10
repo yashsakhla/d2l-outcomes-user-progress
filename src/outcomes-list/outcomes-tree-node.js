@@ -532,7 +532,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		}
 
 		return `(${terms.join('|')})`;
-  }
+	}
 
 	_getButtonClass(hasParent) {
 		return !hasParent ? 'button-icon-h2' : 'button-icon-h3';
@@ -557,8 +557,8 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	_getNodeClass(isLeafNode) {
 		const classes = [];
 
-    classes.push('d2l-typography');
-    
+		classes.push('d2l-typography');
+
 		if (isLeafNode) {
 			classes.push('leaf-node');
 		}
