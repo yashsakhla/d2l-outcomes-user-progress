@@ -31,9 +31,6 @@ export class PartialBold extends mixinBehaviors(
 
 	static get properties() {
 		return {
-			boldMatch: {
-				type: String
-			},
 			boldRegex: {
 				type: String
 			},
