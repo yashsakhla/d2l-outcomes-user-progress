@@ -24,7 +24,12 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangEsBehavior = {
 		'noOutcomesStudent': '{outcome, select, competencies {competencias} expectations {expectativas} objectives {objetivos} outcomes {resultados} standards {estándares} other {estándares}} no se han evaluado.',
 		'noScaleInstructor': 'Con el fin de ver el progreso del estudiante para lograr este {outcome, select, competencies {competencia} expectations {expectativa} objectives {objetivo} outcomes {resultado} standards {estándar} other {estándar}}, cree y seleccione una escala de logros.',
 		'noScaleStudent': 'No se ha establecido ninguna escala para medir el logro de {outcome, select, competencies {competencias} expectations {expectativas} objectives {objetivos} outcomes {resultados} standards {estándares} other {estándares}}.',
+		'noSearchResults': 'No results found for "@{searchTerm}@"',
 		'notAssessed': 'Sin evaluación',
+		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "@{searchTerm}@"',
+		'searchCleared': 'Search results cleared',
+		'searchHint': 'search...',
+		'searchLabel': 'Search',
 		'trend': 'Tendencia',
 		'untitled': 'Sin título'
 	}

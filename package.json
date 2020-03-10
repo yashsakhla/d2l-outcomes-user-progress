@@ -1,6 +1,6 @@
 {
   "name": "d2l-outcomes-user-progress",
-  "version": "1.4.3",
+  "version": "1.4.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@brightspace-ui/core": "^1.30.0",
+    "@polymer/iron-a11y-announcer": "^3.0.2",
     "@polymer/iron-collapse": "^3.0.1",
     "@polymer/polymer": "^3.2.0",
     "d2l-activity-alignments": "Brightspace/d2l-activity-alignments.git#semver:^1",
@@ -31,7 +32,7 @@
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.10",
     "babel-eslint": "^10.0.1",
-    "d2l-polymer-langtools": "^1.1.1",
+    "d2l-polymer-langtools": "^1.2.1",
     "eslint": "^5.16.0",
     "eslint-config-brightspace": "^0.5.3",
     "eslint-plugin-html": "^5.0.5"

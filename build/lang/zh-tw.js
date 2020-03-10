@@ -24,7 +24,12 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangZhTwBehavior = {
 		'noOutcomesStudent': '沒有已評估的 {outcome, select, competencies {能力} expectations {預期} objectives {目標} outcomes {成果} standards {標準} other {標準}}。',
 		'noScaleInstructor': '若要檢視學習者於此 {outcome, select, competencies {能力} expectations {預期} objectives {目標} outcomes {成果} standards {標準} other {標準}} 的達成進度，請建立並選取達成衡量等級。',
 		'noScaleStudent': '尚未設定衡量 {outcome, select, competencies {能力} expectations {預期} objectives {目標} outcomes {成果} standards {標準} other {標準}} 達成的等級。',
+		'noSearchResults': 'No results found for "@{searchTerm}@"',
 		'notAssessed': '未評量',
+		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "@{searchTerm}@"',
+		'searchCleared': 'Search results cleared',
+		'searchHint': 'search...',
+		'searchLabel': 'Search',
 		'trend': '趨勢',
 		'untitled': '未命名'
 	}

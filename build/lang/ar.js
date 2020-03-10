@@ -24,7 +24,12 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangArBehavior = {
 		'noOutcomesStudent': 'لم يتم تقييم أي {outcome, select, competencies {كفاءات} expectations {توقعات} objectives {أهداف} outcomes {نتائج} standards {معايير} other {معايير}}.',
 		'noScaleInstructor': 'لعرض تقدم المتعلّم لتحقيق {outcome, select, competencies {الكفاءة} expectations {التوقع} objectives {الهدف} outcomes {النتيجة} standards {المعيار} other {المعيار}} هذا، يجب إنشاء مقياس تحصيل وتحديده.',
 		'noScaleStudent': 'لم يتم تعيين أي مقياس لقياس تحقيق {outcome, select, competencies {الكفاءات} expectations {التوقعات} objectives {الأهداف} outcomes {النتائج} standards {المعايير} other {المعايير}}.',
+		'noSearchResults': 'No results found for "@{searchTerm}@"',
 		'notAssessed': 'لم يتم التقييم',
+		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "@{searchTerm}@"',
+		'searchCleared': 'Search results cleared',
+		'searchHint': 'search...',
+		'searchLabel': 'Search',
 		'trend': 'الاتجاه',
 		'untitled': 'بلا عنوان'
 	}

@@ -24,7 +24,12 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangJaBehavior = {
 		'noOutcomesStudent': '評価した{outcome, select, competencies {コンピテンシ} expectations {期待} objectives {目的} outcomes {結果} standards {標準} other {標準}}はありません。',
 		'noScaleInstructor': 'この{outcome, select, competencies {コンピテンシ} expectations {期待} objectives {目的} outcomes {結果} standards {標準} other {標準}}の受講者の達成度を表示するには、達成スケールを作成して選択します。',
 		'noScaleStudent': '{outcome, select, competencies {コンピテンシ} expectations {期待} objectives {目的} outcomes {結果} standards {標準} other {標準}}の達成を測定するためのスケールが設定されていません。',
+		'noSearchResults': 'No results found for "@{searchTerm}@"',
 		'notAssessed': '未評価',
+		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "@{searchTerm}@"',
+		'searchCleared': 'Search results cleared',
+		'searchHint': 'search...',
+		'searchLabel': 'Search',
 		'trend': '傾向',
 		'untitled': '無題'
 	}
