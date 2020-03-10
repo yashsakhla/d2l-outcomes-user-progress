@@ -164,7 +164,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				aria-expanded$="[[!_collapsed]]"
 				aria-selected$="[[_a11yHasFocus]]"
 			>
-				<div id="node-data" class$="[[_getNodeClass(_children)]] d2l-typography" tabindex="-1" aria-labelledby="content">
+				<div id="node-data" class$="[[_getNodeClass(_children)]]" tabindex="-1" aria-labelledby="content">
 					<template is="dom-if" if="[[!_isEmpty(_children)]]">
 						<div id="button-icon" class$="[[_getButtonClass(hasParent)]]">
 							<d2l-button-icon
@@ -458,11 +458,13 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	_getNodeClass(children) {
 		const classes = [];
 
+		classes.push('d2l-typography');
+
 		if (children && this._isEmpty(children)) {
 			classes.push('leaf-node');
 		}
 
-		return classes.join(';');
+		return classes.join(' ');
 	}
 
 	_getFirstChildNode() {
