@@ -1,4 +1,5 @@
 import '@polymer/polymer/polymer-legacy.js';
+import '@polymer/iron-collapse/iron-collapse.js';
 import { PolymerElement, html } from '@polymer/polymer';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior';
@@ -29,7 +30,6 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				}
 
 				#node-data {
-					align-items: center;
 					border: 2px solid transparent;
 					border-radius: 8px;
 					display: flex;
@@ -71,6 +71,20 @@ export class OutcomesTreeNode extends mixinBehaviors(
 					text-decoration: underline;
 				}
 
+				#button-icon {
+					display: flex;
+					padding-top: 18px;
+					align-items: center;
+				}
+
+				.button-icon-h2 {
+					height: var(--d2l-heading-2_-_line-height);
+				}
+
+				.button-icon-h3 {
+					height: var(--d2l-heading-3_-_line-height);
+				}
+
 				.button-toggle-collapse {
 					margin-right: 6px;
 				}
@@ -107,6 +121,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 				#children {
 					margin-left: 36px;
+				}
+
+				#children-collapse {
+					--iron-collapse-transition-duration: 200ms;
 				}
 
 				@keyframes skeleton-pulse {
@@ -148,12 +166,14 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			>
 				<div id="node-data" class$="[[_getNodeClass(_children)]]" tabindex="-1" aria-labelledby="content">
 					<template is="dom-if" if="[[!_isEmpty(_children)]]">
-						<d2l-button-icon
-							class="button-toggle-collapse"
-							icon="[[_getCollapseIcon(_collapsed)]]"
-							on-click="_onItemClicked"
-							tabindex="-1"
-						></d2l-button-icon>
+						<div id="button-icon" class$="[[_getButtonClass(hasParent)]]">
+							<d2l-button-icon
+								class="button-toggle-collapse"
+								icon="[[_getCollapseIcon(_collapsed)]]"
+								on-click="_onItemClicked"
+								tabindex="-1"
+							></d2l-button-icon>
+						</div>
 					</template>
 					<div id="content" on-click="_onItemClicked">
 						<div id="primary">
@@ -161,10 +181,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 								<div class="main-text">
 									<template is="dom-if" if="[[!_isEmpty(_children)]]">
 										<template is="dom-if" if="[[!hasParent]]">
-											<h2>[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h2>
+											<h2 class="d2l-heading-2">[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h2>
 										</template>
 										<template is="dom-if" if="[[hasParent]]">
-											<h3>[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h3>
+											<h3 class="d2l-heading-3">[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h3>
 										</template>
 									</template>
 									<template is="dom-if" if="[[_isEmpty(_children)]]">
@@ -193,16 +213,18 @@ export class OutcomesTreeNode extends mixinBehaviors(
 					</div>
 				</div>
 				<template is="dom-if" if="[[!_isEmpty(_children)]]">
-					<div id="children" role="group" hidden$="[[_collapsed]]">
-						<template is="dom-repeat" items="[[_children]]">
-							<d2l-outcomes-tree-node
-								href="[[_getSelfHref(item)]]"
-								token="[[token]]"
-								has-parent=""
-								role="treeitem"
-								tabindex="-1"
-							></d2l-outcomes-tree-node>
-						</template>
+					<div id="children" role="group">
+						<iron-collapse opened$=[[!_collapsed]] id="children-collapse">
+							<template is="dom-repeat" items="[[_children]]">
+								<d2l-outcomes-tree-node
+									href="[[_getSelfHref(item)]]"
+									token="[[token]]"
+									has-parent=""
+									role="treeitem"
+									tabindex="-1"
+								></d2l-outcomes-tree-node>
+							</template>
+						</iron-collapse>
 					</div>
 				</template>
 			</div>
@@ -414,6 +436,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		return null;
 	}
 
+	_getButtonClass(hasParent) {
+		return !hasParent ? 'button-icon-h2' : 'button-icon-h3';
+	}
+
 	_getChildren(entity) {
 		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode)) {
 			const subEntities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode);
@@ -432,11 +458,13 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	_getNodeClass(children) {
 		const classes = [];
 
+		classes.push('d2l-typography');
+
 		if (children && this._isEmpty(children)) {
 			classes.push('leaf-node');
 		}
 
-		return classes.join(';');
+		return classes.join(' ');
 	}
 
 	_getFirstChildNode() {
