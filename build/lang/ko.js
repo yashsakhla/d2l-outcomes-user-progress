@@ -10,6 +10,8 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.P
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangKoBehavior = {
 	ko: {
+		'a11yCollapsed': 'collapsed',
+		'a11yExpanded': 'expanded',
 		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {Attempt {attemptNames}} other {Attempts {attemptNames} 및 {lastAttemptName}}}',
 		'bigTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Attempt} other {Attempts}} {attemptNames}',
 		'close': '닫기',
@@ -28,7 +30,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangKoBehavior = {
 		'notAssessed': '평가되지 않음',
 		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
 		'searchCleared': 'Search results cleared',
-		'searchHint': 'search...',
+		'searchHint': 'Search...',
 		'searchLabel': 'Search',
 		'trend': '추세',
 		'untitled': '제목 없음'

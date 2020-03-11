@@ -10,6 +10,8 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.P
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangZhBehavior = {
 	zh: {
+		'a11yCollapsed': 'collapsed',
+		'a11yExpanded': 'expanded',
 		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {次尝试 {attemptNames}} other {次尝试 {attemptNames} and {lastAttemptName}}}',
 		'bigTrendAttemptsTooltipString': '{numAttempts, plural, =1 {次尝试} other {次尝试}} {attemptNames}',
 		'close': '关闭',
@@ -28,7 +30,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangZhBehavior = {
 		'notAssessed': '未评估',
 		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
 		'searchCleared': 'Search results cleared',
-		'searchHint': 'search...',
+		'searchHint': 'Search...',
 		'searchLabel': 'Search',
 		'trend': '趋势',
 		'untitled': '无标题'

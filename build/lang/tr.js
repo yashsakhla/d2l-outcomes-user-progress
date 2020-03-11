@@ -10,6 +10,8 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.P
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangTrBehavior = {
 	tr: {
+		'a11yCollapsed': 'collapsed',
+		'a11yExpanded': 'expanded',
 		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {Deneme {attemptNames}} other {Deneme {attemptNames} and {lastAttemptName}}}',
 		'bigTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Deneme} other {Deneme}} {attemptNames}',
 		'close': 'Kapat',
@@ -28,7 +30,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangTrBehavior = {
 		'notAssessed': 'Değerlendirilmemiş',
 		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
 		'searchCleared': 'Search results cleared',
-		'searchHint': 'search...',
+		'searchHint': 'Search...',
 		'searchLabel': 'Search',
 		'trend': 'Eğilim',
 		'untitled': 'Adsız'

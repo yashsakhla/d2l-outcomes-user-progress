@@ -1,4 +1,6 @@
 {
+    "a11yCollapsed": "collapsed",
+    "a11yExpanded": "expanded",
     "bigTrendAttemptsScreenReaderString": "{numAttempts, plural, =1 {Deneme {attemptNames}} other {Deneme {attemptNames} and {lastAttemptName}}}",
     "bigTrendAttemptsTooltipString": "{numAttempts, plural, =1 {Deneme} other {Deneme}} {attemptNames}",
     "close": "Kapat",
@@ -17,7 +19,7 @@
     "notAssessed": "Değerlendirilmemiş",
     "numSearchResults": "{numResults} search {numResults, plural, =1 {result} other {results}} for \"{searchTerm}\"",
     "searchCleared": "Search results cleared",
-    "searchHint": "search...",
+    "searchHint": "Search...",
     "searchLabel": "Search",
     "trend": "Eğilim",
     "untitled": "Adsız"

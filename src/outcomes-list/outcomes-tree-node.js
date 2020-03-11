@@ -13,6 +13,7 @@ import * as hmConsts from 'd2l-hypermedia-constants';
 import { oupConsts } from '../consts';
 import '../mini-trend/mini-trend';
 import './partial-bold';
+import '../localize-behavior';
 
 function escapeRegex(unsafeText) {
 	return unsafeText.replace(/[|\\{}()[\]^$+*?.-]/g, '\\$&');
@@ -20,6 +21,7 @@ function escapeRegex(unsafeText) {
 
 export class OutcomesTreeNode extends mixinBehaviors(
 	[
+		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
 		D2L.PolymerBehaviors.Siren.EntityBehavior,
 		OutcomeParserBehaviour
 	],
@@ -167,7 +169,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				hidden$="[[_isFiltered]]"
 				role="treeitem"
 				aria-busy$="[[!_outcomeEntity]]"
-				aria-expanded$="[[!_collapsed]]"
+				aria-expanded$="[[_getAriaExpanded(_collapsed)]]"
 				aria-selected$="[[_a11yHasFocus]]"
 			>
 				<div id="node-data" class$="[[_getNodeClass(_isLeafNode)]]" tabindex="-1" aria-labelledby="content">
@@ -524,6 +526,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		return null;
 	}
 
+	_getAriaExpanded(collapsed) {
+		return collapsed ? 'false' : 'true';
+	}
+
 	_getBoldRegex(searchTerm) {
 		const terms = searchTerm.trim().split(' ').map(escapeRegex);
 
@@ -734,6 +740,14 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_toggleCollapse() {
 		this._collapsed = !this._collapsed;
+
+		const message = this.localize(this._collapsed ? 'a11yCollapsed' : 'a11yExpanded');
+
+		this.dispatchEvent(new CustomEvent('iron-announce', {
+			bubbles: true,
+			composed: true,
+			detail: { text: message }
+		}));
 	}
 
 	_triggerNodeAction() {
