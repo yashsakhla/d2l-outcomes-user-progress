@@ -10,6 +10,8 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.P
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangTrBehavior = {
 	tr: {
+		'a11yCollapsed': 'collapsed',
+		'a11yExpanded': 'expanded',
 		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {Deneme {attemptNames}} other {Deneme {attemptNames} and {lastAttemptName}}}',
 		'bigTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Deneme} other {Deneme}} {attemptNames}',
 		'close': 'Kapat',
@@ -19,6 +21,9 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangTrBehavior = {
 		'headingLoa': 'Başarı Seviyesi',
 		'miniTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Deneme} other {Deneme}} {attemptNames}',
 		'miniTrendScreenReaderText': 'Assessed {numAssessed} {numAssessed, plural, =1 {kez} other {kez}}: {levelNames}',
+		'nodeAriaText': 'Level {level}, group {state}, {content}, {position} of {count}.',
+		'nodeAriaTextLeaf': 'Level {level}, {content}, {position} of {count}.',
+		'nodeLoadingAriaText': 'Level {level}, loading, {position} of {count}.',
 		'noEvidence': 'Bu {outcome, select, competencies {yeterlilik} expectations {beklenti} objectives {hedef} outcomes {kazanım} standards {standart} other {standart}} henüz değerlendirilmedi',
 		'noOutcomesInstructor': '{outcome, select, competencies {yeterlilikler} expectations {beklentiler} objectives {hedefler} outcomes {kazanımlar} standards {standartlar} other {standartlar}} başarısını takip etmeye başlamak için, dersi {outcome, select, competencies {yeterlikler} expectations {beklentiler} objectives {hedefler} outcomes {kazanımlar} standards {standartlar} other {standartlar}} değerlendirilen etkinliklere hizalayın.',
 		'noOutcomesStudent': '{outcome, select, competencies {yeterlilikler} expectations {beklentiler} objectives {hedefler} outcomes {kazanımlar} standards {standartlar} other {standartlar}} değerlendirilmedi.',
@@ -28,7 +33,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangTrBehavior = {
 		'notAssessed': 'Değerlendirilmemiş',
 		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
 		'searchCleared': 'Search results cleared',
-		'searchHint': 'search...',
+		'searchHint': 'Search...',
 		'searchLabel': 'Search',
 		'trend': 'Eğilim',
 		'untitled': 'Adsız'

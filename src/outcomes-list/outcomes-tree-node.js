@@ -13,6 +13,7 @@ import * as hmConsts from 'd2l-hypermedia-constants';
 import { oupConsts } from '../consts';
 import '../mini-trend/mini-trend';
 import './partial-bold';
+import '../localize-behavior';
 
 function escapeRegex(unsafeText) {
 	return unsafeText.replace(/[|\\{}()[\]^$+*?.-]/g, '\\$&');
@@ -20,6 +21,7 @@ function escapeRegex(unsafeText) {
 
 export class OutcomesTreeNode extends mixinBehaviors(
 	[
+		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
 		D2L.PolymerBehaviors.Siren.EntityBehavior,
 		OutcomeParserBehaviour
 	],
@@ -160,6 +162,14 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				[hidden] {
 					display: none !important;
 				}
+
+				.screen-reader {
+                    height: 1px;
+                    left: -99999px;
+                    overflow: hidden;
+                    position: absolute;
+                    width: 1px;
+                }
 			</style>
 			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
 			<div 
@@ -167,10 +177,15 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				hidden$="[[_isFiltered]]"
 				role="treeitem"
 				aria-busy$="[[!_outcomeEntity]]"
-				aria-expanded$="[[!_collapsed]]"
+				aria-expanded$="[[_getAriaExpanded(_collapsed)]]"
 				aria-selected$="[[_a11yHasFocus]]"
 			>
-				<div id="node-data" class$="[[_getNodeClass(_isLeafNode)]]" tabindex="-1" aria-labelledby="content">
+				<div
+					id="node-data"
+					class$="[[_getNodeClass(_isLeafNode)]]"
+					tabindex="-1"
+					aria-label$="[[_getNodeAriaText(ariaLevel, ariaPosinset, ariaSetsize, _outcomeEntity, _collapsed, _isLeafNode)]]"
+				>
 					<template is="dom-if" if="[[!_isLeafNode]]">
 						<div id="button-icon" class$="[[_getButtonClass(hasParent)]]">
 							<d2l-button-icon
@@ -235,6 +250,9 @@ export class OutcomesTreeNode extends mixinBehaviors(
 									has-parent=""
 									role="treeitem"
 									tabindex="-1"
+									aria-level$="[[_increment(ariaLevel)]]"
+									aria-posinset$="[[_increment(index)]]"
+									aria-setsize$="[[_getCount(_children)]]"
 									search-term="[[searchTerm]]"
 									parent-filter-map="{{_childFilterMap}}"
 									visibility-mapping="{{visibilityMapping}}"
@@ -258,6 +276,15 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			_activitiesHref: {
 				type: String,
 				computed: '_getActivitiesHref(entity)'
+			},
+			ariaLevel: {
+				type: Number
+			},
+			ariaPosinset: {
+				type: Number
+			},
+			ariaSetsize: {
+				type: Number
 			},
 			_boldRegex: {
 				computed: '_getBoldRegex(searchTerm)'
@@ -524,6 +551,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		return null;
 	}
 
+	_getAriaExpanded(collapsed) {
+		return collapsed ? 'false' : 'true';
+	}
+
 	_getBoldRegex(searchTerm) {
 		const terms = searchTerm.trim().split(' ').map(escapeRegex);
 
@@ -552,6 +583,41 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_getCollapseIcon(collapsed) {
 		return `d2l-tier1:arrow-${collapsed ? 'expand' : 'collapse'}`;
+	}
+
+	_getCount(arr) {
+		return arr.length;
+	}
+
+	_getNodeAriaText(ariaLevel, ariaPosinset, ariaSetsize, outcome, collapsed, isLeafNode) {
+		let text;
+
+		if (!outcome) {
+			text = this.localize('nodeLoadingAriaText',
+				'level', ariaLevel,
+				'position', ariaPosinset,
+				'count', ariaSetsize
+			);
+		} else {
+			if (isLeafNode) {
+				text = this.localize('nodeAriaTextLeaf',
+					'level', ariaLevel,
+					'content', this._getOutcomeAriaText(outcome),
+					'position', ariaPosinset,
+					'count', ariaSetsize
+				);
+			} else {
+				text = this.localize('nodeAriaText',
+					'level', ariaLevel,
+					'state', this.localize(collapsed ? 'a11yCollapsed' : 'a11yExpanded'),
+					'content', this._getOutcomeAriaText(outcome),
+					'position', ariaPosinset,
+					'count', ariaSetsize
+				);
+			}
+		}
+
+		return text;
 	}
 
 	_getNodeClass(isLeafNode) {
@@ -612,6 +678,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		}
 	}
 
+	_getOutcomeAriaText(outcome) {
+		return `${this.getOutcomeDescriptionPlainText(outcome)} ${this.getOutcomeIdentifier(outcome)}`;
+	}
+
 	_getOutcomeHref(entity) {
 		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode)) {
 			return entity.getLinkByRel(hmConsts.Rels.Outcomes.outcome).href;
@@ -634,6 +704,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			return entity.getLinkByRel('self').href;
 		}
 		return null;
+	}
+
+	_increment(num) {
+		return num + 1;
 	}
 
 	_matchesSearch(outcomeEntity, searchTerm) {
@@ -734,6 +808,14 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_toggleCollapse() {
 		this._collapsed = !this._collapsed;
+
+		const message = this.localize(this._collapsed ? 'a11yCollapsed' : 'a11yExpanded');
+
+		this.dispatchEvent(new CustomEvent('iron-announce', {
+			bubbles: true,
+			composed: true,
+			detail: { text: message }
+		}));
 	}
 
 	_triggerNodeAction() {

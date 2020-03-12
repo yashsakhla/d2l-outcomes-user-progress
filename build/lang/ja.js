@@ -10,6 +10,8 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.P
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangJaBehavior = {
 	ja: {
+		'a11yCollapsed': 'collapsed',
+		'a11yExpanded': 'expanded',
 		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {試行 {attemptNames}} other {試行 {attemptNames} と {lastAttemptName}}}',
 		'bigTrendAttemptsTooltipString': '{numAttempts, plural, =1 {回の試行} other {回の試行}} {attemptNames}',
 		'close': '閉じる',
@@ -19,6 +21,9 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangJaBehavior = {
 		'headingLoa': '達成レベル',
 		'miniTrendAttemptsTooltipString': '{numAttempts, plural, =1 {回の試行} other {回の試行}} {attemptNames}',
 		'miniTrendScreenReaderText': '{numAssessed} {numAssessed, plural, =1 {回} other {回}}評価済み: {levelNames}',
+		'nodeAriaText': 'Level {level}, group {state}, {content}, {position} of {count}.',
+		'nodeAriaTextLeaf': 'Level {level}, {content}, {position} of {count}.',
+		'nodeLoadingAriaText': 'Level {level}, loading, {position} of {count}.',
 		'noEvidence': 'この{outcome, select, competencies {コンピテンシ} expectations {期待} objectives {目的} outcomes {結果} standards {標準} other {標準}} は、まだ評価されていません',
 		'noOutcomesInstructor': '{outcome, select, competencies {コンピテンシ} expectations {期待} objectives {目的} outcomes {結果} standards {標準} other {標準}} の達成の追跡を開始するには、コースの {outcome, select, competencies {コンピテンシ} expectations {期待} objectives {目的} outcomes {結果} standards {標準} other {標準}}と評価済みアクティビティの整合を行います。',
 		'noOutcomesStudent': '評価した{outcome, select, competencies {コンピテンシ} expectations {期待} objectives {目的} outcomes {結果} standards {標準} other {標準}}はありません。',
@@ -28,7 +33,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangJaBehavior = {
 		'notAssessed': '未評価',
 		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
 		'searchCleared': 'Search results cleared',
-		'searchHint': 'search...',
+		'searchHint': 'Search...',
 		'searchLabel': 'Search',
 		'trend': '傾向',
 		'untitled': '無題'

@@ -10,6 +10,8 @@ window.D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior = window.D2L.P
  */
 D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangArBehavior = {
 	ar: {
+		'a11yCollapsed': 'collapsed',
+		'a11yExpanded': 'expanded',
 		'bigTrendAttemptsScreenReaderString': '{numAttempts, plural, =1 {محاولة واحدة {attemptNames}} other {من المحاولات {attemptNames} و{lastAttemptName}}}',
 		'bigTrendAttemptsTooltipString': '{numAttempts, plural, =1 {محاولة واحدة} other {من المحاولات}} {attemptNames}',
 		'close': 'إغلاق',
@@ -19,6 +21,9 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangArBehavior = {
 		'headingLoa': 'مستوى التحصيل',
 		'miniTrendAttemptsTooltipString': '{numAttempts, plural, =1 {محاولة واحدة} other {من المحاولات}} {attemptNames}',
 		'miniTrendScreenReaderText': 'تم التقييم {numAssessed} {numAssessed, plural, =1 {مرة واحدة} other {من المرات}}: {levelNames}',
+		'nodeAriaText': 'Level {level}, group {state}, {content}, {position} of {count}.',
+		'nodeAriaTextLeaf': 'Level {level}, {content}, {position} of {count}.',
+		'nodeLoadingAriaText': 'Level {level}, loading, {position} of {count}.',
 		'noEvidence': 'This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed',
 		'noOutcomesInstructor': 'To start tracking achievement of {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}}, align course {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}} to assessed activities.',
 		'noOutcomesStudent': 'لم يتم تقييم أي {outcome, select, competencies {كفاءات} expectations {توقعات} objectives {أهداف} outcomes {نتائج} standards {معايير} other {معايير}}.',
@@ -28,7 +33,7 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangArBehavior = {
 		'notAssessed': 'لم يتم التقييم',
 		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
 		'searchCleared': 'Search results cleared',
-		'searchHint': 'search...',
+		'searchHint': 'Search...',
 		'searchLabel': 'Search',
 		'trend': 'الاتجاه',
 		'untitled': 'بلا عنوان'

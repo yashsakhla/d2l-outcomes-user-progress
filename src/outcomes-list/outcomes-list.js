@@ -102,6 +102,9 @@ export class OutcomesList extends mixinBehaviors(
 									href="[[_getOutcomeHref(item)]]"
 									token="[[token]]"
 									tabindex="-1"
+									aria-level="1"
+									aria-posinset$="[[_getPosition(index)]]"
+									aria-setsize$="[[_getCount(_outcomes)]]"
 									parent-filter-map="{{_childFilterMap}}"
 									search-term="[[_searchTerm]]"
 									visibility-mapping="{{_hierarchyVisibilityMapping}}"
@@ -167,11 +170,15 @@ export class OutcomesList extends mixinBehaviors(
 				type: Number,
 				value: 0
 			},
+			_searchPerformed: {
+				type: Boolean,
+				value: false
+			},
 			_searchResultsFound: {
 				computed: '_isSearchResultsFound(_searchMatches)'
 			},
 			_searchResultMessage: {
-				computed: '_getSearchResultMessage(_isSearching, _searchResultsFound, _searchMatches, _searchTerm)'
+				computed: '_getSearchResultMessage(_searchPerformed, _isSearching, _searchResultsFound, _searchMatches, _searchTerm)'
 			},
 			_searchTerm: {
 				type: String,
@@ -224,6 +231,7 @@ export class OutcomesList extends mixinBehaviors(
 
 	attached() {
 		IronA11yAnnouncer.requestAvailability();
+		IronA11yAnnouncer.mode = 'assertive';
 	}
 
 	_consumeEvent(e) {
@@ -270,6 +278,10 @@ export class OutcomesList extends mixinBehaviors(
 
 	_getAriaRole(isHierarchy) {
 		return isHierarchy ? 'tree' : 'list';
+	}
+
+	_getCount(arr) {
+		return arr.length;
 	}
 
 	_getEmptyMessage(instructor, outcomeTerm) {
@@ -345,13 +357,22 @@ export class OutcomesList extends mixinBehaviors(
 		return -1;
 	}
 
+	_getPosition(index) {
+		return index + 1;
+	}
+
 	_getSearchBoldRegex(searchTerm) {
 		return `@(${escapeRegex(searchTerm)})@`;
 	}
 
-	_getSearchResultMessage(isSearching, resultsFound, numMatches, searchTerm) {
+	_getSearchResultMessage(searchPerformed, isSearching, resultsFound, numMatches, searchTerm) {
 		if (!isSearching) {
-			return this.localize('searchCleared');
+			if (searchPerformed) {
+				// Only say cleared if searched before
+				return this.localize('searchCleared');
+			}
+
+			return;
 		}
 
 		if (resultsFound) {
@@ -396,7 +417,9 @@ export class OutcomesList extends mixinBehaviors(
 				this._focusedNode.focusSelf();
 			} else {
 				const firstChild = this._getFirstChildNode();
-				firstChild.focusSelf();
+				if (firstChild) {
+					firstChild.focusSelf();
+				}
 			}
 		}
 	}
@@ -427,6 +450,10 @@ export class OutcomesList extends mixinBehaviors(
 					searchElement.addEventListener('d2l-input-search-searched', (e => {
 						const searchTerm = e.detail.value;
 						this._searchTerm = searchTerm.trim();
+
+						if (this._searchTerm !== '') {
+							this._searchPerformed = true;
+						}
 					}).bind(this));
 					this._searchBar = searchElement;
 				}
