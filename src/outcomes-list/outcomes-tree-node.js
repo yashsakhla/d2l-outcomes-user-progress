@@ -232,7 +232,8 @@ export class OutcomesTreeNode extends mixinBehaviors(
                 <d2l-outcomes-tree-node
                   href="[[_getSelfHref(item)]]"
                   token="[[token]]"
-                  has-parent=""
+				  has-parent=""
+				  on-load="_onChildLoaded"
                   role="treeitem"
                   tabindex="-1"
                   search-term="[[searchTerm]]"
@@ -279,9 +280,17 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			_isLeafNode: {
 				computed: '_getIsLeafNode(_children)'
 			},
+			_isLoaded: {
+				type: Boolean,
+				value: false
+			},
 			hasParent: {
 				type: Boolean,
 				value: false
+			},
+			_loadedChildren: {
+				type: Number,
+				value: 0
 			},
 			_outcomeEntity: {
 				type: Object,
@@ -318,7 +327,8 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	static get observers() {
 		return [
 			'_onEntityChanged(entity)',
-			'_reportFilterStatus(_outcomeEntity, _selfHref, _isFiltered, _isLeafNode, parentFilterMap, visibilityMapping)'
+			'_reportFilterStatus(_outcomeEntity, _selfHref, _isFiltered, _isLeafNode, parentFilterMap, visibilityMapping)',
+			'_onOutcomeEntityChanged(_outcomeEntity)'
 		];
 	}
 
@@ -362,6 +372,15 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			this.focusSelf();
 		});
 		this.addEventListener('blur', () => nodeData.blur());
+	}
+
+	_onOutcomeEntityChanged(outcomeEntity) {
+		if (outcomeEntity && !this._isLoaded) {
+			this._isLoaded = true;
+			if (this._isLeafNode) {
+				this.dispatchEvent(new CustomEvent('load'));
+			}
+		}
 	}
 
 	_consumeEvent(e) {
@@ -638,7 +657,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_matchesSearch(outcomeEntity, searchTerm) {
 		// Array of unique search words
-		const searchTerms = [ ...new Set([ ...searchTerm.toLowerCase().split(' ') ]) ];
+		const searchTerms = [...new Set([...searchTerm.toLowerCase().split(' ')])];
 
 		// Array of unique outcome words
 		const searchableTerms = [
@@ -691,7 +710,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		if (this._programmaticFocus) {
 			this._a11yHasFocus = true;
 			this.addEventListener('keydown', this._onKeyPress);
-			this.dispatchEvent(new CustomEvent('node-focused', { bubbles: true, composed: true, detail: { node: this }}));
+			this.dispatchEvent(new CustomEvent('node-focused', { bubbles: true, composed: true, detail: { node: this } }));
 		} else {
 			const nodeData = this.$$('#node-data');
 			nodeData.blur();
@@ -743,6 +762,13 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			} else {
 				this._toggleCollapse();
 			}
+		}
+	}
+
+	_onChildLoaded() {
+		this._loadedChildren++;
+		if (this._loadedChildren === this._children.length) {
+			this.dispatchEvent(new CustomEvent('load'));
 		}
 	}
 }
