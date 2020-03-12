@@ -33,6 +33,9 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangEnBehavior = {
 		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
 		'noSearchResults': 'No results found for "{searchTerm}"',
 		'a11yCollapsed': 'collapsed',
-		'a11yExpanded': 'expanded'
+		'a11yExpanded': 'expanded',
+		'nodeAriaText': 'Level {level}, group {state}, {content}, {position} of {count}.',
+		'nodeAriaTextLeaf': 'Level {level}, {content}, {position} of {count}.',
+		'nodeLoadingAriaText': 'Level {level}, loading, {position} of {count}.'
 	}
 };

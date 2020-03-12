@@ -102,6 +102,9 @@ export class OutcomesList extends mixinBehaviors(
 									href="[[_getOutcomeHref(item)]]"
 									token="[[token]]"
 									tabindex="-1"
+									aria-level="1"
+									aria-posinset$="[[_getPosition(index)]]"
+									aria-setsize$="[[_getCount(_outcomes)]]"
 									parent-filter-map="{{_childFilterMap}}"
 									search-term="[[_searchTerm]]"
 									visibility-mapping="{{_hierarchyVisibilityMapping}}"
@@ -277,6 +280,10 @@ export class OutcomesList extends mixinBehaviors(
 		return isHierarchy ? 'tree' : 'list';
 	}
 
+	_getCount(arr) {
+		return arr.length;
+	}
+
 	_getEmptyMessage(instructor, outcomeTerm) {
 		const langTerm = instructor ? 'noOutcomesInstructor' : 'noOutcomesStudent';
 		return this.localize(langTerm, 'outcome', outcomeTerm);
@@ -350,6 +357,10 @@ export class OutcomesList extends mixinBehaviors(
 		return -1;
 	}
 
+	_getPosition(index) {
+		return index + 1;
+	}
+
 	_getSearchBoldRegex(searchTerm) {
 		return `@(${escapeRegex(searchTerm)})@`;
 	}
@@ -406,7 +417,9 @@ export class OutcomesList extends mixinBehaviors(
 				this._focusedNode.focusSelf();
 			} else {
 				const firstChild = this._getFirstChildNode();
-				firstChild.focusSelf();
+				if (firstChild) {
+					firstChild.focusSelf();
+				}
 			}
 		}
 	}

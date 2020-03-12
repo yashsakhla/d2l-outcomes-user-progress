@@ -162,6 +162,14 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				[hidden] {
 					display: none !important;
 				}
+
+				.screen-reader {
+                    height: 1px;
+                    left: -99999px;
+                    overflow: hidden;
+                    position: absolute;
+                    width: 1px;
+                }
 			</style>
 			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
 			<div 
@@ -172,7 +180,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				aria-expanded$="[[_getAriaExpanded(_collapsed)]]"
 				aria-selected$="[[_a11yHasFocus]]"
 			>
-				<div id="node-data" class$="[[_getNodeClass(_isLeafNode)]]" tabindex="-1" aria-labelledby="content">
+				<div id="node-data" class$="[[_getNodeClass(_isLeafNode)]]" tabindex="-1" aria-labelledby="aria-content">
+					<div id="aria-content" class="screen-reader">
+						[[_getNodeAriaText(ariaLevel, ariaPosinset, ariaSetsize, _outcomeEntity, _collapsed, _isLeafNode)]]
+					</div>
 					<template is="dom-if" if="[[!_isLeafNode]]">
 						<div id="button-icon" class$="[[_getButtonClass(hasParent)]]">
 							<d2l-button-icon
@@ -237,6 +248,9 @@ export class OutcomesTreeNode extends mixinBehaviors(
 									has-parent=""
 									role="treeitem"
 									tabindex="-1"
+									aria-level$="[[_increment(ariaLevel)]]"
+									aria-posinset$="[[_increment(index)]]"
+									aria-setsize$="[[_getCount(_children)]]"
 									search-term="[[searchTerm]]"
 									parent-filter-map="{{_childFilterMap}}"
 									visibility-mapping="{{visibilityMapping}}"
@@ -260,6 +274,15 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			_activitiesHref: {
 				type: String,
 				computed: '_getActivitiesHref(entity)'
+			},
+			ariaLevel: {
+				type: Number
+			},
+			ariaPosinset: {
+				type: Number
+			},
+			ariaSetsize: {
+				type: Number
 			},
 			_boldRegex: {
 				computed: '_getBoldRegex(searchTerm)'
@@ -560,6 +583,41 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		return `d2l-tier1:arrow-${collapsed ? 'expand' : 'collapse'}`;
 	}
 
+	_getCount(arr) {
+		return arr.length;
+	}
+
+	_getNodeAriaText(ariaLevel, ariaPosinset, ariaSetsize, outcome, collapsed, isLeafNode) {
+		let text;
+
+		if (!outcome) {
+			text = this.localize('nodeLoadingAriaText',
+				'level', ariaLevel,
+				'position', ariaPosinset,
+				'count', ariaSetsize
+			);
+		} else {
+			if (isLeafNode) {
+				text = this.localize('nodeAriaTextLeaf',
+					'level', ariaLevel,
+					'content', this._getOutcomeAriaText(outcome),
+					'position', ariaPosinset,
+					'count', ariaSetsize
+				);
+			} else {
+				text = this.localize('nodeAriaText',
+					'level', ariaLevel,
+					'state', this.localize(collapsed ? 'a11yCollapsed' : 'a11yExpanded'),
+					'content', this._getOutcomeAriaText(outcome),
+					'position', ariaPosinset,
+					'count', ariaSetsize
+				);
+			}
+		}
+
+		return text;
+	}
+
 	_getNodeClass(isLeafNode) {
 		const classes = [];
 
@@ -618,6 +676,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		}
 	}
 
+	_getOutcomeAriaText(outcome) {
+		return `${this.getOutcomeDescriptionPlainText(outcome)} ${this.getOutcomeIdentifier(outcome)}`;
+	}
+
 	_getOutcomeHref(entity) {
 		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode)) {
 			return entity.getLinkByRel(hmConsts.Rels.Outcomes.outcome).href;
@@ -640,6 +702,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			return entity.getLinkByRel('self').href;
 		}
 		return null;
+	}
+
+	_increment(num) {
+		return num + 1;
 	}
 
 	_matchesSearch(outcomeEntity, searchTerm) {
