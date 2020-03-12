@@ -28,9 +28,14 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangEnBehavior = {
 		'noScaleStudent': 'No scale has been set to measure achievement of {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}}.',
 		'noScaleInstructor': 'To view learner progress towards achieving this {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}}, create and select an achievement scale.',
 		'searchCleared': 'Search results cleared',
-		'searchHint': 'search...',
+		'searchHint': 'Search...',
 		'searchLabel': 'Search',
 		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
-		'noSearchResults': 'No results found for "{searchTerm}"'
+		'noSearchResults': 'No results found for "{searchTerm}"',
+		'a11yCollapsed': 'collapsed',
+		'a11yExpanded': 'expanded',
+		'nodeAriaText': 'Level {level}, group {state}, {content}, {position} of {count}.',
+		'nodeAriaTextLeaf': 'Level {level}, {content}, {position} of {count}.',
+		'nodeLoadingAriaText': 'Level {level}, loading, {position} of {count}.'
 	}
 };

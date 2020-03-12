@@ -1,4 +1,6 @@
 {
+    "a11yCollapsed": "collapsed",
+    "a11yExpanded": "expanded",
     "bigTrendAttemptsScreenReaderString": "{numAttempts, plural, =1 {Versuch {attemptNames}} other {Versuche {attemptNames} und {lastAttemptName}}}",
     "bigTrendAttemptsTooltipString": "{numAttempts, plural, =1 {Versuch} other {Versuche}} {attemptNames}",
     "close": "Schließen",
@@ -8,6 +10,9 @@
     "headingLoa": "Erreichte Stufe",
     "miniTrendAttemptsTooltipString": "{numAttempts, plural, =1 {Versuch} other {Versuche}} {attemptNames}",
     "miniTrendScreenReaderText": "{numAssessed} {numAssessed, plural, =1 {Mal} other {Mal}} bewertet: {levelNames}",
+    "nodeAriaText": "Level {level}, group {state}, {content}, {position} of {count}.",
+    "nodeAriaTextLeaf": "Level {level}, {content}, {position} of {count}.",
+    "nodeLoadingAriaText": "Level {level}, loading, {position} of {count}.",
     "noEvidence": "{outcome, select, competencies {Diese Kompetenz} expectations {Diese Erwartung} objectives {Dieses Ziel} outcomes {Dieses Ergebnis} standards {Dieser Standard} other {Dieser Standard}} wurde noch nicht bewertet",
     "noOutcomesInstructor": "Um mit dem Nachverfolgen des Erreichens von {outcome, select, competencies {Kompetenzen} expectations {Erwartungen} objectives {Zielen} outcomes {Ergebnissen} standards {Standards} other {Standards}} zu beginnen, müssen Sie {outcome, select, competencies {die Kompetenzen} expectations {die Erwartungen} objectives {die Ziele} outcomes {die Ergebnisse} standards {die Standards} other {die Standards}} des Kurses bewerteten Aktivitäten zuweisen.",
     "noOutcomesStudent": "Es wurden keine {outcome, select, competencies {Kompetenzen} expectations {Erwartungen} objectives {Ziele} outcomes {Ergebnisse} standards {Standards} other {Standards}} bewertet.",
@@ -20,7 +25,7 @@
     "outcomesListLoadingComplete": "Loading complete",
     "numSearchResults": "{numResults} search {numResults, plural, =1 {result} other {results}} for \"{searchTerm}\"",
     "searchCleared": "Search results cleared",
-    "searchHint": "search...",
+    "searchHint": "Search...",
     "searchLabel": "Search",
     "trend": "Trend",
     "untitled": "Ohne Titel"
