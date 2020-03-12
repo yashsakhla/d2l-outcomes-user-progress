@@ -307,10 +307,6 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			_isLeafNode: {
 				computed: '_getIsLeafNode(_children)'
 			},
-			_isLoaded: {
-				type: Boolean,
-				value: false
-			},
 			hasParent: {
 				type: Boolean,
 				value: false
@@ -322,6 +318,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			_outcomeEntity: {
 				type: Object,
 				value: null
+			},
+			_outcomeEntityLoaded: {
+				type: Object,
+				value: false
 			},
 			_outcomeHref: {
 				type: String,
@@ -402,9 +402,11 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	_onOutcomeEntityChanged(outcomeEntity) {
-		if (outcomeEntity && this._isLeafNode && !this._isLoaded) {
-			this._isLoaded = true;
-			this.dispatchEvent(new CustomEvent('load'));
+		if (outcomeEntity && !this._outcomeEntityLoaded) {
+			this._outcomeEntityLoaded = true;
+			if (this._isLeafNode || (!this._isLeafNode && this._loadedChildren === this._children.length)) {
+				this.dispatchEvent(new CustomEvent('load'));
+			}
 		}
 	}
 
@@ -847,8 +849,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_onChildLoaded() {
 		this._loadedChildren++;
-		if (this._loadedChildren === this._children.length) {
-			this._isLoaded = true;
+		if (this._loadedChildren === this._children.length && this._outcomeEntityLoaded) {
 			this.dispatchEvent(new CustomEvent('load'));
 		}
 	}
