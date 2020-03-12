@@ -31,11 +31,14 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangKoBehavior = {
 		'noScaleStudent': 'No scale has been set to measure achievement of {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}}.',
 		'noSearchResults': 'No results found for "{searchTerm}"',
 		'notAssessed': '평가되지 않음',
+		'outcomesListDescription': '{outcome, select, competencies {Competencies} expectations {Expectations} objectives {Objectives} outcomes {Outcomes} standards {Standards} other {Standards}} List',
+		'outcomesListLoading': 'Loading',
+		'outcomesListLoadingComplete': 'Loading complete',
 		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
 		'searchCleared': 'Search results cleared',
 		'searchHint': 'Search...',
 		'searchLabel': 'Search',
 		'trend': '추세',
 		'untitled': '제목 없음'
-	}
+}
 };

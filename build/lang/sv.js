@@ -31,11 +31,14 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangSvBehavior = {
 		'noScaleStudent': 'Ingen skala har angetts för mätning av uppnådda {outcome, select, competencies {kompetenser} expectations {förväntningar} objectives {mål} outcomes {resultat} standards {standarder} other {standarder}}.',
 		'noSearchResults': 'No results found for "{searchTerm}"',
 		'notAssessed': 'Ej bedömt',
+		'outcomesListDescription': '{outcome, select, competencies {Competencies} expectations {Expectations} objectives {Objectives} outcomes {Outcomes} standards {Standards} other {Standards}} List',
+		'outcomesListLoading': 'Loading',
+		'outcomesListLoadingComplete': 'Loading complete',
 		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
 		'searchCleared': 'Search results cleared',
 		'searchHint': 'Search...',
 		'searchLabel': 'Search',
 		'trend': 'Trend',
 		'untitled': 'Namnlös'
-	}
+}
 };
