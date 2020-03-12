@@ -345,7 +345,7 @@ export class OutcomesList extends mixinBehaviors(
 	_getAriaDescription(outcomeTerm, isLoaded, isHierarchy) {
 		const textArray = [];
 		textArray.push(this.localize('outcomesListDescription', 'outcome', outcomeTerm));
-		if (!isLoaded && isHierarchy) textArray.push('Loading');
+		if (!isLoaded && isHierarchy) textArray.push(this.localize('outcomesListLoading'));
 		return textArray.join(', ');
 	}
 
@@ -499,7 +499,7 @@ export class OutcomesList extends mixinBehaviors(
 				const event = new CustomEvent('iron-announce', {
 					bubbles: true,
 					composed: true,
-					detail: { text: 'Loading Complete' }
+					detail: { text: this.localize('outcomesListLoadingComplete') }
 				});
 				this.dispatchEvent(event);
 				this._isLoaded = true;
