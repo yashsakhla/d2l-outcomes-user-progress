@@ -402,11 +402,9 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	_onOutcomeEntityChanged(outcomeEntity) {
-		if (outcomeEntity && !this._isLoaded) {
+		if (outcomeEntity && this._isLeafNode && !this._isLoaded) {
 			this._isLoaded = true;
-			if (this._isLeafNode) {
-				this.dispatchEvent(new CustomEvent('load'));
-			}
+			this.dispatchEvent(new CustomEvent('load'));
 		}
 	}
 
@@ -850,6 +848,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	_onChildLoaded() {
 		this._loadedChildren++;
 		if (this._loadedChildren === this._children.length) {
+			this._isLoaded = true;
 			this.dispatchEvent(new CustomEvent('load'));
 		}
 	}
