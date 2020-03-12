@@ -73,13 +73,13 @@ export class OutcomesList extends mixinBehaviors(
 							<template is="dom-if" if="[[_searchResultsFound]]">
 								<partial-bold
 									bold-regex="[[_searchBoldRegex]]"
-									content="[[localize('numSearchResults', 'numResults', _searchMatches, 'searchTerm', _searchTerm)]]"
+									content="[[localize('numSearchResults', 'numResults', _searchMatches, 'searchTerm', _surroundedSearchTerm)]]"
 								></partial-bold>
 							</template>
 							<template is="dom-if" if="[[!_searchResultsFound]]">
 								<partial-bold
 									bold-regex="[[_searchBoldRegex]]"
-									content="[[localize('noSearchResults', 'searchTerm', _searchTerm)]]"
+									content="[[localize('noSearchResults', 'searchTerm', _surroundedSearchTerm)]]"
 								></partial-bold>
 							</template>
 						</div>
@@ -187,6 +187,9 @@ export class OutcomesList extends mixinBehaviors(
 			_searchTerm: {
 				type: String,
 				value: ''
+			},
+			_surroundedSearchTerm: {
+				computed: '_surround(_searchTerm)'
 			}
 		};
 	}
@@ -475,6 +478,10 @@ export class OutcomesList extends mixinBehaviors(
 				this._isLoaded = true;
 			});
 		}
+	}
+
+	_surround(str) {
+		return `@${str}@`;
 	}
 }
 

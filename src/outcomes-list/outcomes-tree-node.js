@@ -172,14 +172,14 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			>
 				<div id="node-data" class$="[[_getNodeClass(_isLeafNode)]]" tabindex="-1" aria-labelledby="content">
 					<template is="dom-if" if="[[!_isLeafNode]]">
-            <div id="button-icon" class$="[[_getButtonClass(hasParent)]]">
-              <d2l-button-icon
-                class="button-toggle-collapse"
-                icon="[[_getCollapseIcon(_collapsed)]]"
-                on-click="_onItemClicked"
-                tabindex="-1"
-              ></d2l-button-icon>
-            </div>
+						<div id="button-icon" class$="[[_getButtonClass(hasParent)]]">
+							<d2l-button-icon
+								class="button-toggle-collapse"
+								icon="[[_getCollapseIcon(_collapsed)]]"
+								on-click="_onItemClicked"
+								tabindex="-1"
+							></d2l-button-icon>
+						</div>
 					</template>
 					<div id="content" on-click="_onItemClicked">
 						<div id="primary">
@@ -227,21 +227,21 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				</div>
 				<template is="dom-if" if="[[!_isLeafNode]]">
 					<div id="children" role="group">
-            <iron-collapse opened$=[[!_collapsed]] id="children-collapse">
-              <template is="dom-repeat" items="[[_children]]">
-                <d2l-outcomes-tree-node
-                  href="[[_getSelfHref(item)]]"
-                  token="[[token]]"
-				  has-parent=""
-				  on-load="_onChildLoaded"
-                  role="treeitem"
-                  tabindex="-1"
-                  search-term="[[searchTerm]]"
-                  parent-filter-map="{{_childFilterMap}}"
-                  visibility-mapping="{{visibilityMapping}}"
-                ></d2l-outcomes-tree-node>
-              </template>
-            </iron-collapse>
+						<iron-collapse opened$=[[!_collapsed]] id="children-collapse">
+							<template is="dom-repeat" items="[[_children]]">
+								<d2l-outcomes-tree-node
+									href="[[_getSelfHref(item)]]"
+									token="[[token]]"
+									has-parent=""
+									role="treeitem"
+									tabindex="-1"
+									on-load="_onChildLoaded"
+									search-term="[[searchTerm]]"
+									parent-filter-map="{{_childFilterMap}}"
+									visibility-mapping="{{visibilityMapping}}"
+								></d2l-outcomes-tree-node>
+							</template>
+						</iron-collapse>
 					</div>
 				</template>
 			</div>
