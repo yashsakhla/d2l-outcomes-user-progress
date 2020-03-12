@@ -180,10 +180,12 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				aria-expanded$="[[_getAriaExpanded(_collapsed)]]"
 				aria-selected$="[[_a11yHasFocus]]"
 			>
-				<div id="node-data" class$="[[_getNodeClass(_isLeafNode)]]" tabindex="-1" aria-labelledby="aria-content">
-					<div id="aria-content" class="screen-reader">
-						[[_getNodeAriaText(ariaLevel, ariaPosinset, ariaSetsize, _outcomeEntity, _collapsed, _isLeafNode)]]
-					</div>
+				<div
+					id="node-data"
+					class$="[[_getNodeClass(_isLeafNode)]]"
+					tabindex="-1"
+					aria-label$="[[_getNodeAriaText(ariaLevel, ariaPosinset, ariaSetsize, _outcomeEntity, _collapsed, _isLeafNode)]]"
+				>
 					<template is="dom-if" if="[[!_isLeafNode]]">
 						<div id="button-icon" class$="[[_getButtonClass(hasParent)]]">
 							<d2l-button-icon
