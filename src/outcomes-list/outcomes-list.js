@@ -4,6 +4,7 @@ import { afterNextRender } from '@polymer/polymer/lib/utils/render-status';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
 import { IronA11yAnnouncer } from '@polymer/iron-a11y-announcer/iron-a11y-announcer.js';
 import '@brightspace-ui/core/components/inputs/input-search';
+import '@brightspace-ui/core/components/offscreen/offscreen.js';
 import 'd2l-colors/d2l-colors.js';
 import 'd2l-polymer-siren-behaviors/store/entity-behavior';
 import 'd2l-typography/d2l-typography.js';
@@ -85,7 +86,8 @@ export class OutcomesList extends mixinBehaviors(
 					</template>
 				</div>
 			</template>
-			<div role="application">
+			<d2l-offscreen id="screen-reader-description">[[_getAriaDescription(outcomeTerm, _isLoaded, _isHierarchy)]]</d2l-offscreen>
+			<div aria-describedby="screen-reader-description" role="application">
 				<div id="container" role$="[[_getAriaRole(_isHierarchy)]]" tabindex$="[[tabIndex]]">
 					<template is="dom-if" if="[[!entity]]">
 						<template is="dom-repeat" items="[[_numSkeletons]]">
@@ -102,6 +104,7 @@ export class OutcomesList extends mixinBehaviors(
 									href="[[_getOutcomeHref(item)]]"
 									token="[[token]]"
 									tabindex="-1"
+									on-load="_onChildLoaded"
 									aria-level="1"
 									aria-posinset$="[[_getPosition(index)]]"
 									aria-setsize$="[[_getCount(_outcomes)]]"
@@ -144,8 +147,16 @@ export class OutcomesList extends mixinBehaviors(
 			_isList: {
 				computed: '_getIsList(entity)'
 			},
+			_isLoaded: {
+				type: Boolean,
+				value: false
+			},
 			_isSearching: {
 				computed: '_getIsSearching(_searchTerm)'
+			},
+			_loadedChildren: {
+				type: Number,
+				value: 0
 			},
 			_numSkeletons: {
 				type: Array,
@@ -331,6 +342,13 @@ export class OutcomesList extends mixinBehaviors(
 		}
 	}
 
+	_getAriaDescription(outcomeTerm, isLoaded, isHierarchy) {
+		const textArray = [];
+		textArray.push(this.localize('outcomesListDescription', 'outcome', outcomeTerm));
+		if (!isLoaded && isHierarchy) textArray.push(this.localize('outcomesListLoading'));
+		return textArray.join(', ');
+	}
+
 	_getIsHierarchy(entity) {
 		return entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomeTree);
 	}
@@ -471,6 +489,21 @@ export class OutcomesList extends mixinBehaviors(
 				});
 				this.dispatchEvent(event);
 			}, 100);
+		}
+	}
+
+	_onChildLoaded() {
+		this._loadedChildren++;
+		if (this._loadedChildren === this._outcomes.length) {
+			afterNextRender(this, () => {
+				const event = new CustomEvent('iron-announce', {
+					bubbles: true,
+					composed: true,
+					detail: { text: this.localize('outcomesListLoadingComplete') }
+				});
+				this.dispatchEvent(event);
+				this._isLoaded = true;
+			});
 		}
 	}
 
