@@ -40,5 +40,5 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangTrBehavior = {
 		'searchLabel': 'Search',
 		'trend': 'Eğilim',
 		'untitled': 'Adsız'
-}
+	}
 };

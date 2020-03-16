@@ -40,5 +40,5 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangJaBehavior = {
 		'searchLabel': 'Search',
 		'trend': '傾向',
 		'untitled': '無題'
-}
+	}
 };

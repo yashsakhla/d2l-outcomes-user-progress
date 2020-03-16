@@ -40,5 +40,5 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangZhTwBehavior = {
 		'searchLabel': 'Search',
 		'trend': '趨勢',
 		'untitled': '未命名'
-}
+	}
 };

@@ -40,5 +40,5 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangEnBehavior = {
 		'nodeAriaTextLevel': 'Level {level}',
 		'nodeAriaTextGroup': 'Group {state}',
 		'nodeAriaTextPosition': '{position} of {count}'
-}
+	}
 };
