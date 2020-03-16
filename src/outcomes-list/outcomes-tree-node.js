@@ -778,7 +778,6 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_onFocus(e) {
 		this._consumeEvent(e);
-		console.log(this.href);
 		if (this._programmaticFocus) {
 			this._a11yHasFocus = true;
 			this.addEventListener('keydown', this._onKeyPress);
