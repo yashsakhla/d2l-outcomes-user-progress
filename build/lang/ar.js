@@ -21,9 +21,9 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangArBehavior = {
 		'headingLoa': 'مستوى التحصيل',
 		'miniTrendAttemptsTooltipString': '{numAttempts, plural, =1 {محاولة واحدة} other {من المحاولات}} {attemptNames}',
 		'miniTrendScreenReaderText': 'تم التقييم {numAssessed} {numAssessed, plural, =1 {مرة واحدة} other {من المرات}}: {levelNames}',
-		'nodeAriaText': 'Level {level}, group {state}, {content}, {position} of {count}.',
-		'nodeAriaTextLeaf': 'Level {level}, {content}, {position} of {count}.',
-		'nodeLoadingAriaText': 'Level {level}, loading, {position} of {count}.',
+		'nodeAriaTextGroup': 'Group {state}',
+		'nodeAriaTextLevel': 'Level {level}',
+		'nodeAriaTextPosition': '{position} of {count}',
 		'noEvidence': 'This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed',
 		'noOutcomesInstructor': 'To start tracking achievement of {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}}, align course {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}} to assessed activities.',
 		'noOutcomesStudent': 'لم يتم تقييم أي {outcome, select, competencies {كفاءات} expectations {توقعات} objectives {أهداف} outcomes {نتائج} standards {معايير} other {معايير}}.',
@@ -31,14 +31,14 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangArBehavior = {
 		'noScaleStudent': 'لم يتم تعيين أي مقياس لقياس تحقيق {outcome, select, competencies {الكفاءات} expectations {التوقعات} objectives {الأهداف} outcomes {النتائج} standards {المعايير} other {المعايير}}.',
 		'noSearchResults': 'No results found for "{searchTerm}"',
 		'notAssessed': 'لم يتم التقييم',
+		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
 		'outcomesListDescription': '{outcome, select, competencies {Competencies} expectations {Expectations} objectives {Objectives} outcomes {Outcomes} standards {Standards} other {Standards}} List',
 		'outcomesListLoading': 'Loading',
 		'outcomesListLoadingComplete': 'Loading complete',
-		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
 		'searchCleared': 'Search results cleared',
 		'searchHint': 'Search...',
 		'searchLabel': 'Search',
 		'trend': 'الاتجاه',
 		'untitled': 'بلا عنوان'
-	}
+}
 };

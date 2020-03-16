@@ -21,9 +21,9 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangKoBehavior = {
 		'headingLoa': '성취 수준',
 		'miniTrendAttemptsTooltipString': '{numAttempts, plural, =1 {Attempt} other {Attempts}} {attemptNames}',
 		'miniTrendScreenReaderText': '평가됨 {numAssessed} {numAssessed, plural, =1 {time} other {times}}: {levelNames}',
-		'nodeAriaText': 'Level {level}, group {state}, {content}, {position} of {count}.',
-		'nodeAriaTextLeaf': 'Level {level}, {content}, {position} of {count}.',
-		'nodeLoadingAriaText': 'Level {level}, loading, {position} of {count}.',
+		'nodeAriaTextGroup': 'Group {state}',
+		'nodeAriaTextLevel': 'Level {level}',
+		'nodeAriaTextPosition': '{position} of {count}',
 		'noEvidence': 'This {outcome, select, competencies {competency} expectations {expectation} objectives {objective} outcomes {outcome} standards {standard} other {standard}} has not yet been assessed',
 		'noOutcomesInstructor': 'To start tracking achievement of {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}}, align course {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}} to assessed activities.',
 		'noOutcomesStudent': 'No {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}} have been evaluated.',
@@ -31,14 +31,14 @@ D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior.LangKoBehavior = {
 		'noScaleStudent': 'No scale has been set to measure achievement of {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}}.',
 		'noSearchResults': 'No results found for "{searchTerm}"',
 		'notAssessed': '평가되지 않음',
+		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
 		'outcomesListDescription': '{outcome, select, competencies {Competencies} expectations {Expectations} objectives {Objectives} outcomes {Outcomes} standards {Standards} other {Standards}} List',
 		'outcomesListLoading': 'Loading',
 		'outcomesListLoadingComplete': 'Loading complete',
-		'numSearchResults': '{numResults} search {numResults, plural, =1 {result} other {results}} for "{searchTerm}"',
 		'searchCleared': 'Search results cleared',
 		'searchHint': 'Search...',
 		'searchLabel': 'Search',
 		'trend': '추세',
 		'untitled': '제목 없음'
-	}
+}
 };
