@@ -180,10 +180,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				aria-expanded$="[[_getAriaExpanded(_collapsed)]]"
 				aria-selected$="[[_a11yHasFocus]]"
 			>
-				<div id="node-data" class$="[[_getNodeClass(_isLeafNode)]]" tabindex="-1" aria-labelledby="aria-content">
-					<div id="aria-content" class="screen-reader">
-						[[_getNodeAriaText(ariaLevel, ariaPosinset, ariaSetsize, _outcomeEntity, _collapsed, _isLeafNode)]]
-					</div>
+				<div id="node-data" class$="[[_getNodeClass(_isLeafNode)]]" tabindex="-1" aria-labelledby="content">
 					<template is="dom-if" if="[[!_isLeafNode]]">
 						<div id="button-icon" class$="[[_getButtonClass(hasParent)]]">
 							<d2l-button-icon
@@ -195,6 +192,9 @@ export class OutcomesTreeNode extends mixinBehaviors(
 						</div>
 					</template>
 					<div id="content" on-click="_onItemClicked">
+						<div id="aria-content-prefix" class="screen-reader">
+							[[_getNodeAriaTextPrefix(ariaLevel, _outcomeEntity, _collapsed, _isLeafNode)]]
+						</div>
 						<div id="primary">
 							<template is="dom-if" if="[[_outcomeEntity]]">
 								<div class="main-text">
@@ -235,6 +235,9 @@ export class OutcomesTreeNode extends mixinBehaviors(
 								href="[[_activitiesHref]]"
 								token="[[token]]"
 							></d2l-mini-trend>
+						</div>
+						<div id="aria-content-suffix" class="screen-reader">
+							[[_getNodeAriaTextSuffix(ariaPosinset, ariaSetsize)]]
 						</div>
 					</div>
 				</div>
@@ -606,35 +609,27 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		return arr.length;
 	}
 
-	_getNodeAriaText(ariaLevel, ariaPosinset, ariaSetsize, outcome, collapsed, isLeafNode) {
-		let text;
+	_getNodeAriaTextPrefix(ariaLevel, outcome, collapsed, isLeafNode) {
+		const textArray = [];
+
+		textArray.push(this.localize('nodeAriaTextLevel', 'level', ariaLevel));
 
 		if (!outcome) {
-			text = this.localize('nodeLoadingAriaText',
-				'level', ariaLevel,
-				'position', ariaPosinset,
-				'count', ariaSetsize
-			);
-		} else {
-			if (isLeafNode) {
-				text = this.localize('nodeAriaTextLeaf',
-					'level', ariaLevel,
-					'content', this._getOutcomeAriaText(outcome),
-					'position', ariaPosinset,
-					'count', ariaSetsize
-				);
-			} else {
-				text = this.localize('nodeAriaText',
-					'level', ariaLevel,
-					'state', this.localize(collapsed ? 'a11yCollapsed' : 'a11yExpanded'),
-					'content', this._getOutcomeAriaText(outcome),
-					'position', ariaPosinset,
-					'count', ariaSetsize
-				);
-			}
+			textArray.push(this.localize('outcomesListLoading'));
+		} else if (!isLeafNode) {
+			textArray.push(this.localize('nodeAriaTextGroup',
+				'state', this.localize(collapsed ? 'a11yCollapsed' : 'a11yExpanded')
+			));
 		}
 
-		return text;
+		return `${textArray.join(', ')}.`;
+	}
+
+	_getNodeAriaTextSuffix(posinset, setsize) {
+		return this.localize('nodeAriaTextPosition',
+			'position', posinset,
+			'count', setsize
+		);
 	}
 
 	_getNodeClass(isLeafNode) {
@@ -778,7 +773,6 @@ export class OutcomesTreeNode extends mixinBehaviors(
 
 	_onFocus(e) {
 		this._consumeEvent(e);
-
 		if (this._programmaticFocus) {
 			this._a11yHasFocus = true;
 			this.addEventListener('keydown', this._onKeyPress);
