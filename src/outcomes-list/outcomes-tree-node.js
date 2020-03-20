@@ -186,6 +186,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 							<d2l-button-icon
 								class="button-toggle-collapse"
 								icon="[[_getCollapseIcon(_collapsed)]]"
+								on-mousedown="_consumeEvent"
 								on-click="_onItemClicked"
 								tabindex="-1"
 							></d2l-button-icon>
@@ -437,6 +438,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				}
 
 				const childIsVisible = childrenStatus.some(x => !x);
+				this.debounce(`${this.href}-search-collapse`, () => {
+					if (!this._isFiltered) this._collapsed = false;
+				}, 10);
+
 				// Show if at least one child is visible
 				return !childIsVisible;
 			}
