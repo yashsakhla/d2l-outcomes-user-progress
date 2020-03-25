@@ -1,6 +1,7 @@
 import '@polymer/polymer/polymer-legacy.js';
 import { PolymerElement, html } from '@polymer/polymer';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
+import '@brightspace-ui/core/components/offscreen/offscreen.js';
 import 'd2l-typography/d2l-typography.js';
 import 'd2l-typography/d2l-typography-shared-styles.js';
 
@@ -17,13 +18,16 @@ export class PartialBold extends mixinBehaviors(
 					display: inline;
 				}
 			</style>
-			<template is="dom-repeat" items="[[_parsedContent]]"
-				><template is="dom-if" if="[[!item.bold]]"
-					>[[item.data]]</template
-				><template is="dom-if" if="[[item.bold]]"
-					><b>[[item.data]]</b
-				></template
-			></template>
+			<d2l-offscreen id="screen-reader">[[content]]</d2l-offscreen>
+			<span aria-labelledby="screen-reader">
+				<template is="dom-repeat" items="[[_parsedContent]]"
+					><template is="dom-if" if="[[!item.bold]]"
+						>[[item.data]]</template
+					><template is="dom-if" if="[[item.bold]]"
+						><b>[[item.data]]</b
+					></template
+				></template>
+			</span>
 		`;
 		template.setAttribute('strip-whitespace', true);
 		return template;
