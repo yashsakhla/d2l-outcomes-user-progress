@@ -18,8 +18,8 @@ export class PartialBold extends mixinBehaviors(
 					display: inline;
 				}
 			</style>
-			<d2l-offscreen id="screen-reader">[[content]]</d2l-offscreen>
-			<span aria-labelledby="screen-reader">
+			<d2l-offscreen id="screen-reader">[[content]] </d2l-offscreen>
+			<div aria-labelledby="screen-reader" aria-hidden="true">
 				<template is="dom-repeat" items="[[_parsedContent]]"
 					><template is="dom-if" if="[[!item.bold]]"
 						>[[item.data]]</template
@@ -27,7 +27,7 @@ export class PartialBold extends mixinBehaviors(
 						><b>[[item.data]]</b
 					></template
 				></template>
-			</span>
+			</div>
 		`;
 		template.setAttribute('strip-whitespace', true);
 		return template;
