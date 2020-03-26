@@ -71,7 +71,7 @@ export class PartialBold extends mixinBehaviors(
 	}
 
 	_getScreenReaderText(parsedContent) {
-		return parsedContent.reduce((acc, cur) => {return acc + cur.data}, '');
+		return parsedContent.reduce((acc, cur) => {return acc + cur.data;}, '');
 	}
 }
 
