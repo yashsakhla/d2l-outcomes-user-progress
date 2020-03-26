@@ -18,7 +18,7 @@ export class PartialBold extends mixinBehaviors(
 					display: inline;
 				}
 			</style>
-			<d2l-offscreen id="screen-reader">[[content]] </d2l-offscreen>
+			<d2l-offscreen id="screen-reader">[[_getScreenReaderText(_parsedContent)]] </d2l-offscreen>
 			<div aria-labelledby="screen-reader" aria-hidden="true">
 				<template is="dom-repeat" items="[[_parsedContent]]"
 					><template is="dom-if" if="[[!item.bold]]"
@@ -68,6 +68,11 @@ export class PartialBold extends mixinBehaviors(
 
 			return acc;
 		}, []);
+	}
+
+	_getScreenReaderText(parsedContent) {
+		const data = parsedContent.map((item) => item.data);
+		return data.join('');
 	}
 }
 
