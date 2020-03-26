@@ -62,7 +62,7 @@ export class OutcomesList extends mixinBehaviors(
 				}
 			</style>
 			<template is="dom-if" if="[[_isHierarchy]]">
-				<div id="search-container">
+				<div id="search-container" aria-live="off">
 					<d2l-input-search
 						id="hierarchy-search"
 						label$="[[localize('searchLabel')]]"
