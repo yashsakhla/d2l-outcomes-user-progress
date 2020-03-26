@@ -88,7 +88,7 @@ export class OutcomesList extends mixinBehaviors(
 			</template>
 			<d2l-offscreen id="screen-reader-description">[[_getAriaDescription(outcomeTerm, _isLoaded, _isHierarchy)]]</d2l-offscreen>
 			<div aria-describedby="screen-reader-description" role="application">
-				<div id="container" role$="[[_getAriaRole(_isHierarchy)]]" tabindex$="[[tabIndex]]">
+				<div id="container" role$="[[_getAriaRole(_isHierarchy)]]" tabindex$="[[tabIndex]]" aria-live="off">
 					<template is="dom-if" if="[[!entity]]">
 						<template is="dom-repeat" items="[[_numSkeletons]]">
 							<d2l-outcomes-list-item></d2l-outcomes-list-item>
