@@ -18,7 +18,7 @@
    "noSearchResults" : "Aucun résultat n'a été trouvé pour \"{searchTerm}\".",
    "nodeAriaTextGroup" : "Groupe {state}",
    "nodeAriaTextLevel" : "Niveau {level}",
-   "nodeAriaTextPosition" : "{position} sur {count}",
+   "nodeAriaTextPosition" : "{position} de {count}",
    "notAssessed" : "Non évalué",
    "numSearchResults" : "{numResults} recherché(s) {numResults, plural, =1 {résultat} other {résultats}} pour \"{searchTerm}\"",
    "outcomesListDescription" : "Liste de {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}}",
