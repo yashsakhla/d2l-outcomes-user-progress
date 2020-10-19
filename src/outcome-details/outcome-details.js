@@ -8,21 +8,13 @@ import 'd2l-icons/d2l-icon';
 import 'd2l-icons/tier1-icons';
 import 'd2l-button/d2l-button-icon';
 import 'd2l-colors/d2l-colors.js';
+import 'd2l-outcomes-overall-achievement/src/primary-panel/primary-panel';
 import '../localize-behavior';
-import 'siren-entity/siren-entity.js';
-import '../big-trend/big-trend.js';
-import '../evidence/evidence-list.js';
-import OutcomeParserBehaviour from 'd2l-activity-alignments/d2l-outcome-parser-behavior.js';
-import '../big-trend/big-trend';
-import 'd2l-outcomes-level-of-achievements/d2l-outcomes-level-of-achievements';
-import * as hmConsts from 'd2l-hypermedia-constants';
-import { oupConsts } from '../consts';
 
 export class OutcomeProgressDetails extends mixinBehaviors(
 	[
 		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
 		D2L.PolymerBehaviors.Siren.EntityBehavior,
-		OutcomeParserBehaviour
 	],
 	PolymerElement
 ) {
@@ -40,65 +32,19 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 					box-shadow: 0 4px 8px 0 rgba(0,0,0,0.03);
 				}
 				
-				.header {
-					display: flex;
-				}
-				
-				.header > h2 {
-					flex-grow: 0;
-				}
-				
-				.spacer {
-					flex-grow: 1;
-				}
-
 				.close-button {
 					display: block;
 					flex-grow: 0;
 				}
-
-				h2 {
-					@apply --d2l-heading-2;
-					margin: 0;
-					margin-bottom: 12px;
-				}
-
-				h3 {
-					@apply --d2l-heading-3;
-					margin: 24px 0;
-				}
-				
-				.notation {
-					@apply --d2l-body-small-text;
-					margin-bottom: 6px;
-				}
-				
-				d2l-big-trend {
-					margin-bottom: 18px;
-				}
 			</style>
-			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
 			<div class="card">
-				<div class="header">
-					<h2>[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h2>
-					<span class="spacer"></span>
-					<d2l-button-icon
-						class="close-button"
-						icon="d2l-tier1:close-large-thick"
-						text="[[localize('close')]]"
-						on-click="_close"
-					></d2l-button-icon>
-				</div>
-				<div class="notation">[[getOutcomeIdentifier(_outcomeEntity)]]</div>
-				<h3>[[localize('trend')]]</h3>
-				<d2l-big-trend
-					href="[[_activitiesHref]]"
+				<d2l-coa-primary-panel
+					href="[[href]]"
 					token="[[token]]"
-					outcome-term="[[outcomeTerm]]"
 					instructor="[[instructor]]"
-				></d2l-big-trend>
-				<h3>[[localize('evidence')]]</h3>
-				<d2l-evidence-list outcome-term="[[outcomeTerm]]" href="[[_activitiesHref]]" token="[[token]]"></d2l-evidence-list>
+					outcome-term="[[outcomeTerm]]"
+					show-close="true"
+				></d2l-coa-primary-panel>
 			</div>
 		`;
 		template.setAttribute('strip-whitespace', true);
@@ -111,38 +57,9 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 				type: Boolean,
 				value: false
 			},
-			outcomeTerm: String,
-			_outcomeHref: {
-				type: String,
-				computed: '_getOutcomeHref(entity)'
-			},
-			_activitiesHref: {
-				type: String,
-				computed: '_getActivitiesHref(entity)'
-			}
+			outcomeTerm: String
 		};
 	}
-
-	_getOutcomeHref(entity) {
-		if (!entity) {
-			return null;
-		}
-		const outcomeLink = entity.getLink(hmConsts.Rels.Outcomes.outcome);
-		return outcomeLink ? outcomeLink.href : null;
-	}
-
-	_getActivitiesHref(entity) {
-		if (!entity) {
-			return null;
-		}
-		const activitiesLink = entity.getLink(hmConsts.Rels.UserProgress.outcomeActivities);
-		return activitiesLink ? activitiesLink.href : null;
-	}
-
-	_close() {
-		this.dispatchEvent(new CustomEvent(oupConsts.events.detailsCloseClicked, { composed: true, bubbles: true }));
-	}
-
 }
 
 customElements.define(OutcomeProgressDetails.is, OutcomeProgressDetails);
