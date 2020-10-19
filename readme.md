@@ -17,13 +17,15 @@ To view component demos, run `polymer serve` then navigate to the URL provided i
 
 ## Components
 
-- [Mini Trend](#mini-trend)
-- [Big Trend](#big-trend)
+- [Mini Trend](#mini-trend) *Deprecated*
+- [Big Trend](#big-trend) *Deprecated*
 - [Outcomes List](#outcomes-list)
 - [Outcome Details](#outcome-details)
 - [Outcomes User Progress](#outcomes-user-progress)
 
 ### Mini Trend<a name="mini-trend"></a>
+
+> **DEPRECATED** Use new component from [Outcomes Overall Achievement repo](https://github.com/Brightspace/d2l-outcomes-overall-achievement)
 
 A visual display of the 6 most recent demonstrations of an outcome for a user in a course.
 
@@ -39,6 +41,8 @@ A visual display of the 6 most recent demonstrations of an outcome for a user in
 - `token` - Auth token
 
 ### Big Trend<a name="big-trend"></a>
+
+> **DEPRECATED** Use new component from [Outcomes Overall Achievement repo](https://github.com/Brightspace/d2l-outcomes-overall-achievement)
 
 An interactive display of all demonstrations of an outcome for a user in a course.
 
