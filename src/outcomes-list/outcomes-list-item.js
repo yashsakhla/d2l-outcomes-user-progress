@@ -8,7 +8,7 @@ import 'd2l-typography/d2l-typography-shared-styles.js';
 import OutcomeParserBehaviour from 'd2l-activity-alignments/d2l-outcome-parser-behavior.js';
 import * as hmConsts from 'd2l-hypermedia-constants';
 import { oupConsts } from '../consts';
-import '../mini-trend/mini-trend';
+import 'd2l-outcomes-overall-achievement/src/trend/mini-trend';
 
 export class OutcomesListItem extends mixinBehaviors(
 	[
@@ -100,11 +100,11 @@ export class OutcomesListItem extends mixinBehaviors(
 					</template>
 				</div>
 				<div id="secondary">
-					<d2l-mini-trend
+					<d2l-coa-mini-trend
 						hidden$="[[!_outcomeEntity]]"
 						href="[[_activitiesHref]]"
 						token="[[token]]"
-					></d2l-mini-trend>
+					></d2l-coa-mini-trend>
 				</div>
 			</div>
 		`;

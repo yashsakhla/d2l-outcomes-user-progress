@@ -6,69 +6,6 @@
     "entities": [
         {
             "class": [
-                "level-of-achievment"
-            ],
-            "rel": [
-                "item"
-            ],
-            "properties": {
-                "levelId": "s002abc111",
-                "name": "Level 1",
-                "color": "#ff4000"
-            },
-            "links": [
-                {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "/data/levels/s002abc111.json"
-                }
-            ]
-        },
-        {
-            "class": [
-                "level-of-achievment"
-            ],
-            "rel": [
-                "item"
-            ],
-            "properties": {
-                "levelId": "s002abc222",
-                "name": "Level 2",
-                "color": "#ffcc00"
-            },
-            "links": [
-                {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "/data/levels/s002abc222.json"
-                }
-            ]
-        },
-        {
-            "class": [
-                "level-of-achievment"
-            ],
-            "rel": [
-                "item"
-            ],
-            "properties": {
-                "levelId": "s002abc333",
-                "name": "Level 3",
-                "color": "#88CC55"
-            },
-            "links": [
-                {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "/data/levels/s002abc333.json"
-                }
-            ]
-        },
-        {
-            "class": [
                 "user-progress-outcome-activity"
             ],
             "rel": [
@@ -156,12 +93,6 @@
                                 "self"
                             ],
                             "href": "/data/demonstrations/7.json"
-                        },
-                        {
-                            "rel": [
-                                "https://activities.api.brightspace.com/rels/user-activity-usage"
-                            ],
-                            "href": "http://unused"
                         }
                     ]
                 }
@@ -171,13 +102,7 @@
                     "rel": [
                         "self"
                     ],
-                    "href": "http://unused"
-                },
-                {
-                    "rel": [
-                        "https://activities.api.brightspace.com/rels/user-activity-usage"
-                    ],
-                    "href": "http://unused"
+                    "href": "/data/user-progress-outcomes/2/activities/a1.json"
                 }
             ]
         },
@@ -198,13 +123,7 @@
                     "rel": [
                         "self"
                     ],
-                    "href": "http://unused"
-                },
-                {
-                    "rel": [
-                        "https://activities.api.brightspace.com/rels/user-activity-usage"
-                    ],
-                    "href": "http://unused"
+                    "href": "/data/user-progress-outcomes/2/activities/a2.json"
                 }
             ]
         },
@@ -297,12 +216,6 @@
                                 "self"
                             ],
                             "href": "/data/demonstrations/8.json"
-                        },
-                        {
-                            "rel": [
-                                "https://activities.api.brightspace.com/rels/user-activity-usage"
-                            ],
-                            "href": "http://unused"
                         }
                     ]
                 }
@@ -312,13 +225,7 @@
                     "rel": [
                         "self"
                     ],
-                    "href": "http://unused"
-                },
-                {
-                    "rel": [
-                        "https://activities.api.brightspace.com/rels/user-activity-usage"
-                    ],
-                    "href": "http://unused"
+                    "href": "/data/user-progress-outcomes/2/activities/a3.json"
                 }
             ]
         },
@@ -339,13 +246,7 @@
                     "rel": [
                         "self"
                     ],
-                    "href": "http://unused"
-                },
-                {
-                    "rel": [
-                        "https://activities.api.brightspace.com/rels/user-activity-usage"
-                    ],
-                    "href": "http://unused"
+                    "href": "/data/user-progress-outcomes/2/activities/a4.json"
                 }
             ]
         }
@@ -356,6 +257,12 @@
                 "self"
             ],
             "href": "/data/user-progress-outcomes/2/activities.json"
+        },
+        {
+            "rel": [
+                "default-achievement-scale"
+            ],
+            "href": "/data/loa/scale002.json"
         }
     ]
 }
