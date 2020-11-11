@@ -44,6 +44,7 @@ export class OutcomeProgressDetails extends mixinBehaviors(
 					instructor="[[instructor]]"
 					outcome-term="[[outcomeTerm]]"
 					show-close="true"
+					hide-unpublished-coa="true"
 				></d2l-coa-primary-panel>
 			</div>
 		`;
