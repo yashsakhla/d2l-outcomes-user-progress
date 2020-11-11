@@ -235,6 +235,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 								hidden$="[[!_outcomeEntity]]"
 								href="[[_activitiesHref]]"
 								token="[[token]]"
+								hide-unpublished-coa="true"
 							></d2l-coa-mini-trend>
 						</div>
 						<div id="aria-content-suffix" class="screen-reader">
