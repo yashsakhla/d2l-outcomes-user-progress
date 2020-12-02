@@ -21,7 +21,7 @@
    "nodeAriaTextPosition" : "{count} 的 {position}",
    "notAssessed" : "未評量",
    "numSearchResults" : "{numResults} 筆「{searchTerm}」的搜尋{numResults, plural, =1 {結果} other {結果}}",
-   "outcomesListDescription" : "{outcome, select, competencies {能力} expectations {預期} objectives {目標} outcomes {成果} standards {標準} other {標準}}清單",
+   "outcomesListDescription" : "{outcomes, select, competencies {能力} expectations {預期} objectives {目標} outcomes {成果} standards {標準} other {標準}}清單",
    "outcomesListLoading" : "正在載入",
    "outcomesListLoadingComplete" : "載入完成",
    "searchCleared" : "搜尋結果已清除",

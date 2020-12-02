@@ -13,14 +13,14 @@
    "noEvidence" : "{outcome, select, competencies {Diese Kompetenz} expectations {Diese Erwartung} objectives {Dieses Ziel} outcomes {Dieses Ergebnis} standards {Dieser Standard} other {Dieser Standard}} wurde noch nicht bewertet",
    "noOutcomesInstructor" : "Um mit dem Nachverfolgen des Erreichens von {outcome, select, competencies {Kompetenzen} expectations {Erwartungen} objectives {Zielen} outcomes {Ergebnissen} standards {Standards} other {Standards}} zu beginnen, müssen Sie {outcome, select, competencies {die Kompetenzen} expectations {die Erwartungen} objectives {die Ziele} outcomes {die Ergebnisse} standards {die Standards} other {die Standards}} des Kurses bewerteten Aktivitäten zuweisen.",
    "noOutcomesStudent" : "Es wurden keine {outcome, select, competencies {Kompetenzen} expectations {Erwartungen} objectives {Ziele} outcomes {Ergebnisse} standards {Standards} other {Standards}} bewertet.",
-   "noScaleInstructor" : "Um den Lernfortschritt beim Erreichen dieser {outcome, select, competencies {Kompetenzen} expectations {Erwartungen} objectives {Ziele} outcomes {Ergebnisse} standards {Standards} other {Standards}} anzuzeigen, erstellen Sie eine Erfolgsskala und wählen Sie sie aus.",
+   "noScaleInstructor" : "Um den Lernfortschritt beim Erreichen dieser {result, select, competencies {Kompetenzen} expectations {Erwartungen} objectives {Ziele} outcomes {Ergebnisse} standards {Standards} other {Standards}} anzuzeigen, erstellen Sie eine Erfolgsskala und wählen Sie sie aus.",
    "noScaleStudent" : "Es wurde keine Skala festgelegt, um das Erreichen von {outcome, select, competencies {Kompetenzen} expectations {Erwartungen} objectives {Zielen} outcomes {Ergebnissen} standards {Standards} other {Standards}} zu messen.",
    "noSearchResults" : "Keine Suchergebnisse für „{searchTerm}“",
    "nodeAriaTextGroup" : "Gruppe {state}",
    "nodeAriaTextLevel" : "Ebene {level}",
    "nodeAriaTextPosition" : "{position} von {count}",
    "notAssessed" : "Nicht bewertet",
-   "numSearchResults" : "{numResults} Such{numResults, plural, =1 {ergebnis} other {ergebnisse}} für „{searchTerm}“",
+   "numSearchResults" : "{numResults} Such{numResults, plural, =1 {ergebnis} other {ergebnisse}} für „{searchterm}“",
    "outcomesListDescription" : "Liste von {outcome, select, competencies {Kompetenzen} expectations {Erwartungen} objectives {Ziele} outcomes {Ergebnisse} standards {Standards} other {Standards}}",
    "outcomesListLoading" : "Wird geladen",
    "outcomesListLoadingComplete" : "Ladevorgang abgeschlossen",
@@ -28,5 +28,5 @@
    "searchHint" : "Suchen...",
    "searchLabel" : "Suchen",
    "trend" : "Trend",
-   "untitled" : "Ohne Titel"
+   "untitled" : "ohne Titel"
 }
