@@ -22,11 +22,11 @@
    "notAssessed" : "Değerlendirilmemiş",
    "numSearchResults" : "\"{searchTerm}\" için {numResults} arama {numResults, plural, =1 {sonuç} other {sonuç}}",
    "outcomesListDescription" : "{outcome, select, competencies {Yeterlikler} expectations {Beklentiler} objectives {Hedefler} outcomes {Kazanımlar} standards {Standartlar} other {Standartlar}} Listesi",
-   "outcomesListLoading" : "yükleniyor",
+   "outcomesListLoading" : "Yükleniyor",
    "outcomesListLoadingComplete" : "Yükleme tamamlandı",
    "searchCleared" : "Arama sonuçları temizlendi",
    "searchHint" : "Ara...",
-   "searchLabel" : "Ara",
+   "searchLabel" : "Arama",
    "trend" : "Eğilim",
    "untitled" : "Adsız"
 }

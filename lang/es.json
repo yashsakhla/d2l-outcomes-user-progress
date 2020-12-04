@@ -4,7 +4,7 @@
    "bigTrendAttemptsScreenReaderString" : "{numAttempts, plural, =1 {Intento {attemptNames}} other {Intentos {attemptNames} y {lastAttemptName}}}",
    "bigTrendAttemptsTooltipString" : "{numAttempts, plural, =1 {Intento} other {Intentos}} {attemptNames}",
    "close" : "Cerrar",
-   "evidence" : "Prueba",
+   "evidence" : "Evidencia",
    "headingDate" : "Fecha",
    "headingEvidence" : "Nombre de la prueba",
    "headingLoa" : "Nivel de logro",
