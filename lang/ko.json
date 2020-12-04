@@ -8,7 +8,7 @@
    "headingDate" : "날짜",
    "headingEvidence" : "근거 이름",
    "headingLoa" : "성취 수준",
-   "miniTrendAttemptsTooltipString" : "{numAttempts, plural, =1 {Attempt} 기타 {Attempts}} {attemptNames}",
+   "miniTrendAttemptsTooltipString" : "{numAttempts, plural, =1 {Attempt} other {Attempts}} {attemptNames}",
    "miniTrendScreenReaderText" : "평가됨 {numAssessed} {numAssessed, plural, =1 {time} 기타 {times}}: {levelNames}",
    "noEvidence" : "이 {outcome, select, competencies {역량} expectations {기대} objectives {목표} outcomes {결과} standards {표준} other {표준}} 은(는) 아직 평가되지 않았습니다.",
    "noOutcomesInstructor" : "{outcome, select, competencies {역량} expectations {기대} objectives {목표} outcomes {결과} standards {표준} other {표준}}의 추적 도전과제를 시작하려면, 과정 {outcome, select, competencies {역량} expectations {기대} objectives {목표} outcomes {결과} standards {표준} other {표준}}을(를) 평가된 활동에 정렬합니다.",
