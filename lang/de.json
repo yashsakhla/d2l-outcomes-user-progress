@@ -20,7 +20,7 @@
    "nodeAriaTextLevel" : "Ebene {level}",
    "nodeAriaTextPosition" : "{position} von {count}",
    "notAssessed" : "Nicht bewertet",
-   "numSearchResults" : "{numResults} Such{numResults, plural, =1 {ergebnis} other {ergebnisse}} für „{searchterm}“",
+   "numSearchResults" : "{numResults} Such{numResults, plural, =1 {ergebnis} other {ergebnisse}} für „{searchTerm}“",
    "outcomesListDescription" : "Liste von {outcome, select, competencies {Kompetenzen} expectations {Erwartungen} objectives {Ziele} outcomes {Ergebnisse} standards {Standards} other {Standards}}",
    "outcomesListLoading" : "Wird geladen",
    "outcomesListLoadingComplete" : "Ladevorgang abgeschlossen",
