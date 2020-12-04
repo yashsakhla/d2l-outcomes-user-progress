@@ -2,7 +2,7 @@
    "a11yCollapsed" : "축소됨",
    "a11yExpanded" : "확장됨",
    "bigTrendAttemptsScreenReaderString" : "{numAttempts, plural, =1 {Attempt {attemptNames}} other {Attempts {attemptNames} 및 {lastAttemptName}}}",
-   "bigTrendAttemptsTooltipString" : "{numAttempts, plural, =1 {Attempt {attemptNames}} other {Attempts {attemptNames} 및 {lastAttemptName}}}",
+   "bigTrendAttemptsTooltipString" : "{numAttempts, plural, =1 {Attempt} other {Attempts}} {attemptNames}",
    "close" : "닫기",
    "evidence" : "근거",
    "headingDate" : "날짜",
