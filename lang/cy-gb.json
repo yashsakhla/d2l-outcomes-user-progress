@@ -21,7 +21,7 @@
    "nodeAriaTextPosition" : "{position} o {count}",
    "notAssessed" : "Heb ei asesu",
    "numSearchResults" : "{numResults} {numResults, plural, =1 {canlyniad chwilio} other {o ganlyniadau chwilio}} ar gyfer \"{searchTerm}\"",
-   "outcomesListDescription" : "Rhestr {outcomes, select, competencies {Competencies} expectations {Expectations} objectives {Objectives} outcomes {Outcomes} standards {Standards} other {Standards}}",
+   "outcomesListDescription" : "Rhestr {outcome, select, competencies {Competencies} expectations {Expectations} objectives {Objectives} outcomes {Outcomes} standards {Standards} other {Standards}}",
    "outcomesListLoading" : "Yn llwytho",
    "outcomesListLoadingComplete" : "Llwytho wedi'i gyflawni",
    "searchCleared" : "Canlyniadau chwilio wedi’u clirio",
