@@ -7,15 +7,23 @@ Web components for Outcomes User Progress page.
 ## Prerequisites
 
 - NPM (Installs with [NodeJS](https://nodejs.org))
-- polymer-cli npm package (`npm i -g polymer-cli`)
 
 ## Setup
 
 1. Run `npm i` in project root directory
 
+## Version Bump
+
+1. Run `npm version --no-git-tag-version [major | minor | patch]` in project
+root directory, selecting the appropriate version increase type.
+
+This will bump the version in both `package.json` and `package-lock.json` and
+leave it in your working changes.
+
 ## Component Demos
 
-To view component demos, run `polymer serve` then navigate to the URL provided in console output. The root demo page will contain links to the individual component demos.
+To view component demos, run `npm start`. A page should be launched with links
+to specific component demos.
 
 ## Components
 
