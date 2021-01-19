@@ -1,5 +1,7 @@
 # d2l-outcomes-user-progress
 
+[![CI][CI Badge]][CI Workflows]
+
 Web components for Outcomes User Progress page.
 
 ## Prerequisites
@@ -101,3 +103,7 @@ A wrapper component which combines the `d2l-outcomes-list` with the `d2l-outcome
 - `token` - Auth token
 - `outcomeTerm` - **[Optional]** The preferred term to use when referring to outcomes. Accepted values are: `competencies`, `expectations`, `objectives`, `outcomes` and `standards`. Default value is `standards`
 - `instructor` - **[Optional]** Boolean attribute should be set when requesting user is an instructor. Used to display language better suited to the user's role.
+
+<!-- links -->
+[CI Badge]: https://github.com/Brightspace/d2l-outcomes-user-progress/workflows/CI/badge.svg?branch=master
+[CI Workflows]: https://github.com/Brightspace/d2l-outcomes-user-progress/actions?query=workflow%3ACI+branch%3Amaster

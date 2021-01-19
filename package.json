@@ -6,8 +6,7 @@
   "scripts": {
     "lang:build": "lang-build -ec langtools/config.json",
     "lang:copy": "lang-copy -svc langtools/config.json",
-    "lint": "eslint src build/lang",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint:eslint": "eslint . --ext .js,.html"
   },
   "author": "D2L Corporation",
   "license": "Apache-2.0",
