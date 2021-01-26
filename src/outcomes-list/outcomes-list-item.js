@@ -101,7 +101,6 @@ export class OutcomesListItem extends mixinBehaviors(
 				</div>
 				<div id="secondary">
 					<d2l-coa-mini-trend
-						hidden$="[[!_outcomeEntity]]"
 						href="[[_activitiesHref]]"
 						token="[[token]]"
 						hide-unpublished-coa="true"
