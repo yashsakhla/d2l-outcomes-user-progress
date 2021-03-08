@@ -5,7 +5,11 @@
   "scripts": {
     "lang:build": "lang-build -es \"\t\" -c langtools/config.json",
     "lang:copy": "lang-copy -svc langtools/config.json",
+    "license-check": "d2l-license-checker",
+    "lint": "npm run lint:eslint",
     "lint:eslint": "eslint . --ext .js,.html",
+    "format": "npm run -s format:eslint",
+    "format:eslint": "npm run lint:eslint -- --fix",
     "start": "es-dev-server --app-index demo/index.html --node-resolve --dedupe --watch --open"
   },
   "author": "D2L Corporation",
@@ -32,6 +36,7 @@
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.10",
     "babel-eslint": "^10.0.1",
+    "d2l-license-checker": "^3.2.0",
     "d2l-polymer-langtools": "^1.2.1",
     "es-dev-server": "^2.0.2",
     "eslint": "^5.16.0",
