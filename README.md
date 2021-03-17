@@ -27,47 +27,9 @@ to specific component demos.
 
 ## Components
 
-- [Mini Trend](#mini-trend) *Deprecated*
-- [Big Trend](#big-trend) *Deprecated*
 - [Outcomes List](#outcomes-list)
 - [Outcome Details](#outcome-details)
 - [Outcomes User Progress](#outcomes-user-progress)
-
-### Mini Trend<a name="mini-trend"></a>
-
-> **DEPRECATED** Use new component from [Outcomes Overall Achievement repo](https://github.com/Brightspace/d2l-outcomes-overall-achievement)
-
-A visual display of the 6 most recent demonstrations of an outcome for a user in a course.
-
-#### Usage
-
-```html
-<d2l-mini-trend href="" token=""></d2l-mini-trend>
-```
-
-#### Attributes
-
-- `href` - Hypermedia URL for trend activity data; of the form `{tenant}.user-progress.api.{domain}/org-unit/{orgUnitId}/user/{userId}/outcomes/{outcomeId}/activities`
-- `token` - Auth token
-
-### Big Trend<a name="big-trend"></a>
-
-> **DEPRECATED** Use new component from [Outcomes Overall Achievement repo](https://github.com/Brightspace/d2l-outcomes-overall-achievement)
-
-An interactive display of all demonstrations of an outcome for a user in a course.
-
-#### Usage
-
-```html
-<d2l-big-trend href="" token="" outcomeTerm="" instructor></d2l-big-trend>
-```
-
-#### Attributes
-
-- `href` - Hypermedia URL for trend activity data; of the form `{tenant}.user-progress.api.{domain}/org-unit/{orgUnitId}/user/{userId}/outcomes/{outcomeId}/activities`
-- `token` - Auth token
-- `outcomeTerm` - **[Optional]** The preferred term to use when referring to outcomes. Accepted values are: `competencies`, `expectations`, `objectives`, `outcomes` and `standards`. Default value is `standards`
-- `instructor` - **[Optional]** Boolean attribute should be set when requesting user is an instructor. Used to display language better suited to the user's role.
 
 ### Outcomes List<a name="outcomes-list"></a>
 
