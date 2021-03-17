@@ -1,37 +1,60 @@
-import '@polymer/polymer/polymer-legacy.js';
-import '@polymer/iron-collapse/iron-collapse.js';
-import { PolymerElement, html } from '@polymer/polymer';
-import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
-import 'd2l-polymer-siren-behaviors/store/entity-behavior';
-import 'siren-entity/siren-entity.js';
+import { LitElement, html, css } from 'lit-element';
+import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit';
+import { LocalizeMixin } from '../LocalizeMixin';
+import { oupConsts } from '../consts';
+import { UserProgressOutcomeTreeNodeEntity } from '../entities/UserProgressOutcomeTreeNodeEntity';
+import { bodySmallStyles, bodyStandardStyles, heading2Styles, heading3Styles } from '@brightspace-ui/core/components/typography/styles';
 import '@brightspace-ui/core/components/button/button-icon';
 import '@brightspace-ui/core/components/colors/colors';
-import 'd2l-typography/d2l-typography.js';
-import 'd2l-typography/d2l-typography-shared-styles.js';
-import OutcomeParserBehaviour from 'd2l-activity-alignments/d2l-outcome-parser-behavior.js';
-import * as hmConsts from 'd2l-hypermedia-constants';
-import { oupConsts } from '../consts';
 import 'd2l-outcomes-overall-achievement/src/trend/mini-trend';
+import '@polymer/iron-collapse/iron-collapse.js';
 import './partial-bold';
-import '../localize-behavior';
 
 function escapeRegex(unsafeText) {
 	return unsafeText.replace(/[|\\{}()[\]^$+*?.-]/g, '\\$&');
 }
 
-export class OutcomesTreeNode extends mixinBehaviors(
-	[
-		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior,
-		D2L.PolymerBehaviors.Siren.EntityBehavior,
-		OutcomeParserBehaviour
-	],
-	PolymerElement
-) {
+function getBoldRegex(searchTerm) {
+	const terms = searchTerm.trim().split(' ').map(escapeRegex);
+
+	if (!terms || !terms.length) {
+		return '';
+	}
+
+	return `(${terms.join('|')})`;
+}
+
+export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) {
+
 	static get is() { return 'd2l-outcomes-tree-node'; }
 
-	static get template() {
-		const template = html`
-			<style include="d2l-typography">
+	static get properties() {
+		return {
+			ariaLevel: { attribute: 'aria-level', type: Number },
+			ariaPosinset: { attribute: 'aria-posinset', type: Number },
+			ariaSetsize: { attribute: 'aria-setsize', type: Number },
+			hasParent: { attribute: 'has-parent', type: Boolean },
+			searchTerm: { attribute: 'search-term', type: String },
+			_a11yHasFocus: { attribute: false },
+			_activitiesHref: { attribute: false },
+			_boldRegex: { attribute: false },
+			_children: { attribute: false },
+			_childFilterMap: { attribute: false },
+			_collapsed: { attribute: false },
+			_isLeafNode: { attribute: false },
+			_loadedChildren: { attribute: false },
+			_outcomeEntity: { attribute: false },
+			_outcomeEntityLoaded: { attribute: false },
+		};
+	}
+
+	static get styles() {
+		return [
+			bodySmallStyles,
+			bodyStandardStyles,
+			heading2Styles,
+			heading3Styles,
+			css`
 				:host {
 					outline: none;
 				}
@@ -103,17 +126,12 @@ export class OutcomesTreeNode extends mixinBehaviors(
 					justify-content: center;
 				}
 
-				#primary .main-text {
-					@apply --d2l-body-text;
-				}
-
 				#primary .main-text h2,
 				#primary .main-text h3 {
 					margin: 0px;
 				}
 
 				#primary .sub-text {
-					@apply --d2l-body-small-text;
 					margin-top: 6px;
 					width: 100%;
 				}
@@ -164,214 +182,33 @@ export class OutcomesTreeNode extends mixinBehaviors(
 				}
 
 				.screen-reader {
-                    height: 1px;
-                    left: -99999px;
-                    overflow: hidden;
-                    position: absolute;
-                    width: 1px;
-                }
-			</style>
-			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
-			<div 
-				id="container"
-				hidden$="[[_isFiltered]]"
-				role="treeitem"
-				aria-busy$="[[!_outcomeEntity]]"
-				aria-expanded$="[[_getAriaExpanded(_collapsed)]]"
-				aria-selected$="[[_a11yHasFocus]]"
-			>
-				<div id="node-data" class$="[[_getNodeClass(_isLeafNode)]]" tabindex="-1" aria-labelledby="content">
-					<template is="dom-if" if="[[!_isLeafNode]]">
-						<div id="button-icon" class$="[[_getButtonClass(hasParent)]]">
-							<d2l-button-icon
-								class="button-toggle-collapse"
-								icon="[[_getCollapseIcon(_collapsed)]]"
-								on-mousedown="_onButtonMousedown"
-								on-click="_onItemClicked"
-								tabindex="-1"
-							></d2l-button-icon>
-						</div>
-					</template>
-					<div id="content" on-click="_onItemClicked">
-						<div id="aria-content-prefix" class="screen-reader">
-							[[_getNodeAriaTextPrefix(ariaLevel, _outcomeEntity, _collapsed, _isLeafNode)]]
-						</div>
-						<div id="primary">
-							<template is="dom-if" if="[[_outcomeEntity]]">
-								<div class="main-text">
-									<template is="dom-if" if="[[!_isLeafNode]]">
-										<template is="dom-if" if="[[!hasParent]]">
-											<h2 class="d2l-heading-2">[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h2>
-										</template>
-										<template is="dom-if" if="[[hasParent]]">
-											<h3 class="d2l-heading-3">[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</h3>
-										</template>
-									</template>
-									<template is="dom-if" if="[[_isLeafNode]]">
-										<partial-bold content="[[getOutcomeDescriptionPlainText(_outcomeEntity)]]" bold-regex="[[_boldRegex]]"></partial-bold>
-									</template>
-								</div>
-								<div class="sub-text">
-									<template is="dom-if" if="[[_isLeafNode]]">
-										<partial-bold content="[[getOutcomeIdentifier(_outcomeEntity)]]" bold-regex="[[_boldRegex]]"></partial-bold>
-									</template>
-									<template is="dom-if" if="[[!_isLeafNode]]">
-										[[getOutcomeIdentifier(_outcomeEntity)]]
-									</template>
-								</div>
-							</template>
-							<template is="dom-if" if="[[!_outcomeEntity]]">
-								<div class="main-text">
-									<div class="skeleton"></div>
-									<div class="skeleton"></div>
-								</div>
-								<div class="sub-text">
-									<div class="skeleton"></div>
-								</div>
-							</template>
-						</div>
-						<div id="secondary" hidden$="[[!_activitiesHref]]">
-							<d2l-coa-mini-trend
-								href="[[_activitiesHref]]"
-								token="[[token]]"
-								hide-unpublished-coa="true"
-							></d2l-coa-mini-trend>
-						</div>
-						<div id="aria-content-suffix" class="screen-reader">
-							[[_getNodeAriaTextSuffix(ariaPosinset, ariaSetsize)]]
-						</div>
-					</div>
-				</div>
-				<template is="dom-if" if="[[!_isLeafNode]]">
-					<div id="children" role="group">
-						<iron-collapse opened$=[[!_collapsed]] id="children-collapse">
-							<template is="dom-repeat" items="[[_children]]">
-								<d2l-outcomes-tree-node
-									href="[[_getSelfHref(item)]]"
-									token="[[token]]"
-									has-parent=""
-									role="treeitem"
-									tabindex="-1"
-									on-load="_onChildLoaded"
-									aria-level$="[[_increment(ariaLevel)]]"
-									aria-posinset$="[[_increment(index)]]"
-									aria-setsize$="[[_getCount(_children)]]"
-									search-term="[[searchTerm]]"
-									parent-filter-map="{{_childFilterMap}}"
-									visibility-mapping="{{visibilityMapping}}"
-								></d2l-outcomes-tree-node>
-							</template>
-						</iron-collapse>
-					</div>
-				</template>
-			</div>
-		`;
-		template.setAttribute('strip-whitespace', true);
-		return template;
-	}
-
-	static get properties() {
-		return {
-			_a11yHasFocus: {
-				type: Boolean,
-				value: false
-			},
-			_activitiesHref: {
-				type: String,
-				computed: '_getActivitiesHref(entity)'
-			},
-			ariaLevel: {
-				type: Number
-			},
-			ariaPosinset: {
-				type: Number
-			},
-			ariaSetsize: {
-				type: Number
-			},
-			_boldRegex: {
-				computed: '_getBoldRegex(searchTerm)'
-			},
-			_children: {
-				type: Array,
-				computed: '_getChildren(entity)'
-			},
-			_childFilterMap: {
-				type: Object
-			},
-			_collapsed: {
-				type: Boolean,
-				value: false
-			},
-			_isFiltered: {
-				computed: '_filterNode(_outcomeEntity, searchTerm, _children, _childFilterMap)'
-			},
-			_isLeafNode: {
-				computed: '_getIsLeafNode(_children)'
-			},
-			hasParent: {
-				type: Boolean,
-				value: false
-			},
-			_loadedChildren: {
-				type: Number,
-				value: 0
-			},
-			_outcomeEntity: {
-				type: Object,
-				value: null
-			},
-			_outcomeEntityLoaded: {
-				type: Object,
-				value: false
-			},
-			_outcomeHref: {
-				type: String,
-				computed: '_getOutcomeHref(entity)'
-			},
-			parentFilterMap: {
-				type: Object,
-				notify: true
-			},
-			_programmaticFocus: {
-				// Hacky way to prevent focusing from click events (click triggered after focus)
-				type: Boolean,
-				value: false
-			},
-			searchTerm: {
-				type: String,
-				value: ''
-			},
-			_selfHref: {
-				type: String,
-				computed: '_getSelfHref(entity)'
-			},
-			visibilityMapping: {
-				type: Object,
-				notify: true
-			}
-		};
-	}
-
-	static get observers() {
-		return [
-			'_onEntityChanged(entity)',
-			'_reportFilterStatus(_outcomeEntity, _selfHref, _isFiltered, _isLeafNode, parentFilterMap, visibilityMapping)',
-			'_onOutcomeEntityChanged(_outcomeEntity)'
+					height: 1px;
+					left: -99999px;
+					overflow: hidden;
+					position: absolute;
+					width: 1px;
+				}
+			`
 		];
 	}
 
-	ready() {
-		super.ready();
+	constructor() {
+		super();
 
+		this._setEntityType(UserProgressOutcomeTreeNodeEntity);
+		this.hasParent = false;
+		this.searchTerm = '';
+		this._activitiesHref = '';
+		this._a11yHasFocus = false;
 		this._childFilterMap = {};
+		this._children = [];
+		this._collapsed = false;
+		this._loadedChildren = 0;
+		this._outcomeEntity = null;
+		this._outcomeEntityLoaded = false;
 
-		// Prepare function ref so it can be bound/unbound
-		this._onKeyPress = this._onKeyPress.bind(this);
-
-		const nodeData = this.$$('#node-data');
-		nodeData.addEventListener('focus', this._onFocus.bind(this));
-		nodeData.addEventListener('blur', this._onBlur.bind(this));
+		// Hacky way to prevent focusing from click events (click triggered after focus)
+		this._programmaticFocus = false;
 
 		this.addEventListener('focus-parent', (e) => {
 			// Ignore element's own events
@@ -400,15 +237,155 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		this.addEventListener('focus', () => {
 			this.focusSelf();
 		});
-		this.addEventListener('blur', () => nodeData.blur());
+		this.addEventListener('blur', () => this._nodeDataElement.blur());
 	}
 
-	_onOutcomeEntityChanged(outcomeEntity) {
-		if (outcomeEntity && !this._outcomeEntityLoaded) {
-			this._outcomeEntityLoaded = true;
-			if (this._isLeafNode || (!this._isLeafNode && this._loadedChildren === this._children.length)) {
-				this.dispatchEvent(new CustomEvent('load'));
-			}
+	render() {
+		const boldRegex = getBoldRegex(this.searchTerm);
+
+		const nodeClasses = [];
+		if (this._isLeafNode) {
+			nodeClasses.push('leaf-node');
+		}
+
+		const isFiltered = this._filterNode();
+		const collapsed = this._collapsed && !isFiltered;
+
+		this._reportFilterStatus(isFiltered);
+
+		return html`
+			<div 
+				id="container"
+				?hidden=${isFiltered}
+				role="treeitem"
+				aria-busy=${!this._outcomeEntity}
+				aria-expanded=${!collapsed}
+				aria-selected=${this._a11yHasFocus}
+			>
+				<div
+					id="node-data"
+					class=${nodeClasses.join(' ') || null}
+					tabindex="-1"
+					aria-labelledby="content"
+					@focus=${this._onFocus}
+					@blur=${this._onBlur}
+				>
+					${!this._isLeafNode ? html`
+						<div id="button-icon" class=${!this.hasParent ? 'button-icon-h2' : 'button-icon-h3'}>
+							<d2l-button-icon
+								class="button-toggle-collapse"
+								icon="d2l-tier1:arrow-${collapsed ? 'expand' : 'collapse'}"
+								@mousedown=${this._onButtonMousedown}
+								@click=${this._onItemClicked}
+								tabindex="-1"
+							></d2l-button-icon>
+						</div>
+					` : null}
+					<div id="content" @click=${this._onItemClicked}>
+						<div id="aria-content-prefix" class="screen-reader">
+							${this._getNodeAriaTextPrefix(this.ariaLevel, this._outcomeEntity, collapsed, this._isLeafNode)}
+						</div>
+						<div id="primary">
+							${this._outcomeEntity ? html`
+								<div class="main-text d2l-body-standard">
+									${this._isLeafNode ? html`
+										<partial-bold content=${this._outcomeEntity.getDescription()} bold-regex=${boldRegex}></partial-bold>
+									` : html`
+										${this.hasParent ? html`
+											<h3 class="d2l-heading-3">${this._outcomeEntity.getDescription()}</h3>
+										` : html`
+											<h2 class="d2l-heading-2">${this._outcomeEntity.getDescription()}</h2>
+										`}
+									`}
+								</div>
+								<div class="sub-text d2l-body-small">
+									${this._isLeafNode ? html`
+										<partial-bold content=${this._outcomeEntity.getIdentifier()} bold-regex=${boldRegex}></partial-bold>
+									` : html`
+										${this._outcomeEntity.getIdentifier()}
+									`}
+								</div>
+							` : html`
+								<div class="main-text">
+									<div class="skeleton"></div>
+									<div class="skeleton"></div>
+								</div>
+								<div class="sub-text">
+									<div class="skeleton"></div>
+								</div>
+							`}
+						</div>
+						<div id="secondary" ?hidden=${!this._activitiesHref}>
+							<d2l-coa-mini-trend
+								href=${this._activitiesHref}
+								token=${this.token}
+								hide-unpublished-coa
+							></d2l-coa-mini-trend>
+						</div>
+						<div id="aria-content-suffix" class="screen-reader">
+							${this._getNodeAriaTextSuffix(this.ariaPosinset, this.ariaSetsize)}
+						</div>
+					</div>
+				</div>
+				${!this._isLeafNode ? html`
+					<div id="children" role="group">
+						<iron-collapse ?opened=${!collapsed} id="children-collapse">
+							${this._children.map((child, index) => html`
+								<d2l-outcomes-tree-node
+									href=${child.self()}
+									token=${this.token}
+									has-parent
+									role="treeitem"
+									tabindex="-1"
+									@load=${this._onChildLoaded}
+									aria-level=${this.ariaLevel + 1}
+									aria-posinset=${index + 1}
+									aria-setsize=${this._children.length || null}
+									search-term=${this.searchTerm}
+									@update-filter-status=${this._onChildFilterStatusChanged}
+								></d2l-outcomes-tree-node>
+							`)}
+						</iron-collapse>
+					</div>
+				` : null}
+			</div>
+		`;
+	}
+
+	get _nodeDataElement() {
+		return this.renderRoot.querySelector('#node-data');
+	}
+
+	set _entity(entity) {
+		if (this._entityHasChanged(entity)) {
+			this._onEntityChanged(entity);
+			super._entity = entity;
+		}
+	}
+
+	_onEntityChanged(entity) {
+		if (entity) {
+			this._outcomeEntityLoaded = false;
+
+			const activitiesHref = entity.getOutcomeActivitiesHref();
+
+			const children = [];
+			entity.onChildNodeChanged(children.push.bind(children));
+
+			let outcomeEntity = null;
+			entity.onOutcomeChanged(outcome => outcomeEntity = outcome);
+
+			entity.subEntitiesLoaded().then(() => {
+				this._activitiesHref = activitiesHref;
+				this._children = children.sort((l, r) => l.index - r.index);
+				this._isLeafNode = !this._children.length;
+				this._outcomeEntity = outcomeEntity;
+
+				this._outcomeEntityLoaded = true;
+				if (this._isLeafNode || this._loadedChildren === this._children.length) {
+					this.dispatchEvent(new CustomEvent('load'));
+				}
+			});
 		}
 	}
 
@@ -417,32 +394,37 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		e.stopPropagation();
 	}
 
-	_filterNode(outcomeEntity, searchTerm, children, childFilterMap) {
-		if (!outcomeEntity) {
+	_filterNode() {
+		if (this.searchTerm !== this._prevSearchTerm) {
+			this._childFilterMap = {};
+		}
+		this._prevSearchTerm = this.searchTerm;
+
+		if (!this._outcomeEntity) {
 			// Not finished loading, don't filter
 			return false;
 		}
 
-		if (searchTerm && searchTerm !== '') {
-			if (this._getIsLeafNode(children)) {
+		if (this.searchTerm && this.searchTerm !== '') {
+			if (this._isLeafNode) {
 				// Search outcome content if leaf node
-				const searchFound = this._matchesSearch(outcomeEntity, searchTerm);
+				const searchFound = this._matchesSearch(this._outcomeEntity, this.searchTerm);
+				this._reportSearchStatus(true, searchFound);
 				return !searchFound;
 			} else {
 				// Array of statuses reported by children
-				const childrenStatus = childFilterMap ? Object.values(childFilterMap) : [];
+				const childrenStatus = this._childFilterMap ? Object.values(this._childFilterMap) : [];
 
-				if (childrenStatus.length !== children.length) {
+				if (childrenStatus.length !== this._children.length) {
 					// Not all children have reported filter status yet
+					this._reportSearchStatus(false);
 					return false;
 				}
 
 				const childIsVisible = childrenStatus.some(x => !x);
-				this.debounce(`${this.href}-search-collapse`, () => {
-					if (!this._isFiltered) this._collapsed = false;
-				}, 10);
 
 				// Show if at least one child is visible
+				this._reportSearchStatus(true, childIsVisible);
 				return !childIsVisible;
 			}
 		}
@@ -477,7 +459,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	_focusNext() {
 		const eventData = {
 			origin: this,
-			outcomeId: this._selfHref
+			outcomeId: this.href
 		};
 
 		this.dispatchEvent(new CustomEvent('focus-next-child', { bubbles: true, composed: true, detail: eventData }));
@@ -489,7 +471,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			let nextHref = null;
 
 			for (let i = index + 1; i < this._children.length; i++) {
-				const href = this._getSelfHref(this._children[i]);
+				const href = this._children[i].self();
 				if (this._childFilterMap[href] === false) {
 					nextHref = href;
 					break;
@@ -497,7 +479,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			}
 
 			if (nextHref !== null) {
-				const node = this.root.querySelector(`d2l-outcomes-tree-node[href="${nextHref}"]`);
+				const node = this.renderRoot.querySelector(`d2l-outcomes-tree-node[href="${nextHref}"]`);
 				if (node) {
 					node.focusSelf();
 				}
@@ -528,7 +510,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	_focusPrev() {
 		const eventData = {
 			origin: this,
-			outcomeId: this._selfHref
+			outcomeId: this.href
 		};
 
 		this.dispatchEvent(new CustomEvent('focus-prev-child', { bubbles: true, composed: true, detail: eventData }));
@@ -540,7 +522,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			let prevHref = null;
 
 			for (let i = index - 1; i >= 0; i--) {
-				const href = this._getSelfHref(this._children[i]);
+				const href = this._children[i].self();
 				if (this._childFilterMap[href] === false) {
 					prevHref = href;
 					break;
@@ -548,7 +530,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			}
 
 			if (prevHref !== null) {
-				const node = this.root.querySelector(`d2l-outcomes-tree-node[href="${prevHref}"]`);
+				const node = this.renderRoot.querySelector(`d2l-outcomes-tree-node[href="${prevHref}"]`);
 				if (node) {
 					node.focusLastVisible();
 				}
@@ -559,59 +541,10 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	}
 
 	focusSelf() {
-		const nodeData = this.$$('#node-data');
-		if (nodeData) {
+		if (this._nodeDataElement) {
 			this._programmaticFocus = true;
-			nodeData.focus();
+			this._nodeDataElement.focus();
 		}
-	}
-
-	_getActivitiesHref(entity) {
-		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode)) {
-			const activitiesLink = entity.getLinkByRel(hmConsts.Rels.UserProgress.outcomeActivities);
-			if (activitiesLink) {
-				return activitiesLink.href;
-			}
-		}
-		return null;
-	}
-
-	_getAriaExpanded(collapsed) {
-		return collapsed ? 'false' : 'true';
-	}
-
-	_getBoldRegex(searchTerm) {
-		const terms = searchTerm.trim().split(' ').map(escapeRegex);
-
-		if (!terms || !terms.length) {
-			return '';
-		}
-
-		return `(${terms.join('|')})`;
-	}
-
-	_getButtonClass(hasParent) {
-		return !hasParent ? 'button-icon-h2' : 'button-icon-h3';
-	}
-
-	_getChildren(entity) {
-		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode)) {
-			const subEntities = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode);
-			if (subEntities && subEntities.length) {
-				return subEntities;
-			}
-			return [];
-		}
-
-		return null;
-	}
-
-	_getCollapseIcon(collapsed) {
-		return `d2l-tier1:arrow-${collapsed ? 'expand' : 'collapse'}`;
-	}
-
-	_getCount(arr) {
-		return arr.length;
 	}
 
 	_getNodeAriaTextPrefix(ariaLevel, outcome, collapsed, isLeafNode) {
@@ -637,23 +570,11 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		);
 	}
 
-	_getNodeClass(isLeafNode) {
-		const classes = [];
-
-		classes.push('d2l-typography');
-
-		if (isLeafNode) {
-			classes.push('leaf-node');
-		}
-
-		return classes.join(' ');
-	}
-
 	_getFirstChildNode() {
 		let firstHref = null;
 
 		for (let i = 0; i < this._children.length; i++) {
-			const href = this._getSelfHref(this._children[i]);
+			const href = this._children[i].self();
 			if (this._childFilterMap[href] === false) {
 				firstHref = href;
 				break;
@@ -664,21 +585,17 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			return null;
 		}
 
-		const child = this.root.querySelector(`d2l-outcomes-tree-node[href="${firstHref}"]`);
+		const child = this.renderRoot.querySelector(`d2l-outcomes-tree-node[href="${firstHref}"]`);
 		if (child) {
 			return child;
 		}
-	}
-
-	_getIsLeafNode(children) {
-		return !children || children.length === 0;
 	}
 
 	_getLastChildNode() {
 		let lastHref = null;
 
 		for (let i = this._children.length - 1; i >= 0; i--) {
-			const href = this._getSelfHref(this._children[i]);
+			const href = this._children[i].self();
 			if (this._childFilterMap[href] === false) {
 				lastHref = href;
 				break;
@@ -689,7 +606,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			return null;
 		}
 
-		const child = this.root.querySelector(`d2l-outcomes-tree-node[href="${lastHref}"]`);
+		const child = this.renderRoot.querySelector(`d2l-outcomes-tree-node[href="${lastHref}"]`);
 		if (child) {
 			return child;
 		}
@@ -699,32 +616,14 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		return `${this.getOutcomeDescriptionPlainText(outcome)} ${this.getOutcomeIdentifier(outcome)}`;
 	}
 
-	_getOutcomeHref(entity) {
-		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode)) {
-			return entity.getLinkByRel(hmConsts.Rels.Outcomes.outcome).href;
-		}
-		return null;
-	}
-
 	_getOutcomeIndex(outcomeHref, children) {
 		for (let i = 0; i < children.length; i++) {
-			if (this._getSelfHref(children[i]) === outcomeHref) {
+			if (children[i].self() === outcomeHref) {
 				return i;
 			}
 		}
 
 		return -1;
-	}
-
-	_getSelfHref(entity) {
-		if (entity) {
-			return entity.getLinkByRel('self').href;
-		}
-		return null;
-	}
-
-	_increment(num) {
-		return num + 1;
 	}
 
 	_matchesSearch(outcomeEntity, searchTerm) {
@@ -734,8 +633,8 @@ export class OutcomesTreeNode extends mixinBehaviors(
 		// Array of unique outcome words
 		const searchableTerms = [
 			...new Set([
-				...this.getOutcomeDescriptionPlainText(outcomeEntity).toLowerCase().split(' '),
-				...this.getOutcomeIdentifier(outcomeEntity).toLowerCase().split(' ')
+				...outcomeEntity.getDescription().toLowerCase().split(' '),
+				...outcomeEntity.getIdentifier().toLowerCase().split(' ')
 			])
 		];
 
@@ -743,6 +642,15 @@ export class OutcomesTreeNode extends mixinBehaviors(
 			return searchableTerms.some(outcomeTerm => outcomeTerm.indexOf(searchTerm) >= 0);
 		});
 		return termFound;
+	}
+
+	_onChildFilterStatusChanged(e) {
+		this._consumeEvent(e);
+		if (e.detail && e.detail.href) {
+			const newMap = Object.assign({}, this._childFilterMap);
+			newMap[e.detail.href] = e.detail.isFiltered;
+			this._childFilterMap = newMap;
+		}
 	}
 
 	_onItemClicked(e) {
@@ -779,19 +687,17 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	_onButtonMousedown(e) {
 		this._consumeEvent(e);
 		this._programmaticFocus = false;
-		const nodeData = this.$$('#node-data');
-		nodeData.focus();
+		this._nodeDataElement.focus();
 	}
 
 	_onFocus(e) {
 		this._consumeEvent(e);
 		if (this._programmaticFocus) {
 			this._a11yHasFocus = true;
-			this.addEventListener('keydown', this._onKeyPress);
+			this.addEventListener('keydown', this._onKeyPress.bind(this));
 			this.dispatchEvent(new CustomEvent('node-focused', { bubbles: true, composed: true, detail: { node: this } }));
 		} else {
-			const nodeData = this.$$('#node-data');
-			nodeData.blur();
+			this._nodeDataElement.blur();
 		}
 
 		this._programmaticFocus = false;
@@ -800,33 +706,36 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	_onBlur(e) {
 		this._a11yHasFocus = false;
 		this._consumeEvent(e);
-		this.removeEventListener('keydown', this._onKeyPress);
+		this.removeEventListener('keydown', this._onKeyPress.bind(this));
 	}
 
-	_reportFilterStatus(outcomeEntity, selfHref, isFiltered, isLeafNode, parentFilterMap, visibilityMapping) {
-		if (!outcomeEntity) {
+	_reportFilterStatus(isFiltered) {
+		if (!this._outcomeEntity) {
 			// Not finished loading, filter status and href can't be known
 			return;
 		}
 
-		// Update parent's mapping of { child-href: filter-status }
-		const status = isFiltered;
+		this.dispatchEvent(new CustomEvent('update-filter-status', {
+			bubbles: true,
+			composed: true,
+			detail: {
+				href: this.href,
+				isFiltered
+			}
+		}));
+	}
 
-		if (parentFilterMap && parentFilterMap[selfHref] !== status) {
-			parentFilterMap[selfHref] = status;
-
-			this.set('parentFilterMap', null);
-			this.set('parentFilterMap', parentFilterMap);
-		}
-
-		if (
-			visibilityMapping
-			&& isLeafNode
-			&& (visibilityMapping[selfHref] === undefined || visibilityMapping[selfHref] === status)
-		) {
-			visibilityMapping[selfHref] = !status;
-			this.fire('search-results-updated');
-		}
+	_reportSearchStatus(complete, isVisible) {
+		this.dispatchEvent(new CustomEvent('search-status-updated', {
+			bubbles: true,
+			composed: true,
+			detail: {
+				complete,
+				href: this.href,
+				isLeaf: this._isLeafNode,
+				visible: isVisible
+			}
+		}));
 	}
 
 	_toggleCollapse() {
@@ -844,7 +753,7 @@ export class OutcomesTreeNode extends mixinBehaviors(
 	_triggerNodeAction() {
 		if (this._outcomeEntity) {
 			if (this._isLeafNode) {
-				this._fireOutcomeActionEvent(this._selfHref);
+				this._fireOutcomeActionEvent(this.href);
 			} else {
 				this._toggleCollapse();
 			}

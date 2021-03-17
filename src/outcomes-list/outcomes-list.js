@@ -1,18 +1,14 @@
-import '@polymer/polymer/polymer-legacy.js';
-import { PolymerElement, html } from '@polymer/polymer';
-import { afterNextRender } from '@polymer/polymer/lib/utils/render-status';
-import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
+import { LitElement, html, css } from 'lit-element';
+import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit';
+import { LocalizeMixin } from '../LocalizeMixin';
+import { UserProgressOutcomeCollectionEntity } from '../entities/UserProgressOutcomeCollectionEntity';
 import { IronA11yAnnouncer } from '@polymer/iron-a11y-announcer/iron-a11y-announcer.js';
+import '@brightspace-ui/core/components/colors/colors';
 import '@brightspace-ui/core/components/inputs/input-search';
 import '@brightspace-ui/core/components/offscreen/offscreen.js';
-import 'd2l-colors/d2l-colors.js';
-import 'd2l-polymer-siren-behaviors/store/entity-behavior';
-import 'd2l-typography/d2l-typography.js';
-import * as hmConsts from 'd2l-hypermedia-constants';
 import './outcomes-tree-node';
 import './outcomes-list-item';
 import './partial-bold';
-import '../localize-behavior';
 
 const DEFAULT_SKELETON_COUNT = 10;
 
@@ -20,18 +16,30 @@ function escapeRegex(unsafeText) {
 	return unsafeText.replace(/[|\\{}()[\]^$+*?.-]/g, '\\$&');
 }
 
-export class OutcomesList extends mixinBehaviors(
-	[
-		D2L.PolymerBehaviors.Siren.EntityBehavior,
-		D2L.PolymerBehaviors.OutcomesUserProgress.LocalizeBehavior
-	],
-	PolymerElement
-) {
+export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
+
 	static get is() { return 'd2l-outcomes-list'; }
 
-	static get template() {
-		const template = html`
-			<style include="d2l-typography">
+	static get properties() {
+		return {
+			instructor: { type: Boolean },
+			outcomeTerm: { attribute: 'outcome-term', type: String },
+			tabIndex: { attribute: 'tab-index', type: Number },
+			_focusedNode: { attribute: false },
+			_isHierarchy: { attribute: false },
+			_isList: { attribute: false },
+			_isLoaded: { attribute: false },
+			_loadedChildren: { attribute: false },
+			_outcomes: { attribute: false },
+			_searchMatches: { attribute: false },
+			_searchPerformed: { attribute: false },
+			_searchTerm: { attribute: false }
+		};
+	}
+
+	static get styles() {
+		return [
+			css`
 				#container {
 					outline: none;
 				}
@@ -60,163 +68,28 @@ export class OutcomesList extends mixinBehaviors(
 				#search-results {
 					margin-top: 16px;
 				}
-			</style>
-			<template is="dom-if" if="[[_isHierarchy]]">
-				<div id="search-container" aria-live="off">
-					<d2l-input-search
-						id="hierarchy-search"
-						label$="[[localize('searchLabel')]]"
-						placeholder$="[[localize('searchHint')]]"
-					></d2l-input-search>
-					<template is="dom-if" if="[[_isSearching]]">
-						<div id="search-results">
-							<template is="dom-if" if="[[_searchResultsFound]]">
-								<partial-bold
-									bold-regex="[[_searchBoldRegex]]"
-									content="[[localize('numSearchResults', 'numResults', _searchMatches, 'searchTerm', _surroundedSearchTerm)]]"
-								></partial-bold>
-							</template>
-							<template is="dom-if" if="[[!_searchResultsFound]]">
-								<partial-bold
-									bold-regex="[[_searchBoldRegex]]"
-									content="[[localize('noSearchResults', 'searchTerm', _surroundedSearchTerm)]]"
-								></partial-bold>
-							</template>
-						</div>
-					</template>
-				</div>
-			</template>
-			<d2l-offscreen id="screen-reader-description">[[_getAriaDescription(outcomeTerm, _isLoaded, _isHierarchy)]]</d2l-offscreen>
-			<div aria-describedby="screen-reader-description" role="application">
-				<div id="container" role$="[[_getAriaRole(_isHierarchy)]]" tabindex$="[[tabIndex]]" aria-live="off">
-					<template is="dom-if" if="[[!entity]]">
-						<template is="dom-repeat" items="[[_numSkeletons]]">
-							<d2l-outcomes-list-item></d2l-outcomes-list-item>
-						</template>
-					</template>
-					<template is="dom-if" if="[[entity]]">
-						<div class="no-items" hidden="[[!_isEmpty(_outcomes)]]">
-							[[_getEmptyMessage(instructor, outcomeTerm)]]
-						</div>
-						<template is="dom-repeat" items="[[_outcomes]]">
-							<template is="dom-if" if="[[_isHierarchy]]">
-								<d2l-outcomes-tree-node
-									href="[[_getOutcomeHref(item)]]"
-									token="[[token]]"
-									tabindex="-1"
-									on-load="_onChildLoaded"
-									aria-level="1"
-									aria-posinset$="[[_getPosition(index)]]"
-									aria-setsize$="[[_getCount(_outcomes)]]"
-									parent-filter-map="{{_childFilterMap}}"
-									search-term="[[_searchTerm]]"
-									visibility-mapping="{{_hierarchyVisibilityMapping}}"
-								></d2l-outcomes-tree-node>
-							</template>
-							<template is="dom-if" if="[[_isList]]">
-								<d2l-outcomes-list-item href="[[_getOutcomeHref(item)]]" token="[[token]]"></d2l-outcomes-list-item>
-							</template>
-						</template>
-					</template>
-				</div>
-            </div>
-        `;
-		template.setAttribute('strip-whitespace', true);
-		return template;
-	}
-
-	static get properties() {
-		return {
-			_childFilterMap: {
-				type: Object
-			},
-			_focusedNode: {
-				type: Object,
-				value: null
-			},
-			_hierarchyVisibilityMapping: {
-				type: Object
-			},
-			instructor: {
-				type: Boolean,
-				value: false
-			},
-			_isHierarchy: {
-				computed: '_getIsHierarchy(entity)'
-			},
-			_isList: {
-				computed: '_getIsList(entity)'
-			},
-			_isLoaded: {
-				type: Boolean,
-				value: false
-			},
-			_isSearching: {
-				computed: '_getIsSearching(_searchTerm)'
-			},
-			_loadedChildren: {
-				type: Number,
-				value: 0
-			},
-			_numSkeletons: {
-				type: Array,
-				value: Array.apply(null, { length: DEFAULT_SKELETON_COUNT }).map((v, i) => i)
-			},
-			outcomeTerm: String,
-			_outcomes: {
-				type: Array,
-				value: []
-			},
-			tabIndex: {
-				type: Number,
-				value: 0
-			},
-			_searchBar: {
-				type: Object
-			},
-			_searchBoldRegex: {
-				computed: '_getSearchBoldRegex(_searchTerm)'
-			},
-			_searchMatches: {
-				type: Number,
-				value: 0
-			},
-			_searchPerformed: {
-				type: Boolean,
-				value: false
-			},
-			_searchResultsFound: {
-				computed: '_isSearchResultsFound(_searchMatches)'
-			},
-			_searchResultMessage: {
-				computed: '_getSearchResultMessage(_searchPerformed, _isSearching, _searchResultsFound, _searchMatches, _searchTerm)'
-			},
-			_searchTerm: {
-				type: String,
-				value: ''
-			},
-			_surroundedSearchTerm: {
-				computed: '_surround(_searchTerm)'
-			}
-		};
-	}
-
-	static get observers() {
-		return [
-			'_onHierarchyStatusChanged(_isHierarchy)',
-			'_onSearchResultsChanged(_searchResultMessage)'
+			`
 		];
 	}
 
-	ready() {
-		super.ready();
+	constructor() {
+		super();
+
+		this._setEntityType(UserProgressOutcomeCollectionEntity);
+		this.instructor = false;
+		this.tabIndex = 0;
+		this._focusedNode = null;
+		this._isLoaded = false;
+		this._loadedChildren = 0;
+		this._outcomes = [];
+		this._searchMatches = 0;
+		this._searchPerformed = false;
+		this._searchTerm = '';
 
 		this._childFilterMap = {};
-		this._hierarchyVisibilityMapping = {};
+		this._childrenSearchStatus = {};
 
-		const container = this.root.querySelector('#container');
-		container.addEventListener('focus', this._onFocus.bind(this));
-		container.addEventListener('keydown', this._onKeyPress.bind(this));
+		this.addEventListener('search-status-updated', this._onSearchStatusUpdated.bind(this));
 
 		this.addEventListener('focus-next-child', (e) => {
 			this._consumeEvent(e);
@@ -231,18 +104,149 @@ export class OutcomesList extends mixinBehaviors(
 		this.addEventListener('node-focused', (e) => {
 			this._focusedNode = e.detail.node;
 		});
-
-		this.addEventListener('search-results-updated', () => {
-			this._focusedNode = null;
-			this.debounce('update-search-count', () => {
-				this._searchMatches = this._countSearchMatches(this._hierarchyVisibilityMapping);
-			}, 10);
-		});
 	}
 
-	attached() {
+	connectedCallback() {
+		super.connectedCallback();
+
 		IronA11yAnnouncer.requestAvailability();
 		IronA11yAnnouncer.mode = 'assertive';
+	}
+
+	shouldUpdate(changedProps) {
+		// The parent function needs to be called even when its result won't be used
+		// to ensure that entity gets fetched on initial set of href/token
+		const parentOpinion = super.shouldUpdate(changedProps);
+
+		if (!this.rendered) {
+			// Force at least 1 render even with no href/token to load skeleton
+			this.rendered = true;
+			return true;
+		}
+		return parentOpinion;
+	}
+
+	render() {
+		const shouldShowSearch = this._isHierarchy;
+
+		return html`
+			${shouldShowSearch ? this._renderSearch() : null}
+			<d2l-offscreen id="screen-reader-description">${this._getAriaDescription(this.outcomeTerm, this._isLoaded, this._isHierarchy)}</d2l-offscreen>
+			<div aria-describedby="screen-reader-description" role="application">
+				<div 
+					id="container"
+					role=${this._isHierarchy ? 'tree' : 'list'}
+					tabindex=${this.tabIndex}
+					aria-live="off"
+					@focus=${this._onFocus}
+					@keydown=${this._onKeyPress}
+				>
+					${super._entity ? this._renderOutcomes() : this._renderSkeleton()}
+				</div>
+            </div>
+        `;
+	}
+
+	_renderOutcomes() {
+		return html`
+			<div class="no-items" ?hidden=${this._outcomes.length !== 0}>
+				${this.localize(this.instructor ? 'noOutcomesInstructor' : 'noOutcomesStudent', 'outcome', this.outcomeTerm)}
+			</div>
+			${this._outcomes.map((outcome, index) => this._isHierarchy
+		? html`
+					<d2l-outcomes-tree-node
+						href=${outcome.self()}
+						token=${this.token}
+						tabindex="-1"
+						@load=${this._onChildLoaded}
+						aria-level="1"
+						aria-posinset=${index + 1}
+						aria-setsize=${this._outcomes.length}
+						search-term=${this._searchTerm}
+					></d2l-outcomes-tree-node>
+				` : html`
+					<d2l-outcomes-list-item
+						href=${outcome.self()}
+						token=${this.token}
+					></d2l-outcomes-list-item>
+				`
+	)}
+		`;
+	}
+
+	_renderSearch() {
+		const searchBoldRegex = `@(${escapeRegex(this._searchTerm)})@`;
+
+		const searchResultsMsg = this._searchResultsFound
+			? this.localize('numSearchResults', 'numResults', this._searchMatches, 'searchTerm', `@${this._searchTerm}@`)
+			: this.localize('noSearchResults', 'searchTerm', `@${this._searchTerm}@`);
+
+		return html`
+			<div id="search-container" aria-live="off">
+				<d2l-input-search
+					id="hierarchy-search"
+					label=${this.localize('searchLabel')}
+					placeholder=${this.localize('searchHint')}
+					@d2l-input-search-searched=${this._onInputSearched}
+				></d2l-input-search>
+				${this._isSearching ? html`
+					<div id="search-results">
+						<partial-bold
+							bold-regex=${searchBoldRegex}
+							content=${searchResultsMsg}
+						></partial-bold>
+					</div>
+				` : null}
+			</div>
+		`;
+	}
+
+	_renderSkeleton() {
+		return Array.apply(null, { length: DEFAULT_SKELETON_COUNT })
+			.map(() => html`<d2l-outcomes-list-item></d2l-outcomes-list-item>`);
+	}
+
+	set _entity(entity) {
+		if (this._entityHasChanged(entity)) {
+			this._onEntityChanged(entity);
+			super._entity = entity;
+		}
+	}
+
+	_onEntityChanged(entity) {
+		if (entity) {
+			const outcomes = [];
+			entity.onUserProgressOutcomeChanged(outcomes.push.bind(outcomes));
+
+			entity.subEntitiesLoaded().then(() => {
+				this._isHierarchy = entity.isHierarchy();
+				this._outcomes = outcomes.sort((l, r) => l.index - r.index);
+			});
+		}
+	}
+
+	get _hasChildren() {
+		return !!(this._outcomes && this._outcomes.length);
+	}
+
+	get _isSearching() {
+		return this._searchTerm !== '';
+	}
+
+	get _searchResultsFound() {
+		return this._searchMatches > 0;
+	}
+
+	_announceSearchResults() {
+		const message = this._getSearchResultMessage();
+		if (message) {
+			const event = new CustomEvent('iron-announce', {
+				bubbles: true,
+				composed: true,
+				detail: { text: message }
+			});
+			this.dispatchEvent(event);
+		}
 	}
 
 	_consumeEvent(e) {
@@ -250,22 +254,13 @@ export class OutcomesList extends mixinBehaviors(
 		e.stopPropagation();
 	}
 
-	_countSearchMatches(hierarchyVisibilityMapping) {
-		if (!hierarchyVisibilityMapping) {
-			return 0;
-		}
-
-		const count = Object.values(hierarchyVisibilityMapping).reduce((acc, v) => acc + (v === true ? 1 : 0), 0);
-		return count;
-	}
-
 	_focusNextChild(currentOutcome) {
-		if (!this._isEmpty(this._outcomes)) {
+		if (this._hasChildren) {
 			const index = this._getOutcomeIndex(currentOutcome, this._outcomes);
 
 			if (index >= 0 && index < this._outcomes.length - 1) {
-				const href = this._getSelfHref(this._outcomes[index + 1]);
-				const node = this.root.querySelector(`d2l-outcomes-tree-node[href="${href}"]`);
+				const href = this._outcomes[index + 1].self();
+				const node = this.renderRoot.querySelector(`d2l-outcomes-tree-node[href="${href}"]`);
 				if (node) {
 					node.focusSelf();
 				}
@@ -274,12 +269,12 @@ export class OutcomesList extends mixinBehaviors(
 	}
 
 	_focusPrevChild(currentOutcome) {
-		if (!this._isEmpty(this._outcomes)) {
+		if (this._hasChildren) {
 			const index = this._getOutcomeIndex(currentOutcome, this._outcomes);
 
 			if (index > 0) {
-				const href = this._getSelfHref(this._outcomes[index - 1]);
-				const node = this.root.querySelector(`d2l-outcomes-tree-node[href="${href}"]`);
+				const href = this._outcomes[index - 1].self();
+				const node = this.renderRoot.querySelector(`d2l-outcomes-tree-node[href="${href}"]`);
 				if (node) {
 					node.focusLastVisible();
 				}
@@ -287,25 +282,12 @@ export class OutcomesList extends mixinBehaviors(
 		}
 	}
 
-	_getAriaRole(isHierarchy) {
-		return isHierarchy ? 'tree' : 'list';
-	}
-
-	_getCount(arr) {
-		return arr.length;
-	}
-
-	_getEmptyMessage(instructor, outcomeTerm) {
-		const langTerm = instructor ? 'noOutcomesInstructor' : 'noOutcomesStudent';
-		return this.localize(langTerm, 'outcome', outcomeTerm);
-	}
-
 	_getFirstChildNode() {
 		let firstHref = null;
 
 		for (let i = 0; i < this._outcomes.length; i++) {
-			const href = this._getSelfHref(this._outcomes[i]);
-			if (this._childFilterMap === null || this._childFilterMap[href] === false) {
+			const href = this._outcomes[i].self();
+			if (!this._childFilterMap[href]) {
 				firstHref = href;
 				break;
 			}
@@ -315,7 +297,7 @@ export class OutcomesList extends mixinBehaviors(
 			return null;
 		}
 
-		const child = this.root.querySelector(`d2l-outcomes-tree-node[href="${firstHref}"]`);
+		const child = this.renderRoot.querySelector(`d2l-outcomes-tree-node[href="${firstHref}"]`);
 		if (child) {
 			return child;
 		}
@@ -325,8 +307,8 @@ export class OutcomesList extends mixinBehaviors(
 		let lastHref = null;
 
 		for (let i = this._outcomes.length - 1; i >= 0; i--) {
-			const href = this._getSelfHref(this._outcomes[i]);
-			if (this._childFilterMap === null || this._childFilterMap[href] === false) {
+			const href = this._outcomes[i].self();
+			if (!this._childFilterMap[href]) {
 				lastHref = href;
 				break;
 			}
@@ -336,7 +318,7 @@ export class OutcomesList extends mixinBehaviors(
 			return null;
 		}
 
-		const child = this.root.querySelector(`d2l-outcomes-tree-node[href="${lastHref}"]`);
+		const child = this.renderRoot.querySelector(`d2l-outcomes-tree-node[href="${lastHref}"]`);
 		if (child) {
 			return child;
 		}
@@ -349,25 +331,9 @@ export class OutcomesList extends mixinBehaviors(
 		return textArray.join(', ');
 	}
 
-	_getIsHierarchy(entity) {
-		return entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomeTree);
-	}
-
-	_getIsList(entity) {
-		return entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcomes);
-	}
-
-	_getIsSearching(searchTerm) {
-		return searchTerm !== '';
-	}
-
-	_getOutcomeHref(outcomeEntity) {
-		return outcomeEntity.getLinkByRel('self').href;
-	}
-
 	_getOutcomeIndex(outcomeHref, outcomes) {
 		for (let i = 0; i < outcomes.length; i++) {
-			if (this._getSelfHref(outcomes[i]) === outcomeHref) {
+			if (outcomes[i].self() === outcomeHref) {
 				return i;
 			}
 		}
@@ -375,17 +341,9 @@ export class OutcomesList extends mixinBehaviors(
 		return -1;
 	}
 
-	_getPosition(index) {
-		return index + 1;
-	}
-
-	_getSearchBoldRegex(searchTerm) {
-		return `@(${escapeRegex(searchTerm)})@`;
-	}
-
-	_getSearchResultMessage(searchPerformed, isSearching, resultsFound, numMatches, searchTerm) {
-		if (!isSearching) {
-			if (searchPerformed) {
+	_getSearchResultMessage() {
+		if (this._isSearching) {
+			if (this._searchPerformed) {
 				// Only say cleared if searched before
 				return this.localize('searchCleared');
 			}
@@ -393,42 +351,15 @@ export class OutcomesList extends mixinBehaviors(
 			return;
 		}
 
-		if (resultsFound) {
-			return this.localize('numSearchResults', 'numResults', numMatches, 'searchTerm', searchTerm);
+		if (this._searchResultsFound) {
+			return this.localize('numSearchResults', 'numResults', this._searchMatches, 'searchTerm', this._searchTerm);
 		}
 
-		return this.localize('noSearchResults', 'searchTerm', searchTerm);
-	}
-
-	_getSelfHref(entity) {
-		if (entity) {
-			return entity.getLinkByRel('self').href;
-		}
-		return null;
-	}
-
-	_isEmpty(array) {
-		return !array || !array.length;
-	}
-
-	_isSearchResultsFound(searchMatches) {
-		return searchMatches > 0;
-	}
-
-	_onEntityChanged(entity) {
-		let outcomes = [];
-
-		if (this._isHierarchy) {
-			outcomes = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.outcomeTreeNode);
-		} else if (this._isList) {
-			outcomes = entity.getSubEntitiesByClass(hmConsts.Classes.userProgress.outcomes.outcome);
-		}
-
-		this._outcomes = outcomes;
+		return this.localize('noSearchResults', 'searchTerm', this._searchTerm);
 	}
 
 	_onFocus(e) {
-		if (this._isHierarchy && !this._isEmpty(this._outcomes)) {
+		if (this._isHierarchy && this._hasChildren) {
 			this._consumeEvent(e);
 
 			if (this._focusedNode) {
@@ -442,8 +373,19 @@ export class OutcomesList extends mixinBehaviors(
 		}
 	}
 
+	_onInputSearched(e) {
+		const searchTerm = e.detail.value;
+		if (searchTerm !== '') {
+			this._onSearchStart();
+			this._searchPerformed = true;
+		}
+
+		this._childFilterMap = {};
+		this._searchTerm = searchTerm.trim();
+	}
+
 	_onKeyPress(e) {
-		if (this._isHierarchy && !this._isEmpty(this._outcomes)) {
+		if (this._isHierarchy && this._hasChildren) {
 			let trapped = true;
 
 			if (e.key === 'Home') {
@@ -460,42 +402,37 @@ export class OutcomesList extends mixinBehaviors(
 		}
 	}
 
-	_onHierarchyStatusChanged(isHierarchy) {
-		if (isHierarchy) {
-			afterNextRender(this, () => {
-				if (!this._searchBar) {
-					const searchElement = this.root.querySelectorAll('#hierarchy-search')[0];
-					searchElement.addEventListener('d2l-input-search-searched', (e => {
-						const searchTerm = e.detail.value;
-						this._searchTerm = searchTerm.trim();
-
-						if (this._searchTerm !== '') {
-							this._searchPerformed = true;
-						}
-					}).bind(this));
-					this._searchBar = searchElement;
-				}
-			});
-		}
+	_onSearchStart() {
+		const rootElements = {};
+		this._outcomes.forEach(outcome => rootElements[outcome.self()] = { complete: false });
+		this._childrenSearchStatus = rootElements;
 	}
 
-	_onSearchResultsChanged(searchResultMessage) {
-		if (searchResultMessage) {
-			this.debounce('announce-search-results', () => {
-				const event = new CustomEvent('iron-announce', {
-					bubbles: true,
-					composed: true,
-					detail: { text: searchResultMessage }
-				});
-				this.dispatchEvent(event);
-			}, 100);
+	_onSearchStatusUpdated(e) {
+		if (!e || !e.detail || !e.detail.href) {
+			return;
+		}
+
+		this._consumeEvent(e);
+
+		const href = e.detail.href;
+		this._childrenSearchStatus[href] = e.detail;
+
+		const statuses = Object.values(this._childrenSearchStatus);
+		if (statuses.every(st => st.complete)) {
+			this._childFilterMap = statuses.reduce((acc, cur) => {
+				acc[cur.href] = !cur.visible;
+				return acc;
+			}, {});
+			this._searchMatches = statuses.filter(st => st.isLeaf && st.visible).length;
+			this._announceSearchResults();
 		}
 	}
 
 	_onChildLoaded() {
 		this._loadedChildren++;
 		if (this._loadedChildren === this._outcomes.length) {
-			afterNextRender(this, () => {
+			this.updateComplete.then(() => {
 				const event = new CustomEvent('iron-announce', {
 					bubbles: true,
 					composed: true,
@@ -507,9 +444,6 @@ export class OutcomesList extends mixinBehaviors(
 		}
 	}
 
-	_surround(str) {
-		return `@${str}@`;
-	}
 }
 
 customElements.define(OutcomesList.is, OutcomesList);
