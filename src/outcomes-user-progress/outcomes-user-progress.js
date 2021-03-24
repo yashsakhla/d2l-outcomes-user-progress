@@ -1,8 +1,8 @@
-import { LitElement, html } from 'lit-element';
-import { oupConsts } from '../consts';
-import { Consts as CoaConsts } from 'd2l-outcomes-overall-achievement/src/consts';
-import '../outcomes-list/outcomes-list';
 import '../outcome-details/outcome-details';
+import '../outcomes-list/outcomes-list';
+import { html, LitElement } from 'lit-element';
+import { Consts as CoaConsts } from 'd2l-outcomes-overall-achievement/src/consts';
+import { oupConsts } from '../consts';
 
 export class OutcomesUserProgress extends LitElement {
 	static get is() { return 'd2l-outcomes-user-progress'; }

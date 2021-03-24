@@ -1,5 +1,5 @@
-import { LitElement, html, css } from 'lit-element';
 import 'd2l-outcomes-overall-achievement/src/primary-panel/primary-panel';
+import { css, html, LitElement } from 'lit-element';
 
 export class OutcomeProgressDetails extends LitElement {
 	static get is() { return 'd2l-outcome-progress-details'; }

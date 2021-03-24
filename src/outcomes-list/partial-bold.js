@@ -1,5 +1,5 @@
-import { LitElement, html, css } from 'lit-element';
 import '@brightspace-ui/core/components/offscreen/offscreen.js';
+import { css, html, LitElement } from 'lit-element';
 
 export class PartialBold extends LitElement {
 
@@ -28,7 +28,7 @@ export class PartialBold extends LitElement {
 		return html`
 			<d2l-offscreen id="screen-reader">${this.content}</d2l-offscreen>
 			<div aria-labelledby="screen-reader" aria-hidden="true">
-				${parsedContent.map(piece => piece.bold ? html`<b>${piece.data}</b>` : piece.data)}
+				${parsedContent.map(piece => (piece.bold ? html`<b>${piece.data}</b>` : piece.data))}
 			</div>
 		`;
 	}

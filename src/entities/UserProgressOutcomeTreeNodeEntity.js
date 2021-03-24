@@ -1,6 +1,6 @@
 import { Entity } from 'siren-sdk/src/es6/Entity';
-import { OutcomeEntity } from 'd2l-outcomes-overall-achievement/src/entities/OutcomeEntity';
 import { OutcomeActivityCollectionEntity } from 'd2l-outcomes-overall-achievement/src/entities/OutcomeActivityCollectionEntity';
+import { OutcomeEntity } from 'd2l-outcomes-overall-achievement/src/entities/OutcomeEntity';
 
 export class UserProgressOutcomeTreeNodeEntity extends Entity {
 

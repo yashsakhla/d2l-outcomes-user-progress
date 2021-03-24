@@ -1,14 +1,14 @@
-import { LitElement, html, css } from 'lit-element';
-import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit';
-import { LocalizeMixin } from '../LocalizeMixin';
-import { oupConsts } from '../consts';
-import { UserProgressOutcomeTreeNodeEntity } from '../entities/UserProgressOutcomeTreeNodeEntity';
-import { bodySmallStyles, bodyStandardStyles, heading2Styles, heading3Styles } from '@brightspace-ui/core/components/typography/styles';
 import '@brightspace-ui/core/components/button/button-icon';
 import '@brightspace-ui/core/components/colors/colors';
 import 'd2l-outcomes-overall-achievement/src/trend/mini-trend';
 import '@polymer/iron-collapse/iron-collapse.js';
 import './partial-bold';
+import { bodySmallStyles, bodyStandardStyles, heading2Styles, heading3Styles } from '@brightspace-ui/core/components/typography/styles';
+import { css, html, LitElement } from 'lit-element';
+import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit';
+import { LocalizeMixin } from '../LocalizeMixin';
+import { oupConsts } from '../consts';
+import { UserProgressOutcomeTreeNodeEntity } from '../entities/UserProgressOutcomeTreeNodeEntity';
 
 function escapeRegex(unsafeText) {
 	return unsafeText.replace(/[|\\{}()[\]^$+*?.-]/g, '\\$&');

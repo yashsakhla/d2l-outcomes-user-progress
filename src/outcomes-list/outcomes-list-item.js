@@ -1,10 +1,10 @@
-import { LitElement, html, css } from 'lit-element';
-import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit';
-import { bodySmallStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles';
-import { oupConsts } from '../consts';
-import { UserProgressOutcomeEntity } from 'd2l-outcomes-overall-achievement/src/entities/UserProgressOutcomeEntity';
 import '@brightspace-ui/core/components/colors/colors';
 import 'd2l-outcomes-overall-achievement/src/trend/mini-trend';
+import { bodySmallStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles';
+import { css, html, LitElement } from 'lit-element';
+import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit';
+import { oupConsts } from '../consts';
+import { UserProgressOutcomeEntity } from 'd2l-outcomes-overall-achievement/src/entities/UserProgressOutcomeEntity';
 
 export class OutcomesListItem extends EntityMixinLit(LitElement) {
 

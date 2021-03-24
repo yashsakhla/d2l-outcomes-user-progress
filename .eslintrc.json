@@ -1,8 +1,11 @@
 {
 	"extends": [
-		"brightspace/polymer-3-config"
+		"brightspace/lit-config"
 	],
 	"globals": {
 		"Set": true
-	}
+	},
+	"rules": {
+        "no-confusing-arrow": ["error", {"allowParens": true}]
+    }
 }

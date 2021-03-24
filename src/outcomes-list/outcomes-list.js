@@ -1,14 +1,14 @@
-import { LitElement, html, css } from 'lit-element';
-import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit';
-import { LocalizeMixin } from '../LocalizeMixin';
-import { UserProgressOutcomeCollectionEntity } from '../entities/UserProgressOutcomeCollectionEntity';
-import { IronA11yAnnouncer } from '@polymer/iron-a11y-announcer/iron-a11y-announcer.js';
 import '@brightspace-ui/core/components/colors/colors';
 import '@brightspace-ui/core/components/inputs/input-search';
 import '@brightspace-ui/core/components/offscreen/offscreen.js';
 import './outcomes-tree-node';
 import './outcomes-list-item';
 import './partial-bold';
+import { css, html, LitElement } from 'lit-element';
+import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit';
+import { IronA11yAnnouncer } from '@polymer/iron-a11y-announcer/iron-a11y-announcer.js';
+import { LocalizeMixin } from '../LocalizeMixin';
+import { UserProgressOutcomeCollectionEntity } from '../entities/UserProgressOutcomeCollectionEntity';
 
 const DEFAULT_SKELETON_COUNT = 10;
 
@@ -149,29 +149,31 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 	}
 
 	_renderOutcomes() {
+		const treeNode = (outcome, index) => html`
+			<d2l-outcomes-tree-node
+				href=${outcome.self()}
+				token=${this.token}
+				tabindex="-1"
+				@load=${this._onChildLoaded}
+				aria-level="1"
+				aria-posinset=${index + 1}
+				aria-setsize=${this._outcomes.length}
+				search-term=${this._searchTerm}
+			></d2l-outcomes-tree-node>
+		`;
+
+		const listItem = (outcome) => html`
+			<d2l-outcomes-list-item
+				href=${outcome.self()}
+				token=${this.token}
+			></d2l-outcomes-list-item>
+		`;
+
 		return html`
 			<div class="no-items" ?hidden=${this._outcomes.length !== 0}>
 				${this.localize(this.instructor ? 'noOutcomesInstructor' : 'noOutcomesStudent', 'outcome', this.outcomeTerm)}
 			</div>
-			${this._outcomes.map((outcome, index) => this._isHierarchy
-		? html`
-					<d2l-outcomes-tree-node
-						href=${outcome.self()}
-						token=${this.token}
-						tabindex="-1"
-						@load=${this._onChildLoaded}
-						aria-level="1"
-						aria-posinset=${index + 1}
-						aria-setsize=${this._outcomes.length}
-						search-term=${this._searchTerm}
-					></d2l-outcomes-tree-node>
-				` : html`
-					<d2l-outcomes-list-item
-						href=${outcome.self()}
-						token=${this.token}
-					></d2l-outcomes-list-item>
-				`
-	)}
+			${this._outcomes.map((outcome, index) => (this._isHierarchy ? treeNode(outcome, index) : listItem(outcome)))}
 		`;
 	}
 
@@ -203,7 +205,7 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 	}
 
 	_renderSkeleton() {
-		return Array.apply(null, { length: DEFAULT_SKELETON_COUNT })
+		return [...Array(DEFAULT_SKELETON_COUNT)]
 			.map(() => html`<d2l-outcomes-list-item></d2l-outcomes-list-item>`);
 	}
 
