@@ -88,6 +88,7 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 
 		this._childFilterMap = {};
 		this._childrenSearchStatus = {};
+		this._searchComplete = true;
 
 		this.addEventListener('search-status-updated', this._onSearchStatusUpdated.bind(this));
 
@@ -342,7 +343,7 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 	}
 
 	_getSearchResultMessage() {
-		if (this._isSearching) {
+		if (!this._isSearching) {
 			if (this._searchPerformed) {
 				// Only say cleared if searched before
 				return this.localize('searchCleared');
@@ -376,11 +377,10 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 	_onInputSearched(e) {
 		const searchTerm = e.detail.value;
 		if (searchTerm !== '') {
-			this._onSearchStart();
 			this._searchPerformed = true;
 		}
 
-		this._childFilterMap = {};
+		this._onSearchStart();
 		this._searchTerm = searchTerm.trim();
 	}
 
@@ -406,14 +406,16 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 		const rootElements = {};
 		this._outcomes.forEach(outcome => rootElements[outcome.self()] = { complete: false });
 		this._childrenSearchStatus = rootElements;
+		this._childFilterMap = {};
+		this._searchComplete = false;
 	}
 
 	_onSearchStatusUpdated(e) {
-		if (!e || !e.detail || !e.detail.href) {
+		e && this._consumeEvent(e);
+
+		if (!e || !e.detail || !e.detail.href || this._searchComplete) {
 			return;
 		}
-
-		this._consumeEvent(e);
 
 		const href = e.detail.href;
 		this._childrenSearchStatus[href] = e.detail;
@@ -425,6 +427,7 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 				return acc;
 			}, {});
 			this._searchMatches = statuses.filter(st => st.isLeaf && st.visible).length;
+			this._searchComplete = true;
 			this._announceSearchResults();
 		}
 	}

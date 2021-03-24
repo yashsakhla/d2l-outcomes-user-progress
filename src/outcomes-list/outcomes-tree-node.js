@@ -264,7 +264,7 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 			>
 				<div
 					id="node-data"
-					class=${nodeClasses.join(' ') || null}
+					class=${nodeClasses.join(' ')}
 					tabindex="-1"
 					aria-labelledby="content"
 					@focus=${this._onFocus}
@@ -427,6 +427,8 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 				this._reportSearchStatus(true, childIsVisible);
 				return !childIsVisible;
 			}
+		} else {
+			this._reportSearchStatus(true, true);
 		}
 
 		return false;
