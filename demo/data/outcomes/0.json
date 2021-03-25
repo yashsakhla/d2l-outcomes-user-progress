@@ -1,0 +1,24 @@
+{
+    "class": [
+        "outcome"
+    ],
+    "properties": {
+        "notation": "",
+        "altNotation": "",
+        "label": "Overall Expectation",
+        "listId": "A1.",
+        "description": "Describe the functions of different types of hardware components, and assess the hardware needs of users",
+        "subjects": [
+            "Computer Studies"
+        ],
+        "source": "asn"
+    },
+    "links": [
+        {
+            "rel": [
+                "self"
+            ],
+            "href": "data/outcomes/0.json"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "class": [
+        "level-of-achievment"
+    ],
+    "properties": {
+        "levelId": "f14dd060-1704-4dea-9b8d-18715fd90cf8",
+        "name": "Meh",
+        "color": "#ffff00"
+    },
+    "links": [
+        {
+            "rel": [
+                "self"
+            ],
+            "href": "data/outcome-details-demo/levels/2.json"
+        }
+    ]
+}
