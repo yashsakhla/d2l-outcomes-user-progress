@@ -1,27 +1,27 @@
-import '@polymer/polymer/polymer-legacy.js';
-import { PolymerElement, html } from '@polymer/polymer';
-import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
-import 'd2l-polymer-siren-behaviors/store/entity-behavior';
-import 'siren-entity/siren-entity.js';
-import 'd2l-typography/d2l-typography.js';
-import 'd2l-typography/d2l-typography-shared-styles.js';
-import OutcomeParserBehaviour from 'd2l-activity-alignments/d2l-outcome-parser-behavior.js';
-import * as hmConsts from 'd2l-hypermedia-constants';
-import { oupConsts } from '../consts';
+import '@brightspace-ui/core/components/colors/colors';
 import 'd2l-outcomes-overall-achievement/src/trend/mini-trend';
+import { bodySmallStyles, bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles';
+import { css, html, LitElement } from 'lit-element';
+import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit';
+import { oupConsts } from '../consts';
+import { UserProgressOutcomeEntity } from 'd2l-outcomes-overall-achievement/src/entities/UserProgressOutcomeEntity';
 
-export class OutcomesListItem extends mixinBehaviors(
-	[
-		D2L.PolymerBehaviors.Siren.EntityBehavior,
-		OutcomeParserBehaviour
-	],
-	PolymerElement
-) {
+export class OutcomesListItem extends EntityMixinLit(LitElement) {
+
 	static get is() { return 'd2l-outcomes-list-item'; }
 
-	static get template() {
-		const template = html`
-			<style include="d2l-typography">
+	static get properties() {
+		return {
+			_activitiesHref: { attribute: false },
+			_outcomeEntity: { attribute: false }
+		};
+	}
+
+	static get styles() {
+		return [
+			bodySmallStyles,
+			bodyStandardStyles,
+			css`
 				#container {
 					border-top: 1px solid var(--d2l-color-mica);
 					display: flex;
@@ -36,12 +36,7 @@ export class OutcomesListItem extends mixinBehaviors(
 					flex-grow: 1;
 				}
 
-				#primary .main-text {
-					@apply --d2l-body-text;
-				}
-
 				#primary .sub-text {
-					@apply --d2l-body-small-text;
 					margin-top: 6px;
 				}
 
@@ -81,15 +76,36 @@ export class OutcomesListItem extends mixinBehaviors(
 				[hidden] {
 					display: none !important;
 				}
-			</style>
-			<siren-entity href="[[_outcomeHref]]" token="[[token]]" entity="{{_outcomeEntity}}"></siren-entity>
-			<div id="container" role="listitem" on-click="_onItemClicked" aria-busy$="[[!_outcomeEntity]]">
+			`
+		];
+	}
+
+	constructor() {
+		super();
+		this._setEntityType(UserProgressOutcomeEntity);
+	}
+
+	shouldUpdate(changedProps) {
+		// The parent function needs to be called even when its result won't be used
+		// to ensure that entity gets fetched on initial set of href/token
+		const parentOpinion = super.shouldUpdate(changedProps);
+
+		if (!this.rendered) {
+			// Force at least 1 render even with no href/token to load skeleton
+			this.rendered = true;
+			return true;
+		}
+		return parentOpinion;
+	}
+
+	render() {
+		return html`
+			<div id="container" role="listitem" @click=${this._onItemClicked} aria-busy=${!this._outcomeEntity}>
 				<div id="primary">
-					<template is="dom-if" if="[[_outcomeEntity]]">
-						<div class="main-text">[[getOutcomeDescriptionPlainText(_outcomeEntity)]]</div>
-						<div class="sub-text">[[getOutcomeIdentifier(_outcomeEntity)]]</div>
-					</template>
-					<template is="dom-if" if="[[!_outcomeEntity]]">
+					${this._outcomeEntity ? html`
+						<div class="main-text d2l-body-standard">${this._outcomeEntity.getDescription()}</div>
+						<div class="sub-text d2l-body-small">${this._outcomeEntity.getIdentifier()}</div>
+					` : html`
 						<div class="main-text">
 							<div class="skeleton"></div>
 							<div class="skeleton"></div>
@@ -97,74 +113,45 @@ export class OutcomesListItem extends mixinBehaviors(
 						<div class="sub-text">
 							<div class="skeleton"></div>
 						</div>
-					</template>
+					`}
 				</div>
 				<div id="secondary">
 					<d2l-coa-mini-trend
-						href="[[_activitiesHref]]"
-						token="[[token]]"
-						hide-unpublished-coa="true"
+						href=${this._activitiesHref}
+						token=${this.token}
+						hide-unpublished-coa
 					></d2l-coa-mini-trend>
 				</div>
 			</div>
 		`;
-		template.setAttribute('strip-whitespace', true);
-		return template;
 	}
 
-	static get properties() {
-		return {
-			_activitiesHref: {
-				type: String,
-				computed: '_getActivitiesHref(entity)'
-			},
-			_outcomeEntity: {
-				type: Object,
-				value: null
-			},
-			_outcomeHref: {
-				type: String,
-				computed: '_getOutcomeHref(entity)'
-			},
-			_selfHref: {
-				type: String,
-				computed: '_getSelfHref(entity)'
-			}
-		};
-	}
-
-	static get observers() {
-		return [
-			'_onEntityChanged(entity)'
-		];
-	}
-
-	_getActivitiesHref(entity) {
-		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcome)) {
-			return entity.getLinkByRel(hmConsts.Rels.UserProgress.outcomeActivities).href;
+	set _entity(entity) {
+		if (this._entityHasChanged(entity)) {
+			this._onEntityChanged(entity);
+			super._entity = entity;
 		}
-		return null;
 	}
 
-	_getOutcomeHref(entity) {
-		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcome)) {
-			return entity.getLinkByRel(hmConsts.Rels.Outcomes.outcome).href;
-		}
-		return null;
-	}
+	_onEntityChanged(entity) {
+		if (entity) {
+			const activitiesHref = entity.getOutcomeActivitiesHref();
+			let outcomeEntity = null;
+			entity.onOutcomeChanged(outcome => outcomeEntity = outcome);
 
-	_getSelfHref(entity) {
-		if (entity && entity.hasClass(hmConsts.Classes.userProgress.outcomes.outcome)) {
-			return entity.getLinkByRel('self').href;
+			entity.subEntitiesLoaded().then(() => {
+				this._activitiesHref = activitiesHref;
+				this._outcomeEntity = outcomeEntity;
+			});
 		}
-		return null;
 	}
 
 	_onItemClicked() {
 		if (this._outcomeEntity) {
-			this.dispatchEvent(new CustomEvent(oupConsts.events.outcomeListItemClicked, { composed: true, bubbles: true, detail: { href: this._selfHref } }));
+			this.dispatchEvent(new CustomEvent(oupConsts.events.outcomeListItemClicked, { composed: true, bubbles: true, detail: { href: this.href } }));
 		}
 	}
+
 }
 
 customElements.define(OutcomesListItem.is, OutcomesListItem);

@@ -1,72 +1,51 @@
-import '@polymer/polymer/polymer-legacy.js';
-import { PolymerElement, html } from '@polymer/polymer';
-import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class.js';
-import { oupConsts } from '../consts';
-import { Consts as CoaConsts } from 'd2l-outcomes-overall-achievement/src/consts';
-import '../outcomes-list/outcomes-list';
 import '../outcome-details/outcome-details';
+import '../outcomes-list/outcomes-list';
+import { html, LitElement } from 'lit-element';
+import { Consts as CoaConsts } from 'd2l-outcomes-overall-achievement/src/consts';
+import { oupConsts } from '../consts';
 
-export class OutcomesUserProgress extends mixinBehaviors(
-	[ ],
-	PolymerElement
-) {
+export class OutcomesUserProgress extends LitElement {
 	static get is() { return 'd2l-outcomes-user-progress'; }
-
-	static get template() {
-		const template = html`
-            <d2l-outcomes-list
-                id="list"
-                hidden$="[[_showDetails]]"
-                href="[[href]]"
-				token="[[token]]"
-				outcome-term="[[outcomeTerm]]"
-				instructor="[[instructor]]"
-            ></d2l-outcomes-list>
-            <d2l-outcome-progress-details
-                id="details"
-                hidden$="[[!_showDetails]]"
-                href="[[_detailsHref]]"
-                token="[[token]]"
-				outcome-term="[[outcomeTerm]]"
-				instructor="[[instructor]]"
-            ></d2l-outcome-progress-details>
-        `;
-		template.setAttribute('strip-whitespace', true);
-		return template;
-	}
 
 	static get properties() {
 		return {
-			href: {
-				type: String
-			},
-			token: {
-				type: String
-			},
-			_detailsHref: {
-				type: String,
-				value: null
-			},
-			_showDetails: {
-				type: Boolean,
-				value: false
-			},
-			instructor: {
-				type: Boolean,
-				value: false
-			},
-			outcomeTerm: String
+			href: { type: String },
+			instructor: { type: Boolean },
+			outcomeTerm: { attribute: 'outcome-term', type: String },
+			token: { type: String },
+			_detailsHref: { attribute: false },
+			_showDetails: { attribute: false }
 		};
 	}
 
-	ready() {
-		super.ready();
+	constructor() {
+		super();
 
-		this.list = this.root.getElementById('list');
-		this.details = this.root.getElementById('details');
+		this.instructor = false;
+		this._detailsHref = null;
+		this._showDetails = false;
 
 		this.addEventListener(oupConsts.events.outcomeListItemClicked, this._onOutcomeClick.bind(this));
 		this.addEventListener(CoaConsts.events.primaryPanelCloseClicked, this._onDetailsClosed.bind(this));
+	}
+
+	render() {
+		return html`
+			<d2l-outcomes-list
+				href=${this.href}
+				token=${this.token}
+				?hidden=${this._showDetails}
+				?instructor=${this.instructor}
+				outcome-term=${this.outcomeTerm}
+			></d2l-outcomes-list>
+			<d2l-outcome-progress-details
+				href=${this._detailsHref}
+				token=${this.token}
+				?hidden=${!this._showDetails}
+				?instructor=${this.instructor}
+				outcome-term=${this.outcomeTerm}
+			></d2l-outcome-progress-details>
+		`;
 	}
 
 	_onOutcomeClick(e) {
