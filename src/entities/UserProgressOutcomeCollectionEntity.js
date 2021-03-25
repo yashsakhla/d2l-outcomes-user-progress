@@ -11,16 +11,6 @@ export class UserProgressOutcomeCollectionEntity extends Entity {
 		};
 	}
 
-	_getUserProgressOutcomes() {
-		if (!this._entity) {
-			return;
-		}
-
-		return this.isHierarchy()
-			? this._entity.getSubEntitiesByClass(UserProgressOutcomeTreeNodeEntity.class)
-			: this._entity.getSubEntitiesByClass(UserProgressOutcomeEntity.class);
-	}
-
 	isHierarchy() {
 		if (!this._entity) {
 			return;
@@ -45,6 +35,16 @@ export class UserProgressOutcomeCollectionEntity extends Entity {
 				onChangeWithIndex
 			);
 		});
+	}
+
+	_getUserProgressOutcomes() {
+		if (!this._entity) {
+			return;
+		}
+
+		return this.isHierarchy()
+			? this._entity.getSubEntitiesByClass(UserProgressOutcomeTreeNodeEntity.class)
+			: this._entity.getSubEntitiesByClass(UserProgressOutcomeEntity.class);
 	}
 
 }

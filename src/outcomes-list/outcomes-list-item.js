@@ -8,8 +8,6 @@ import { UserProgressOutcomeEntity } from 'd2l-outcomes-overall-achievement/src/
 
 export class OutcomesListItem extends EntityMixinLit(LitElement) {
 
-	static get is() { return 'd2l-outcomes-list-item'; }
-
 	static get properties() {
 		return {
 			_activitiesHref: { attribute: false },
@@ -85,18 +83,7 @@ export class OutcomesListItem extends EntityMixinLit(LitElement) {
 		this._setEntityType(UserProgressOutcomeEntity);
 	}
 
-	shouldUpdate(changedProps) {
-		// The parent function needs to be called even when its result won't be used
-		// to ensure that entity gets fetched on initial set of href/token
-		const parentOpinion = super.shouldUpdate(changedProps);
-
-		if (!this.rendered) {
-			// Force at least 1 render even with no href/token to load skeleton
-			this.rendered = true;
-			return true;
-		}
-		return parentOpinion;
-	}
+	static get is() { return 'd2l-outcomes-list-item'; }
 
 	render() {
 		return html`
@@ -124,6 +111,19 @@ export class OutcomesListItem extends EntityMixinLit(LitElement) {
 				</div>
 			</div>
 		`;
+	}
+
+	shouldUpdate(changedProps) {
+		// The parent function needs to be called even when its result won't be used
+		// to ensure that entity gets fetched on initial set of href/token
+		const parentOpinion = super.shouldUpdate(changedProps);
+
+		if (!this.rendered) {
+			// Force at least 1 render even with no href/token to load skeleton
+			this.rendered = true;
+			return true;
+		}
+		return parentOpinion;
 	}
 
 	set _entity(entity) {

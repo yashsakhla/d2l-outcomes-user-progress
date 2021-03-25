@@ -26,8 +26,6 @@ function getBoldRegex(searchTerm) {
 
 export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) {
 
-	static get is() { return 'd2l-outcomes-tree-node'; }
-
 	static get properties() {
 		return {
 			ariaLevel: { attribute: 'aria-level', type: Number },
@@ -240,6 +238,8 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 		this.addEventListener('blur', () => this._nodeDataElement.blur());
 	}
 
+	static get is() { return 'd2l-outcomes-tree-node'; }
+
 	render() {
 		const boldRegex = getBoldRegex(this.searchTerm);
 
@@ -352,6 +352,22 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 		`;
 	}
 
+	focusLastVisible() {
+		if (this._collapsed || this._isLeafNode) {
+			this.focusSelf();
+		} else {
+			const node = this._getLastChildNode();
+			node.focusLastVisible();
+		}
+	}
+
+	focusSelf() {
+		if (this._nodeDataElement) {
+			this._programmaticFocus = true;
+			this._nodeDataElement.focus();
+		}
+	}
+
 	get _nodeDataElement() {
 		return this.renderRoot.querySelector('#node-data');
 	}
@@ -360,32 +376,6 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 		if (this._entityHasChanged(entity)) {
 			this._onEntityChanged(entity);
 			super._entity = entity;
-		}
-	}
-
-	_onEntityChanged(entity) {
-		if (entity) {
-			this._outcomeEntityLoaded = false;
-
-			const activitiesHref = entity.getOutcomeActivitiesHref();
-
-			const children = [];
-			entity.onChildNodeChanged(children.push.bind(children));
-
-			let outcomeEntity = null;
-			entity.onOutcomeChanged(outcome => outcomeEntity = outcome);
-
-			entity.subEntitiesLoaded().then(() => {
-				this._activitiesHref = activitiesHref;
-				this._children = children.sort((l, r) => l.index - r.index);
-				this._isLeafNode = !this._children.length;
-				this._outcomeEntity = outcomeEntity;
-
-				this._outcomeEntityLoaded = true;
-				if (this._isLeafNode || this._loadedChildren === this._children.length) {
-					this.dispatchEvent(new CustomEvent('load'));
-				}
-			});
 		}
 	}
 
@@ -436,15 +426,6 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 
 	_fireOutcomeActionEvent(href) {
 		this.dispatchEvent(new CustomEvent(oupConsts.events.outcomeListItemClicked, { composed: true, bubbles: true, detail: { href: href } }));
-	}
-
-	focusLastVisible() {
-		if (this._collapsed || this._isLeafNode) {
-			this.focusSelf();
-		} else {
-			const node = this._getLastChildNode();
-			node.focusLastVisible();
-		}
 	}
 
 	_focusIn() {
@@ -542,36 +523,6 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 		}
 	}
 
-	focusSelf() {
-		if (this._nodeDataElement) {
-			this._programmaticFocus = true;
-			this._nodeDataElement.focus();
-		}
-	}
-
-	_getNodeAriaTextPrefix(ariaLevel, outcome, collapsed, isLeafNode) {
-		const textArray = [];
-
-		textArray.push(this.localize('nodeAriaTextLevel', 'level', ariaLevel));
-
-		if (!outcome) {
-			textArray.push(this.localize('outcomesListLoading'));
-		} else if (!isLeafNode) {
-			textArray.push(this.localize('nodeAriaTextGroup',
-				'state', this.localize(collapsed ? 'a11yCollapsed' : 'a11yExpanded')
-			));
-		}
-
-		return `${textArray.join(', ')}.`;
-	}
-
-	_getNodeAriaTextSuffix(posinset, setsize) {
-		return this.localize('nodeAriaTextPosition',
-			'position', posinset,
-			'count', setsize
-		);
-	}
-
 	_getFirstChildNode() {
 		let firstHref = null;
 
@@ -614,6 +565,29 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 		}
 	}
 
+	_getNodeAriaTextPrefix(ariaLevel, outcome, collapsed, isLeafNode) {
+		const textArray = [];
+
+		textArray.push(this.localize('nodeAriaTextLevel', 'level', ariaLevel));
+
+		if (!outcome) {
+			textArray.push(this.localize('outcomesListLoading'));
+		} else if (!isLeafNode) {
+			textArray.push(this.localize('nodeAriaTextGroup',
+				'state', this.localize(collapsed ? 'a11yCollapsed' : 'a11yExpanded')
+			));
+		}
+
+		return `${textArray.join(', ')}.`;
+	}
+
+	_getNodeAriaTextSuffix(posinset, setsize) {
+		return this.localize('nodeAriaTextPosition',
+			'position', posinset,
+			'count', setsize
+		);
+	}
+
 	_getOutcomeAriaText(outcome) {
 		return `${this.getOutcomeDescriptionPlainText(outcome)} ${this.getOutcomeIdentifier(outcome)}`;
 	}
@@ -646,6 +620,18 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 		return termFound;
 	}
 
+	_onBlur(e) {
+		this._a11yHasFocus = false;
+		this._consumeEvent(e);
+		this.removeEventListener('keydown', this._onKeyPress.bind(this));
+	}
+
+	_onButtonMousedown(e) {
+		this._consumeEvent(e);
+		this._programmaticFocus = false;
+		this._nodeDataElement.focus();
+	}
+
 	_onChildFilterStatusChanged(e) {
 		this._consumeEvent(e);
 		if (e.detail && e.detail.href) {
@@ -653,6 +639,52 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 			newMap[e.detail.href] = e.detail.isFiltered;
 			this._childFilterMap = newMap;
 		}
+	}
+
+	_onChildLoaded() {
+		this._loadedChildren++;
+		if (this._loadedChildren === this._children.length && this._outcomeEntityLoaded) {
+			this.dispatchEvent(new CustomEvent('load'));
+		}
+	}
+
+	_onEntityChanged(entity) {
+		if (entity) {
+			this._outcomeEntityLoaded = false;
+
+			const activitiesHref = entity.getOutcomeActivitiesHref();
+
+			const children = [];
+			entity.onChildNodeChanged(children.push.bind(children));
+
+			let outcomeEntity = null;
+			entity.onOutcomeChanged(outcome => outcomeEntity = outcome);
+
+			entity.subEntitiesLoaded().then(() => {
+				this._activitiesHref = activitiesHref;
+				this._children = children.sort((l, r) => l.index - r.index);
+				this._isLeafNode = !this._children.length;
+				this._outcomeEntity = outcomeEntity;
+
+				this._outcomeEntityLoaded = true;
+				if (this._isLeafNode || this._loadedChildren === this._children.length) {
+					this.dispatchEvent(new CustomEvent('load'));
+				}
+			});
+		}
+	}
+
+	_onFocus(e) {
+		this._consumeEvent(e);
+		if (this._programmaticFocus) {
+			this._a11yHasFocus = true;
+			this.addEventListener('keydown', this._onKeyPress.bind(this));
+			this.dispatchEvent(new CustomEvent('node-focused', { bubbles: true, composed: true, detail: { node: this } }));
+		} else {
+			this._nodeDataElement.blur();
+		}
+
+		this._programmaticFocus = false;
 	}
 
 	_onItemClicked(e) {
@@ -684,31 +716,6 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 		if (trapped) {
 			this._consumeEvent(e);
 		}
-	}
-
-	_onButtonMousedown(e) {
-		this._consumeEvent(e);
-		this._programmaticFocus = false;
-		this._nodeDataElement.focus();
-	}
-
-	_onFocus(e) {
-		this._consumeEvent(e);
-		if (this._programmaticFocus) {
-			this._a11yHasFocus = true;
-			this.addEventListener('keydown', this._onKeyPress.bind(this));
-			this.dispatchEvent(new CustomEvent('node-focused', { bubbles: true, composed: true, detail: { node: this } }));
-		} else {
-			this._nodeDataElement.blur();
-		}
-
-		this._programmaticFocus = false;
-	}
-
-	_onBlur(e) {
-		this._a11yHasFocus = false;
-		this._consumeEvent(e);
-		this.removeEventListener('keydown', this._onKeyPress.bind(this));
 	}
 
 	_reportFilterStatus(isFiltered) {
@@ -762,12 +769,6 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 		}
 	}
 
-	_onChildLoaded() {
-		this._loadedChildren++;
-		if (this._loadedChildren === this._children.length && this._outcomeEntityLoaded) {
-			this.dispatchEvent(new CustomEvent('load'));
-		}
-	}
 }
 
 customElements.define(OutcomesTreeNode.is, OutcomesTreeNode);

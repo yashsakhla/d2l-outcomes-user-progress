@@ -2,7 +2,6 @@ import 'd2l-outcomes-overall-achievement/src/primary-panel/primary-panel';
 import { css, html, LitElement } from 'lit-element';
 
 export class OutcomeProgressDetails extends LitElement {
-	static get is() { return 'd2l-outcome-progress-details'; }
 
 	static get properties() {
 		return {
@@ -29,6 +28,8 @@ export class OutcomeProgressDetails extends LitElement {
 		this.instructor = true;
 	}
 
+	static get is() { return 'd2l-outcome-progress-details'; }
+
 	render() {
 		return html`
 			<div class="card">
@@ -43,6 +44,7 @@ export class OutcomeProgressDetails extends LitElement {
 			</div>
 		`;
 	}
+
 }
 
 customElements.define(OutcomeProgressDetails.is, OutcomeProgressDetails);
