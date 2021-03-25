@@ -5,7 +5,6 @@ import { Consts as CoaConsts } from 'd2l-outcomes-overall-achievement/src/consts
 import { oupConsts } from '../consts';
 
 export class OutcomesUserProgress extends LitElement {
-	static get is() { return 'd2l-outcomes-user-progress'; }
 
 	static get properties() {
 		return {
@@ -29,6 +28,8 @@ export class OutcomesUserProgress extends LitElement {
 		this.addEventListener(CoaConsts.events.primaryPanelCloseClicked, this._onDetailsClosed.bind(this));
 	}
 
+	static get is() { return 'd2l-outcomes-user-progress'; }
+
 	render() {
 		return html`
 			<d2l-outcomes-list
@@ -48,15 +49,16 @@ export class OutcomesUserProgress extends LitElement {
 		`;
 	}
 
+	_onDetailsClosed() {
+		this._detailsHref = '';
+		this._showDetails = false;
+	}
+
 	_onOutcomeClick(e) {
 		this._detailsHref = e.detail.href;
 		this._showDetails = true;
 	}
 
-	_onDetailsClosed() {
-		this._detailsHref = '';
-		this._showDetails = false;
-	}
 }
 
 customElements.define(OutcomesUserProgress.is, OutcomesUserProgress);

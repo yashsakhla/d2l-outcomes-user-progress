@@ -3,8 +3,6 @@ import { css, html, LitElement } from 'lit-element';
 
 export class PartialBold extends LitElement {
 
-	static get is() { return 'partial-bold'; }
-
 	static get properties() {
 		return {
 			boldRegex: { attribute: 'bold-regex', type: String },
@@ -19,6 +17,8 @@ export class PartialBold extends LitElement {
 			}
 		`;
 	}
+
+	static get is() { return 'partial-bold'; }
 
 	render() {
 		if (!this.content) return;

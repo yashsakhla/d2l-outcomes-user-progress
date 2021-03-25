@@ -18,8 +18,6 @@ function escapeRegex(unsafeText) {
 
 export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 
-	static get is() { return 'd2l-outcomes-list'; }
-
 	static get properties() {
 		return {
 			instructor: { type: Boolean },
@@ -107,24 +105,13 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 		});
 	}
 
+	static get is() { return 'd2l-outcomes-list'; }
+
 	connectedCallback() {
 		super.connectedCallback();
 
 		IronA11yAnnouncer.requestAvailability();
 		IronA11yAnnouncer.mode = 'assertive';
-	}
-
-	shouldUpdate(changedProps) {
-		// The parent function needs to be called even when its result won't be used
-		// to ensure that entity gets fetched on initial set of href/token
-		const parentOpinion = super.shouldUpdate(changedProps);
-
-		if (!this.rendered) {
-			// Force at least 1 render even with no href/token to load skeleton
-			this.rendered = true;
-			return true;
-		}
-		return parentOpinion;
 	}
 
 	render() {
@@ -148,84 +135,17 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
         `;
 	}
 
-	_renderOutcomes() {
-		const treeNode = (outcome, index) => html`
-			<d2l-outcomes-tree-node
-				href=${outcome.self()}
-				token=${this.token}
-				tabindex="-1"
-				@load=${this._onChildLoaded}
-				aria-level="1"
-				aria-posinset=${index + 1}
-				aria-setsize=${this._outcomes.length}
-				search-term=${this._searchTerm}
-			></d2l-outcomes-tree-node>
-		`;
+	shouldUpdate(changedProps) {
+		// The parent function needs to be called even when its result won't be used
+		// to ensure that entity gets fetched on initial set of href/token
+		const parentOpinion = super.shouldUpdate(changedProps);
 
-		const listItem = (outcome) => html`
-			<d2l-outcomes-list-item
-				href=${outcome.self()}
-				token=${this.token}
-			></d2l-outcomes-list-item>
-		`;
-
-		return html`
-			<div class="no-items" ?hidden=${this._outcomes.length !== 0}>
-				${this.localize(this.instructor ? 'noOutcomesInstructor' : 'noOutcomesStudent', 'outcome', this.outcomeTerm)}
-			</div>
-			${this._outcomes.map((outcome, index) => (this._isHierarchy ? treeNode(outcome, index) : listItem(outcome)))}
-		`;
-	}
-
-	_renderSearch() {
-		const searchBoldRegex = `@(${escapeRegex(this._searchTerm)})@`;
-
-		const searchResultsMsg = this._searchResultsFound
-			? this.localize('numSearchResults', 'numResults', this._searchMatches, 'searchTerm', `@${this._searchTerm}@`)
-			: this.localize('noSearchResults', 'searchTerm', `@${this._searchTerm}@`);
-
-		return html`
-			<div id="search-container" aria-live="off">
-				<d2l-input-search
-					id="hierarchy-search"
-					label=${this.localize('searchLabel')}
-					placeholder=${this.localize('searchHint')}
-					@d2l-input-search-searched=${this._onInputSearched}
-				></d2l-input-search>
-				${this._isSearching ? html`
-					<div id="search-results">
-						<partial-bold
-							bold-regex=${searchBoldRegex}
-							content=${searchResultsMsg}
-						></partial-bold>
-					</div>
-				` : null}
-			</div>
-		`;
-	}
-
-	_renderSkeleton() {
-		return [...Array(DEFAULT_SKELETON_COUNT)]
-			.map(() => html`<d2l-outcomes-list-item></d2l-outcomes-list-item>`);
-	}
-
-	set _entity(entity) {
-		if (this._entityHasChanged(entity)) {
-			this._onEntityChanged(entity);
-			super._entity = entity;
+		if (!this.rendered) {
+			// Force at least 1 render even with no href/token to load skeleton
+			this.rendered = true;
+			return true;
 		}
-	}
-
-	_onEntityChanged(entity) {
-		if (entity) {
-			const outcomes = [];
-			entity.onUserProgressOutcomeChanged(outcomes.push.bind(outcomes));
-
-			entity.subEntitiesLoaded().then(() => {
-				this._isHierarchy = entity.isHierarchy();
-				this._outcomes = outcomes.sort((l, r) => l.index - r.index);
-			});
-		}
+		return parentOpinion;
 	}
 
 	get _hasChildren() {
@@ -238,6 +158,13 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 
 	get _searchResultsFound() {
 		return this._searchMatches > 0;
+	}
+
+	set _entity(entity) {
+		if (this._entityHasChanged(entity)) {
+			this._onEntityChanged(entity);
+			super._entity = entity;
+		}
 	}
 
 	_announceSearchResults() {
@@ -285,6 +212,13 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 		}
 	}
 
+	_getAriaDescription(outcomeTerm, isLoaded, isHierarchy) {
+		const textArray = [];
+		textArray.push(this.localize('outcomesListDescription', 'outcome', outcomeTerm));
+		if (!isLoaded && isHierarchy) textArray.push(this.localize('outcomesListLoading'));
+		return textArray.join(', ');
+	}
+
 	_getFirstChildNode() {
 		let firstHref = null;
 
@@ -327,13 +261,6 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 		}
 	}
 
-	_getAriaDescription(outcomeTerm, isLoaded, isHierarchy) {
-		const textArray = [];
-		textArray.push(this.localize('outcomesListDescription', 'outcome', outcomeTerm));
-		if (!isLoaded && isHierarchy) textArray.push(this.localize('outcomesListLoading'));
-		return textArray.join(', ');
-	}
-
 	_getOutcomeIndex(outcomeHref, outcomes) {
 		for (let i = 0; i < outcomes.length; i++) {
 			if (outcomes[i].self() === outcomeHref) {
@@ -359,6 +286,33 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 		}
 
 		return this.localize('noSearchResults', 'searchTerm', this._searchTerm);
+	}
+
+	_onChildLoaded() {
+		this._loadedChildren++;
+		if (this._loadedChildren === this._outcomes.length) {
+			this.updateComplete.then(() => {
+				const event = new CustomEvent('iron-announce', {
+					bubbles: true,
+					composed: true,
+					detail: { text: this.localize('outcomesListLoadingComplete') }
+				});
+				this.dispatchEvent(event);
+				this._isLoaded = true;
+			});
+		}
+	}
+
+	_onEntityChanged(entity) {
+		if (entity) {
+			const outcomes = [];
+			entity.onUserProgressOutcomeChanged(outcomes.push.bind(outcomes));
+
+			entity.subEntitiesLoaded().then(() => {
+				this._isHierarchy = entity.isHierarchy();
+				this._outcomes = outcomes.sort((l, r) => l.index - r.index);
+			});
+		}
 	}
 
 	_onFocus(e) {
@@ -434,19 +388,65 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 		}
 	}
 
-	_onChildLoaded() {
-		this._loadedChildren++;
-		if (this._loadedChildren === this._outcomes.length) {
-			this.updateComplete.then(() => {
-				const event = new CustomEvent('iron-announce', {
-					bubbles: true,
-					composed: true,
-					detail: { text: this.localize('outcomesListLoadingComplete') }
-				});
-				this.dispatchEvent(event);
-				this._isLoaded = true;
-			});
-		}
+	_renderOutcomes() {
+		const treeNode = (outcome, index) => html`
+			<d2l-outcomes-tree-node
+				href=${outcome.self()}
+				token=${this.token}
+				tabindex="-1"
+				@load=${this._onChildLoaded}
+				aria-level="1"
+				aria-posinset=${index + 1}
+				aria-setsize=${this._outcomes.length}
+				search-term=${this._searchTerm}
+			></d2l-outcomes-tree-node>
+		`;
+
+		const listItem = (outcome) => html`
+			<d2l-outcomes-list-item
+				href=${outcome.self()}
+				token=${this.token}
+			></d2l-outcomes-list-item>
+		`;
+
+		return html`
+			<div class="no-items" ?hidden=${this._outcomes.length !== 0}>
+				${this.localize(this.instructor ? 'noOutcomesInstructor' : 'noOutcomesStudent', 'outcome', this.outcomeTerm)}
+			</div>
+			${this._outcomes.map((outcome, index) => (this._isHierarchy ? treeNode(outcome, index) : listItem(outcome)))}
+		`;
+	}
+
+	_renderSearch() {
+		const searchBoldRegex = `@(${escapeRegex(this._searchTerm)})@`;
+
+		const searchResultsMsg = this._searchResultsFound
+			? this.localize('numSearchResults', 'numResults', this._searchMatches, 'searchTerm', `@${this._searchTerm}@`)
+			: this.localize('noSearchResults', 'searchTerm', `@${this._searchTerm}@`);
+
+		return html`
+			<div id="search-container" aria-live="off">
+				<d2l-input-search
+					id="hierarchy-search"
+					label=${this.localize('searchLabel')}
+					placeholder=${this.localize('searchHint')}
+					@d2l-input-search-searched=${this._onInputSearched}
+				></d2l-input-search>
+				${this._isSearching ? html`
+					<div id="search-results">
+						<partial-bold
+							bold-regex=${searchBoldRegex}
+							content=${searchResultsMsg}
+						></partial-bold>
+					</div>
+				` : null}
+			</div>
+		`;
+	}
+
+	_renderSkeleton() {
+		return [...Array(DEFAULT_SKELETON_COUNT)]
+			.map(() => html`<d2l-outcomes-list-item></d2l-outcomes-list-item>`);
 	}
 
 }

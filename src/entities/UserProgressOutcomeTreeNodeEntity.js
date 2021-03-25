@@ -13,28 +13,12 @@ export class UserProgressOutcomeTreeNodeEntity extends Entity {
 		};
 	}
 
-	_getChildNodes() {
-		if (!this._entity) {
-			return;
-		}
-
-		return this._entity.entities ? this._entity.getSubEntitiesByClass(UserProgressOutcomeTreeNodeEntity.class) : [];
-	}
-
 	getOutcomeActivitiesHref() {
 		if (!this._entity || !this._entity.hasLinkByRel(UserProgressOutcomeTreeNodeEntity.links.outcomeActivitiesRel)) {
 			return;
 		}
 
 		return this._entity.getLinkByRel(UserProgressOutcomeTreeNodeEntity.links.outcomeActivitiesRel).href;
-	}
-
-	_getOutcomeHref() {
-		if (!this._entity || !this._entity.hasLinkByRel(UserProgressOutcomeTreeNodeEntity.links.outcomeRel)) {
-			return;
-		}
-
-		return this._entity.getLinkByRel(UserProgressOutcomeTreeNodeEntity.links.outcomeRel).href;
 	}
 
 	onChildNodeChanged(onChange) {
@@ -59,6 +43,22 @@ export class UserProgressOutcomeTreeNodeEntity extends Entity {
 	onOutcomeChanged(onChange) {
 		const href = this._getOutcomeHref();
 		href && this._subEntity(OutcomeEntity, href, onChange);
+	}
+
+	_getChildNodes() {
+		if (!this._entity) {
+			return;
+		}
+
+		return this._entity.entities ? this._entity.getSubEntitiesByClass(UserProgressOutcomeTreeNodeEntity.class) : [];
+	}
+
+	_getOutcomeHref() {
+		if (!this._entity || !this._entity.hasLinkByRel(UserProgressOutcomeTreeNodeEntity.links.outcomeRel)) {
+			return;
+		}
+
+		return this._entity.getLinkByRel(UserProgressOutcomeTreeNodeEntity.links.outcomeRel).href;
 	}
 
 }
