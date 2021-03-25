@@ -1,0 +1,18 @@
+{
+    "class": [
+        "level-of-achievment"
+    ],
+    "properties": {
+        "levelId": "unused-8-4-2",
+        "name": "unused level",
+        "color": "#000000"
+    },
+    "links": [
+        {
+            "rel": [
+                "self"
+            ],
+            "href": "data/levels/unused-8-4-2.json"
+        }
+    ]
+}
