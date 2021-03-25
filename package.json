@@ -1,6 +1,6 @@
 {
   "name": "d2l-outcomes-user-progress",
-  "version": "1.4.19",
+  "version": "1.5.0",
   "description": "Web components for Outcomes User Progress page",
   "scripts": {
     "lang:build": "lang-build -es \"\t\" -c langtools/config.json",
