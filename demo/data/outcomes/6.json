@@ -1,24 +1,24 @@
 {
-    "class": [
-        "outcome"
+  "class": [
+    "outcome"
+  ],
+  "properties": {
+    "notation": "",
+    "altNotation": "",
+    "label": "Specific Expectation",
+    "listId": "A2.1",
+    "description": "Explain the difference between software used for applications (e.g., word processor, spreadsheet, email client), programming (e.g., an integrated development environment), and systems (e.g., operating system tools such as a registry editor and a defragmenting tool)",
+    "subjects": [
+      "Computer Studies"
     ],
-    "properties": {
-        "notation": "",
-        "altNotation": "",
-        "label": "Specific Expectation",
-        "listId": "A2.1",
-        "description": "Explain the difference between software used for applications (e.g., word processor, spreadsheet, email client), programming (e.g., an integrated development environment), and systems (e.g., operating system tools such as a registry editor and a defragmenting tool)",
-        "subjects": [
-            "Computer Studies"
-        ],
-        "source": "asn"
-    },
-    "links": [
-        {
-            "rel": [
-                "self"
-            ],
-            "href": "data/outcomes/6.json"
-        }
-    ]
+    "source": "asn"
+  },
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/outcomes/6.json"
+    }
+  ]
 }

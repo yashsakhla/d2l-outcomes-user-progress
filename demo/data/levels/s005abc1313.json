@@ -1,18 +1,18 @@
 {
-    "class": [
-        "level-of-achievment"
-    ],
-    "properties": {
-        "levelId": "s005abc1313",
-        "name": "Level 13",
-        "color": "#73e600"
-    },
-    "links": [
-        {
-            "rel": [
-                "self"
-            ],
-            "href": "data/levels/s005abc1313.json"
-        }
-    ]
+  "class": [
+    "level-of-achievment"
+  ],
+  "properties": {
+    "levelId": "s005abc1313",
+    "name": "Level 13",
+    "color": "#73e600"
+  },
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/levels/s005abc1313.json"
+    }
+  ]
 }

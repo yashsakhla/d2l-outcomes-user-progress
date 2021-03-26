@@ -1,24 +1,24 @@
 {
-    "class": [
-        "outcome"
+  "class": [
+    "outcome"
+  ],
+  "properties": {
+    "notation": "",
+    "altNotation": "",
+    "label": "Overall Expectation",
+    "listId": "A2",
+    "description": "Describe the different types of software products, and assess the software needs of users",
+    "subjects": [
+      "Computer Studies"
     ],
-    "properties": {
-        "notation": "",
-        "altNotation": "",
-        "label": "Overall Expectation",
-        "listId": "A2",
-        "description": "Describe the different types of software products, and assess the software needs of users",
-        "subjects": [
-            "Computer Studies"
-        ],
-        "source": "asn"
-    },
-    "links": [
-        {
-            "rel": [
-                "self"
-            ],
-            "href": "data/outcomes/5.json"
-        }
-    ]
+    "source": "asn"
+  },
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/outcomes/5.json"
+    }
+  ]
 }

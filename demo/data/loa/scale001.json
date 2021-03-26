@@ -1,37 +1,37 @@
 {
-    "class": [
-        "achievement-scale"
-    ],
-    "properties": {
-        "name": "2 Level Scale",
-        "isDefault": true
+  "class": [
+    "achievement-scale"
+  ],
+  "properties": {
+    "name": "2 Level Scale",
+    "isDefault": true
+  },
+  "entities": [
+    {
+      "class": [
+        "level-of-achievement"
+      ],
+      "rel": [
+        "item"
+      ],
+      "href": "data/levels/s001abc111.json"
     },
-    "entities": [
-        {
-            "class": [
-                "level-of-achievement"
-            ],
-            "rel": [
-                "item"
-            ],
-            "href": "data/levels/s001abc111.json"
-        },
-        {
-            "class": [
-                "level-of-achievement"
-            ],
-            "rel": [
-                "item"
-            ],
-            "href": "data/levels/s001abc222.json"
-        }
-    ],
-    "links": [
-        {
-            "rel": [
-                "self"
-            ],
-            "href": "data/loa/scale001.json"
-        }
-    ]
+    {
+      "class": [
+        "level-of-achievement"
+      ],
+      "rel": [
+        "item"
+      ],
+      "href": "data/levels/s001abc222.json"
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/loa/scale001.json"
+    }
+  ]
 }

@@ -1,18 +1,18 @@
 {
-    "class": [
-        "level-of-achievment"
-    ],
-    "properties": {
-        "levelId": "s005abc222",
-        "name": "Level 2",
-        "color": "#ff0000"
-    },
-    "links": [
-        {
-            "rel": [
-                "self"
-            ],
-            "href": "data/levels/s005abc222.json"
-        }
-    ]
+  "class": [
+    "level-of-achievment"
+  ],
+  "properties": {
+    "levelId": "s005abc222",
+    "name": "Level 2",
+    "color": "#ff0000"
+  },
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/levels/s005abc222.json"
+    }
+  ]
 }

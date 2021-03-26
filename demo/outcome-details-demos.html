@@ -1,55 +1,58 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-	
-		<title>Outcome Progress Details Component Demo</title>
 
-		<script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-		<script type="module" src="../node_modules/@brightspace-ui/core/components/typography/typography.js"></script>
-		<script type="module" src="../src/outcome-details/outcome-details.js"></script>
-		<script type="module" src="../src/evidence/evidence-skeleton.js"></script>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-		<style>
-			body {
-				background-color: #eee;
-			}
+	<title>Outcome Progress Details Component Demo</title>
 
-			h1 {
-				margin-top: 0px;
-			}
+	<script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+	<script type="module" src="../node_modules/@brightspace-ui/core/components/typography/typography.js"></script>
+	<script type="module" src="../src/outcome-details/outcome-details.js"></script>
+	<script type="module" src="../src/evidence/evidence-skeleton.js"></script>
 
-			.demo-container {
-				background-color: #fff;
-				margin: 48px auto;
-				max-width: 800px;
-				padding: 48px;
-				width: calc(100% - 100px);
-			}
-		</style>
-		
-		<script type="module">
-			const $_typographyImport = document.createElement('template');
+	<style>
+		body {
+			background-color: #eee;
+		}
 
-			$_typographyImport.innerHTML = `
+		h1 {
+			margin-top: 0px;
+		}
+
+		.demo-container {
+			background-color: #fff;
+			margin: 48px auto;
+			max-width: 800px;
+			padding: 48px;
+			width: calc(100% - 100px);
+		}
+	</style>
+
+	<script type="module">
+		const $_typographyImport = document.createElement('template');
+
+		$_typographyImport.innerHTML = `
 				<custom-style include="d2l-typography">
 					<style is="custom-style" include="d2l-typography">
 						html { font-size: 20px; }
 					</style>
 				</custom-style>`;
 
-			document.body.appendChild($_typographyImport.content);
-		</script>
-	</head>
-	<body class="d2l-typography">
-		<div class="demo-container">
-			<h1>Outcome Details</h1>
-			<d2l-outcome-progress-details
-				href="data/user-progress-outcomes/upo0.json"
-				token="abc123"
-				outcome-term="outcomes"
-			></d2l-outcome-progress-details>
-		</div>
-	</body>
+		document.body.appendChild($_typographyImport.content);
+	</script>
+</head>
+
+<body class="d2l-typography">
+	<div class="demo-container">
+		<h1>Outcome Details</h1>
+		<d2l-outcome-progress-details
+			href="data/user-progress-outcomes/upo0.json"
+			token="abc123"
+			outcome-term="outcomes"
+		></d2l-outcome-progress-details>
+	</div>
+</body>
+
 </html>
