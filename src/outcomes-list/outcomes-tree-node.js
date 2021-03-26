@@ -6,6 +6,7 @@ import './partial-bold';
 import { bodySmallStyles, bodyStandardStyles, heading2Styles, heading3Styles } from '@brightspace-ui/core/components/typography/styles';
 import { css, html, LitElement } from 'lit-element';
 import { EntityMixinLit } from 'siren-sdk/src/mixin/entity-mixin-lit';
+import { ifDefined } from 'lit-html/directives/if-defined';
 import { LocalizeMixin } from '../LocalizeMixin';
 import { oupConsts } from '../consts';
 import { UserProgressOutcomeTreeNodeEntity } from '../entities/UserProgressOutcomeTreeNodeEntity';
@@ -340,7 +341,7 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 									@load=${this._onChildLoaded}
 									aria-level=${this.ariaLevel + 1}
 									aria-posinset=${index + 1}
-									aria-setsize=${this._children.length || null}
+									aria-setsize=${ifDefined(this._children.length || undefined)}
 									search-term=${this.searchTerm}
 									@update-filter-status=${this._onChildFilterStatusChanged}
 								></d2l-outcomes-tree-node>
