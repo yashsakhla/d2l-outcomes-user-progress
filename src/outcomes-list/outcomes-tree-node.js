@@ -254,7 +254,7 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 		this._reportFilterStatus(isFiltered);
 
 		return html`
-			<div 
+			<div
 				id="container"
 				?hidden=${isFiltered}
 				role="treeitem"

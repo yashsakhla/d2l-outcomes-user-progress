@@ -1,24 +1,24 @@
 {
-    "class": [
-        "outcome"
+  "class": [
+    "outcome"
+  ],
+  "properties": {
+    "notation": "",
+    "altNotation": "",
+    "label": "Specific Expectation",
+    "listId": "A1.2",
+    "description": "Describe the functions of the internal components of a computer (e.g., CPU, RAM, ROM, cache, hard drive, motherboard, power supply, video card, sound card)",
+    "subjects": [
+      "Computer Studies"
     ],
-    "properties": {
-        "notation": "",
-        "altNotation": "",
-        "label": "Specific Expectation",
-        "listId": "A1.2",
-        "description": "Describe the functions of the internal components of a computer (e.g., CPU, RAM, ROM, cache, hard drive, motherboard, power supply, video card, sound card)",
-        "subjects": [
-            "Computer Studies"
-        ],
-        "source": "asn"
-    },
-    "links": [
-        {
-            "rel": [
-                "self"
-            ],
-            "href": "data/outcomes/2.json"
-        }
-    ]
+    "source": "asn"
+  },
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/outcomes/2.json"
+    }
+  ]
 }

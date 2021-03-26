@@ -1,21 +1,21 @@
 {
-    "class": [
-        "collection",
-        "user-progress-outcome-activities"
-    ],
-    "entities": [],
-    "links": [
-        {
-            "rel": [
-                "self"
-            ],
-            "href": "data/user-progress-outcomes/0/activities.json"
-        },
-        {
-            "rel": [
-                "default-achievement-scale"
-            ],
-            "href": "data/loa/scale000.json"
-        }
-    ]
+  "class": [
+    "collection",
+    "user-progress-outcome-activities"
+  ],
+  "entities": [],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/user-progress-outcomes/0/activities.json"
+    },
+    {
+      "rel": [
+        "default-achievement-scale"
+      ],
+      "href": "data/loa/scale000.json"
+    }
+  ]
 }

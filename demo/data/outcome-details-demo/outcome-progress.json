@@ -1,25 +1,25 @@
 {
-    "class": [
-        "user-progress-outcome"
-    ],
-    "links": [
-        {
-            "rel": [
-                "self"
-            ],
-            "href": "data/outcome-details-demo/outcome-progress.json"
-        },
-        {
-            "rel": [
-                "https://outcomes.api.brightspace.com/rels/outcome"
-            ],
-            "href": "data/outcome-details-demo/outcome.json"
-        },
-        {
-            "rel": [
-                "https://user-progress.api.brightspace.com/rels/outcome-activities"
-            ],
-            "href": "data/outcome-details-demo/activities.json"
-        }
-    ]
+  "class": [
+    "user-progress-outcome"
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/outcome-details-demo/outcome-progress.json"
+    },
+    {
+      "rel": [
+        "https://outcomes.api.brightspace.com/rels/outcome"
+      ],
+      "href": "data/outcome-details-demo/outcome.json"
+    },
+    {
+      "rel": [
+        "https://user-progress.api.brightspace.com/rels/outcome-activities"
+      ],
+      "href": "data/outcome-details-demo/activities.json"
+    }
+  ]
 }

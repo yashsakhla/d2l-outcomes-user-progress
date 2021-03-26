@@ -1,268 +1,268 @@
 {
-    "class": [
-        "collection",
-        "user-progress-outcome-activities"
-    ],
-    "entities": [
+  "class": [
+    "collection",
+    "user-progress-outcome-activities"
+  ],
+  "entities": [
+    {
+      "class": [
+        "user-progress-outcome-activity"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "name": null,
+        "type": "Dropbox"
+      },
+      "entities": [
         {
-            "class": [
-                "user-progress-outcome-activity"
-            ],
-            "rel": [
+          "class": [
+            "demonstration",
+            "assessed"
+          ],
+          "rel": [
+            "item"
+          ],
+          "properties": {
+            "dateAssessed": "2018-09-01T04:00:00.000Z"
+          },
+          "entities": [
+            {
+              "class": [
+                "demonstratable-level",
+                "selected"
+              ],
+              "rel": [
                 "item"
-            ],
-            "properties": {
-                "name": null,
-                "type": "Dropbox"
+              ],
+              "properties": {
+                "levelId": "s002abc111"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s002abc111.json"
+                }
+              ]
             },
-            "entities": [
-                {
-                    "class": [
-                        "demonstration",
-                        "assessed"
-                    ],
-                    "rel": [
-                        "item"
-                    ],
-                    "properties": {
-                        "dateAssessed": "2018-09-01T04:00:00.000Z"
-                    },
-                    "entities": [
-                        {
-                            "class": [
-                                "demonstratable-level",
-                                "selected"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s002abc111"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s002abc111.json"
-                                }
-                            ]
-                        },
-                        {
-                            "class": [
-                                "demonstratable-level"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s002abc222"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s002abc222.json"
-                                }
-                            ]
-                        },
-                        {
-                            "class": [
-                                "demonstratable-level"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s002abc333"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s002abc333.json"
-                                }
-                            ]
-                        }
-                    ],
-                    "links": [
-                        {
-                            "rel": [
-                                "self"
-                            ],
-                            "href": "data/demonstrations/7.json"
-                        }
-                    ]
-                }
-            ],
-            "links": [
-                {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "data/user-progress-outcomes/2/activities/a1.json"
-                }
-            ]
-        },
-        {
-            "class": [
-                "user-progress-outcome-activity"
-            ],
-            "rel": [
+            {
+              "class": [
+                "demonstratable-level"
+              ],
+              "rel": [
                 "item"
-            ],
-            "properties": {
-                "name": "Activity 2",
-                "dueDate": "2018-09-01T04:00:01.000Z",
-                "type": "News"
-            },
-            "links": [
+              ],
+              "properties": {
+                "levelId": "s002abc222"
+              },
+              "links": [
                 {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "data/user-progress-outcomes/2/activities/a2.json"
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s002abc222.json"
                 }
-            ]
-        },
-        {
-            "class": [
-                "user-progress-outcome-activity"
-            ],
-            "rel": [
+              ]
+            },
+            {
+              "class": [
+                "demonstratable-level"
+              ],
+              "rel": [
                 "item"
-            ],
-            "properties": {
-                "name": "Activity 3",
-                "type": "Chat"
-            },
-            "entities": [
+              ],
+              "properties": {
+                "levelId": "s002abc333"
+              },
+              "links": [
                 {
-                    "class": [
-                        "demonstration",
-                        "assessed"
-                    ],
-                    "rel": [
-                        "item"
-                    ],
-                    "properties": {
-                        "dateAssessed": "2018-09-01T04:00:02.000Z"
-                    },
-                    "entities": [
-                        {
-                            "class": [
-                                "demonstratable-level"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s002abc111"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s002abc111.json"
-                                }
-                            ]
-                        },
-                        {
-                            "class": [
-                                "demonstratable-level",
-                                "selected"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s002abc222"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s002abc222.json"
-                                }
-                            ]
-                        },
-                        {
-                            "class": [
-                                "demonstratable-level"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s002abc333"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s002abc333.json"
-                                }
-                            ]
-                        }
-                    ],
-                    "links": [
-                        {
-                            "rel": [
-                                "self"
-                            ],
-                            "href": "data/demonstrations/8.json"
-                        }
-                    ]
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s002abc333.json"
                 }
-            ],
-            "links": [
-                {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "data/user-progress-outcomes/2/activities/a3.json"
-                }
-            ]
-        },
-        {
-            "class": [
-                "user-progress-outcome-activity"
-            ],
-            "rel": [
-                "item"
-            ],
-            "properties": {
-                "name": "Activity 4",
-                "dueDate": "2037-07-31T22:00:00.000Z",
-                "type": "Dropbox"
-            },
-            "links": [
-                {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "data/user-progress-outcomes/2/activities/a4.json"
-                }
-            ]
-        }
-    ],
-    "links": [
-        {
-            "rel": [
+              ]
+            }
+          ],
+          "links": [
+            {
+              "rel": [
                 "self"
-            ],
-            "href": "data/user-progress-outcomes/2/activities.json"
-        },
-        {
-            "rel": [
-                "default-achievement-scale"
-            ],
-            "href": "data/loa/scale002.json"
+              ],
+              "href": "data/demonstrations/7.json"
+            }
+          ]
         }
-    ]
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "data/user-progress-outcomes/2/activities/a1.json"
+        }
+      ]
+    },
+    {
+      "class": [
+        "user-progress-outcome-activity"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "name": "Activity 2",
+        "dueDate": "2018-09-01T04:00:01.000Z",
+        "type": "News"
+      },
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "data/user-progress-outcomes/2/activities/a2.json"
+        }
+      ]
+    },
+    {
+      "class": [
+        "user-progress-outcome-activity"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "name": "Activity 3",
+        "type": "Chat"
+      },
+      "entities": [
+        {
+          "class": [
+            "demonstration",
+            "assessed"
+          ],
+          "rel": [
+            "item"
+          ],
+          "properties": {
+            "dateAssessed": "2018-09-01T04:00:02.000Z"
+          },
+          "entities": [
+            {
+              "class": [
+                "demonstratable-level"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s002abc111"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s002abc111.json"
+                }
+              ]
+            },
+            {
+              "class": [
+                "demonstratable-level",
+                "selected"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s002abc222"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s002abc222.json"
+                }
+              ]
+            },
+            {
+              "class": [
+                "demonstratable-level"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s002abc333"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s002abc333.json"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "rel": [
+                "self"
+              ],
+              "href": "data/demonstrations/8.json"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "data/user-progress-outcomes/2/activities/a3.json"
+        }
+      ]
+    },
+    {
+      "class": [
+        "user-progress-outcome-activity"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "name": "Activity 4",
+        "dueDate": "2037-07-31T22:00:00.000Z",
+        "type": "Dropbox"
+      },
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "data/user-progress-outcomes/2/activities/a4.json"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/user-progress-outcomes/2/activities.json"
+    },
+    {
+      "rel": [
+        "default-achievement-scale"
+      ],
+      "href": "data/loa/scale002.json"
+    }
+  ]
 }

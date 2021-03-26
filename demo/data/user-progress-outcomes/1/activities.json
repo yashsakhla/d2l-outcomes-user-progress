@@ -1,583 +1,583 @@
 {
-    "class": [
-        "collection",
-        "user-progress-outcome-activities"
-    ],
-    "entities": [
+  "class": [
+    "collection",
+    "user-progress-outcome-activities"
+  ],
+  "entities": [
+    {
+      "class": [
+        "user-progress-outcome-activity"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "name": "Activity 1",
+        "type": "SelfAssessments"
+      },
+      "entities": [
         {
-            "class": [
-                "user-progress-outcome-activity"
-            ],
-            "rel": [
+          "class": [
+            "demonstration",
+            "assessed"
+          ],
+          "rel": [
+            "item"
+          ],
+          "properties": {
+            "dateAssessed": "2018-09-01T04:00:00.000Z"
+          },
+          "entities": [
+            {
+              "class": [
+                "demonstratable-level",
+                "selected"
+              ],
+              "rel": [
                 "item"
-            ],
-            "properties": {
-                "name": "Activity 1",
-                "type": "SelfAssessments"
+              ],
+              "properties": {
+                "levelId": "s001abc111"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s001abc111.json"
+                }
+              ]
             },
-            "entities": [
-                {
-                    "class": [
-                        "demonstration",
-                        "assessed"
-                    ],
-                    "rel": [
-                        "item"
-                    ],
-                    "properties": {
-                        "dateAssessed": "2018-09-01T04:00:00.000Z"
-                    },
-                    "entities": [
-                        {
-                            "class": [
-                                "demonstratable-level",
-                                "selected"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s001abc111"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s001abc111.json"
-                                }
-                            ]
-                        },
-                        {
-                            "class": [
-                                "demonstratable-level"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s001abc222"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s001abc222.json"
-                                }
-                            ]
-                        }
-                    ],
-                    "links": [
-                        {
-                            "rel": [
-                                "self"
-                            ],
-                            "href": "data/demonstrations/0.json"
-                        }
-                    ]
-                }
-            ],
-            "links": [
-                {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "data/user-progress-outcomes/1/activities/a1.json"
-                }
-            ]
-        },
-        {
-            "class": [
-                "user-progress-outcome-activity"
-            ],
-            "rel": [
+            {
+              "class": [
+                "demonstratable-level"
+              ],
+              "rel": [
                 "item"
-            ],
-            "properties": {
-                "name": "Activity 2",
-                "type": "Quizzing"
-            },
-            "entities": [
+              ],
+              "properties": {
+                "levelId": "s001abc222"
+              },
+              "links": [
                 {
-                    "class": [
-                        "demonstration",
-                        "assessed"
-                    ],
-                    "rel": [
-                        "item"
-                    ],
-                    "properties": {
-                        "dateAssessed": "2018-10-01T04:00:00.000Z"
-                    },
-                    "entities": [
-                        {
-                            "class": [
-                                "demonstratable-level",
-                                "selected"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s001abc111"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s001abc111.json"
-                                }
-                            ]
-                        },
-                        {
-                            "class": [
-                                "demonstratable-level"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s001abc222"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s001abc222.json"
-                                }
-                            ]
-                        }
-                    ],
-                    "links": [
-                        {
-                            "rel": [
-                                "self"
-                            ],
-                            "href": "data/demonstrations/1.json"
-                        }
-                    ]
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s001abc222.json"
                 }
-            ],
-            "links": [
-                {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "data/user-progress-outcomes/1/activities/a2.json"
-                }
-            ]
-        },
-        {
-            "class": [
-                "user-progress-outcome-activity"
-            ],
-            "rel": [
-                "item"
-            ],
-            "properties": {
-                "dueDate": "2119-10-01T04:00:01.000Z",
-                "name": "Activity 3",
-                "type": "QuestionCollection"
-            },
-            "entities": [
-                {
-                    "class": [
-                        "demonstration",
-                        "assessed"
-                    ],
-                    "rel": [
-                        "item"
-                    ],
-                    "properties": {
-                        "dateAssessed": "2018-10-01T04:00:01.000Z"
-                    },
-                    "entities": [
-                        {
-                            "class": [
-                                "demonstratable-level",
-                                "selected"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s001abc111"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s001abc111.json"
-                                }
-                            ]
-                        },
-                        {
-                            "class": [
-                                "demonstratable-level"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s001abc222"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s001abc222.json"
-                                }
-                            ]
-                        }
-                    ],
-                    "links": [
-                        {
-                            "rel": [
-                                "self"
-                            ],
-                            "href": "data/demonstrations/2.json"
-                        }
-                    ]
-                },
-                {
-                    "class": [
-                        "demonstration",
-                        "assessed"
-                    ],
-                    "rel": [
-                        "item"
-                    ],
-                    "properties": {
-                        "dateAssessed": "2018-10-01T04:00:01.000Z"
-                    },
-                    "entities": [
-                        {
-                            "class": [
-                                "demonstratable-level"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s001abc111"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s001abc111.json"
-                                }
-                            ]
-                        },
-                        {
-                            "class": [
-                                "demonstratable-level",
-                                "selected"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s001abc222"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s001abc222.json"
-                                }
-                            ]
-                        }
-                    ],
-                    "links": [
-                        {
-                            "rel": [
-                                "self"
-                            ],
-                            "href": "data/demonstrations/3.json"
-                        }
-                    ]
-                }
-            ],
-            "links": [
-                {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "data/user-progress-outcomes/1/activities/a3.json"
-                }
-            ]
-        },
-        {
-            "class": [
-                "user-progress-outcome-activity"
-            ],
-            "rel": [
-                "item"
-            ],
-            "properties": {
-                "name": "Activity 4",
-                "type": "Checklist"
-            },
-            "entities": [
-                {
-                    "class": [
-                        "demonstration",
-                        "assessed"
-                    ],
-                    "rel": [
-                        "item"
-                    ],
-                    "properties": {
-                        "dateAssessed": "2018-10-01T04:00:02.000Z"
-                    },
-                    "entities": [
-                        {
-                            "class": [
-                                "demonstratable-level",
-                                "selected"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s001abc111"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s001abc111.json"
-                                }
-                            ]
-                        },
-                        {
-                            "class": [
-                                "demonstratable-level"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s001abc222"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s001abc222.json"
-                                }
-                            ]
-                        }
-                    ],
-                    "links": [
-                        {
-                            "rel": [
-                                "self"
-                            ],
-                            "href": "data/demonstrations/4.json"
-                        }
-                    ]
-                }
-            ],
-            "links": [
-                {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "data/user-progress-outcomes/1/activities/a4.json"
-                }
-            ]
-        },
-        {
-            "class": [
-                "user-progress-outcome-activity"
-            ],
-            "rel": [
-                "item"
-            ],
-            "properties": {
-                "name": "Activity 5",
-                "type": "Dropbox"
-            },
-            "entities": [
-                {
-                    "class": [
-                        "demonstration",
-                        "assessed"
-                    ],
-                    "rel": [
-                        "item"
-                    ],
-                    "properties": {
-                        "dateAssessed": "2018-11-01T04:00:00.000Z"
-                    },
-                    "entities": [
-                        {
-                            "class": [
-                                "demonstratable-level"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s001abc111"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s001abc111.json"
-                                }
-                            ]
-                        },
-                        {
-                            "class": [
-                                "demonstratable-level",
-                                "selected"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s001abc222"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s001abc222.json"
-                                }
-                            ]
-                        }
-                    ],
-                    "links": [
-                        {
-                            "rel": [
-                                "self"
-                            ],
-                            "href": "data/demonstrations/5.json"
-                        }
-                    ]
-                }
-            ],
-            "links": [
-                {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "data/user-progress-outcomes/1/activities/a5.json"
-                }
-            ]
-        },
-        {
-            "class": [
-                "user-progress-outcome-activity"
-            ],
-            "rel": [
-                "item"
-            ],
-            "properties": {
-                "dueDate": "2019-05-01T04:00:01.000Z",
-                "name": "Activity 6",
-                "type": "Quizzing"
-            },
-            "entities": [
-                {
-                    "class": [
-                        "demonstration",
-                        "assessed"
-                    ],
-                    "rel": [
-                        "item"
-                    ],
-                    "properties": {
-                        "dateAssessed": "2018-11-01T04:00:01.000Z"
-                    },
-                    "entities": [
-                        {
-                            "class": [
-                                "demonstratable-level"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s001abc111"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s001abc111.json"
-                                }
-                            ]
-                        },
-                        {
-                            "class": [
-                                "demonstratable-level",
-                                "selected"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "properties": {
-                                "levelId": "s001abc222"
-                            },
-                            "links": [
-                                {
-                                    "rel": [
-                                        "https://achievements.api.brightspace.com/rels/level"
-                                    ],
-                                    "href": "data/levels/s001abc222.json"
-                                }
-                            ]
-                        }
-                    ],
-                    "links": [
-                        {
-                            "rel": [
-                                "self"
-                            ],
-                            "href": "data/demonstrations/6.json"
-                        }
-                    ]
-                }
-            ],
-            "links": [
-                {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "data/user-progress-outcomes/1/activities/a6.json"
-                }
-            ]
-        }
-    ],
-    "links": [
-        {
-            "rel": [
+              ]
+            }
+          ],
+          "links": [
+            {
+              "rel": [
                 "self"
-            ],
-            "href": "data/user-progress-outcomes/1/activities.json"
+              ],
+              "href": "data/demonstrations/0.json"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "data/user-progress-outcomes/1/activities/a1.json"
+        }
+      ]
+    },
+    {
+      "class": [
+        "user-progress-outcome-activity"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "name": "Activity 2",
+        "type": "Quizzing"
+      },
+      "entities": [
+        {
+          "class": [
+            "demonstration",
+            "assessed"
+          ],
+          "rel": [
+            "item"
+          ],
+          "properties": {
+            "dateAssessed": "2018-10-01T04:00:00.000Z"
+          },
+          "entities": [
+            {
+              "class": [
+                "demonstratable-level",
+                "selected"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s001abc111"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s001abc111.json"
+                }
+              ]
+            },
+            {
+              "class": [
+                "demonstratable-level"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s001abc222"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s001abc222.json"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "rel": [
+                "self"
+              ],
+              "href": "data/demonstrations/1.json"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "data/user-progress-outcomes/1/activities/a2.json"
+        }
+      ]
+    },
+    {
+      "class": [
+        "user-progress-outcome-activity"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "dueDate": "2119-10-01T04:00:01.000Z",
+        "name": "Activity 3",
+        "type": "QuestionCollection"
+      },
+      "entities": [
+        {
+          "class": [
+            "demonstration",
+            "assessed"
+          ],
+          "rel": [
+            "item"
+          ],
+          "properties": {
+            "dateAssessed": "2018-10-01T04:00:01.000Z"
+          },
+          "entities": [
+            {
+              "class": [
+                "demonstratable-level",
+                "selected"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s001abc111"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s001abc111.json"
+                }
+              ]
+            },
+            {
+              "class": [
+                "demonstratable-level"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s001abc222"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s001abc222.json"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "rel": [
+                "self"
+              ],
+              "href": "data/demonstrations/2.json"
+            }
+          ]
         },
         {
-            "rel": [
-                "default-achievement-scale"
-            ],
-            "href": "data/loa/scale001.json"
+          "class": [
+            "demonstration",
+            "assessed"
+          ],
+          "rel": [
+            "item"
+          ],
+          "properties": {
+            "dateAssessed": "2018-10-01T04:00:01.000Z"
+          },
+          "entities": [
+            {
+              "class": [
+                "demonstratable-level"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s001abc111"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s001abc111.json"
+                }
+              ]
+            },
+            {
+              "class": [
+                "demonstratable-level",
+                "selected"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s001abc222"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s001abc222.json"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "rel": [
+                "self"
+              ],
+              "href": "data/demonstrations/3.json"
+            }
+          ]
         }
-    ]
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "data/user-progress-outcomes/1/activities/a3.json"
+        }
+      ]
+    },
+    {
+      "class": [
+        "user-progress-outcome-activity"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "name": "Activity 4",
+        "type": "Checklist"
+      },
+      "entities": [
+        {
+          "class": [
+            "demonstration",
+            "assessed"
+          ],
+          "rel": [
+            "item"
+          ],
+          "properties": {
+            "dateAssessed": "2018-10-01T04:00:02.000Z"
+          },
+          "entities": [
+            {
+              "class": [
+                "demonstratable-level",
+                "selected"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s001abc111"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s001abc111.json"
+                }
+              ]
+            },
+            {
+              "class": [
+                "demonstratable-level"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s001abc222"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s001abc222.json"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "rel": [
+                "self"
+              ],
+              "href": "data/demonstrations/4.json"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "data/user-progress-outcomes/1/activities/a4.json"
+        }
+      ]
+    },
+    {
+      "class": [
+        "user-progress-outcome-activity"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "name": "Activity 5",
+        "type": "Dropbox"
+      },
+      "entities": [
+        {
+          "class": [
+            "demonstration",
+            "assessed"
+          ],
+          "rel": [
+            "item"
+          ],
+          "properties": {
+            "dateAssessed": "2018-11-01T04:00:00.000Z"
+          },
+          "entities": [
+            {
+              "class": [
+                "demonstratable-level"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s001abc111"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s001abc111.json"
+                }
+              ]
+            },
+            {
+              "class": [
+                "demonstratable-level",
+                "selected"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s001abc222"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s001abc222.json"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "rel": [
+                "self"
+              ],
+              "href": "data/demonstrations/5.json"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "data/user-progress-outcomes/1/activities/a5.json"
+        }
+      ]
+    },
+    {
+      "class": [
+        "user-progress-outcome-activity"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "dueDate": "2019-05-01T04:00:01.000Z",
+        "name": "Activity 6",
+        "type": "Quizzing"
+      },
+      "entities": [
+        {
+          "class": [
+            "demonstration",
+            "assessed"
+          ],
+          "rel": [
+            "item"
+          ],
+          "properties": {
+            "dateAssessed": "2018-11-01T04:00:01.000Z"
+          },
+          "entities": [
+            {
+              "class": [
+                "demonstratable-level"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s001abc111"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s001abc111.json"
+                }
+              ]
+            },
+            {
+              "class": [
+                "demonstratable-level",
+                "selected"
+              ],
+              "rel": [
+                "item"
+              ],
+              "properties": {
+                "levelId": "s001abc222"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "https://achievements.api.brightspace.com/rels/level"
+                  ],
+                  "href": "data/levels/s001abc222.json"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "rel": [
+                "self"
+              ],
+              "href": "data/demonstrations/6.json"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "data/user-progress-outcomes/1/activities/a6.json"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/user-progress-outcomes/1/activities.json"
+    },
+    {
+      "rel": [
+        "default-achievement-scale"
+      ],
+      "href": "data/loa/scale001.json"
+    }
+  ]
 }

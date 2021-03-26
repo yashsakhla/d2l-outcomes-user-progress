@@ -35,7 +35,7 @@ export class PartialBold extends LitElement {
 
 	_parseContent(content, boldRegex) {
 		if (!boldRegex) {
-			return [ { data: content, bold: false } ];
+			return [{ data: content, bold: false }];
 		}
 
 		// Splitting on regex will include the regex matches in the result. Regex matches

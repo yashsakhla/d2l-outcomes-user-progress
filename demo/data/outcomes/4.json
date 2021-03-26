@@ -1,24 +1,24 @@
 {
-    "class": [
-        "outcome"
+  "class": [
+    "outcome"
+  ],
+  "properties": {
+    "notation": "",
+    "altNotation": "",
+    "label": "Specific Expectation",
+    "listId": "A1.4",
+    "description": "Assess user computing needs and select appropriate hardware components for different situations (e.g., a student on a fixed budget, a home business user, a gaming enthusiast, a photographer, a home video enthusiast, a distance education user, a human resources manager, an accountant).",
+    "subjects": [
+      "Computer Studies"
     ],
-    "properties": {
-        "notation": "",
-        "altNotation": "",
-        "label": "Specific Expectation",
-        "listId": "A1.4",
-        "description": "Assess user computing needs and select appropriate hardware components for different situations (e.g., a student on a fixed budget, a home business user, a gaming enthusiast, a photographer, a home video enthusiast, a distance education user, a human resources manager, an accountant).",
-        "subjects": [
-            "Computer Studies"
-        ],
-        "source": "asn"
-    },
-    "links": [
-        {
-            "rel": [
-                "self"
-            ],
-            "href": "data/outcomes/4.json"
-        }
-    ]
+    "source": "asn"
+  },
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/outcomes/4.json"
+    }
+  ]
 }

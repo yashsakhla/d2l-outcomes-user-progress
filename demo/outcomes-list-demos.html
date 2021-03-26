@@ -1,68 +1,71 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-	
-		<title>Outcomes List Demo</title>
 
-		<script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
-		<script type="module" src="../node_modules/@brightspace-ui/core/components/typography/typography.js"></script>
-		<script type="module" src="../src/outcomes-list/outcomes-list.js"></script>
-		
-		<style>
-			body {
-				background-color: #eee;
-			}
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-			h2 {
-				margin-top: 0px;
-			}
+	<title>Outcomes List Demo</title>
 
-			.demo-container {
-				background-color: #fff;
-				margin: 48px auto;
-				max-width: 800px;
-				padding: 48px;
-				width: calc(100% - 100px);
-			}
-		</style>
-		
-		<script type="module">
-			const $_typographyImport = document.createElement('template');
+	<script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+	<script type="module" src="../node_modules/@brightspace-ui/core/components/typography/typography.js"></script>
+	<script type="module" src="../src/outcomes-list/outcomes-list.js"></script>
 
-			$_typographyImport.innerHTML = `
+	<style>
+		body {
+			background-color: #eee;
+		}
+
+		h2 {
+			margin-top: 0px;
+		}
+
+		.demo-container {
+			background-color: #fff;
+			margin: 48px auto;
+			max-width: 800px;
+			padding: 48px;
+			width: calc(100% - 100px);
+		}
+	</style>
+
+	<script type="module">
+		const $_typographyImport = document.createElement('template');
+
+		$_typographyImport.innerHTML = `
 				<custom-style include="d2l-typography">
 					<style is="custom-style" include="d2l-typography">
 						html { font-size: 20px; }
 					</style>
 				</custom-style>`;
 
-			document.body.appendChild($_typographyImport.content);
-		</script>
-	</head>
-	<body class="d2l-typography">
-		<div class="demo-container">
-			<h2>Outcomes List Demos</h2>
-			<h3>Empty List</h3>
-			<d2l-outcomes-list href="data/user-progress-no-outcomes.json" token="abc123"></d2l-outcomes-list>
-			<h3>Flat List View</h3>
-			<d2l-outcomes-list href="data/user-progress-outcomes.json" token="abc123"></d2l-outcomes-list>
-			<h3>Hierarchy View</h3>
-			<d2l-outcomes-list href="data/user-progress-outcome-nodes.json" token="abc123" outcome-term="outcomes"></d2l-outcomes-list>
-		</div>
-		<div class="demo-container">
-			<h2>Outcomes List Loading</h2>
-			<d2l-outcomes-list></d2l-outcomes-list>
-		</div>
-		<script type="module">
-			import { oupConsts } from '../src/consts';
-			const listElements = document.getElementsByTagName('d2l-outcomes-list');
-			for (let i = 0; i < listElements.length; i++) {
-				listElements[i].addEventListener(oupConsts.events.outcomeListItemClicked, (e) => {
-					alert(`Clicked on outcome: ${e.detail.href}`);
-				});
-			}
-		</script>
-	</body>
+		document.body.appendChild($_typographyImport.content);
+	</script>
+</head>
+
+<body class="d2l-typography">
+	<div class="demo-container">
+		<h2>Outcomes List Demos</h2>
+		<h3>Empty List</h3>
+		<d2l-outcomes-list href="data/user-progress-no-outcomes.json" token="abc123"></d2l-outcomes-list>
+		<h3>Flat List View</h3>
+		<d2l-outcomes-list href="data/user-progress-outcomes.json" token="abc123"></d2l-outcomes-list>
+		<h3>Hierarchy View</h3>
+		<d2l-outcomes-list href="data/user-progress-outcome-nodes.json" token="abc123" outcome-term="outcomes"></d2l-outcomes-list>
+	</div>
+	<div class="demo-container">
+		<h2>Outcomes List Loading</h2>
+		<d2l-outcomes-list></d2l-outcomes-list>
+	</div>
+	<script type="module">
+		import { oupConsts } from '../src/consts';
+		const listElements = document.getElementsByTagName('d2l-outcomes-list');
+		for (let i = 0; i < listElements.length; i++) {
+			listElements[i].addEventListener(oupConsts.events.outcomeListItemClicked, (e) => {
+				alert(`Clicked on outcome: ${e.detail.href}`);
+			});
+		}
+	</script>
+</body>
+
 </html>

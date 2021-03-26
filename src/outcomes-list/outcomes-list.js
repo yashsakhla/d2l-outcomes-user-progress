@@ -121,7 +121,7 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 			${shouldShowSearch ? this._renderSearch() : null}
 			<d2l-offscreen id="screen-reader-description">${this._getAriaDescription(this.outcomeTerm, this._isLoaded, this._isHierarchy)}</d2l-offscreen>
 			<div aria-describedby="screen-reader-description" role="application">
-				<div 
+				<div
 					id="container"
 					role=${this._isHierarchy ? 'tree' : 'list'}
 					tabindex=${this.tabIndex}

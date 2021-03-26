@@ -1,121 +1,121 @@
 {
-    "class": [
-        "demonstration",
-        "assessed"
-    ],
-    "properties": {
-        "dateAssessed": "2019-03-01T05:00:00.000Z"
+  "class": [
+    "demonstration",
+    "assessed"
+  ],
+  "properties": {
+    "dateAssessed": "2019-03-01T05:00:00.000Z"
+  },
+  "entities": [
+    {
+      "class": [
+        "demonstratable-level"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "levelId": "s004abc111"
+      },
+      "links": [
+        {
+          "rel": [
+            "https://achievements.api.brightspace.com/rels/level"
+          ],
+          "href": "data/levels/s004abc111.json"
+        }
+      ]
     },
-    "entities": [
+    {
+      "class": [
+        "demonstratable-level"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "levelId": "s004abc222"
+      },
+      "links": [
         {
-            "class": [
-                "demonstratable-level"
-            ],
-            "rel": [
-                "item"
-            ],
-            "properties": {
-                "levelId": "s004abc111"
-            },
-            "links": [
-                {
-                    "rel": [
-                        "https://achievements.api.brightspace.com/rels/level"
-                    ],
-                    "href": "data/levels/s004abc111.json"
-                }
-            ]
-        },
-        {
-            "class": [
-                "demonstratable-level"
-            ],
-            "rel": [
-                "item"
-            ],
-            "properties": {
-                "levelId": "s004abc222"
-            },
-            "links": [
-                {
-                    "rel": [
-                        "https://achievements.api.brightspace.com/rels/level"
-                    ],
-                    "href": "data/levels/s004abc222.json"
-                }
-            ]
-        },
-        {
-            "class": [
-                "demonstratable-level",
-                "selected"
-            ],
-            "rel": [
-                "item"
-            ],
-            "properties": {
-                "levelId": "s004abc333"
-            },
-            "links": [
-                {
-                    "rel": [
-                        "https://achievements.api.brightspace.com/rels/level"
-                    ],
-                    "href": "data/levels/s004abc333.json"
-                }
-            ]
-        },
-        {
-            "class": [
-                "demonstratable-level"
-            ],
-            "rel": [
-                "item"
-            ],
-            "properties": {
-                "levelId": "s004abc444"
-            },
-            "links": [
-                {
-                    "rel": [
-                        "https://achievements.api.brightspace.com/rels/level"
-                    ],
-                    "href": "data/levels/s004abc444.json"
-                }
-            ]
-        },
-        {
-            "class": [
-                "demonstratable-level"
-            ],
-            "rel": [
-                "item"
-            ],
-            "properties": {
-                "levelId": "s004abc555"
-            },
-            "links": [
-                {
-                    "rel": [
-                        "https://achievements.api.brightspace.com/rels/level"
-                    ],
-                    "href": "data/levels/s004abc555.json"
-                }
-            ]
+          "rel": [
+            "https://achievements.api.brightspace.com/rels/level"
+          ],
+          "href": "data/levels/s004abc222.json"
         }
-    ],
-    "links": [
+      ]
+    },
+    {
+      "class": [
+        "demonstratable-level",
+        "selected"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "levelId": "s004abc333"
+      },
+      "links": [
         {
-            "rel": [
-                "self"
-            ],
-            "href": "data/demonstrations/46.json"
-        },
-        {
-            "rel": [
-                "https://activities.api.brightspace.com/rels/user-activity-usage"
-            ],
-            "href": "http://unused"
+          "rel": [
+            "https://achievements.api.brightspace.com/rels/level"
+          ],
+          "href": "data/levels/s004abc333.json"
         }
-    ]
+      ]
+    },
+    {
+      "class": [
+        "demonstratable-level"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "levelId": "s004abc444"
+      },
+      "links": [
+        {
+          "rel": [
+            "https://achievements.api.brightspace.com/rels/level"
+          ],
+          "href": "data/levels/s004abc444.json"
+        }
+      ]
+    },
+    {
+      "class": [
+        "demonstratable-level"
+      ],
+      "rel": [
+        "item"
+      ],
+      "properties": {
+        "levelId": "s004abc555"
+      },
+      "links": [
+        {
+          "rel": [
+            "https://achievements.api.brightspace.com/rels/level"
+          ],
+          "href": "data/levels/s004abc555.json"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/demonstrations/46.json"
+    },
+    {
+      "rel": [
+        "https://activities.api.brightspace.com/rels/user-activity-usage"
+      ],
+      "href": "http://unused"
+    }
+  ]
 }

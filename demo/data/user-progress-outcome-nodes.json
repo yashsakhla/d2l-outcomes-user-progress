@@ -1,203 +1,203 @@
 {
-    "class": [
-        "collection",
-        "user-progress-outcome-nodes"
-    ],
-    "entities": [
+  "class": [
+    "collection",
+    "user-progress-outcome-nodes"
+  ],
+  "entities": [
+    {
+      "class": [
+        "user-progress-outcome-node"
+      ],
+      "rel": [
+        "item"
+      ],
+      "entities": [
         {
-            "class": [
+          "class": [
+            "user-progress-outcome-node"
+          ],
+          "rel": [
+            "item"
+          ],
+          "entities": [
+            {
+              "class": [
                 "user-progress-outcome-node"
-            ],
-            "rel": [
+              ],
+              "rel": [
                 "item"
-            ],
-            "entities": [
+              ],
+              "entities": [],
+              "links": [
                 {
-                    "class": [
-                        "user-progress-outcome-node"
-                    ],
-                    "rel": [
-                        "item"
-                    ],
-                    "entities": [
-                        {
-                            "class": [
-                                "user-progress-outcome-node"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "entities": [],
-                            "links": [
-                                {
-                                    "rel": [
-                                        "self"
-                                    ],
-                                    "href": "data/user-progress-outcomes/3.json"
-                                },
-                                {
-                                    "rel": [
-                                        "https://outcomes.api.brightspace.com/rels/outcome"
-                                    ],
-                                    "href": "data/outcomes/3.json"
-                                },
-                                {
-                                    "rel": [
-                                        "https://user-progress.api.brightspace.com/rels/outcome-activities"
-                                    ],
-                                    "href": "data/user-progress-outcomes/3/activities.json"
-                                }
-                            ]
-                        },
-                        {
-                            "class": [
-                                "user-progress-outcome-node"
-                            ],
-                            "rel": [
-                                "item"
-                            ],
-                            "entities": [],
-                            "links": [
-                                {
-                                    "rel": [
-                                        "self"
-                                    ],
-                                    "href": "data/user-progress-outcomes/4.json"
-                                },
-                                {
-                                    "rel": [
-                                        "https://outcomes.api.brightspace.com/rels/outcome"
-                                    ],
-                                    "href": "data/outcomes/4.json"
-                                },
-                                {
-                                    "rel": [
-                                        "https://user-progress.api.brightspace.com/rels/outcome-activities"
-                                    ],
-                                    "href": "data/user-progress-outcomes/4/activities.json"
-                                }
-                            ]
-                        }
-                    ],
-                    "links": [
-                        {
-                            "rel": [
-                                "self"
-                            ],
-                            "href": "data/user-progress-outcomes/1.json"
-                        },
-                        {
-                            "rel": [
-                                "https://outcomes.api.brightspace.com/rels/outcome"
-                            ],
-                            "href": "data/outcomes/1.json"
-                        }
-                    ]
+                  "rel": [
+                    "self"
+                  ],
+                  "href": "data/user-progress-outcomes/3.json"
                 },
                 {
-                    "class": [
-                        "user-progress-outcome-node"
-                    ],
-                    "rel": [
-                        "item"
-                    ],
-                    "links": [
-                        {
-                            "rel": [
-                                "self"
-                            ],
-                            "href": "data/user-progress-outcomes/2.json"
-                        },
-                        {
-                            "rel": [
-                                "https://outcomes.api.brightspace.com/rels/outcome"
-                            ],
-                            "href": "data/outcomes/2.json"
-                        },
-                        {
-                            "rel": [
-                                "https://user-progress.api.brightspace.com/rels/outcome-activities"
-                            ],
-                            "href": "data/user-progress-outcomes/2/activities.json"
-                        }
-                    ]
-                }
-            ],
-            "links": [
-                {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "data/user-progress-outcomes/0.json"
+                  "rel": [
+                    "https://outcomes.api.brightspace.com/rels/outcome"
+                  ],
+                  "href": "data/outcomes/3.json"
                 },
                 {
-                    "rel": [
-                        "https://outcomes.api.brightspace.com/rels/outcome"
-                    ],
-                    "href": "data/outcomes/0.json"
+                  "rel": [
+                    "https://user-progress.api.brightspace.com/rels/outcome-activities"
+                  ],
+                  "href": "data/user-progress-outcomes/3/activities.json"
                 }
-            ]
+              ]
+            },
+            {
+              "class": [
+                "user-progress-outcome-node"
+              ],
+              "rel": [
+                "item"
+              ],
+              "entities": [],
+              "links": [
+                {
+                  "rel": [
+                    "self"
+                  ],
+                  "href": "data/user-progress-outcomes/4.json"
+                },
+                {
+                  "rel": [
+                    "https://outcomes.api.brightspace.com/rels/outcome"
+                  ],
+                  "href": "data/outcomes/4.json"
+                },
+                {
+                  "rel": [
+                    "https://user-progress.api.brightspace.com/rels/outcome-activities"
+                  ],
+                  "href": "data/user-progress-outcomes/4/activities.json"
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "rel": [
+                "self"
+              ],
+              "href": "data/user-progress-outcomes/1.json"
+            },
+            {
+              "rel": [
+                "https://outcomes.api.brightspace.com/rels/outcome"
+              ],
+              "href": "data/outcomes/1.json"
+            }
+          ]
         },
         {
-            "class": [
-                "user-progress-outcome-node"
-            ],
-            "rel": [
-                "item"
-            ],
-            "entities": [
-                {
-                    "class": [
-                        "user-progress-outcome-node"
-                    ],
-                    "rel": [
-                        "item"
-                    ],
-                    "entities": [],
-                    "links": [
-                        {
-                            "rel": [
-                                "self"
-                            ],
-                            "href": "data/user-progress-outcomes/6.json"
-                        },
-                        {
-                            "rel": [
-                                "https://outcomes.api.brightspace.com/rels/outcome"
-                            ],
-                            "href": "data/outcomes/6.json"
-                        },
-                        {
-                            "rel": [
-                                "https://user-progress.api.brightspace.com/rels/outcome-activities"
-                            ],
-                            "href": "data/user-progress-outcomes/1/activities.json"
-                        }
-                    ]
-                }
-            ],
-            "links": [
-                {
-                    "rel": [
-                        "self"
-                    ],
-                    "href": "data/user-progress-outcomes/5.json"
-                },
-                {
-                    "rel": [
-                        "https://outcomes.api.brightspace.com/rels/outcome"
-                    ],
-                    "href": "data/outcomes/5.json"
-                }
-            ]
-        }
-    ],
-    "links": [
-        {
-            "rel": [
+          "class": [
+            "user-progress-outcome-node"
+          ],
+          "rel": [
+            "item"
+          ],
+          "links": [
+            {
+              "rel": [
                 "self"
-            ],
-            "href": "data/user-progress-outcome-nodes.json"
+              ],
+              "href": "data/user-progress-outcomes/2.json"
+            },
+            {
+              "rel": [
+                "https://outcomes.api.brightspace.com/rels/outcome"
+              ],
+              "href": "data/outcomes/2.json"
+            },
+            {
+              "rel": [
+                "https://user-progress.api.brightspace.com/rels/outcome-activities"
+              ],
+              "href": "data/user-progress-outcomes/2/activities.json"
+            }
+          ]
         }
-    ]
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "data/user-progress-outcomes/0.json"
+        },
+        {
+          "rel": [
+            "https://outcomes.api.brightspace.com/rels/outcome"
+          ],
+          "href": "data/outcomes/0.json"
+        }
+      ]
+    },
+    {
+      "class": [
+        "user-progress-outcome-node"
+      ],
+      "rel": [
+        "item"
+      ],
+      "entities": [
+        {
+          "class": [
+            "user-progress-outcome-node"
+          ],
+          "rel": [
+            "item"
+          ],
+          "entities": [],
+          "links": [
+            {
+              "rel": [
+                "self"
+              ],
+              "href": "data/user-progress-outcomes/6.json"
+            },
+            {
+              "rel": [
+                "https://outcomes.api.brightspace.com/rels/outcome"
+              ],
+              "href": "data/outcomes/6.json"
+            },
+            {
+              "rel": [
+                "https://user-progress.api.brightspace.com/rels/outcome-activities"
+              ],
+              "href": "data/user-progress-outcomes/1/activities.json"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "rel": [
+            "self"
+          ],
+          "href": "data/user-progress-outcomes/5.json"
+        },
+        {
+          "rel": [
+            "https://outcomes.api.brightspace.com/rels/outcome"
+          ],
+          "href": "data/outcomes/5.json"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "data/user-progress-outcome-nodes.json"
+    }
+  ]
 }
