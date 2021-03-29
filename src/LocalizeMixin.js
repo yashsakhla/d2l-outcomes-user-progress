@@ -1,6 +1,7 @@
+import { dedupeMixin } from '@open-wc/dedupe-mixin.js';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 
-export const LocalizeMixin = (superclass) => class extends LocalizeDynamicMixin(superclass) {
+const LocalizeMixinInternal = (superclass) => class extends LocalizeDynamicMixin(superclass) {
 
 	static get localizeConfig() {
 		return {
@@ -9,3 +10,5 @@ export const LocalizeMixin = (superclass) => class extends LocalizeDynamicMixin(
 	}
 
 };
+
+export const LocalizeMixin = dedupeMixin(LocalizeMixinInternal);

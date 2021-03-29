@@ -1,6 +1,6 @@
 {
   "name": "d2l-outcomes-user-progress",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Web components for Outcomes User Progress page",
   "scripts": {
     "lang:build": "lang-build -es \"\t\" -c langtools/config.json",
@@ -17,6 +17,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@brightspace-ui/core": "^1.124.0",
+    "@open-wc/dedupe-mixin": "^1.3.0",
     "@polymer/iron-a11y-announcer": "^3.1.0",
     "@polymer/iron-collapse": "^3.0.1",
     "d2l-outcomes-overall-achievement": "github:Brightspace/d2l-outcomes-overall-achievement#semver:^1",
