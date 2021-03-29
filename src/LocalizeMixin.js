@@ -1,4 +1,4 @@
-import { dedupeMixin } from '@open-wc/dedupe-mixin.js';
+import { dedupeMixin } from '@open-wc/dedupe-mixin';
 import { LocalizeDynamicMixin } from '@brightspace-ui/core/mixins/localize-dynamic-mixin.js';
 
 const LocalizeMixinInternal = (superclass) => class extends LocalizeDynamicMixin(superclass) {
