@@ -3,8 +3,6 @@
   "version": "1.5.1",
   "description": "Web components for Outcomes User Progress page",
   "scripts": {
-    "lang:build": "lang-build -es \"\t\" -c langtools/config.json",
-    "lang:copy": "lang-copy -svc langtools/config.json",
     "license-check": "d2l-license-checker",
     "lint": "npm run lint:eslint && npm run lint:lit",
     "lint:eslint": "eslint . --ext .js,.html",
