@@ -23,7 +23,7 @@ export class OutcomesListItem extends EntityMixinLit(LitElement) {
 				#container {
 					border-top: 1px solid var(--d2l-color-mica);
 					display: flex;
-					padding: 18px 0px;
+					padding: 18px 0;
 				}
 
 				#container:not([aria-busy]):hover {

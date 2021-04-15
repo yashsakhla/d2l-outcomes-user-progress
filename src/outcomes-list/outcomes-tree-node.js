@@ -67,8 +67,8 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 				}
 
 				#node-data:focus:not(.leaf-node) {
-					border-color: var(--d2l-color-celestine);
 					background-color: var(--d2l-color-celestine-plus-2);
+					border-color: var(--d2l-color-celestine);
 					box-shadow: inset 0 0 0 2px white;
 				}
 
@@ -77,7 +77,7 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 					border-bottom: 1px solid var(--d2l-color-mica);
 					display: flex;
 					flex-grow: 1;
-					padding: 18px 0px;
+					padding: 18px 0;
 				}
 
 				#node-data.leaf-node #content {
@@ -101,9 +101,9 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 				}
 
 				#button-icon {
+					align-items: center;
 					display: flex;
 					padding-top: 18px;
-					align-items: center;
 				}
 
 				.button-icon-h2 {
@@ -127,7 +127,7 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 
 				#primary .main-text h2,
 				#primary .main-text h3 {
-					margin: 0px;
+					margin: 0;
 				}
 
 				#primary .sub-text {

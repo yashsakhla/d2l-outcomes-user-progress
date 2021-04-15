@@ -43,12 +43,12 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 				}
 
 				.no-items {
+					background-color: var(--d2l-color-regolith);
 					border: 1px solid var(--d2l-color-gypsum);
 					border-radius: 8px;
-					background-color: var(--d2l-color-regolith);
+					box-sizing: border-box;
 					color: var(--d2l-color-ferrite);
 					padding: 15px;
-					box-sizing: border-box;
 					width: 100%;
 				}
 
