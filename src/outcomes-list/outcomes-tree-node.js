@@ -148,6 +148,7 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 				}
 
 				#children-collapse {
+					/* stylelint-disable-next-line custom-property-pattern */
 					--iron-collapse-transition-duration: 200ms;
 				}
 
