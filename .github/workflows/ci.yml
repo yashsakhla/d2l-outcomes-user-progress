@@ -59,6 +59,8 @@ jobs:
         run: npm run lint:eslint
       - name: Lint (Lit)
         run: npm run lint:lit
+      - name: Lint (Style)
+        run: npm run lint:style
   check-licenses:
     name: Check Licenses
     timeout-minutes: 5
