@@ -14,11 +14,11 @@ export class OutcomeProgressDetails extends LitElement {
 
 	static get styles() {
 		return css`
-			.card {
-				padding: 30px;
+			.d2l-card {
 				border: 1px solid var(--d2l-color-gypsum);
 				border-radius: 6px;
-				box-shadow: 0 4px 8px 0 rgba(0,0,0,0.03);
+				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.03);
+				padding: 30px;
 			}
 		`;
 	}
@@ -32,7 +32,7 @@ export class OutcomeProgressDetails extends LitElement {
 
 	render() {
 		return html`
-			<div class="card">
+			<div class="d2l-card">
 				<d2l-coa-primary-panel
 					href=${this.href}
 					token=${this.token}

@@ -66,9 +66,9 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 					padding: 0 4px;
 				}
 
-				#node-data:focus:not(.leaf-node) {
-					border-color: var(--d2l-color-celestine);
+				#node-data:focus:not(.d2l-leaf-node) {
 					background-color: var(--d2l-color-celestine-plus-2);
+					border-color: var(--d2l-color-celestine);
 					box-shadow: inset 0 0 0 2px white;
 				}
 
@@ -77,15 +77,15 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 					border-bottom: 1px solid var(--d2l-color-mica);
 					display: flex;
 					flex-grow: 1;
-					padding: 18px 0px;
+					padding: 18px 0;
 				}
 
-				#node-data.leaf-node #content {
+				#node-data.d2l-leaf-node #content {
 					margin-left: 48px;
 				}
 
-				#node-data:not(.leaf-node) .sub-text,
-				.sub-text:empty {
+				#node-data:not(.d2l-leaf-node) .d2l-sub-text,
+				.d2l-sub-text:empty {
 					display: none;
 				}
 
@@ -93,28 +93,28 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 					cursor: pointer;
 				}
 
-				#node-data.leaf-node:focus:not([aria-busy]) .main-text,
-				#node-data.leaf-node:not([aria-busy]) #content:hover .main-text {
+				#node-data.d2l-leaf-node:focus:not([aria-busy]) .d2l-main-text,
+				#node-data.d2l-leaf-node:not([aria-busy]) #content:hover .d2l-main-text {
 					color: blue;
 					color: var(--d2l-color-celestine-minus-1);
 					text-decoration: underline;
 				}
 
 				#button-icon {
+					align-items: center;
 					display: flex;
 					padding-top: 18px;
-					align-items: center;
 				}
 
-				.button-icon-h2 {
+				.d2l-button-icon-h2 {
 					height: var(--d2l-heading-2_-_line-height);
 				}
 
-				.button-icon-h3 {
+				.d2l-button-icon-h3 {
 					height: var(--d2l-heading-3_-_line-height);
 				}
 
-				.button-toggle-collapse {
+				.d2l-button-toggle-collapse {
 					margin-right: 6px;
 				}
 
@@ -125,12 +125,12 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 					justify-content: center;
 				}
 
-				#primary .main-text h2,
-				#primary .main-text h3 {
-					margin: 0px;
+				#primary .d2l-main-text h2,
+				#primary .d2l-main-text h3 {
+					margin: 0;
 				}
 
-				#primary .sub-text {
+				#primary .d2l-sub-text {
 					margin-top: 6px;
 					width: 100%;
 				}
@@ -148,6 +148,7 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 				}
 
 				#children-collapse {
+					/* stylelint-disable-next-line custom-property-pattern */
 					--iron-collapse-transition-duration: 200ms;
 				}
 
@@ -156,7 +157,7 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 					to { background-color: var(--d2l-color-regolith); }
 				}
 
-				.skeleton {
+				.d2l-skeleton {
 					animation-direction: alternate;
 					animation-duration: 1.8s;
 					animation-iteration-count: infinite;
@@ -166,12 +167,12 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 					display: inline-block;
 				}
 
-				.main-text .skeleton {
+				.d2l-main-text .d2l-skeleton {
 					height: 19px;
 					width: 100%;
 				}
 
-				.sub-text .skeleton {
+				.d2l-sub-text .d2l-skeleton {
 					height: 14px;
 					width: 20%;
 				}
@@ -180,7 +181,7 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 					display: none !important;
 				}
 
-				.screen-reader {
+				.d2l-screen-reader {
 					height: 1px;
 					left: -99999px;
 					overflow: hidden;
@@ -246,7 +247,7 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 
 		const nodeClasses = [];
 		if (this._isLeafNode) {
-			nodeClasses.push('leaf-node');
+			nodeClasses.push('d2l-leaf-node');
 		}
 
 		const isFiltered = this._filterNode();
@@ -272,9 +273,9 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 					@blur=${this._onBlur}
 				>
 					${!this._isLeafNode ? html`
-						<div id="button-icon" class=${!this.hasParent ? 'button-icon-h2' : 'button-icon-h3'}>
+						<div id="button-icon" class=${!this.hasParent ? 'd2l-button-icon-h2' : 'd2l-button-icon-h3'}>
 							<d2l-button-icon
-								class="button-toggle-collapse"
+								class="d2l-button-toggle-collapse"
 								icon="d2l-tier1:arrow-${collapsed ? 'expand' : 'collapse'}"
 								@mousedown=${this._onButtonMousedown}
 								@click=${this._onItemClicked}
@@ -283,12 +284,12 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 						</div>
 					` : null}
 					<div id="content" @click=${this._onItemClicked}>
-						<div id="aria-content-prefix" class="screen-reader">
+						<div id="aria-content-prefix" class="d2l-screen-reader">
 							${this._getNodeAriaTextPrefix(this.ariaLevel, this._outcomeEntity, collapsed, this._isLeafNode)}
 						</div>
 						<div id="primary">
 							${this._outcomeEntity ? html`
-								<div class="main-text d2l-body-standard">
+								<div class="d2l-main-text d2l-body-standard">
 									${this._isLeafNode ? html`
 										<partial-bold content=${this._outcomeEntity.getDescription()} bold-regex=${boldRegex}></partial-bold>
 									` : html`
@@ -299,7 +300,7 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 										`}
 									`}
 								</div>
-								<div class="sub-text d2l-body-small">
+								<div class="d2l-sub-text d2l-body-small">
 									${this._isLeafNode ? html`
 										<partial-bold content=${this._outcomeEntity.getIdentifier()} bold-regex=${boldRegex}></partial-bold>
 									` : html`
@@ -307,12 +308,12 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 									`}
 								</div>
 							` : html`
-								<div class="main-text">
-									<div class="skeleton"></div>
-									<div class="skeleton"></div>
+								<div class="d2l-main-text">
+									<div class="d2l-skeleton"></div>
+									<div class="d2l-skeleton"></div>
 								</div>
-								<div class="sub-text">
-									<div class="skeleton"></div>
+								<div class="d2l-sub-text">
+									<div class="d2l-skeleton"></div>
 								</div>
 							`}
 						</div>
@@ -323,7 +324,7 @@ export class OutcomesTreeNode extends EntityMixinLit(LocalizeMixin(LitElement)) 
 								hide-unpublished-coa
 							></d2l-coa-mini-trend>
 						</div>
-						<div id="aria-content-suffix" class="screen-reader">
+						<div id="aria-content-suffix" class="d2l-screen-reader">
 							${this._getNodeAriaTextSuffix(this.ariaPosinset, this.ariaSetsize)}
 						</div>
 					</div>

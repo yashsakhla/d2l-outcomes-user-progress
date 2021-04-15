@@ -42,13 +42,13 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 					outline: none;
 				}
 
-				.no-items {
+				.d2l-no-items {
+					background-color: var(--d2l-color-regolith);
 					border: 1px solid var(--d2l-color-gypsum);
 					border-radius: 8px;
-					background-color: var(--d2l-color-regolith);
+					box-sizing: border-box;
 					color: var(--d2l-color-ferrite);
 					padding: 15px;
-					box-sizing: border-box;
 					width: 100%;
 				}
 
@@ -410,7 +410,7 @@ export class OutcomesList extends EntityMixinLit(LocalizeMixin(LitElement)) {
 		`;
 
 		return html`
-			<div class="no-items" ?hidden=${this._outcomes.length !== 0}>
+			<div class="d2l-no-items" ?hidden=${this._outcomes.length !== 0}>
 				${this.localize(this.instructor ? 'noOutcomesInstructor' : 'noOutcomesStudent', 'outcome', this.outcomeTerm)}
 			</div>
 			${this._outcomes.map((outcome, index) => (this._isHierarchy ? treeNode(outcome, index) : listItem(outcome)))}

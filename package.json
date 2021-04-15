@@ -4,14 +4,17 @@
   "description": "Web components for Outcomes User Progress page",
   "scripts": {
     "license-check": "d2l-license-checker",
-    "lint": "npm run lint:eslint && npm run lint:lit",
+    "lint": "npm run lint:eslint && npm run lint:lit && npm run lint:style",
     "lint:eslint": "eslint . --ext .js,.html",
     "lint:lit": "lit-analyzer {src,test}/**/*.js --strict",
-    "format": "npm run format:eslint",
+    "lint:style": "stylelint **/*.js",
+    "format": "npm run format:eslint && npm run format:style",
     "format:eslint": "npm run lint:eslint -- --fix",
+    "format:style": "npm run lint:style -- --fix",
+    "start": "es-dev-server --app-index demo/index.html --node-resolve --dedupe --watch --open --preserve-symlinks",
     "test": "npm run lint && npm run test:headless",
     "test:headless": "karma start",
-    "start": "es-dev-server --app-index demo/index.html --node-resolve --dedupe --watch --open --preserve-symlinks"
+    "test:headless:watch": "karma start --auto-watch=true --single-run=false"
   },
   "author": "D2L Corporation",
   "license": "Apache-2.0",
@@ -26,6 +29,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7",
+    "@brightspace-ui/stylelint-config": "^0.1",
     "@open-wc/testing": "^2",
     "@open-wc/testing-karma": "^4",
     "@webcomponents/webcomponentsjs": "^2",
@@ -40,6 +44,7 @@
     "eslint-plugin-mocha": "^8",
     "eslint-plugin-sort-class-members": "^1",
     "lit-analyzer": "^1",
-    "mocha": "^8"
+    "mocha": "^8",
+    "stylelint": "^13"
   }
 }

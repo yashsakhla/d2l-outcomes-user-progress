@@ -23,7 +23,7 @@ export class OutcomesListItem extends EntityMixinLit(LitElement) {
 				#container {
 					border-top: 1px solid var(--d2l-color-mica);
 					display: flex;
-					padding: 18px 0px;
+					padding: 18px 0;
 				}
 
 				#container:not([aria-busy]):hover {
@@ -34,7 +34,7 @@ export class OutcomesListItem extends EntityMixinLit(LitElement) {
 					flex-grow: 1;
 				}
 
-				#primary .sub-text {
+				#primary .d2l-sub-text {
 					margin-top: 6px;
 				}
 
@@ -51,7 +51,7 @@ export class OutcomesListItem extends EntityMixinLit(LitElement) {
 					to { background-color: var(--d2l-color-regolith); }
 				}
 
-				.skeleton {
+				.d2l-skeleton {
 					animation-direction: alternate;
 					animation-duration: 1.8s;
 					animation-iteration-count: infinite;
@@ -61,12 +61,12 @@ export class OutcomesListItem extends EntityMixinLit(LitElement) {
 					display: inline-block;
 				}
 
-				.main-text .skeleton {
+				.d2l-main-text .d2l-skeleton {
 					height: 19px;
 					width: 100%;
 				}
 
-				.sub-text .skeleton {
+				.d2l-sub-text .d2l-skeleton {
 					height: 14px;
 					width: 20%;
 				}
@@ -90,15 +90,15 @@ export class OutcomesListItem extends EntityMixinLit(LitElement) {
 			<div id="container" role="listitem" @click=${this._onItemClicked} aria-busy=${!this._outcomeEntity}>
 				<div id="primary">
 					${this._outcomeEntity ? html`
-						<div class="main-text d2l-body-standard">${this._outcomeEntity.getDescription()}</div>
-						<div class="sub-text d2l-body-small">${this._outcomeEntity.getIdentifier()}</div>
+						<div class="d2l-main-text d2l-body-standard">${this._outcomeEntity.getDescription()}</div>
+						<div class="d2l-sub-text d2l-body-small">${this._outcomeEntity.getIdentifier()}</div>
 					` : html`
-						<div class="main-text">
-							<div class="skeleton"></div>
-							<div class="skeleton"></div>
+						<div class="d2l-main-text">
+							<div class="d2l-skeleton"></div>
+							<div class="d2l-skeleton"></div>
 						</div>
-						<div class="sub-text">
-							<div class="skeleton"></div>
+						<div class="d2l-sub-text">
+							<div class="d2l-skeleton"></div>
 						</div>
 					`}
 				</div>
