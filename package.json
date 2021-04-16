@@ -1,6 +1,6 @@
 {
   "name": "d2l-outcomes-user-progress",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Web components for Outcomes User Progress page",
   "scripts": {
     "license-check": "d2l-license-checker",
