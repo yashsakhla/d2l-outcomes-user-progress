@@ -21,7 +21,7 @@ export default {
 	noSearchResults: "“{searchTerm}”에 대한 검색 결과가 없습니다.",
 	notAssessed: "평가되지 않음",
 	numSearchResults: "\"{searchTerm}\"에 대한 {numResults} 검색 {numResults, plural, =1 {결과} other {결과}}",
-	outcomesListDescription: "{결과, 선택, 역량 {Competencies} 기대 {Expectations} 목표 {Objectives} 결과 {Outcomes} 표준 {Standards} 기타 {Standards}} 목록",
+	outcomesListDescription: "{outcome, select, competencies {역량} expectations {기대} objectives {목표} outcomes {결과} standards {표준} other {표준}} 목록",
 	outcomesListLoading: "로드 중...",
 	outcomesListLoadingComplete: "로드 완료",
 	searchCleared: "검색 결과가 삭제되었습니다.",
