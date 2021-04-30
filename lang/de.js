@@ -28,5 +28,5 @@ export default {
 	searchHint: "Suchen...",
 	searchLabel: "Suchen",
 	trend: "Trend",
-	untitled: "ohne Titel"
+	untitled: "Ohne Titel"
 };

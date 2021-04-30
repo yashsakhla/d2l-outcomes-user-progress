@@ -16,7 +16,7 @@ export default {
 	noEvidence: "Dette {outcome, select, competencies {kompetence} expectations {forventning} objectives {mål} outcomes {resultat} standards {standard} other {standard}} er ikke blevet vurderet endnu",
 	noOutcomesInstructor: "For at begynde at registrere gennemførelse for {outcome, select, competencies {kompetencer} expectations {forventninger} objectives {mål} outcomes {resultater} standards {standarder} other {standarder}}, skal du justere kursers {outcome, select, competencies {kompetencer} expectations {forventninger} objectives {mål} outcomes {resultater} standards {standarder} other {standarder}} efter vurderede aktiviteter.",
 	noOutcomesStudent: "Ingen {outcome, select, competencies {kompetencer} expectations {forventninger} objectives {mål} outcomes {resultater} standards {standarder} other {standarder}} er blevet evalueret.",
-	noScaleInstructor: "For at se elevens fremskridt mod gennemførelsen af {outcome, select, competencies {kompetence} expectations {forventning} objectives {mål} outcomes {resultater} standards {standard} other {standard}}, skal du oprette og vælge en gennemførelsesskala.",
+	noScaleInstructor: "For at se elevens fremskridt mod gennemførelsen af {outcome, select, competencies {kompetencer} expectations {forventninger} objectives {mål} outcomes {resultater} standards {standarder} other {standarder}}, skal du oprette og vælge en gennemførelsesskala.",
 	noScaleStudent: "Ingen skala er blevet indstillet til at måle gennemførelsen af {outcome, select, competencies {kompetencer} expectations {forventninger} objectives {mål} outcomes {resultater} standards {standarder} other {standarder}}.",
 	noSearchResults: "Ingen resultater fundet for \"{searchTerm}\"",
 	notAssessed: "Ikke vurderet",

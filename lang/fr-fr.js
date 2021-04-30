@@ -14,13 +14,13 @@ export default {
 	nodeAriaTextLevel: "Niveau {level}",
 	nodeAriaTextPosition: "{position} sur {count}",
 	noEvidence: "{outcome, select, competencies {Compétence} expectations {Attente} objectives {Objectif} outcomes {Résultat} standards {Norme} other {Norme}} non évalué(e)",
-	noOutcomesInstructor: "Pour commencer le suivi de réalisation des {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}}, alignez les {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}} du cours aux activités évaluées.",
+	noOutcomesInstructor: "Pour commencer le suivi de réalisation des {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}}, alignez les {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}} du cours sur les activités évaluées.",
 	noOutcomesStudent: "Aucun(e) {outcome, select, competencies {compétence} expectations {attente} objectives {objectif} outcomes {résultat} standards {norme} other {norme}} évalué(e).",
-	noScaleInstructor: "Pour afficher les progrès de l’apprenant par rapport à ce(tte) {outcome, select, competencies {compétence} expectations {attente} objectives {objectif} outcomes {résultat} standards {norme} other {norme}}, créez et sélectionnez une échelle de réalisation.",
-	noScaleStudent: "Aucune échelle n’a été définie pour mesurer les réalisations par rapport aux {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}}.",
-	noSearchResults: "Aucun résultat trouvé pour \"{searchTerm}\"",
+	noScaleInstructor: "Pour afficher les progrès de l’apprenant par rapport à ce/cet/cette {outcome, select, competencies {compétence} expectations {attente} objectives {objectif} outcomes {résultat} standards {norme} other {norme}}, créez et sélectionnez une échelle de réalisation.",
+	noScaleStudent: "Aucune échelle n’a été définie pour mesurer la réalisation relative aux {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}}.",
+	noSearchResults: "Aucun résultat trouvé pour « {searchTerm} »",
 	notAssessed: "Non évalué",
-	numSearchResults: "{numResults} {numResults, plural, =1 {résultat} other {résultats}} de recherche pour \"{searchTerm}\"",
+	numSearchResults: "{numResults} {numResults, plural, =1 {résultat} other {résultats}} de recherche pour « {searchTerm} »",
 	outcomesListDescription: "Liste des {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}}",
 	outcomesListLoading: "Chargement en cours",
 	outcomesListLoadingComplete: "Chargement terminé",
@@ -28,5 +28,5 @@ export default {
 	searchHint: "Rechercher...",
 	searchLabel: "Rechercher",
 	trend: "Tendance",
-	untitled: "sans titre"
+	untitled: "Sans titre"
 };
