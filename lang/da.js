@@ -21,7 +21,7 @@ export default {
 	noSearchResults: "Ingen resultater fundet for \"{searchTerm}\"",
 	notAssessed: "Ikke vurderet",
 	numSearchResults: "{numResults} søg {numResults, plural, =1 {resultat} other {resultater}} for \"{searchTerm}\"",
-	outcomesListDescription: "{outcome, select, competencies {kompetencer} expectations {forventninger} objectives {mål} outcomes {resultater} standards {standarder} other {standarder}} liste",
+	outcomesListDescription: "{outcome, select, competencies {Kompetencer} expectations {Forventninger} objectives {Mål} outcomes {Resultater} standards {Standarder} other {Standarder}} liste",
 	outcomesListLoading: "Indlæser",
 	outcomesListLoadingComplete: "Indlæsning fuldført",
 	searchCleared: "Søgeresultater ryddet",
