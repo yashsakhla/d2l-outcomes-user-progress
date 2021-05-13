@@ -1,3 +1,5 @@
+/* eslint quotes: 0 */
+
 export default {
 	a11yCollapsed: "komprimerat",
 	a11yExpanded: "expanderat",

@@ -61,6 +61,8 @@ jobs:
         run: npm run lint:style
       - name: Lint (Lit)
         run: npm run lint:lit
+      - name: Lint (Languages)
+        run: npm run lint:lang
   check-licenses:
     name: Check Licenses
     timeout-minutes: 5

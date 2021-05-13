@@ -1,3 +1,5 @@
+/* eslint quotes: 0 */
+
 export default {
 	a11yCollapsed: "축소됨",
 	a11yExpanded: "확장됨",
