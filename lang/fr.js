@@ -1,3 +1,5 @@
+/* eslint quotes: 0 */
+
 export default {
 	a11yCollapsed: "réduit(e)",
 	a11yExpanded: "développé(e)",
@@ -18,9 +20,9 @@ export default {
 	noOutcomesStudent: "Aucun(e) de ces {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}} n'a été évalué(e).",
 	noScaleInstructor: "Pour afficher le progrès de l'élève vers l'atteinte de ces {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}}, créez et sélectionnez une échelle de réalisations.",
 	noScaleStudent: "Aucune échelle n'a été établie pour mesurer l'atteinte des {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}}.",
-	noSearchResults: "Aucun résultat n'a été trouvé pour « {searchTerm} ».",
+	noSearchResults: "Aucun résultat n'a été trouvé pour « {searchTerm} ».",
 	notAssessed: "Non évalué",
-	numSearchResults: "{numResults} {numResults, plural, =1 {résultat} other {résultats}} de recherche pour « {searchTerm} »",
+	numSearchResults: "{numResults} {numResults, plural, =1 {résultat} other {résultats}} de recherche pour « {searchTerm} »",
 	outcomesListDescription: "Liste de {outcome, select, competencies {compétences} expectations {attentes} objectives {objectifs} outcomes {résultats} standards {normes} other {normes}}",
 	outcomesListLoading: "Chargement en cours",
 	outcomesListLoadingComplete: "Chargement terminé",

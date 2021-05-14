@@ -1,3 +1,5 @@
+/* eslint quotes: 0 */
+
 export default {
 	a11yCollapsed: "已摺疊",
 	a11yExpanded: "已展開",

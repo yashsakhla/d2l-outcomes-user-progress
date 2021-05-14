@@ -8,6 +8,7 @@
     "lint:eslint": "eslint . --ext .js,.html",
     "lint:lit": "lit-analyzer {src,test}/**/*.js --strict",
     "lint:style": "stylelint **/*.js",
+    "lint:lang": "mfv -e",
     "format": "npm run format:eslint && npm run format:style",
     "format:eslint": "npm run lint:eslint -- --fix",
     "format:style": "npm run lint:style -- --fix",
@@ -21,8 +22,8 @@
   "dependencies": {
     "@brightspace-ui/core": "^1.124.0",
     "@open-wc/dedupe-mixin": "^1",
-    "@polymer/iron-a11y-announcer": "^3.1.0",
-    "@polymer/iron-collapse": "^3.0.1",
+    "@polymer/iron-a11y-announcer": "^3",
+    "@polymer/iron-collapse": "^3",
     "d2l-outcomes-overall-achievement": "github:Brightspace/d2l-outcomes-overall-achievement#semver:^1",
     "lit-element": "^2",
     "siren-sdk": "github:BrightspaceHypermediaComponents/siren-sdk#semver:^1"
@@ -44,6 +45,7 @@
     "eslint-plugin-mocha": "^8",
     "eslint-plugin-sort-class-members": "^1",
     "lit-analyzer": "^1",
+    "messageformat-validator": "^1",
     "mocha": "^8",
     "stylelint": "^13"
   }
