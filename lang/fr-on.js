@@ -1,5 +1,3 @@
-/* eslint quotes: 0 */
-
 export default {
 	a11yCollapsed: "réduit(e)",
 	a11yExpanded: "développé(e)",

@@ -1,5 +1,3 @@
-/* eslint quotes: 0 */
-
 export default {
 	a11yCollapsed: "折りたたむ",
 	a11yExpanded: "展開",
