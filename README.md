@@ -87,14 +87,18 @@ npm run lint:lang
 ### Formatting
 
 ```sh
-# eslint and stylelint
+# eslint, stylelint and messageformat-validator
 npm run format
+
+# eslint only
+npm run format:eslint
 
 # stylelint only
 npm run format:style
 
-# eslint only
-npm run format:eslint
+# messageformat-validator only
+npm run format:lang
+
 ```
 
 ### Testing
